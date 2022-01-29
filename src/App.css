@@ -31,6 +31,9 @@ a:hover {
   display: flex;
   justify-content: center;
 }
+.ant-upload-list-item {
+  border: 1px solid #008e00 !important;
+}
 .ant-form-item-explain-error {
   font-size: 10px;
   font-style: italic;
@@ -535,6 +538,7 @@ a:hover {
   font-family: popbold;
   font-size: 13px;
   letter-spacing: 2px;
+  color: #101b79;
 }
 .mt_bed {
   margin-top: -10px;

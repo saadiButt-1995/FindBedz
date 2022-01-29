@@ -11,7 +11,7 @@ function Sheltorsignup() {
       uid: "-1",
       name: "zia.jpg",
       status: "done",
-      url: "/images/raza.jpg",
+      url: "/images/maan.jpg",
     },
   ]);
   const onChange = ({ fileList: newFileList }) => {
