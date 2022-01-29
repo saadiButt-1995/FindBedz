@@ -196,7 +196,7 @@ function Sheltorsignup() {
           </div>
         </div>
         <div className="progress_card">
-          <div className="headind_pro">TOTAL NUMBER OF BEDS YOU HAVE</div>
+          <div className="headind_pro">TOTAL ALLOWED FOR RESERVATION</div>
 
           <div className="progress1">
             <div className="cricle_div color_gold">{incVal}</div>
@@ -211,7 +211,7 @@ function Sheltorsignup() {
           </div>
         </div>
         <div className="progress_card">
-          <div className="headind_pro">TOTAL NUMBER OF BEDS YOU HAVE</div>
+          <div className="headind_pro">Maximum Time to Hold a Bed</div>
 
           <div className="progress1">
             <div className="cricle_div">{hour} Hr</div>
