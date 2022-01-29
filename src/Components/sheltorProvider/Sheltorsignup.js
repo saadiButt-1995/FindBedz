@@ -1,41 +1,66 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Upload } from "antd";
+import ImgCrop from "antd-img-crop";
 function Sheltorsignup() {
   const [value, setValue] = useState(0);
   const [incVal, setIncVal] = useState(0);
   const [hour, setHour] = useState(0);
+  const [fileList, setFileList] = useState([
+    {
+      uid: "-1",
+      name: "zia.jpg",
+      status: "done",
+      url: "/images/raza.jpg",
+    },
+  ]);
+  const onChange = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
+  const onPreview = async (file) => {
+    let src = file.url;
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow.document.write(image.outerHTML);
+  };
 
-
-
-  const hourInc =()=>{
+  const hourInc = () => {
     if (hour < 4) {
       setHour(hour + 1);
     } else {
       setHour(4);
     }
-   }
-   const hourDec =()=>{
+  };
+  const hourDec = () => {
     if (hour > 0) {
       setHour(hour - 1);
     } else {
       setHour(0);
     }
-   }
+  };
 
-   const valInc =()=>{
+  const valInc = () => {
     if (incVal < 6) {
       setIncVal(incVal + 1);
     } else {
       setIncVal(6);
     }
-   }
-   const valDec =()=>{
+  };
+  const valDec = () => {
     if (incVal > 0) {
       setIncVal(incVal - 1);
     } else {
       setIncVal(0);
     }
-   }
+  };
   const increament = () => {
     if (value < 30) {
       setValue(value + 1);
@@ -50,6 +75,7 @@ function Sheltorsignup() {
       setValue(0);
     }
   };
+
   return (
     <div className="Sheltorsignup">
       <Link to="/">
@@ -175,8 +201,12 @@ function Sheltorsignup() {
           <div className="progress1">
             <div className="cricle_div color_gold">{incVal}</div>
             <div className="calcu_btns">
-              <button className="plusbtn" onClick={valInc}>+</button>
-              <button className="plusbtn color_red" onClick={valDec}>-</button>
+              <button className="plusbtn" onClick={valInc}>
+                +
+              </button>
+              <button className="plusbtn color_red" onClick={valDec}>
+                -
+              </button>
             </div>
           </div>
         </div>
@@ -186,8 +216,20 @@ function Sheltorsignup() {
           <div className="progress1">
             <div className="cricle_div">{hour} Hr</div>
             <div className="calcu_btns">
-              <button className="plusbtn plusgreen" onClick={hourInc} disabled={incVal === 0}>+</button>
-              <button className="plusbtn color_red" onClick={hourDec} disabled={incVal === 0}>-</button>
+              <button
+                className="plusbtn plusgreen"
+                onClick={hourInc}
+                disabled={incVal === 0}
+              >
+                +
+              </button>
+              <button
+                className="plusbtn color_red"
+                onClick={hourDec}
+                disabled={incVal === 0}
+              >
+                -
+              </button>
             </div>
           </div>
         </div>
@@ -324,15 +366,17 @@ function Sheltorsignup() {
         <div className="images section mt-4">
           <p className="checks_labels">ADD IMAGES </p>
           <div className="flex_images">
-            <div>
-              <img className="dmy" src="/images/dmy.svg" alt="" />
-            </div>
-            <div>
-              <img className="dmy" src="/images/dmy.svg" alt="" />
-            </div>
-            <div>
-              <img className="dmy" src="/images/dmy.svg" alt="" />
-            </div>
+            <ImgCrop rotate>
+              <Upload
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                listType="picture-card"
+                fileList={fileList}
+                onChange={onChange}
+                onPreview={onPreview}
+              >
+                {fileList.length < 5 && "+ Upload"}
+              </Upload>
+            </ImgCrop>
           </div>
         </div>
         <div className="mobile_col row mt-5 mb-5">

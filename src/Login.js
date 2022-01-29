@@ -41,7 +41,7 @@ function Login() {
           toast.success("Login Successfully!");
           setTimeout(() => {
             navigate("/individual-landingpage");
-          }, 1500);
+          }, 1000);
         }
       } catch (e) {
         console.log(e);
@@ -90,7 +90,7 @@ function Login() {
         <div className="log_title2 text-center">Please Login to continue</div>
         <div className="login_fields">
           <div className="form-group col-md-6 login_inputs">
-            <label className="label_input1">UserName</label>
+            <label className="label_input1">Username</label>
             <input
               name="userName"
               value={user.userName}

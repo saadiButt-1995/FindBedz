@@ -31,6 +31,10 @@ a:hover {
   display: flex;
   justify-content: center;
 }
+.ant-form-item-explain-error {
+  font-size: 10px;
+  font-style: italic;
+}
 .width_pro {
   width: 100% !important;
 }
@@ -39,6 +43,9 @@ a:hover {
 }
 .logodiv11 img {
   height: 90px !important;
+}
+.custom-switch {
+  margin-left: 14px;
 }
 .centrebtn {
   margin-left: auto;
@@ -56,24 +63,36 @@ a:hover {
   color: #fff;
 }
 .cricle_div1 {
-  background-color: #008e00;
-  width: 79px;
-  height: 77px;
+  width: 60px;
+  height: 56px;
   border-radius: 50%;
   text-align: center;
   font-family: popmd;
-  font-size: 27px;
-  padding-top: 17px;
+  font-size: 17px;
+  padding-top: 14px;
   color: #fff;
+  background-color: #008e00;
+}
+.cricle_div13 {
+  width: 65px;
+  height: 64px;
+  border-radius: 50%;
+  text-align: center;
+  font-family: popmd;
+  font-size: 22px;
+  padding-top: 16px;
+  color: #fff;
+  background-color: #008e00;
 }
 .cricle_div2 {
-  width: 79px;
-  height: 77px;
+  width: 65px;
+  height: 64px;
   border-radius: 50%;
   text-align: center;
   font-family: popmd;
-  font-size: 27px;
-  padding-top: 17px;
+  font-size: 17px;
+  padding-top: 20px;
+  margin-top: 20px;
   color: #fff;
   margin-left: auto;
   margin-right: auto;
@@ -146,28 +165,48 @@ a:hover {
 .RESERVATIONS {
   font-family: popbold;
   font-size: 13px;
+  text-align: center;
 }
 .progress2 {
+  /* height: 200px; */
+  background-color: #fff;
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  padding-top: 25px;
+  border-radius: 9px;
+}
+.progress12 {
   height: 200px;
   background-color: #fff;
   width: 29%;
-  justify-content: center;
-  display: flex;
+
   align-items: center;
 
   border-radius: 9px;
 }
 .main_cal {
-  width: 60%;
+  width: 44%;
   text-align: -webkit-center;
 }
 .main_cal {
-  width: 80%;
+  width: 44%;
   text-align: -webkit-center;
 }
 .title_font {
   font-family: popmd;
-  font-size: 12px;
+  font-size: 9px;
+}
+.managebtn {
+  color: #fff;
+  background-color: #101b79;
+  border: none;
+  border-radius: 4px;
+  height: 37px;
+  font-family: popmd;
+  margin-top: 20px;
+  width: 60%;
 }
 .progress22 {
   height: 200px;
@@ -176,12 +215,11 @@ a:hover {
   text-align: center;
   height: 200px;
   border-radius: 9px;
-  padding-right: 10px;
   padding-top: 11px;
 }
 .progress23 {
   display: flex;
-  height: 200px;
+  justify-content: center;
 }
 .progress3 {
   height: 200px;
@@ -540,6 +578,12 @@ a:hover {
   }
   .creat_card2 {
     margin-top: 20px;
+  }
+  .frst_flex {
+    flex-wrap: wrap;
+  }
+  .set_width {
+    width: 80% !important;
   }
 }
 @media only screen and (max-width: 768px) {

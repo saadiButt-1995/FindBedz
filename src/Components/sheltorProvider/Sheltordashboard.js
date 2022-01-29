@@ -1,6 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 function Sheltordashboard() {
+  const [value, Setvalue] = useState(1);
+
+  const increament = () => {
+    if (value < 30) {
+      Setvalue(value + 1);
+    } else {
+      Setvalue(30);
+    }
+  };
+  const decreament = () => {
+    if (value > 0) {
+      Setvalue(value - 1);
+    } else {
+      Setvalue(0);
+    }
+  };
+
   return (
     <>
       <div className="row sheltor_dashboard pt-2">
@@ -26,20 +43,34 @@ function Sheltordashboard() {
       </div>
       <div className="dashboard_container">
         <div className="frst_flex mb-3">
-          <div className="progress2">
-            <div className="cricle_div1">30</div>
-            <div className="calcu_btns">
-              <button className="plusbtn centrebtn">+</button>
-              <button className="plusbtn color_red centrebtn">-</button>
+          <div className="progress12">
+            <p className="RESERVATIONS mb-8 mt-4">CURRENTLY AVAILABLE BEDS</p>
+            <div className="progress2">
+              <div className="cricle_div13">{value}</div>
+              <div className="calcu_btns">
+                <button onClick={increament} className="plusbtn centrebtn">
+                  +
+                </button>
+                <button
+                  onClick={decreament}
+                  className="plusbtn color_red centrebtn"
+                >
+                  -
+                </button>
+              </div>
             </div>
           </div>
+
           <div className="progress22">
             <p className="RESERVATIONS">RESERVATIONS</p>
             <div className="progress23">
               <div className="main_cal">
                 <div className="main_cal1">
                   <p className="title_font">Total reserved beds</p>
-                  <div style={{ background: "black" }} className="cricle_div1">
+                  <div
+                    style={{ background: "black" }}
+                    className="cricle_div1 set_width"
+                  >
                     16
                   </div>
                 </div>
@@ -49,13 +80,14 @@ function Sheltordashboard() {
                   <p className="title_font">Beds still available to Hold</p>
                   <div
                     style={{ background: "rgba(221, 193, 20, 1)" }}
-                    className="cricle_div1"
+                    className="cricle_div1 set_width"
                   >
                     6
                   </div>
                 </div>
               </div>
             </div>
+            <button className="managebtn">Manage Reservations</button>
           </div>
           <div className="progress3">
             <div style={{ background: "black" }} className="cricle_div2">

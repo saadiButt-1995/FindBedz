@@ -9,6 +9,7 @@ import Agency from "./Components/Agency/Agency";
 import AgencyLandingpage from "./Components/Agency/AgencyLandingpage";
 import Sheltordashboard from "./Components/sheltorProvider/Sheltordashboard";
 import Empty from "./Empty";
+import Ant from "./Ant";
 
 export default function routes() {
   return (
@@ -23,6 +24,7 @@ export default function routes() {
       <Route path="/sheltor-dashboard" element={<Sheltordashboard />} />
       <Route path="/agency-landingpage" element={<AgencyLandingpage />} />
       <Route path="/empty" element={<Empty />} />
+      <Route path="/ant" element={<Ant />} />
     </Routes>
   );
 }
