@@ -201,6 +201,9 @@ a:hover {
   font-family: popmd;
   font-size: 9px;
 }
+.ant-tooltip-inner {
+  display: none !important;
+}
 .managebtn {
   color: #fff;
   background-color: #101b79;
@@ -210,6 +213,7 @@ a:hover {
   font-family: popmd;
   margin-top: 20px;
   width: 60%;
+  font-size: 10px;
 }
 .progress22 {
   height: 200px;
