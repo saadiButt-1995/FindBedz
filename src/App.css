@@ -340,7 +340,7 @@ a:hover {
   border: 1.5px solid #101b79;
   border-radius: 4px;
   width: 30%;
-  margin-top: 60px;
+  margin-top: 15px;
   font-family: popmd;
   font-size: 14px;
 }
@@ -355,7 +355,7 @@ a:hover {
 }
 .label_input {
   font-family: popmd;
-  font-size: 13px;
+  font-size: 11px;
 }
 .label_input1 {
   font-family: popmd;
@@ -375,11 +375,25 @@ a:hover {
   background-color: rgba(221, 235, 255, 1);
   border: none;
   outline: none;
+  height: 36px;
+  font-family: popreg;
+  font-size: 11px;
+  color: #000;
+}
+.login_field1 {
+  background-color: rgba(221, 235, 255, 1);
+  border: none;
+  outline: none;
+  height: 130px;
+  font-family: popreg;
+  font-size: 11px;
+  color: #000;
 }
 .login_fields {
-  padding-top: 60px;
-  padding-bottom: 40px;
+  padding-top: 40px;
+  padding-bottom: 25px;
 }
+
 .indi_title {
   font-size: 14px;
   font-family: popbold;
@@ -451,14 +465,14 @@ a:hover {
   align-items: center;
 }
 .login_logo {
-  height: 90px !important;
+  height: 70px !important;
 }
 .login_text {
   /* padding-bottom: 60px; */
 }
 .login_log {
   padding-bottom: 18px !important;
-  padding-top: 30px !important;
+  padding-top: 18px !important;
 }
 .log_title {
   font-family: popmd;
@@ -528,7 +542,7 @@ a:hover {
 
 .create_card:hover {
   transform: scale(1.1);
-  background: #ddc114;
+  background: #DDEBFF;
   z-index: 2;
   box-shadow: 2px 2px 2px #000;
 }

@@ -19,10 +19,13 @@ function IndividualLanding() {
           <img src="/images/services.svg" alt="" />
           <div className="card_title">FIND OTHER SERVICES</div>
         </div>
-        <div className="indiv_card mt-2">
-          <img src="/images/edit_user.svg" alt="" />
-          <div className="card_title">EDIT PROFILE</div>
-        </div>
+        <Link to="/edit-profile">
+          <div className="indiv_card mt-2">
+            <img src="/images/edit_user.svg" alt="" />
+            <div className="card_title">EDIT PROFILE</div>
+          </div>
+        </Link>
+
         <div className="indiv_card mt-2">
           <img src="/images/family.svg" alt="" />
           <div className="card_title">Reconnect with family</div>

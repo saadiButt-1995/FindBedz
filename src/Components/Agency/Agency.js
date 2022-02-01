@@ -173,7 +173,15 @@ function Agency() {
                 required
               />
               {errField.userNameErr.length > 0 && (
-                <span style={{ color: "red" }}>{errField.userNameErr}</span>
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11px",
+                    fontFamily: "popreg",
+                  }}
+                >
+                  {errField.userNameErr}
+                </span>
               )}
             </div>
             <div className="mb-3 label_input">
@@ -190,7 +198,15 @@ function Agency() {
                 required
               />
               {errField.organizationErr.length > 0 && (
-                <span style={{ color: "red" }}>{errField.organizationErr}</span>
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11px",
+                    fontFamily: "popreg",
+                  }}
+                >
+                  {errField.organizationErr}
+                </span>
               )}
             </div>
             <div className="mb-3 label_input">
@@ -205,7 +221,15 @@ function Agency() {
                 required
               />
               {errField.phoneErr.length > 0 && (
-                <span style={{ color: "red" }}>{errField.phoneErr}</span>
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11px",
+                    fontFamily: "popreg",
+                  }}
+                >
+                  {errField.phoneErr}
+                </span>
               )}
             </div>
             <div className="mb-3 label_input">
@@ -220,7 +244,15 @@ function Agency() {
                 required
               />
               {errField.cityErr.length > 0 && (
-                <span style={{ color: "red" }}>{errField.cityErr}</span>
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11px",
+                    fontFamily: "popreg",
+                  }}
+                >
+                  {errField.cityErr}
+                </span>
               )}
             </div>
             <div className="mb-3 label_input">
@@ -235,7 +267,15 @@ function Agency() {
                 required
               />
               {errField.cityErr.length > 0 && (
-                <span style={{ color: "red" }}>{errField.cityErr}</span>
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11px",
+                    fontFamily: "popreg",
+                  }}
+                >
+                  {errField.cityErr}
+                </span>
               )}
             </div>
           </div>
@@ -252,7 +292,15 @@ function Agency() {
                 required
               />
               {errField.passwordErr.length > 0 && (
-                <span style={{ color: "red" }}>{errField.passwordErr}</span>
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11px",
+                    fontFamily: "popreg",
+                  }}
+                >
+                  {errField.passwordErr}
+                </span>
               )}
             </div>
             <div className="mb-3 label_input">
@@ -267,7 +315,15 @@ function Agency() {
                 required
               />
               {errField.emailErr.length > 0 && (
-                <span style={{ color: "red" }}>{errField.emailErr}</span>
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11px",
+                    fontFamily: "popreg",
+                  }}
+                >
+                  {errField.emailErr}
+                </span>
               )}
             </div>
             <div className="mb-3 label_input">
@@ -282,7 +338,15 @@ function Agency() {
                 required
               />
               {errField.addressErr.length > 0 && (
-                <span style={{ color: "red" }}>{errField.addressErr}</span>
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11px",
+                    fontFamily: "popreg",
+                  }}
+                >
+                  {errField.addressErr}
+                </span>
               )}
             </div>
             <div className="row">
@@ -299,7 +363,15 @@ function Agency() {
                     required
                   />
                   {errField.stateErr.length > 0 && (
-                    <span style={{ color: "red" }}>{errField.stateErr}</span>
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "11px",
+                        fontFamily: "popreg",
+                      }}
+                    >
+                      {errField.stateErr}
+                    </span>
                   )}
                 </div>
               </div>
@@ -316,7 +388,15 @@ function Agency() {
                     required
                   />
                   {errField.zipcodeErr.length > 0 && (
-                    <span style={{ color: "red" }}>{errField.zipcodeErr}</span>
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "11px",
+                        fontFamily: "popreg",
+                      }}
+                    >
+                      {errField.zipcodeErr}
+                    </span>
                   )}
                 </div>
               </div>

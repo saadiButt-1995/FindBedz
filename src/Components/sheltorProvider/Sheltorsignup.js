@@ -113,14 +113,42 @@ function Sheltorsignup() {
               required
             />
           </div>
-          <div className="mb-3 label_input">
-            <label htmlFor="validationCustom01">CITY</label>
-            <input
-              type="text"
-              className="form-control login_field"
-              id="validationCustom01"
-              required
-            />
+          <div className="row justify-content-md-between">
+            <div className="col-lg-3 px-0 ">
+              <div className="mb-3 label_input">
+                <label htmlFor="validationCustom02">CITY</label>
+                <input
+                  type="text"
+                  className="form-control login_field"
+                  id="validationCustom02"
+                  required
+                />
+              </div>
+            </div>
+            <div className="col-lg-3 px-0">
+              <div className="mb-3 label_input">
+                <label htmlFor="validationCustom02">STATE</label>
+                <input
+                  type="text"
+                  className="form-control login_field"
+                  id="validationCustom02"
+                  required
+                />
+              </div>
+            </div>
+            <div className="col-lg-3 px-0">
+              <div className="mobile_p pr-0">
+                <div className="mb-3 label_input">
+                  <label htmlFor="validationCustom02">ZIP CODE</label>
+                  <input
+                    type="text"
+                    className="form-control login_field"
+                    id="validationCustom02"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className="col-lg-5">
@@ -153,29 +181,17 @@ function Sheltorsignup() {
               required
             />
           </div>
-          <div className="row justify-content-between">
-            <div className="col-lg-6 px-0">
-              <div className="mb-3 label_input">
-                <label htmlFor="validationCustom02">STATE</label>
-                <input
-                  type="text"
-                  className="form-control login_field"
-                  id="validationCustom02"
-                  required
-                />
-              </div>
-            </div>
-            <div className="mobile_p col-lg-6 pr-0">
-              <div className="mb-3 label_input">
-                <label htmlFor="validationCustom02">ZIP CODE</label>
-                <input
-                  type="text"
-                  className="form-control login_field"
-                  id="validationCustom02"
-                  required
-                />
-              </div>
-            </div>
+
+          <div className="mb-3 label_input">
+            <label htmlFor="validationCustom01">
+              NAME OF THE CONTACT PERSON
+            </label>
+            <input
+              type="text"
+              className="form-control login_field"
+              id="validationCustom01"
+              required
+            />
           </div>
         </div>
       </div>
@@ -383,7 +399,7 @@ function Sheltorsignup() {
           <div className="col">
             <p className="checks_labels">DESCRIPTION</p>
             <textarea
-              className="checks_labels login_field with_input"
+              className="checks_labels login_field1 with_input"
               type="text"
             ></textarea>
           </div>
@@ -391,7 +407,7 @@ function Sheltorsignup() {
           <div className="col ">
             <p className="checks_labels">RULES/REQUIREMENTS</p>
             <textarea
-              className="checks_labels login_field with_input"
+              className="checks_labels login_field1 with_input"
               type="text"
             ></textarea>
           </div>
