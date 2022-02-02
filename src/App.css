@@ -538,6 +538,64 @@ a:hover {
   padding-bottom: 24px;
   transition: 1s;
 }
+#dropdown-date {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+#dropdown-year {
+  background-color: rgba(221, 235, 255, 1);
+  border: none;
+  outline: none;
+  height: 32px;
+  font-family: popreg;
+  width: 100px;
+  font-size: 11px;
+  color: #000;
+}
+#dropdown-year select {
+  width: 100px;
+  background-color: rgba(221, 235, 255, 1);
+  border: none;
+  outline: none;
+  height: 32px;
+  font-family: popreg;
+  font-size: 11px;
+  color: #000;
+}
+#dropdown-month {
+  background-color: rgba(221, 235, 255, 1);
+  border: none;
+  outline: none;
+  height: 32px;
+  font-family: popreg;
+  width: 100px;
+  font-size: 11px;
+  color: #000;
+}
+#dropdown-month select {
+  width: 200px;
+}
+#dropdown-month select {
+  background-color: rgba(221, 235, 255, 1);
+  border: none;
+  outline: none;
+  height: 32px;
+  font-family: popreg;
+  font-size: 11px;
+  color: #000;
+}
+#dropdown-day select {
+  background-color: rgba(221, 235, 255, 1);
+  border: none;
+  outline: none;
+  height: 32px;
+  font-family: popreg;
+  width: 100px;
+  font-size: 11px;
+  color: #000;
+}
+
 .indiv_card img {
   width: 38%;
 }

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import axios from "axios";
+import Datepicker from "./Datepicker";
 
 const Individual = () => {
   const [open, setOpen] = useState(false);
@@ -203,11 +204,14 @@ const Individual = () => {
                       class="form-control login_field"
                       id="exampleFormControlSelect1"
                     >
-                      <option classname="login_field">Scottish</option>
-                      <option>European</option>
-                      <option>African</option>
-                      <option>Greeks</option>
-                      <option>other</option>
+                      <option classname="login_field">
+                        Non-Hispanic White
+                      </option>
+                      <option>Asian</option>
+                      <option>American Indian</option>
+                      <option>Hispanics</option>
+                      <option>Alaska Native</option>
+                      <option>Black or African American</option>
                     </select>
                     {errField.ethnicityErr.length > 0 && (
                       <span
@@ -336,18 +340,9 @@ const Individual = () => {
                     >
                       AGE
                     </label>
-                    <select
-                      class="form-control login_field"
-                      id="exampleFormControlSelect1"
-                    >
-                      <option classname="login_field">YEARS</option>
-                      <option>2022</option>
-                      <option>2021</option>
-                      <option>2020</option>
-                      <option>2019</option>
-                      <option>2018</option>
-                      <option>2017</option>
-                    </select>
+                    <div class="">
+                      <Datepicker />
+                    </div>
                   </div>
                   {/* <select class="select" multiple>
                     <option value="1">One</option>

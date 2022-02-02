@@ -300,10 +300,9 @@ function Agency() {
               <select
                 class="form-control login_field"
                 id="exampleFormControlSelect1"
-                value={user.sherif}
                 name=" Sherif"
               >
-                <option classname="login_field">Out reach worker</option>
+                <option classname="login_field">Outreachworker</option>
                 <option>Municipal agency</option>
                 <option>Law enforcement</option>
                 <option>Service Pvovider</option>
