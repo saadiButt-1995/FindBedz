@@ -2,7 +2,14 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 function Sheltorsignup() {
+  const [open, setOpen] = useState(false);
+
+  // handle toggle
+  const toggle = () => {
+    setOpen(!open);
+  };
   const [value, setValue] = useState(0);
   const [incVal, setIncVal] = useState(0);
   const [hour, setHour] = useState(0);
@@ -169,11 +176,30 @@ function Sheltorsignup() {
               CREATE PASSWORD<span className="star_red">*</span>
             </label>
             <input
-              type="text"
+              type={open === false ? "password" : "text"}
               className="form-control login_field"
               id="validationCustom03"
               required
             />
+            {open === false ? (
+              <AiFillEyeInvisible
+                style={{
+                  position: "absolute",
+                  right: "23px",
+                  marginTop: "-21px",
+                }}
+                onClick={toggle}
+              />
+            ) : (
+              <AiFillEye
+                style={{
+                  position: "absolute",
+                  right: "23px",
+                  marginTop: "-21px",
+                }}
+                onClick={toggle}
+              />
+            )}
           </div>
           <div className="mb-3 label_input">
             <label htmlFor="validationCustom02">

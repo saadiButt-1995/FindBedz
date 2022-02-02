@@ -16,10 +16,13 @@ const Individual = () => {
   const [users, setUser] = useState({
     userName: "",
     password: "",
+    phone: "",
     nickName: "",
-    role: "",
     ethnicity: "",
-    age: "",
+    role: "",
+    date_of_birth: "",
+    county: "",
+    state: "",
   });
   const navigate = useNavigate();
 
@@ -29,7 +32,8 @@ const Individual = () => {
     nickNameErr: "",
     roleErr: "",
     ethnicityErr: "",
-    ageErr: "",
+    date_of_birthErr: "",
+    phoneErr: "",
   });
 
   let name, value;
@@ -114,11 +118,11 @@ const Individual = () => {
         ethnicityErr: "Please Enter your Ethnicity",
       }));
     }
-    if (users.age === "") {
+    if (users.date_of_birth === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
-        ageErr: "Please check out this field",
+        date_of_birthErr: "Please check out this field",
       }));
     }
 
@@ -213,7 +217,7 @@ const Individual = () => {
                       <option>Alaska Native</option>
                       <option>Black or African American</option>
                     </select>
-                    {errField.ethnicityErr.length > 0 && (
+                    {/* {errField.ethnicityErr.length > 0 && (
                       <span
                         style={{
                           color: "red",
@@ -223,7 +227,7 @@ const Individual = () => {
                       >
                         {errField.ethnicityErr}
                       </span>
-                    )}
+                    )} */}
                   </div>
                   <div class="form-group">
                     <label
@@ -242,7 +246,7 @@ const Individual = () => {
                       <option>Female</option>
                       <option>Other</option>
                     </select>
-                    {errField.ageErr.length > 0 && (
+                    {/* {errField.ageErr.length > 0 && (
                       <span
                         style={{
                           color: "red",
@@ -252,7 +256,7 @@ const Individual = () => {
                       >
                         {errField.ageErr}
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
                 <div className="col-lg-6">
@@ -276,7 +280,7 @@ const Individual = () => {
                       type={open === false ? "password" : "text"}
                       className="first form-control login_field"
                     />
-                    {errField.passwordErr.length > 0 && (
+                    {/* {errField.passwordErr.length > 0 && (
                       <span
                         style={{
                           color: "red",
@@ -286,9 +290,9 @@ const Individual = () => {
                       >
                         {errField.passwordErr}
                       </span>
-                    )}
+                    )} */}
                     {open === false ? (
-                      <AiFillEye
+                      <AiFillEyeInvisible
                         style={{
                           position: "absolute",
                           right: "23px",
@@ -297,7 +301,7 @@ const Individual = () => {
                         onClick={toggle}
                       />
                     ) : (
-                      <AiFillEyeInvisible
+                      <AiFillEye
                         style={{
                           position: "absolute",
                           right: "23px",
@@ -321,7 +325,7 @@ const Individual = () => {
                       id="validationCustom03"
                       required
                     />
-                    {errField.roleErr.length > 0 && (
+                    {/* {errField.roleErr.length > 0 && (
                       <span
                         style={{
                           color: "red",
@@ -331,7 +335,7 @@ const Individual = () => {
                       >
                         {errField.roleErr}
                       </span>
-                    )}
+                    )} */}
                   </div>
                   <div class="form-group">
                     <label

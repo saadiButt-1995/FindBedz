@@ -14,9 +14,31 @@ function Agency() {
     city: "",
     state: "",
     zipcode: "",
-    sherif: "",
+    roll: "sheriff",
+    iam: [
+      "Outrreachworker",
+      "Municipal agency",
+      "Law enforcement",
+      "service provider",
+    ],
   });
+
   const navigate = useNavigate();
+
+  // const [addrtype, setAddrtype] = useState(["Law", "Municipal", "Zia", "Zeeshan"]);
+  const Add = user.iam.map((Add) => Add);
+  const handleAddrTypeChange = (e) => {
+    console.clear();
+    console.log(user.iam[e.target.value]);
+    // setRole(user.iam[e.target.value]);
+  };
+  // const [role, setRole] = useState("sheriif");
+  // const  = (event) => {
+  //   event.preventDefault();
+  //   console.log(`
+  //     Role: ${role}          
+  //   `);
+  // };
 
   const [errField, setErrField] = useState({
     userNameErr: "",
@@ -29,6 +51,8 @@ function Agency() {
     stateErr: "",
     zipcodeErr: "",
     sherifErr: "",
+    iamErr: "",
+    roll: "sheriff",
   });
 
   let name, value;
@@ -38,12 +62,11 @@ function Agency() {
 
     setUser({ ...user, [name]: value });
   };
-  console.log(user);
-
   const submit = async (e) => {
     e.preventDefault();
     if (validForm()) {
-      let url = "https://shelterprovider.herokuapp.com/v1/auth/registerSheriff";
+      let url =
+        "https://shelterprovider.herokuapp.com/v1/authauth/registerSheriff";
       let options = {
         method: "POST",
         url: url,
@@ -146,11 +169,11 @@ function Agency() {
         zipcodeErr: "Please Enter zipCode",
       }));
     }
-    if (user.sherif === "") {
+    if (user.iam === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
-        sherifErr: "Please Enter sherif",
+        iam: "Please Enter iam",
       }));
     }
 
@@ -298,6 +321,16 @@ function Agency() {
                 I AM<span className="star_red">*</span>
               </label>
               <select
+                onChange={(e) => handleAddrTypeChange(e)}
+                className="browser-default custom-select login_field"
+              >
+                {Add.map((address, key) => (
+                  <option key={key} value={key}>
+                    {address}
+                  </option>
+                ))}
+              </select>
+              {/* <select
                 class="form-control login_field"
                 id="exampleFormControlSelect1"
                 name=" Sherif"
@@ -306,8 +339,8 @@ function Agency() {
                 <option>Municipal agency</option>
                 <option>Law enforcement</option>
                 <option>Service Pvovider</option>
-              </select>
-              {errField.sherifErr.length > 0 && (
+              </select> */}
+              {errField.iamErr.length > 0 && (
                 <span
                   style={{
                     color: "red",
@@ -315,7 +348,7 @@ function Agency() {
                     fontFamily: "popreg",
                   }}
                 >
-                  {errField.sherifErr}
+                  {errField.iamErr}
                 </span>
               )}
             </div>
@@ -403,6 +436,8 @@ function Agency() {
                     CITY<span className="star_red">*</span>
                   </label>
                   <input
+                    value={user.city}
+                    onChange={handleInput}
                     type="text"
                     className="form-control login_field"
                     id="validationCustom02"
@@ -416,6 +451,8 @@ function Agency() {
                     STATE<span className="star_red">*</span>
                   </label>
                   <input
+                    value={user.state}
+                    onChange={handleInput}
                     type="text"
                     className="form-control login_field"
                     id="validationCustom02"
@@ -430,6 +467,8 @@ function Agency() {
                       ZIP CODE<span className="star_red">*</span>
                     </label>
                     <input
+                      value={user.zipcode}
+                      onChange={handleInput}
                       type="text"
                       className="form-control login_field"
                       id="validationCustom02"

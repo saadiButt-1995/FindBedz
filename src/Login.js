@@ -6,7 +6,7 @@ import axios from "axios";
 function Login() {
   const [user, setUser] = useState({
     userName: "",
-    password: "",
+    // password: "",
   });
   const navigate = useNavigate();
 
@@ -88,7 +88,7 @@ function Login() {
         <div className="log_title text-center">LOGIN</div>
         <div className="log_title2 text-center">Please Login to continue</div>
         <div className="login_fields">
-          <div className="form-group col-md-6 login_inputs">
+          <div className="form-group col-md-4 login_inputs">
             <label className="label_input1">Username </label>
             <input
               name="userName"
@@ -106,7 +106,7 @@ function Login() {
               </span>
             )}
           </div>
-          <div className="form-group col-md-6 login_inputs">
+          <div className="form-group col-md-4 login_inputs">
             <label className="label_input1">
               Password <span style={{ color: "#828282" }}>(optional)</span>
             </label>
