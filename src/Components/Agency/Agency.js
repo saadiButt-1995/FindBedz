@@ -14,7 +14,7 @@ function Agency() {
     city: "",
     state: "",
     zipcode: "",
-    role: "",
+    sherif: "",
   });
   const navigate = useNavigate();
 
@@ -28,6 +28,7 @@ function Agency() {
     cityErr: "",
     stateErr: "",
     zipcodeErr: "",
+    sherifErr: "",
   });
 
   let name, value;
@@ -80,6 +81,7 @@ function Agency() {
       cityErr: "",
       stateErr: "",
       zipcodeErr: "",
+      sherifErr: "",
     });
     if (user.userName === "") {
       formIsValid = false;
@@ -144,6 +146,13 @@ function Agency() {
         zipcodeErr: "Please Enter zipCode",
       }));
     }
+    if (user.sherif === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        sherifErr: "Please Enter sherif",
+      }));
+    }
 
     return formIsValid;
   };
@@ -162,7 +171,9 @@ function Agency() {
           <div className="col-lg-6">
             <ToastContainer />
             <div className="mb-3 label_input">
-              <label htmlFor="validationCustom01">CHOOSE USERNAME</label>
+              <label htmlFor="validationCustom01">
+                CHOOSE USERNAME <span className="star_red">*</span>
+              </label>
               <input
                 name="userName"
                 value={user.userName}
@@ -186,7 +197,7 @@ function Agency() {
             </div>
             <div className="mb-3 label_input">
               <label htmlFor="validationCustom02">
-                FULL NAME OF ORGANIZATION
+                FULL NAME OF ORGANIZATION <span className="star_red">*</span>
               </label>
               <input
                 name="organization"
@@ -210,7 +221,9 @@ function Agency() {
               )}
             </div>
             <div className="mb-3 label_input">
-              <label htmlFor="validationCustom01">PHONE</label>
+              <label htmlFor="validationCustom01">
+                PHONE <span className="star_red">*</span>
+              </label>
               <input
                 name="phone"
                 value={user.phone}
@@ -232,8 +245,10 @@ function Agency() {
                 </span>
               )}
             </div>
-            <div className="mb-3 label_input">
-              <label htmlFor="validationCustom01">CITY</label>
+            {/* <div className="mb-3 label_input">
+              <label htmlFor="validationCustom01">
+                CITY <span className="star_red">*</span>
+              </label>
               <input
                 name="city"
                 value={user.city}
@@ -254,8 +269,8 @@ function Agency() {
                   {errField.cityErr}
                 </span>
               )}
-            </div>
-            <div className="mb-3 label_input">
+            </div> */}
+            {/* <div className="mb-3 label_input">
               <label htmlFor="validationCustom01">Sherif</label>
               <input
                 name="role"
@@ -277,11 +292,40 @@ function Agency() {
                   {errField.cityErr}
                 </span>
               )}
+            </div> */}
+            <div class="form-group">
+              <label className="label_input" for="exampleFormControlSelect1">
+                I AM<span className="star_red">*</span>
+              </label>
+              <select
+                class="form-control login_field"
+                id="exampleFormControlSelect1"
+                value={user.sherif}
+                name=" Sherif"
+              >
+                <option classname="login_field">Out reach worker</option>
+                <option>Municipal agency</option>
+                <option>Law enforcement</option>
+                <option>Service Pvovider</option>
+              </select>
+              {errField.sherifErr.length > 0 && (
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11px",
+                    fontFamily: "popreg",
+                  }}
+                >
+                  {errField.sherifErr}
+                </span>
+              )}
             </div>
           </div>
           <div className="col-lg-6">
             <div className="label_input mb-3">
-              <label htmlFor="validationCustom03">CHOOSE PASSWORD</label>
+              <label htmlFor="validationCustom03">
+                CHOOSE PASSWORD <span className="star_red">*</span>
+              </label>
               <input
                 name="password"
                 value={user.password}
@@ -304,7 +348,9 @@ function Agency() {
               )}
             </div>
             <div className="mb-3 label_input">
-              <label htmlFor="validationCustom02">EMAIL ADDRESS</label>
+              <label htmlFor="validationCustom02">
+                EMAIL ADDRESS <span className="star_red">*</span>
+              </label>
               <input
                 name="email"
                 value={user.email}
@@ -327,7 +373,9 @@ function Agency() {
               )}
             </div>
             <div className="mb-3 label_input">
-              <label htmlFor="validationCustom02">ADDRESS</label>
+              <label htmlFor="validationCustom02">
+                ADDRESS <span className="star_red">*</span>
+              </label>
               <input
                 name="address"
                 value={user.address}
@@ -349,10 +397,55 @@ function Agency() {
                 </span>
               )}
             </div>
-            <div className="row">
+            <div className="row justify-content-md-between">
+              <div className="col-lg-3 px-0 ">
+                <div className="mb-3 label_input">
+                  <label htmlFor="validationCustom02">
+                    CITY<span className="star_red">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control login_field"
+                    id="validationCustom02"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="col-lg-3 px-0">
+                <div className="mb-3 label_input">
+                  <label htmlFor="validationCustom02">
+                    STATE<span className="star_red">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control login_field"
+                    id="validationCustom02"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="col-lg-3 px-0">
+                <div className="mobile_p pr-0">
+                  <div className="mb-3 label_input">
+                    <label htmlFor="validationCustom02">
+                      ZIP CODE<span className="star_red">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control login_field"
+                      id="validationCustom02"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <div className="row">
               <div className="col-lg-6 pl-0">
                 <div className="mb-3 label_input">
-                  <label htmlFor="validationCustom02">STATE</label>
+                  <label htmlFor="validationCustom02">
+                    STATE <span className="star_red">*</span>
+                  </label>
                   <input
                     name="state"
                     value={user.state}
@@ -377,7 +470,9 @@ function Agency() {
               </div>
               <div className="col-lg-6 pr-0">
                 <div className="mb-3 label_input">
-                  <label htmlFor="validationCustom02">ZIP CODE</label>
+                  <label htmlFor="validationCustom02">
+                    ZIP CODE <span className="star_red">*</span>
+                  </label>
                   <input
                     name="zipcode"
                     value={user.zipcode}
@@ -400,7 +495,7 @@ function Agency() {
                   )}
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="custom-control custom-switch">

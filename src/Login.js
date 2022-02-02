@@ -90,7 +90,7 @@ function Login() {
         <div className="log_title2 text-center">Please Login to continue</div>
         <div className="login_fields">
           <div className="form-group col-md-6 login_inputs">
-            <label className="label_input1">Username</label>
+            <label className="label_input1">Username </label>
             <input
               name="userName"
               value={user.userName}
@@ -108,7 +108,9 @@ function Login() {
             )}
           </div>
           <div className="form-group col-md-6 login_inputs">
-            <label className="label_input1">Password</label>
+            <label className="label_input1">
+              Password <span style={{ color: "#828282" }}>(optional)</span>
+            </label>
             <input
               name="password"
               value={user.password}

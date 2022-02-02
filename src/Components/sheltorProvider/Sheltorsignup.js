@@ -87,7 +87,9 @@ function Sheltorsignup() {
       <div className="row justify-content-around">
         <div className="col-lg-5">
           <div className="mb-3 label_input">
-            <label htmlFor="validationCustom01">CHOOSE USERNAME</label>
+            <label htmlFor="validationCustom01">
+              CHOOSE USERNAME<span className="star_red">*</span>
+            </label>
             <input
               type="text"
               className="form-control login_field"
@@ -96,7 +98,9 @@ function Sheltorsignup() {
             />
           </div>
           <div className="mb-3 label_input">
-            <label htmlFor="validationCustom02">ENTER SHELTER NAME</label>
+            <label htmlFor="validationCustom02">
+              ENTER SHELTER NAME<span className="star_red">*</span>
+            </label>
             <input
               type="text"
               className="form-control login_field"
@@ -105,7 +109,9 @@ function Sheltorsignup() {
             />
           </div>
           <div className="mb-3 label_input">
-            <label htmlFor="validationCustom01">ADDRESS (optional)</label>
+            <label htmlFor="validationCustom01">
+              ADDRESS STATE<span className="star_red">*</span>
+            </label>
             <input
               type="text"
               className="form-control login_field"
@@ -116,7 +122,9 @@ function Sheltorsignup() {
           <div className="row justify-content-md-between">
             <div className="col-lg-3 px-0 ">
               <div className="mb-3 label_input">
-                <label htmlFor="validationCustom02">CITY</label>
+                <label htmlFor="validationCustom02">
+                  CITY<span className="star_red">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control login_field"
@@ -127,7 +135,9 @@ function Sheltorsignup() {
             </div>
             <div className="col-lg-3 px-0">
               <div className="mb-3 label_input">
-                <label htmlFor="validationCustom02">STATE</label>
+                <label htmlFor="validationCustom02">
+                  STATE<span className="star_red">*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control login_field"
@@ -139,7 +149,9 @@ function Sheltorsignup() {
             <div className="col-lg-3 px-0">
               <div className="mobile_p pr-0">
                 <div className="mb-3 label_input">
-                  <label htmlFor="validationCustom02">ZIP CODE</label>
+                  <label htmlFor="validationCustom02">
+                    ZIP CODE<span className="star_red">*</span>
+                  </label>
                   <input
                     type="text"
                     className="form-control login_field"
@@ -153,7 +165,9 @@ function Sheltorsignup() {
         </div>
         <div className="col-lg-5">
           <div className="label_input mb-4">
-            <label htmlFor="validationCustom03">CREATE PASSWORD</label>
+            <label htmlFor="validationCustom03">
+              CREATE PASSWORD<span className="star_red">*</span>
+            </label>
             <input
               type="text"
               className="form-control login_field"
@@ -162,7 +176,9 @@ function Sheltorsignup() {
             />
           </div>
           <div className="mb-3 label_input">
-            <label htmlFor="validationCustom02">PHONE (optional)</label>
+            <label htmlFor="validationCustom02">
+              PHONE <span className="star_red">*</span>
+            </label>
             <input
               type="text"
               className="form-control login_field"
@@ -172,7 +188,7 @@ function Sheltorsignup() {
           </div>
           <div className="mb-3 label_input">
             <label htmlFor="validationCustom02">
-              ENTER EMAIL ADDRESS (optional)
+              ENTER EMAIL ADDRESS<span className="star_red">*</span>
             </label>
             <input
               type="text"
@@ -184,7 +200,7 @@ function Sheltorsignup() {
 
           <div className="mb-3 label_input">
             <label htmlFor="validationCustom01">
-              NAME OF THE CONTACT PERSON
+              NAME OF THE CONTACT PERSON <span className="star_red">*</span>
             </label>
             <input
               type="text"
@@ -325,7 +341,7 @@ function Sheltorsignup() {
                   className="form-check-label checks_labels"
                   htmlFor="exampleRadios1"
                 >
-                  Adults (any gender)
+                  Adults
                 </label>
               </div>
               <div className="form-check form-group">

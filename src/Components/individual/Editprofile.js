@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import axios from "axios";
 const Editprofile = () => {
+  const [open, setOpen] = useState(false);
+
+  // handle toggle
+  const toggle = () => {
+    setOpen(!open);
+  };
   const [users, setUser] = useState({
     userName: "",
     password: "",
@@ -198,13 +205,22 @@ const Editprofile = () => {
                 <div className="col-lg-6">
                   <div className="label_input mb-3">
                     <label htmlFor="validationCustom03">
-                      PASSWORD (optional)
+                      PASSWORD
+                      <span
+                        style={{
+                          fontSize: "10px",
+                          fontFamily: "popreg",
+                          color: "#828282",
+                        }}
+                      >
+                        (optional)
+                      </span>
                     </label>
                     <input
                       name="password"
                       onChange={handleInput}
                       value={users.password}
-                      type="text"
+                      type={open === false ? "password" : "text"}
                       className="form-control login_field"
                     />
                     {errField.passwordErr.length > 0 && (
@@ -217,6 +233,25 @@ const Editprofile = () => {
                       >
                         {errField.passwordErr}
                       </span>
+                    )}
+                    {open === false ? (
+                      <AiFillEye
+                        style={{
+                          position: "absolute",
+                          right: "23px",
+                          marginTop: "-21px",
+                        }}
+                        onClick={toggle}
+                      />
+                    ) : (
+                      <AiFillEyeInvisible
+                        style={{
+                          position: "absolute",
+                          right: "23px",
+                          marginTop: "-21px",
+                        }}
+                        onClick={toggle}
+                      />
                     )}
                   </div>
 
@@ -319,7 +354,7 @@ const Editprofile = () => {
             </div>
             <div className="btn_center">
               <Link to="/login" onClick={submit}>
-                <button className="signupbtn">SIGNUP</button>
+                <button className="signupbtn">SUBMIT CHANGES</button>
               </Link>
             </div>
           </form>

@@ -22,9 +22,14 @@ a:hover {
   font-family: popmd;
   src: url("/src/fonts/Poppins-Medium.ttf");
 }
+
 .landingpage {
   text-align: center;
 }
+.second_img {
+  height: 170px !important;
+}
+
 .logodiv {
   padding-top: 52px;
   padding-bottom: 150px;
@@ -371,11 +376,16 @@ a:hover {
   margin-left: 0;
   margin-right: 0;
 }
+.star_red {
+  color: #ff1e1e;
+  margin-top: -10px;
+  padding-left: 5px;
+}
 .login_field {
   background-color: rgba(221, 235, 255, 1);
   border: none;
   outline: none;
-  height: 36px;
+  height: 32px;
   font-family: popreg;
   font-size: 11px;
   color: #000;
@@ -467,9 +477,7 @@ a:hover {
 .login_logo {
   height: 70px !important;
 }
-.login_text {
-  /* padding-bottom: 60px; */
-}
+
 .login_log {
   padding-bottom: 18px !important;
   padding-top: 18px !important;
@@ -542,7 +550,7 @@ a:hover {
 
 .create_card:hover {
   transform: scale(1.1);
-  background: #DDEBFF;
+  background: transparent;
   z-index: 2;
   box-shadow: 2px 2px 2px #000;
 }

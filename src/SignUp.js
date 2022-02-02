@@ -15,10 +15,16 @@ function SignUp() {
             <div className="card_title">INDIVIDUAL</div>
           </div>
         </Link>
-        <Link className="create_card mb-3" to="/agency-signup">
+        <Link
+          style={{ paddingTop: "25px" }}
+          className="create_card mb-3"
+          to="/agency-signup"
+        >
           <div className="  creat_card11">
-            <img src="/images/Group 575.svg" alt="" />
-            <div className="card_title">ORGANIZATION/OUTREACH WORKER</div>
+            <img className="second_img" src="/images/Group 575.svg" alt="" />
+            <div style={{ paddingTop: "0" }} className="card_title">
+              ORGANIZATION/OUTREACH WORKER
+            </div>
           </div>
         </Link>
 

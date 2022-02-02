@@ -1,13 +1,24 @@
 import React, { useState } from "react";
+import "../../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import axios from "axios";
+
 const Individual = () => {
+  const [open, setOpen] = useState(false);
+
+  // handle toggle
+  const toggle = () => {
+    setOpen(!open);
+  };
   const [users, setUser] = useState({
     userName: "",
     password: "",
     nickName: "",
     role: "",
+    ethnicity: "",
+    age: "",
   });
   const navigate = useNavigate();
 
@@ -16,6 +27,8 @@ const Individual = () => {
     passwordErr: "",
     nickNameErr: "",
     roleErr: "",
+    ethnicityErr: "",
+    ageErr: "",
   });
 
   let name, value;
@@ -63,6 +76,7 @@ const Individual = () => {
       passwordErr: "",
       nickNameErr: "",
       roleErr: "",
+      ethnicityErr: "",
     });
     if (users.userName === "") {
       formIsValid = false;
@@ -92,6 +106,20 @@ const Individual = () => {
         roleErr: "Please Enter your phone number",
       }));
     }
+    if (users.ethnicity === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        ethnicityErr: "Please Enter your Ethnicity",
+      }));
+    }
+    if (users.age === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        ageErr: "Please check out this field",
+      }));
+    }
 
     return formIsValid;
   };
@@ -114,7 +142,9 @@ const Individual = () => {
               <div className="row justify-content-around">
                 <div className="col-lg-6">
                   <div className="mb-3 label_input">
-                    <label htmlFor="validationCustom01">CHOOSE USERNAME</label>
+                    <label htmlFor="validationCustom01">
+                      CHOOSE USERNAME <span className="star_red">*</span>
+                    </label>
                     <input
                       name="userName"
                       value={users.userName}
@@ -138,7 +168,9 @@ const Individual = () => {
                   </div>
 
                   <div className="mb-3 label_input">
-                    <label htmlFor="validationCustom02">NICK NAME</label>
+                    <label htmlFor="validationCustom02">
+                      NICK NAME <span className="star_red">*</span>
+                    </label>
                     <input
                       name="nickName"
                       value={users.nickName}
@@ -177,11 +209,24 @@ const Individual = () => {
                       <option>Greeks</option>
                       <option>other</option>
                     </select>
+                    {errField.ethnicityErr.length > 0 && (
+                      <span
+                        style={{
+                          color: "red",
+                          fontSize: "11px",
+                          fontFamily: "popreg",
+                        }}
+                      >
+                        {errField.ethnicityErr}
+                      </span>
+                    )}
                   </div>
                   <div class="form-group">
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
+                      value={users.age}
+                      onChange={handleInput}
                     >
                       GENDER
                     </label>
@@ -193,19 +238,39 @@ const Individual = () => {
                       <option>Female</option>
                       <option>Other</option>
                     </select>
+                    {errField.ageErr.length > 0 && (
+                      <span
+                        style={{
+                          color: "red",
+                          fontSize: "11px",
+                          fontFamily: "popreg",
+                        }}
+                      >
+                        {errField.ageErr}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="col-lg-6">
                   <div className="label_input mb-3">
                     <label htmlFor="validationCustom03">
-                      PASSWORD (optional)
+                      PASSWORD
+                      <span
+                        style={{
+                          fontSize: "10px",
+                          fontFamily: "popreg",
+                          color: "#828282",
+                        }}
+                      >
+                        (optional)
+                      </span>
                     </label>
                     <input
                       name="password"
                       onChange={handleInput}
                       value={users.password}
-                      type="text"
-                      className="form-control login_field"
+                      type={open === false ? "password" : "text"}
+                      className="first form-control login_field"
                     />
                     {errField.passwordErr.length > 0 && (
                       <span
@@ -218,10 +283,31 @@ const Individual = () => {
                         {errField.passwordErr}
                       </span>
                     )}
+                    {open === false ? (
+                      <AiFillEye
+                        style={{
+                          position: "absolute",
+                          right: "23px",
+                          marginTop: "-21px",
+                        }}
+                        onClick={toggle}
+                      />
+                    ) : (
+                      <AiFillEyeInvisible
+                        style={{
+                          position: "absolute",
+                          right: "23px",
+                          marginTop: "-21px",
+                        }}
+                        onClick={toggle}
+                      />
+                    )}
                   </div>
 
                   <div className="label_input mb-3">
-                    <label htmlFor="validationCustom03">PHONE NUMBER</label>
+                    <label htmlFor="validationCustom03">
+                      PHONE NUMBER <span className="star_red">*</span>
+                    </label>
                     <input
                       name="role"
                       onChange={handleInput}
