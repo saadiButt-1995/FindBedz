@@ -4,11 +4,28 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import axios from "axios";
-import Datepicker from "./Datepicker";
+import { DropdownDate } from "react-dropdown-date";
 
 const Individual = () => {
   const [open, setOpen] = useState(false);
+  const [day, setDay] = useState("");
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
+  const formatDate = (date) => {
+    // formats a JS date to 'yyyy-mm-dd'
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
 
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+  };
+
+  // const [date, setDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState("2012-1-1");
   // handle toggle
   const toggle = () => {
     setOpen(!open);
@@ -19,10 +36,11 @@ const Individual = () => {
     phone: "",
     nickName: "",
     ethnicity: "",
-    role: "",
+    role: "user",
     date_of_birth: "",
     county: "",
     state: "",
+    email: "test@gmail.com",
   });
   const navigate = useNavigate();
 
@@ -47,31 +65,33 @@ const Individual = () => {
 
   const submit = async (e) => {
     e.preventDefault();
-    if (validForm()) {
-      let url = "https://shelterprovider.herokuapp.com/v1/auth/registerUser";
-      let options = {
-        method: "POST",
-        url: url,
-        headers: {},
-        data: users,
-      };
-      //  try{
-      let response = await axios(options);
+    // if (validForm()) {
+    users.date_of_birth = year + " " + month + " " + day;
+    console.log(users.date_of_birth, "  date of birth");
+    let url = "https://shelterprovider.herokuapp.com/v1/auth/registerUser";
+    let options = {
+      method: "POST",
+      url: url,
+      headers: {},
+      data: users,
+    };
+    //  try{
+    let response = await axios(options);
 
-      console.log(response);
-      if (response.status === 200) {
-        toast.success("Added Successfully!");
-        setTimeout(() => {
-          navigate("/login");
-        }, 1500);
-      } else {
-        toast.error("Something went wrong !");
-      }
-      //  }catch(e){
-      //   console.log(e, 'error')
-      //   toast.error("Something went wrong !");
-      //  }
+    console.log(response);
+    if (response.status === 200) {
+      toast.success("Added Successfully!");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
+    } else {
+      toast.error("Something went wrong !");
     }
+    //  }catch(e){
+    //   console.log(e, 'error')
+    //   toast.error("Something went wrong !");
+    //  }
+    // }
   };
 
   const validForm = () => {
@@ -205,6 +225,8 @@ const Individual = () => {
                       Ethnicity
                     </label>
                     <select
+                      name="ethnicity"
+                      onChange={handleInput}
                       class="form-control login_field"
                       id="exampleFormControlSelect1"
                     >
@@ -239,6 +261,8 @@ const Individual = () => {
                       GENDER
                     </label>
                     <select
+                      name="gender"
+                      onChange={handleInput}
                       class="form-control login_field"
                       id="exampleFormControlSelect1"
                     >
@@ -317,9 +341,9 @@ const Individual = () => {
                       PHONE NUMBER <span className="star_red">*</span>
                     </label>
                     <input
-                      name="role"
+                      name="phone"
                       onChange={handleInput}
-                      value={users.role}
+                      value={users.phone}
                       type="number"
                       className="form-control login_field"
                       id="validationCustom03"
@@ -345,7 +369,47 @@ const Individual = () => {
                       AGE
                     </label>
                     <div class="">
-                      <Datepicker />
+                      {/* <Datepicker /> */}
+                      <DropdownDate
+                        startDate={
+                          // optional, if not provided 1900-01-01 is startDate
+                          "1920-01-01" // 'yyyy-mm-dd' format only
+                        }
+                        endDate={
+                          // optional, if not provided current date is endDate
+                          "2022-12-31" // 'yyyy-mm-dd' format only
+                        }
+                        selectedDate={
+                          // optional
+                          selectedDate
+                          // this.state.selectedDate // 'yyyy-mm-dd' format only
+                        }
+                        onMonthChange={(month) => {
+                          // optional
+                          setMonth(month);
+                          console.log(month);
+                        }}
+                        onDayChange={(day) => {
+                          // optional
+                          setDay(day);
+                          console.log(day);
+                        }}
+                        onYearChange={(year) => {
+                          // optional
+                          setYear(year);
+                          console.log(year);
+                        }}
+                        onDateChange={(date) => {
+                          // optional
+                          // console.log(date);
+                          // setDate(date);
+                          setSelectedDate(formatDate(date));
+                          // this.setState({
+                          //   date: date,
+                          //   selectedDate: formatDate(date),
+                          // });
+                        }}
+                      />
                     </div>
                   </div>
                   {/* <select class="select" multiple>
@@ -363,8 +427,10 @@ const Individual = () => {
                       <div className="mb-3 label_input">
                         <label htmlFor="validationCustom02">COUNTY</label>
                         <input
-                          name="COUNTY"
+                          name="county"
                           type="text"
+                          value={users.county}
+                          onChange={handleInput}
                           className="form-control login_field"
                           id="validationCustom02"
                           required

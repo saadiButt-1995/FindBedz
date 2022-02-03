@@ -23,7 +23,7 @@ function IndividualLanding() {
           <div className="indiv_card mt-2">
             <img src="/images/edit_user.svg" alt="" />
             <div className="card_title">EDIT PROFILE</div>
-          </div>
+        </div>
         </Link>
 
         <div className="indiv_card mt-2">

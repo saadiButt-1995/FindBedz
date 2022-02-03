@@ -55,10 +55,8 @@ function Sheltorsignup() {
   };
 
   const valInc = () => {
-    if (incVal < 6) {
+    if (incVal < value) {
       setIncVal(incVal + 1);
-    } else {
-      setIncVal(6);
     }
   };
   const valDec = () => {
@@ -69,10 +67,10 @@ function Sheltorsignup() {
     }
   };
   const increament = () => {
-    if (value < 30) {
+    if (value < 100) {
       setValue(value + 1);
     } else {
-      setValue(30);
+      setValue(100);
     }
   };
   const decreament = () => {

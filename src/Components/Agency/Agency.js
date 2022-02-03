@@ -14,29 +14,24 @@ function Agency() {
     city: "",
     state: "",
     zipcode: "",
-    roll: "sheriff",
-    iam: [
-      "Outrreachworker",
-      "Municipal agency",
-      "Law enforcement",
-      "service provider",
-    ],
+    // roll: "user",
+    iam: "test",
   });
 
   const navigate = useNavigate();
 
   // const [addrtype, setAddrtype] = useState(["Law", "Municipal", "Zia", "Zeeshan"]);
-  const Add = user.iam.map((Add) => Add);
+  // const Add = user.iam.map((Add) => Add);
   const handleAddrTypeChange = (e) => {
     console.clear();
     console.log(user.iam[e.target.value]);
-    // setRole(user.iam[e.target.value]);
+    setUser({ ...user, iam: e.target.value });
   };
   // const [role, setRole] = useState("sheriif");
   // const  = (event) => {
   //   event.preventDefault();
   //   console.log(`
-  //     Role: ${role}          
+  //     Role: ${role}
   //   `);
   // };
 
@@ -52,21 +47,19 @@ function Agency() {
     zipcodeErr: "",
     sherifErr: "",
     iamErr: "",
-    roll: "sheriff",
   });
 
   let name, value;
   const handleInput = (event) => {
     name = event.target.name;
     value = event.target.value;
-
     setUser({ ...user, [name]: value });
   };
   const submit = async (e) => {
     e.preventDefault();
+    console.log(validForm());
     if (validForm()) {
-      let url =
-        "https://shelterprovider.herokuapp.com/v1/authauth/registerSheriff";
+      let url = "https://shelterprovider.herokuapp.com/v1/auth/registerSheriff";
       let options = {
         method: "POST",
         url: url,
@@ -104,7 +97,7 @@ function Agency() {
       cityErr: "",
       stateErr: "",
       zipcodeErr: "",
-      sherifErr: "",
+      iamErr: "",
     });
     if (user.userName === "") {
       formIsValid = false;
@@ -320,15 +313,19 @@ function Agency() {
               <label className="label_input" for="exampleFormControlSelect1">
                 I AM<span className="star_red">*</span>
               </label>
+
               <select
-                onChange={(e) => handleAddrTypeChange(e)}
-                className="browser-default custom-select login_field"
+                onChange={handleInput}
+                name="iam"
+                class="form-control login_field"
+                id="exampleFormControlSelect1"
               >
-                {Add.map((address, key) => (
-                  <option key={key} value={key}>
-                    {address}
-                  </option>
-                ))}
+                <option classname="login_field">Non-Hispanic White</option>
+                <option>Asian</option>
+                <option>American Indian</option>
+                <option>Hispanics</option>
+                <option>Alaska Native</option>
+                <option>Black or African American</option>
               </select>
               {/* <select
                 class="form-control login_field"
@@ -439,10 +436,22 @@ function Agency() {
                     value={user.city}
                     onChange={handleInput}
                     type="text"
+                    name="city"
                     className="form-control login_field"
                     id="validationCustom02"
                     required
                   />
+                  {errField.cityErr.length > 0 && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "11px",
+                        fontFamily: "popreg",
+                      }}
+                    >
+                      {errField.cityErr}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="col-lg-3 px-0">
@@ -454,10 +463,22 @@ function Agency() {
                     value={user.state}
                     onChange={handleInput}
                     type="text"
+                    name="state"
                     className="form-control login_field"
                     id="validationCustom02"
                     required
                   />
+                  {errField.stateErr.length > 0 && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "11px",
+                        fontFamily: "popreg",
+                      }}
+                    >
+                      {errField.stateErr}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="col-lg-3 px-0">
@@ -470,10 +491,22 @@ function Agency() {
                       value={user.zipcode}
                       onChange={handleInput}
                       type="text"
+                      name="zipcode"
                       className="form-control login_field"
                       id="validationCustom02"
                       required
                     />
+                    {errField.zipcodeErr.length > 0 && (
+                      <span
+                        style={{
+                          color: "red",
+                          fontSize: "11px",
+                          fontFamily: "popreg",
+                        }}
+                      >
+                        {errField.zipcodeErr}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
