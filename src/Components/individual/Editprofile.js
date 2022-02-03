@@ -356,6 +356,7 @@ const Editprofile = () => {
               <Link to="/login" onClick={submit}>
                 <button className="signupbtn">SUBMIT CHANGES</button>
               </Link>
+              <button className="cencle">Cencel</button>
             </div>
           </form>
         </div>

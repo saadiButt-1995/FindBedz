@@ -313,6 +313,19 @@ a:hover {
 .header_icon img {
   padding-left: 50px;
 }
+.cencle {
+  font-family: popreg;
+  border: none;
+  background: transparent;
+  padding-left: 50px;
+}
+.svggg {
+  position: absolute;
+  right: 23px;
+  margin-top: -23px;
+  font-size: 18px !important;
+}
+
 .sheltor_dashboard {
   /* display: flex;
   justify-content: space-between; */
@@ -326,14 +339,18 @@ a:hover {
   font-size: 14px;
   color: #808080;
   margin-bottom: 0 !important;
+  padding-right: 20px;
 }
 .btn_center {
   text-align: center;
 }
 .header_text {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: right;
   font-family: popmd;
+}
+textarea {
+  resize: none !important;
 }
 .logout_div {
   display: flex;

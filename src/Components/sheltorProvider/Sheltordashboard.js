@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 function Sheltordashboard() {
-  const [value, Setvalue] = useState(1);
+  const [value, Setvalue] = useState(0);
 
   const increament = () => {
     if (value < 30) {
@@ -32,33 +32,22 @@ function Sheltordashboard() {
         </Link>
 
         <div className="col header_text">
-          <div>
+          <div style={{ display: "flex", paddingRight: "30px" }}>
             <p className="header_title">Last Updated On: 2 Hours Ago</p>
-          </div>
-          <div className="logout_div">
-            <img src="/images/logout.svg" alt="" />
-            <p className="header_title pl-3">Logout</p>
+            <div className="logout_div">
+              <img src="/images/logout.svg" alt="" />
+              <p className="header_title pl-3">Logout</p>
+            </div>
           </div>
         </div>
       </div>
       <div className="dashboard_container">
         <div className="frst_flex mb-3">
-          <div className="progress12">
-            <p className="RESERVATIONS mb-8 mt-4">CURRENTLY AVAILABLE BEDS</p>
-            <div className="progress2">
-              <div className="cricle_div13">{value}</div>
-              <div className="calcu_btns">
-                <button onClick={increament} className="plusbtn centrebtn">
-                  +
-                </button>
-                <button
-                  onClick={decreament}
-                  className="plusbtn color_red centrebtn"
-                >
-                  -
-                </button>
-              </div>
+          <div className="progress3">
+            <div style={{ background: "black" }} className="cricle_div2">
+              34
             </div>
+            <div className="card_title11">TOTAL RESERVATIONS BEDS</div>
           </div>
 
           <div className="progress22">
@@ -89,11 +78,24 @@ function Sheltordashboard() {
             </div>
             <button className="managebtn">Manage Reservations</button>
           </div>
-          <div className="progress3">
-            <div style={{ background: "black" }} className="cricle_div2">
-              34
+          <div className="progress12">
+            <p className="RESERVATIONS mb-8 mt-4">
+              BEDS AVAILABLE FOR RESERVATIONS
+            </p>
+            <div className="progress2">
+              <div className="cricle_div13">{value}</div>
+              <div className="calcu_btns">
+                <button onClick={increament} className="plusbtn centrebtn">
+                  +
+                </button>
+                <button
+                  onClick={decreament}
+                  className="plusbtn color_red centrebtn"
+                >
+                  -
+                </button>
+              </div>
             </div>
-            <div className="card_title11">CURRENT OCCUPANTS</div>
           </div>
         </div>
         <div className="frst_flex">

@@ -47,11 +47,14 @@ const Individual = () => {
   const [errField, setErrField] = useState({
     userNameErr: "",
     passwordErr: "",
-    nickNameErr: "",
-    roleErr: "",
-    ethnicityErr: "",
-    date_of_birthErr: "",
     phoneErr: "",
+    nickNameErr: "",
+    ethnicityErr: "",
+    // role: "user",
+    date_of_birthErr: "",
+    countyErr: "",
+    stateErr: "",
+    // email: "test@gmail.com",
   });
 
   let name, value;
@@ -91,24 +94,30 @@ const Individual = () => {
       console.log(e, "error");
       toast.error("Something went wrong !");
     }
+
   };
 
   const validForm = () => {
-    let formIsValid = true;
+    let formIsValid = false;
     setErrField({
       userNameErr: "",
       passwordErr: "",
+      phoneErr: "",
       nickNameErr: "",
-      roleErr: "",
       ethnicityErr: "",
+      // role: "user",
+      date_of_birthErr: "",
+      countyErr: "",
+      stateErr: "",
     });
     if (users.userName === "") {
-      formIsValid = false;
+      formIsValid = true;
       setErrField((prevState) => ({
         ...prevState,
         userNameErr: "Please Enter Name",
       }));
     }
+
     if (users.phone === "") {
       formIsValid = false;
       setErrField((prevState) => ({
@@ -117,19 +126,20 @@ const Individual = () => {
       }));
     }
     if (users.nickName === "") {
-      formIsValid = false;
+      formIsValid = true;
       setErrField((prevState) => ({
         ...prevState,
         nickNameErr: "Please Enter NickName",
       }));
     }
     // if (users.role === "") {
-    //   formIsValid = false;
+
     //   setErrField((prevState) => ({
     //     ...prevState,
     //     roleErr: "Please Enter your phone number",
     //   }));
     // }
+
     // if (users.ethnicity === "") {
     //   formIsValid = false;
     //   setErrField((prevState) => ({
@@ -144,6 +154,7 @@ const Individual = () => {
     //     date_of_birthErr: "Please check out this field",
     //   }));
     // }
+
 
     return formIsValid;
   };
@@ -232,11 +243,16 @@ const Individual = () => {
                       <option className="login_field">
                         Non-Hispanic White
                       </option>
-                      <option>Asian</option>
-                      <option>American Indian</option>
-                      <option>Hispanics</option>
-                      <option>Alaska Native</option>
-                      <option>Black or African American</option>
+                      <option> German</option>
+                      <option>Black/African-American (non-Hispanic)</option>
+                      <option> Mexican</option>
+                      <option> Irish</option>
+                      <option> English</option>
+                      <option> American</option>
+                      <option>Italian</option>
+                      <option> Polish</option>
+                      <option>French</option>
+                      <option> Scottish</option>
                     </select>
                     {/* {errField.ethnicityErr.length > 0 && (
                       <span
@@ -254,7 +270,7 @@ const Individual = () => {
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
-                      value={users.age}
+                      value={users.date_of_birth}
                       onChange={handleInput}
                     >
                       GENDER
@@ -269,7 +285,7 @@ const Individual = () => {
                       <option>Female</option>
                       <option>Other</option>
                     </select>
-                    {/* {errField.ageErr.length > 0 && (
+                    {errField.date_of_birthErr.length > 0 && (
                       <span
                         style={{
                           color: "red",
@@ -277,9 +293,9 @@ const Individual = () => {
                           fontFamily: "popreg",
                         }}
                       >
-                        {errField.ageErr}
+                        {errField.date_of_birthErr}
                       </span>
-                    )} */}
+                    )}
                   </div>
                 </div>
                 <div className="col-lg-6">
@@ -303,7 +319,7 @@ const Individual = () => {
                       type={open === false ? "password" : "text"}
                       className="first form-control login_field"
                     />
-                    {/* {errField.passwordErr.length > 0 && (
+                    {errField.passwordErr.length > 0 && (
                       <span
                         style={{
                           color: "red",
@@ -313,25 +329,11 @@ const Individual = () => {
                       >
                         {errField.passwordErr}
                       </span>
-                    )} */}
+                    )}
                     {open === false ? (
-                      <AiFillEyeInvisible
-                        style={{
-                          position: "absolute",
-                          right: "23px",
-                          marginTop: "-21px",
-                        }}
-                        onClick={toggle}
-                      />
+                      <AiFillEyeInvisible className="svggg" onClick={toggle} />
                     ) : (
-                      <AiFillEye
-                        style={{
-                          position: "absolute",
-                          right: "23px",
-                          marginTop: "-21px",
-                        }}
-                        onClick={toggle}
-                      />
+                      <AiFillEye className="svggg" onClick={toggle} />
                     )}
                   </div>
 
@@ -348,7 +350,7 @@ const Individual = () => {
                       id="validationCustom03"
                       required
                     />
-                    {/* {errField.roleErr.length > 0 && (
+                    {errField.passwordErr.length > 0 && (
                       <span
                         style={{
                           color: "red",
@@ -356,9 +358,9 @@ const Individual = () => {
                           fontFamily: "popreg",
                         }}
                       >
-                        {errField.roleErr}
+                        {errField.passwordErr}
                       </span>
-                    )} */}
+                    )}
                   </div>
                   <div className="form-group">
                     <label
@@ -433,18 +435,41 @@ const Individual = () => {
                           className="form-control login_field"
                           id="validationCustom02"
                         />
+                        {errField.countyErr.length > 0 && (
+                          <span
+                            style={{
+                              color: "red",
+                              fontSize: "11px",
+                              fontFamily: "popreg",
+                            }}
+                          >
+                            {errField.countyErr}
+                          </span>
+                        )}
                       </div>
                     </div>
                     <div className="col-lg-6 pr-0">
                       <div className="mb-3 label_input">
                         <label htmlFor="validationCustom02">STATE</label>
                         <input
+                          value={users.state}
                           name="state"
                           onChange={handleInput}
                           type="text"
                           className="form-control login_field"
                           id="validationCustom02"
                         />
+                        {errField.stateErr.length > 0 && (
+                          <span
+                            style={{
+                              color: "red",
+                              fontSize: "11px",
+                              fontFamily: "popreg",
+                            }}
+                          >
+                            {errField.stateErr}
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import axios from "axios";
 
 function Agency() {
@@ -19,9 +20,6 @@ function Agency() {
   });
 
   const navigate = useNavigate();
-
-  // const [addrtype, setAddrtype] = useState(["Law", "Municipal", "Zia", "Zeeshan"]);
-  // const Add = user.iam.map((Add) => Add);
   const handleAddrTypeChange = (e) => {
     console.clear();
     console.log(user.iam[e.target.value]);
@@ -73,7 +71,7 @@ function Agency() {
       if (response.status === 200) {
         toast.success("Added Successfully!");
         setTimeout(() => {
-          navigate("/login");
+          navigate("/agency-landingpage");
         }, 1500);
       } else {
         toast.error("Something went wrong !");
@@ -171,6 +169,12 @@ function Agency() {
     }
 
     return formIsValid;
+  };
+  const [open, setOpen] = useState(false);
+
+  // handle toggle
+  const toggle = () => {
+    setOpen(!open);
   };
 
   return (
@@ -364,6 +368,11 @@ function Agency() {
                 id="validationCustom03"
                 required
               />
+              {open === false ? (
+                <AiFillEyeInvisible className="svggg" onClick={toggle} />
+              ) : (
+                <AiFillEye className="svggg" onClick={toggle} />
+              )}
               {errField.passwordErr.length > 0 && (
                 <span
                   style={{

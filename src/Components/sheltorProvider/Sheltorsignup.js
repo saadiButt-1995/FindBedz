@@ -1,16 +1,192 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Upload } from "antd";
 import ImgCrop from "antd-img-crop";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
+
 function Sheltorsignup() {
+  const [user, setUser] = useState({
+    userName: "",
+    password: "",
+    shelterName: "",
+    phone: "",
+    email: "",
+    address: "",
+    city: "",
+    state: "",
+    contact_person_name: "",
+    zipCode: "",
+    role: "shelter",
+    // totalAllowedForReservation: "12",
+    // totalNumberOfBeds: "14",
+    // description: "",
+    // rules: "",
+    // maxTimeToHoldABed: "",
+    // food: "",
+    // shelterIsFor: "family",
+    // contact_person: "xsasas",
+    // massage: "12221",
+  });
+
+  const navigate = useNavigate();
+  const handleAddrTypeChange = (e) => {
+    console.clear();
+    console.log(user.iam[e.target.value]);
+    setUser({ ...user, iam: e.target.value });
+  };
+  // const [role, setRole] = useState("sheriif");
+  // const  = (event) => {
+  //   event.preventDefault();
+  //   console.log(`
+  //     Role: ${role}
+  //   `);
+  // };
+
+  const [errField, setErrField] = useState({
+    userNameErr: "",
+    passwordErr: "",
+    shelterNameErr: "",
+    phoneErr: "",
+    emailErr: "",
+    addressErr: "",
+    cityErr: "",
+    stateErr: "",
+    zipCodeErr: "",
+    contact_person_nameErr: "",
+    // role: "shelter",
+  });
+
+  let name, value;
+  const handleInput = (event) => {
+    name = event.target.name;
+    value = event.target.value;
+    setUser({ ...user, [name]: value });
+  };
+  const submit = async (e) => {
+    e.preventDefault();
+    console.log(validForm());
+    if (validForm()) {
+      let url = "https://shelterprovider.herokuapp.com/v1/shelter/create";
+      let options = {
+        method: "POST",
+        url: url,
+        headers: {},
+        data: user,
+      };
+      let response = await axios(options);
+
+      console.log(response);
+      if (response.status === 201) {
+        toast.success("Added Successfully!");
+        setTimeout(() => {
+          navigate("/sheltor-dashboard");
+        }, 1500);
+      } else {
+        toast.error("Something went wrong !");
+      }
+      // }catch(e){
+      //   console.log(e)
+      //  toast.error("Something went wrong !");
+      // }
+    }
+  };
+
+  const validForm = () => {
+    let formIsValid = true;
+    setErrField({
+      userNameErr: "",
+      passwordErr: "",
+      shelterNameErr: "",
+      phoneErr: "",
+      emailErr: "",
+      addressErr: "",
+      cityErr: "",
+      stateErr: "",
+      zipCodeErr: "",
+      contact_person_nameErr: "",
+    });
+    if (user.userName === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        userNameErr: "Please Enter userName",
+      }));
+    }
+    if (user.contact_person === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        contact_personErr: "Please Enter userName",
+      }));
+    }
+    if (user.password === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        passwordErr: "Please Enter Password",
+      }));
+    }
+    if (user.phone === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        phoneErr: "Please Enter phone",
+      }));
+    }
+    if (user.email === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        emailErr: "Please Enter email",
+      }));
+    }
+    if (user.shelterName === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        shelterNameErr: "Please Enter shelter name",
+      }));
+    }
+    if (user.address === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        addressErr: "Please Enter address",
+      }));
+    }
+    if (user.city === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        cityErr: "Please Enter City",
+      }));
+    }
+    if (user.state === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        stateErr: "Please Enter State",
+      }));
+    }
+    if (user.zipCode === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        zipCodeErr: "Please Enter zipCode",
+      }));
+    }
+
+    return formIsValid;
+  };
   const [open, setOpen] = useState(false);
 
   // handle toggle
   const toggle = () => {
     setOpen(!open);
   };
-  const [value, setValue] = useState(0);
+  const [valuee, setValuee] = useState(0);
   const [incVal, setIncVal] = useState(0);
   const [hour, setHour] = useState(0);
   const [fileList, setFileList] = useState([
@@ -55,7 +231,7 @@ function Sheltorsignup() {
   };
 
   const valInc = () => {
-    if (incVal < value) {
+    if (incVal < valuee) {
       setIncVal(incVal + 1);
     }
   };
@@ -67,22 +243,23 @@ function Sheltorsignup() {
     }
   };
   const increament = () => {
-    if (value < 100) {
-      setValue(value + 1);
+    if (valuee < 100) {
+      setValuee(valuee + 1);
     } else {
-      setValue(100);
+      setValuee(100);
     }
   };
   const decreament = () => {
-    if (value > 0) {
-      setValue(value - 1);
+    if (valuee > 0) {
+      setValuee(valuee - 1);
     } else {
-      setValue(0);
+      setValuee(0);
     }
   };
 
   return (
     <div className="Sheltorsignup">
+      <ToastContainer />
       <Link to="/">
         <div className="logodiv login_log">
           <img className="login_logo" src="/images/sheltorlogo.svg" alt="" />
@@ -96,33 +273,75 @@ function Sheltorsignup() {
               CHOOSE USERNAME<span className="star_red">*</span>
             </label>
             <input
+              name="userName"
+              value={user.userName}
+              onChange={handleInput}
               type="text"
               className="form-control login_field"
               id="validationCustom01"
               required
             />
+            {errField.userNameErr.length > 0 && (
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "11px",
+                  fontFamily: "popreg",
+                }}
+              >
+                {errField.userNameErr}
+              </span>
+            )}
           </div>
           <div className="mb-3 label_input">
             <label htmlFor="validationCustom02">
               ENTER SHELTER NAME<span className="star_red">*</span>
             </label>
             <input
+              name="shelterName"
+              value={user.shelterName}
+              onChange={handleInput}
               type="text"
               className="form-control login_field"
               id="validationCustom02"
               required
             />
+            {errField.shelterNameErr.length > 0 && (
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "11px",
+                  fontFamily: "popreg",
+                }}
+              >
+                {errField.shelterNameErr}
+              </span>
+            )}
           </div>
           <div className="mb-3 label_input">
             <label htmlFor="validationCustom01">
-              ADDRESS STATE<span className="star_red">*</span>
+              ADDRESS<span className="star_red">*</span>
             </label>
             <input
+              name="address"
+              value={user.address}
+              onChange={handleInput}
               type="text"
               className="form-control login_field"
               id="validationCustom01"
               required
             />
+            {errField.addressErr.length > 0 && (
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "11px",
+                  fontFamily: "popreg",
+                }}
+              >
+                {errField.addressErr}
+              </span>
+            )}
           </div>
           <div className="row justify-content-md-between">
             <div className="col-lg-3 px-0 ">
@@ -131,11 +350,25 @@ function Sheltorsignup() {
                   CITY<span className="star_red">*</span>
                 </label>
                 <input
+                  name="city"
+                  value={user.city}
+                  onChange={handleInput}
                   type="text"
                   className="form-control login_field"
                   id="validationCustom02"
                   required
                 />
+                {errField.cityErr.length > 0 && (
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "11px",
+                      fontFamily: "popreg",
+                    }}
+                  >
+                    {errField.cityErr}
+                  </span>
+                )}
               </div>
             </div>
             <div className="col-lg-3 px-0">
@@ -144,11 +377,25 @@ function Sheltorsignup() {
                   STATE<span className="star_red">*</span>
                 </label>
                 <input
+                  name="state"
+                  onChange={handleInput}
+                  value={user.state}
                   type="text"
                   className="form-control login_field"
                   id="validationCustom02"
                   required
                 />
+                {errField.stateErr.length > 0 && (
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "11px",
+                      fontFamily: "popreg",
+                    }}
+                  >
+                    {errField.stateErr}
+                  </span>
+                )}
               </div>
             </div>
             <div className="col-lg-3 px-0">
@@ -158,11 +405,25 @@ function Sheltorsignup() {
                     ZIP CODE<span className="star_red">*</span>
                   </label>
                   <input
+                    name="zipCode"
+                    value={user.zipCode}
+                    onChange={handleInput}
                     type="text"
                     className="form-control login_field"
                     id="validationCustom02"
                     required
                   />
+                  {errField.zipCodeErr.length > 0 && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "11px",
+                        fontFamily: "popreg",
+                      }}
+                    >
+                      {errField.zipCodeErr}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -174,29 +435,29 @@ function Sheltorsignup() {
               CREATE PASSWORD<span className="star_red">*</span>
             </label>
             <input
+              name="password"
+              onChange={handleInput}
+              value={user.password}
               type={open === false ? "password" : "text"}
               className="form-control login_field"
               id="validationCustom03"
               required
             />
+            {errField.passwordErr.length > 0 && (
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "11px",
+                  fontFamily: "popreg",
+                }}
+              >
+                {errField.passwordErr}
+              </span>
+            )}
             {open === false ? (
-              <AiFillEyeInvisible
-                style={{
-                  position: "absolute",
-                  right: "23px",
-                  marginTop: "-21px",
-                }}
-                onClick={toggle}
-              />
+              <AiFillEyeInvisible className="svggg" onClick={toggle} />
             ) : (
-              <AiFillEye
-                style={{
-                  position: "absolute",
-                  right: "23px",
-                  marginTop: "-21px",
-                }}
-                onClick={toggle}
-              />
+              <AiFillEye className="svggg" onClick={toggle} />
             )}
           </div>
           <div className="mb-3 label_input">
@@ -204,22 +465,50 @@ function Sheltorsignup() {
               PHONE <span className="star_red">*</span>
             </label>
             <input
+              name="phone"
+              onChange={handleInput}
+              value={user.phone}
               type="text"
               className="form-control login_field"
               id="validationCustom02"
               required
             />
+            {errField.phoneErr.length > 0 && (
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "11px",
+                  fontFamily: "popreg",
+                }}
+              >
+                {errField.phoneErr}
+              </span>
+            )}
           </div>
           <div className="mb-3 label_input">
             <label htmlFor="validationCustom02">
               ENTER EMAIL ADDRESS<span className="star_red">*</span>
             </label>
             <input
+              name="email"
+              value={user.email}
+              onChange={handleInput}
               type="text"
               className="form-control login_field"
               id="validationCustom02"
               required
             />
+            {errField.emailErr.length > 0 && (
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "11px",
+                  fontFamily: "popreg",
+                }}
+              >
+                {errField.emailErr}
+              </span>
+            )}
           </div>
 
           <div className="mb-3 label_input">
@@ -227,11 +516,25 @@ function Sheltorsignup() {
               NAME OF THE CONTACT PERSON <span className="star_red">*</span>
             </label>
             <input
+              name="contact_person_name"
+              value={user.contact_person_name}
+              onChange={handleInput}
               type="text"
               className="form-control login_field"
               id="validationCustom01"
               required
             />
+            {errField.contact_person_nameErr.length > 0 && (
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "11px",
+                  fontFamily: "popreg",
+                }}
+              >
+                {errField.contact_person_nameErr}
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -240,7 +543,7 @@ function Sheltorsignup() {
           <div className="headind_pro">TOTAL NUMBER OF BEDS YOU HAVE</div>
 
           <div className="progress1">
-            <div className="cricle_div">{value}</div>
+            <div className="cricle_div">{valuee}</div>
             <div className="calcu_btns">
               <button className="plusbtn" onClick={increament}>
                 +
@@ -453,7 +756,7 @@ function Sheltorsignup() {
           </div>
         </div>
         <div className="signup_footer">
-          <Link className="" to="/sheltor-dashboard">
+          <Link onClick={submit} className="" to="/sheltor-dashboard">
             <button className="shel_up_btn w-100 px-5">
               SIGNUP & CONTINUE
             </button>
