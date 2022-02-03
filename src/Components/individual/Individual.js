@@ -40,7 +40,7 @@ const Individual = () => {
     date_of_birth: "",
     county: "",
     state: "",
-    email: "test@gmail.com",
+    email: "",
   });
   const navigate = useNavigate();
 
@@ -65,33 +65,32 @@ const Individual = () => {
 
   const submit = async (e) => {
     e.preventDefault();
-    // if (validForm()) {
-    users.date_of_birth = year + " " + month + " " + day;
-    console.log(users.date_of_birth, "  date of birth");
-    let url = "https://shelterprovider.herokuapp.com/v1/auth/registerUser";
-    let options = {
-      method: "POST",
-      url: url,
-      headers: {},
-      data: users,
-    };
-    //  try{
-    let response = await axios(options);
+    if (validForm()) {
+      users.date_of_birth = year + " " + month + " " + day;
+      console.log(users.date_of_birth, "  date of birth");
+      let url = "https://shelterprovider.herokuapp.com/v1/auth/registerUser";
+      let options = {
+        method: "POST",
+        url: url,
+        headers: {},
+        data: users,
+      };
+      //  try{
+      let response = await axios(options);
 
-    console.log(response);
-    if (response.status === 200) {
-      toast.success("Added Successfully!");
-      setTimeout(() => {
-        navigate("/login");
-      }, 1500);
+      console.log(response);
+      if (response.status === 200) {
+        toast.success("Added Successfully!");
+        setTimeout(() => {
+          navigate("/login");
+        }, 1500);
+      } else {
+        toast.error("Something went wrong !");
+      }
     } else {
+      console.log(e, "error");
       toast.error("Something went wrong !");
     }
-    //  }catch(e){
-    //   console.log(e, 'error')
-    //   toast.error("Something went wrong !");
-    //  }
-    // }
   };
 
   const validForm = () => {
@@ -110,7 +109,7 @@ const Individual = () => {
         userNameErr: "Please Enter Name",
       }));
     }
-    if (users.password === "") {
+    if (users.phone === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
@@ -124,27 +123,27 @@ const Individual = () => {
         nickNameErr: "Please Enter NickName",
       }));
     }
-    if (users.role === "") {
-      formIsValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        roleErr: "Please Enter your phone number",
-      }));
-    }
-    if (users.ethnicity === "") {
-      formIsValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        ethnicityErr: "Please Enter your Ethnicity",
-      }));
-    }
-    if (users.date_of_birth === "") {
-      formIsValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        date_of_birthErr: "Please check out this field",
-      }));
-    }
+    // if (users.role === "") {
+    //   formIsValid = false;
+    //   setErrField((prevState) => ({
+    //     ...prevState,
+    //     roleErr: "Please Enter your phone number",
+    //   }));
+    // }
+    // if (users.ethnicity === "") {
+    //   formIsValid = false;
+    //   setErrField((prevState) => ({
+    //     ...prevState,
+    //     ethnicityErr: "Please Enter your Ethnicity",
+    //   }));
+    // }
+    // if (users.date_of_birth === "") {
+    //   formIsValid = false;
+    //   setErrField((prevState) => ({
+    //     ...prevState,
+    //     date_of_birthErr: "Please check out this field",
+    //   }));
+    // }
 
     return formIsValid;
   };
@@ -162,7 +161,7 @@ const Individual = () => {
         <p className="indi_title">I AM AN INDIVIDUAL SEEKING SERVICES</p>
         <div className="form-row indi_flex"></div>
         <div>
-          <form action="/login" method="post">
+          <form onSubmit={submit}>
             <div className="container">
               <div className="row justify-content-around">
                 <div className="col-lg-6">
@@ -217,7 +216,7 @@ const Individual = () => {
                       </span>
                     )}
                   </div>
-                  <div class="form-group">
+                  <div className="form-group">
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
@@ -227,10 +226,10 @@ const Individual = () => {
                     <select
                       name="ethnicity"
                       onChange={handleInput}
-                      class="form-control login_field"
+                      className="form-control login_field"
                       id="exampleFormControlSelect1"
                     >
-                      <option classname="login_field">
+                      <option className="login_field">
                         Non-Hispanic White
                       </option>
                       <option>Asian</option>
@@ -251,7 +250,7 @@ const Individual = () => {
                       </span>
                     )} */}
                   </div>
-                  <div class="form-group">
+                  <div className="form-group">
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
@@ -263,10 +262,10 @@ const Individual = () => {
                     <select
                       name="gender"
                       onChange={handleInput}
-                      class="form-control login_field"
+                      className="form-control login_field"
                       id="exampleFormControlSelect1"
                     >
-                      <option classname="login_field">Male</option>
+                      <option className="login_field">Male</option>
                       <option>Female</option>
                       <option>Other</option>
                     </select>
@@ -361,14 +360,14 @@ const Individual = () => {
                       </span>
                     )} */}
                   </div>
-                  <div class="form-group">
+                  <div className="form-group">
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
                     >
                       AGE
                     </label>
-                    <div class="">
+                    <div className="">
                       {/* <Datepicker /> */}
                       <DropdownDate
                         startDate={
@@ -412,7 +411,7 @@ const Individual = () => {
                       />
                     </div>
                   </div>
-                  {/* <select class="select" multiple>
+                  {/* <select className="select" multiple>
                     <option value="1">One</option>
                     <option value="2">Two</option>
                     <option value="3">Three</option>
@@ -433,7 +432,6 @@ const Individual = () => {
                           onChange={handleInput}
                           className="form-control login_field"
                           id="validationCustom02"
-                          required
                         />
                       </div>
                     </div>
@@ -446,7 +444,6 @@ const Individual = () => {
                           type="text"
                           className="form-control login_field"
                           id="validationCustom02"
-                          required
                         />
                       </div>
                     </div>
@@ -469,9 +466,11 @@ const Individual = () => {
               </div>
             </div>
             <div className="btn_center">
-              <Link to="/login" onClick={submit}>
-                <button className="signupbtn">SIGNUP</button>
-              </Link>
+              {/* <Link to="/login" onClick={submit}> */}
+              <button className="signupbtn" type={"submit"}>
+                SIGNUP
+              </button>
+              {/* </Link> */}
             </div>
           </form>
         </div>
