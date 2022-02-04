@@ -31,11 +31,11 @@ function Sheltorsignup() {
   });
 
   const navigate = useNavigate();
-  const handleAddrTypeChange = (e) => {
-    console.clear();
-    console.log(user.iam[e.target.value]);
-    setUser({ ...user, iam: e.target.value });
-  };
+  // const handleAddrTypeChange = (e) => {
+  //   console.clear();
+  //   console.log(user.iam[e.target.value]);
+  //   setUser({ ...user, iam: e.target.value });
+  // };
   // const [role, setRole] = useState("sheriif");
   // const  = (event) => {
   //   event.preventDefault();
