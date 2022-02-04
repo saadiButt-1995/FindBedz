@@ -362,7 +362,7 @@ const Individual = () => {
                       onChange={handleInput}
                       value={users.phone}
                       type="Number"
-                      className="first form-control login_field"
+                      className="first form-control login_field login_fieldw"
                     />
                   </div>
                   {/* <div className="input-group mb-3">

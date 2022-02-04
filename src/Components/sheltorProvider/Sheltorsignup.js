@@ -19,8 +19,8 @@ function Sheltorsignup() {
     contact_person_name: "",
     zipCode: "",
     role: "shelter",
-    // totalAllowedForReservation: "12",
-    // totalNumberOfBeds: "14",
+    // totalAllowedForReservation: "",
+    // totalNumberOfBeds: "",
     // description: "",
     // rules: "",
     // maxTimeToHoldABed: "",
@@ -65,6 +65,7 @@ function Sheltorsignup() {
     setUser({ ...user, [name]: value });
   };
   const submit = async (e) => {
+
     e.preventDefault();
     console.log(validForm());
     if (validForm()) {
@@ -217,14 +218,14 @@ function Sheltorsignup() {
 
   const hourInc = () => {
     if (hour < 4) {
-      setHour(hour + 1);
+      setHour(hour + 0.5);
     } else {
       setHour(4);
     }
   };
   const hourDec = () => {
     if (hour > 0) {
-      setHour(hour - 1);
+      setHour(hour - 0.5);
     } else {
       setHour(0);
     }
@@ -481,7 +482,7 @@ function Sheltorsignup() {
               onChange={handleInput}
               value={user.phone}
               type="text"
-              className="first form-control login_field"
+              className="first form-control login_field login_fieldw"
             />
             {errField.phoneErr.length > 0 && (
               <span
@@ -579,7 +580,15 @@ function Sheltorsignup() {
           <div className="headind_pro">TOTAL NUMBER OF BEDS YOU HAVE</div>
 
           <div className="progress1">
-            <div className="cricle_div">{valuee}</div>
+            <div
+              type="number"
+              name="totalNumberOfBeds"
+              onChange={handleInput}
+              className="cricle_div"
+            >
+              {valuee}
+              {user.totalNumberOfBeds}
+            </div>
             <div className="calcu_btns">
               <button className="plusbtn" onClick={increament}>
                 +

@@ -265,7 +265,7 @@ function Agency() {
                 onChange={handleInput}
                 value={user.phone}
                 type="text"
-                className="first form-control login_field"
+                className="first form-control login_field login_fieldw"
               />
               {errField.phoneErr.length > 0 && (
                 <span
@@ -438,7 +438,9 @@ function Agency() {
               )}
             </div>
             <div className="mb-3 label_input">
-              <label htmlFor="validationCustom02">ADDRESS</label>
+              <label htmlFor="validationCustom02">
+                ADDRESS <span className="star_red">*</span>
+              </label>
               <input
                 name="address"
                 value={user.address}

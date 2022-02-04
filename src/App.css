@@ -577,6 +577,9 @@ textarea {
   padding-bottom: 24px;
   transition: 1s;
 }
+.login_fieldw {
+  padding-left: 30px !important;
+}
 #dropdown-date {
   display: flex;
   justify-content: space-between;
