@@ -264,7 +264,7 @@ function Agency() {
                 name="phone"
                 onChange={handleInput}
                 value={user.phone}
-                type="text"
+                type="number"
                 className="first form-control login_field login_fieldw"
               />
               {errField.phoneErr.length > 0 && (

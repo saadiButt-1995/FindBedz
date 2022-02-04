@@ -361,7 +361,7 @@ const Individual = () => {
                       name="phone"
                       onChange={handleInput}
                       value={users.phone}
-                      type="Number"
+                      type="number"
                       className="first form-control login_field login_fieldw"
                     />
                   </div>
