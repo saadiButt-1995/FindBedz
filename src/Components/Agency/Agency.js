@@ -315,7 +315,7 @@ function Agency() {
             </div> */}
             <div class="form-group">
               <label className="label_input" for="exampleFormControlSelect1">
-                I AM<span className="star_red">*</span>
+                I AM
               </label>
 
               <select
@@ -324,12 +324,10 @@ function Agency() {
                 class="form-control login_field"
                 id="exampleFormControlSelect1"
               >
-                <option classname="login_field">Non-Hispanic White</option>
-                <option>Asian</option>
-                <option>American Indian</option>
-                <option>Hispanics</option>
-                <option>Alaska Native</option>
-                <option>Black or African American</option>
+                <option classname="login_field">Outreach worker</option>
+                <option>Municipal agency</option>
+                <option>Law enforcement</option>
+                <option>Services provider</option>
               </select>
               {errField.iamErr.length > 0 && (
                 <span
@@ -401,9 +399,7 @@ function Agency() {
               )}
             </div>
             <div className="mb-3 label_input">
-              <label htmlFor="validationCustom02">
-                ADDRESS <span className="star_red">*</span>
-              </label>
+              <label htmlFor="validationCustom02">ADDRESS</label>
               <input
                 name="address"
                 value={user.address}
@@ -428,9 +424,7 @@ function Agency() {
             <div className="row justify-content-md-between">
               <div className="col-lg-3 px-0 ">
                 <div className="mb-3 label_input">
-                  <label htmlFor="validationCustom02">
-                    CITY<span className="star_red">*</span>
-                  </label>
+                  <label htmlFor="validationCustom02">CITY</label>
                   <input
                     value={user.city}
                     onChange={handleInput}
@@ -455,9 +449,7 @@ function Agency() {
               </div>
               <div className="col-lg-3 px-0">
                 <div className="mb-3 label_input">
-                  <label htmlFor="validationCustom02">
-                    STATE<span className="star_red">*</span>
-                  </label>
+                  <label htmlFor="validationCustom02">STATE</label>
                   <input
                     value={user.state}
                     onChange={handleInput}
@@ -483,9 +475,7 @@ function Agency() {
               <div className="col-lg-3 px-0">
                 <div className="mobile_p pr-0">
                   <div className="mb-3 label_input">
-                    <label htmlFor="validationCustom02">
-                      ZIP CODE<span className="star_red">*</span>
-                    </label>
+                    <label htmlFor="validationCustom02">ZIP CODE</label>
                     <input
                       value={user.zipcode}
                       onChange={handleInput}

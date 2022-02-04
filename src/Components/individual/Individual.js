@@ -94,7 +94,6 @@ const Individual = () => {
       console.log(e, "error");
       toast.error("Something went wrong !");
     }
-
   };
 
   const validForm = () => {
@@ -154,7 +153,6 @@ const Individual = () => {
     //     date_of_birthErr: "Please check out this field",
     //   }));
     // }
-
 
     return formIsValid;
   };
