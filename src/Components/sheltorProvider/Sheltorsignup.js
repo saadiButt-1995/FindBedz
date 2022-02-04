@@ -460,7 +460,42 @@ function Sheltorsignup() {
               <AiFillEye className="svggg" onClick={toggle} />
             )}
           </div>
-          <div className="mb-3 label_input">
+          <div className="label_input mb-3">
+            <label htmlFor="validationCustom03">
+              PHONE
+              <span
+                style={{
+                  fontSize: "10px",
+                  fontFamily: "popreg",
+                  color: "#828282",
+                }}
+              >
+                <span className="star_red">*</span>
+              </span>
+            </label>
+            <span className="input-group-text login_field" id="basic-addon1">
+              +1
+            </span>
+            <input
+              name="phone"
+              onChange={handleInput}
+              value={user.phone}
+              type="text"
+              className="first form-control login_field"
+            />
+            {errField.phoneErr.length > 0 && (
+              <span
+                style={{
+                  color: "red",
+                  fontSize: "11px",
+                  fontFamily: "popreg",
+                }}
+              >
+                {errField.phoneErr}
+              </span>
+            )}
+          </div>
+          {/* <div className="mb-3 label_input">
             <label htmlFor="validationCustom02">
               PHONE <span className="star_red">*</span>
             </label>
@@ -484,7 +519,7 @@ function Sheltorsignup() {
                 {errField.phoneErr}
               </span>
             )}
-          </div>
+          </div> */}
           <div className="mb-3 label_input">
             <label htmlFor="validationCustom02">
               ENTER EMAIL ADDRESS<span className="star_red">*</span>

@@ -640,11 +640,14 @@ textarea {
 }
 .indiv_card:hover {
   transform: scale(1.1);
-  background: #ddc114;
+  background: transparent;
   z-index: 2;
   box-shadow: 2px 2px 2px #000;
 }
-
+#basic-addon1 {
+  position: absolute;
+  z-index: 890;
+}
 .create_card:hover {
   transform: scale(1.1);
   background: transparent;

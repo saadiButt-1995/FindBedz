@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import axios from "axios";
 import { DropdownDate } from "react-dropdown-date";
+import { Checkbox } from "antd";
 
 const Individual = () => {
   const [open, setOpen] = useState(false);
@@ -23,6 +24,9 @@ const Individual = () => {
 
     return [year, month, day].join("-");
   };
+  function onChange(e) {
+    console.log(`checked = ${e.target.checked}`);
+  }
 
   // const [date, setDate] = useState(null);
   const [selectedDate, setSelectedDate] = useState("2012-1-1");
@@ -334,32 +338,58 @@ const Individual = () => {
                       <AiFillEye className="svggg" onClick={toggle} />
                     )}
                   </div>
-
                   <div className="label_input mb-3">
                     <label htmlFor="validationCustom03">
-                      PHONE NUMBER <span className="star_red">*</span>
+                      PHONE NUMBER
+                      <span
+                        style={{
+                          fontSize: "10px",
+                          fontFamily: "popreg",
+                          color: "#828282",
+                        }}
+                      >
+                        <span className="star_red">*</span>
+                      </span>
                     </label>
+                    <span
+                      className="input-group-text login_field"
+                      id="basic-addon1"
+                    >
+                      +1
+                    </span>
                     <input
                       name="phone"
                       onChange={handleInput}
                       value={users.phone}
-                      type="number"
+                      type="Number"
+                      className="first form-control login_field"
+                    />
+                  </div>
+                  {/* <div className="input-group mb-3">
+                    <span
+                      className="input-group-text login_field"
+                      id="basic-addon1"
+                    >
+                      +1
+                    </span>
+                    <input
+                      name="phone"
+                      value={users.phone}
+                      onChange={handleInput}
+                      type="Number"
+                      className="form-control login_field"
+                    />
+                  </div> */}
+
+                  {/* <input
+                      name="phone"
+                      onChange={handleInput}
+                      value={users.phone}
                       className="form-control login_field"
                       id="validationCustom03"
                       required
-                    />
-                    {errField.passwordErr.length > 0 && (
-                      <span
-                        style={{
-                          color: "red",
-                          fontSize: "11px",
-                          fontFamily: "popreg",
-                        }}
-                      >
-                        {errField.passwordErr}
-                      </span>
-                    )}
-                  </div>
+                    /> */}
+
                   <div className="form-group">
                     <label
                       className="label_input"
@@ -473,21 +503,16 @@ const Individual = () => {
                   </div>
                 </div>
               </div>
-              <div className="custom-control custom-switch">
-                <input
-                  name="switch"
-                  type="checkbox"
-                  className="custom-control-input"
-                  id="customSwitch1"
-                />
-                <label
-                  className="custom-control-label label_input"
-                  htmlFor="customSwitch1"
-                >
-                  MAY WE USE YOUR DEVICE’S LOCATION SERVICES?
-                </label>
-              </div>
+              <Checkbox
+                style={{ paddingLeft: "17px", paddingTop: "20px" }}
+                onChange={onChange}
+              >
+                <span className="label_input">
+                  SYSTEM WILL USE YOUR DEVICE’S LOCATION SERVICES
+                </span>
+              </Checkbox>
             </div>
+
             <div className="btn_center">
               {/* <Link to="/login" onClick={submit}> */}
               <button className="signupbtn" type={"submit"}>

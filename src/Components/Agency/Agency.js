@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import axios from "axios";
+import { Checkbox } from "antd";
 
 function Agency() {
   const [user, setUser] = useState({
@@ -176,6 +177,9 @@ function Agency() {
   const toggle = () => {
     setOpen(!open);
   };
+  function onChange(e) {
+    console.log(`checked = ${e.target.checked}`);
+  }
 
   return (
     <div className="agency">
@@ -240,7 +244,42 @@ function Agency() {
                 </span>
               )}
             </div>
-            <div className="mb-3 label_input">
+            <div className="label_input mb-3">
+              <label htmlFor="validationCustom03">
+                PHONE
+                <span
+                  style={{
+                    fontSize: "10px",
+                    fontFamily: "popreg",
+                    color: "#828282",
+                  }}
+                >
+                  <span className="star_red">*</span>
+                </span>
+              </label>
+              <span className="input-group-text login_field" id="basic-addon1">
+                +1
+              </span>
+              <input
+                name="phone"
+                onChange={handleInput}
+                value={user.phone}
+                type="text"
+                className="first form-control login_field"
+              />
+              {errField.phoneErr.length > 0 && (
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11px",
+                    fontFamily: "popreg",
+                  }}
+                >
+                  {errField.phoneErr}
+                </span>
+              )}
+            </div>
+            {/* <div className="mb-3 label_input">
               <label htmlFor="validationCustom01">
                 PHONE <span className="star_red">*</span>
               </label>
@@ -264,7 +303,7 @@ function Agency() {
                   {errField.phoneErr}
                 </span>
               )}
-            </div>
+            </div> */}
             {/* <div className="mb-3 label_input">
               <label htmlFor="validationCustom01">
                 CITY <span className="star_red">*</span>
@@ -351,7 +390,7 @@ function Agency() {
                 name="password"
                 value={user.password}
                 onChange={handleInput}
-                type="password"
+                type={open === false ? "password" : "text"}
                 className="form-control login_field"
                 id="validationCustom03"
                 required
@@ -558,7 +597,15 @@ function Agency() {
             </div> */}
           </div>
         </div>
-        <div className="custom-control custom-switch">
+        <Checkbox
+          style={{ paddingLeft: "17px", paddingTop: "20px" }}
+          onChange={onChange}
+        >
+          <span className="label_input">
+            MAY WE USE YOUR DEVICE’S LOCATION SERVICES?
+          </span>
+        </Checkbox>
+        {/* <div className="custom-control custom-switch">
           <input
             type="checkbox"
             className="custom-control-input"
@@ -570,7 +617,7 @@ function Agency() {
           >
             MAY WE USE YOUR DEVICE’S LOCATION SERVICES?
           </label>
-        </div>
+        </div> */}
         <div className="btn_center">
           <Link to="/agency-landingpage" onClick={submit}>
             <button className="signupbtn mrgin_btn">SIGNUP</button>
