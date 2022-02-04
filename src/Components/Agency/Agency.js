@@ -16,7 +16,7 @@ function Agency() {
     state: "",
     zipcode: "",
     // roll: "user",
-    iam: "test",
+    iam: "",
   });
 
   const navigate = useNavigate();
@@ -164,7 +164,7 @@ function Agency() {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
-        iam: "Please Enter iam",
+        iamErr: "Please Enter iam",
       }));
     }
 
@@ -331,16 +331,6 @@ function Agency() {
                 <option>Alaska Native</option>
                 <option>Black or African American</option>
               </select>
-              {/* <select
-                class="form-control login_field"
-                id="exampleFormControlSelect1"
-                name=" Sherif"
-              >
-                <option classname="login_field">Outreachworker</option>
-                <option>Municipal agency</option>
-                <option>Law enforcement</option>
-                <option>Service Pvovider</option>
-              </select> */}
               {errField.iamErr.length > 0 && (
                 <span
                   style={{

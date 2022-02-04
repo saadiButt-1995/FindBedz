@@ -114,11 +114,11 @@ function Sheltorsignup() {
         userNameErr: "Please Enter userName",
       }));
     }
-    if (user.contact_person === "") {
+    if (user.contact_person_name === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
-        contact_personErr: "Please Enter userName",
+        contact_person_nameErr: "Please Enter contact person Name",
       }));
     }
     if (user.password === "") {
@@ -538,6 +538,7 @@ function Sheltorsignup() {
           </div>
         </div>
       </div>
+
       <div className="progress_div">
         <div className="progress_card">
           <div className="headind_pro">TOTAL NUMBER OF BEDS YOU HAVE</div>
@@ -593,7 +594,10 @@ function Sheltorsignup() {
           </div>
         </div>
       </div>
-      <div className="container mt-4">
+      <p className="para_sheltor">
+        THE ITEMS BELOW CAN ALSO BE ADDED LATER UNDER “EDIT PROFILE”
+      </p>
+      <div className="container mt-4 background_contain">
         <div className="row">
           <div className="col-lg-6">
             <div classname="checkboxs">
@@ -755,14 +759,12 @@ function Sheltorsignup() {
             ></textarea>
           </div>
         </div>
-        <div className="signup_footer">
-          <Link onClick={submit} className="" to="/sheltor-dashboard">
-            <button className="shel_up_btn w-100 px-5">
-              SIGNUP & CONTINUE
-            </button>
-          </Link>
-          <p className="footer_sign_up">Cancel</p>
-        </div>
+      </div>
+      <div className="signup_footer">
+        <Link onClick={submit} className="" to="/sheltor-dashboard">
+          <button className="shel_up_btn w-100 px-5">SIGNUP & CONTINUE</button>
+        </Link>
+        <p className="footer_sign_up">Cancel</p>
       </div>
     </div>
   );
