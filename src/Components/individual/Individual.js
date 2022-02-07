@@ -58,7 +58,7 @@ const Individual = () => {
   //   date_of_birthErr: "",
   //   countyErr: "",
   //   stateErr: "",
-    // email: "test@gmail.com",
+  // email: "test@gmail.com",
   // });
 
   let name, value;
@@ -89,7 +89,6 @@ const Individual = () => {
     if (response.status === 200) {
       toast.success("Added Successfully!");
       setTimeout(() => {
-
         navigate("/login");
       }, 1500);
     } else {
@@ -136,28 +135,28 @@ const Individual = () => {
   //       nickNameErr: "Please Enter NickName",
   //     }));
   //   }
-    // if (users.role === "") {
+  // if (users.role === "") {
 
-    //   setErrField((prevState) => ({
-    //     ...prevState,
-    //     roleErr: "Please Enter your phone number",
-    //   }));
-    // }
+  //   setErrField((prevState) => ({
+  //     ...prevState,
+  //     roleErr: "Please Enter your phone number",
+  //   }));
+  // }
 
-    // if (users.ethnicity === "") {
-    //   formIsValid = false;
-    //   setErrField((prevState) => ({
-    //     ...prevState,
-    //     ethnicityErr: "Please Enter your Ethnicity",
-    //   }));
-    // }
-    // if (users.date_of_birth === "") {
-    //   formIsValid = false;
-    //   setErrField((prevState) => ({
-    //     ...prevState,
-    //     date_of_birthErr: "Please check out this field",
-    //   }));
-    // }
+  // if (users.ethnicity === "") {
+  //   formIsValid = false;
+  //   setErrField((prevState) => ({
+  //     ...prevState,
+  //     ethnicityErr: "Please Enter your Ethnicity",
+  //   }));
+  // }
+  // if (users.date_of_birth === "") {
+  //   formIsValid = false;
+  //   setErrField((prevState) => ({
+  //     ...prevState,
+  //     date_of_birthErr: "Please check out this field",
+  //   }));
+  // }
 
   //   return formIsValid;
   // };
@@ -190,7 +189,7 @@ const Individual = () => {
                       type="text"
                       className="form-control login_field"
                       id="validationCustom01"
-                      placeholder="Chosse Username"
+                      placeholder="Choose Username"
                       required
                     />
                     {/* {errField.userNameErr.length > 0 && (
