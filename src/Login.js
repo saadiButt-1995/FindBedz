@@ -89,12 +89,13 @@ function Login() {
         <div className="log_title2 text-center">Please Login to continue</div>
         <div className="login_fields">
           <div className="form-group col-md-4 login_inputs">
-            <label className="label_input1">Username </label>
+            <label className="label_input1">USERNAME </label>
             <input
               name="userName"
               value={user.userName}
               onChange={handleInput}
               type="text"
+              placeholder="Username"
               className="form-control login_field"
               id="inputuserName4"
             />
@@ -108,13 +109,14 @@ function Login() {
           </div>
           <div className="form-group col-md-4 login_inputs">
             <label className="label_input1">
-              Password <span style={{ color: "#828282" }}>(optional)</span>
+              PASSWORD <span style={{ color: "#828282" }}>(optional)</span>
             </label>
             <input
               name="password"
               value={user.password}
               onChange={handleInput}
               type="password"
+              placeholder="Password"
               className="form-control login_field"
               id="inputPassword4"
             />

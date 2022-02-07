@@ -165,7 +165,7 @@ function Agency() {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
-        iamErr: "Please Enter iam",
+        iamErr: "Please Check this field",
       }));
     }
 
@@ -203,6 +203,7 @@ function Agency() {
                 value={user.userName}
                 onChange={handleInput}
                 type="text"
+                placeholder="Choose Username"
                 className="form-control login_field"
                 id="validationCustom01"
                 required
@@ -228,6 +229,7 @@ function Agency() {
                 value={user.organization}
                 onChange={handleInput}
                 type="text"
+                placeholder="Full Name of Organization"
                 className="form-control login_field"
                 id="validationCustom02"
                 required
@@ -265,6 +267,7 @@ function Agency() {
                 onChange={handleInput}
                 value={user.phone}
                 type="number"
+                placeholder="(###) ###-####"
                 className="first form-control login_field login_fieldw"
               />
               {errField.phoneErr.length > 0 && (
@@ -279,79 +282,6 @@ function Agency() {
                 </span>
               )}
             </div>
-            {/* <div className="mb-3 label_input">
-              <label htmlFor="validationCustom01">
-                PHONE <span className="star_red">*</span>
-              </label>
-              <input
-                name="phone"
-                value={user.phone}
-                onChange={handleInput}
-                type="number"
-                className="form-control login_field"
-                id="validationCustom01"
-                required
-              />
-              {errField.phoneErr.length > 0 && (
-                <span
-                  style={{
-                    color: "red",
-                    fontSize: "11px",
-                    fontFamily: "popreg",
-                  }}
-                >
-                  {errField.phoneErr}
-                </span>
-              )}
-            </div> */}
-            {/* <div className="mb-3 label_input">
-              <label htmlFor="validationCustom01">
-                CITY <span className="star_red">*</span>
-              </label>
-              <input
-                name="city"
-                value={user.city}
-                onChange={handleInput}
-                type="text"
-                className="form-control login_field"
-                id="validationCustom01"
-                required
-              />
-              {errField.cityErr.length > 0 && (
-                <span
-                  style={{
-                    color: "red",
-                    fontSize: "11px",
-                    fontFamily: "popreg",
-                  }}
-                >
-                  {errField.cityErr}
-                </span>
-              )}
-            </div> */}
-            {/* <div className="mb-3 label_input">
-              <label htmlFor="validationCustom01">Sherif</label>
-              <input
-                name="role"
-                value={user.role}
-                onChange={handleInput}
-                type="text"
-                className="form-control login_field"
-                id="validationCustom01"
-                required
-              />
-              {errField.cityErr.length > 0 && (
-                <span
-                  style={{
-                    color: "red",
-                    fontSize: "11px",
-                    fontFamily: "popreg",
-                  }}
-                >
-                  {errField.cityErr}
-                </span>
-              )}
-            </div> */}
             <div class="form-group">
               <label className="label_input" for="exampleFormControlSelect1">
                 I AM
@@ -393,6 +323,7 @@ function Agency() {
                 type={open === false ? "password" : "text"}
                 className="form-control login_field"
                 id="validationCustom03"
+                placeholder="Choose Password"
                 required
               />
               {open === false ? (
@@ -421,6 +352,7 @@ function Agency() {
                 value={user.email}
                 onChange={handleInput}
                 type="email"
+                placeholder="Email Address"
                 className="form-control login_field"
                 id="validationCustom02"
                 required
@@ -446,6 +378,7 @@ function Agency() {
                 value={user.address}
                 onChange={handleInput}
                 type="text"
+                placeholder="Address"
                 className="form-control login_field"
                 id="validationCustom02"
                 required
@@ -463,6 +396,32 @@ function Agency() {
               )}
             </div>
             <div className="row justify-content-md-between">
+              <div className="col-lg-3 px-0">
+                <div className="mb-3 label_input">
+                  <label htmlFor="validationCustom02">STATE</label>
+                  <input
+                    value={user.state}
+                    onChange={handleInput}
+                    type="text"
+                    name="state"
+                    placeholder="Enter State"
+                    className="form-control login_field"
+                    id="validationCustom02"
+                    required
+                  />
+                  {errField.stateErr.length > 0 && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "11px",
+                        fontFamily: "popreg",
+                      }}
+                    >
+                      {errField.stateErr}
+                    </span>
+                  )}
+                </div>
+              </div>
               <div className="col-lg-3 px-0 ">
                 <div className="mb-3 label_input">
                   <label htmlFor="validationCustom02">CITY</label>
@@ -471,6 +430,7 @@ function Agency() {
                     onChange={handleInput}
                     type="text"
                     name="city"
+                    placeholder="Enter City"
                     className="form-control login_field"
                     id="validationCustom02"
                     required
@@ -489,31 +449,6 @@ function Agency() {
                 </div>
               </div>
               <div className="col-lg-3 px-0">
-                <div className="mb-3 label_input">
-                  <label htmlFor="validationCustom02">STATE</label>
-                  <input
-                    value={user.state}
-                    onChange={handleInput}
-                    type="text"
-                    name="state"
-                    className="form-control login_field"
-                    id="validationCustom02"
-                    required
-                  />
-                  {errField.stateErr.length > 0 && (
-                    <span
-                      style={{
-                        color: "red",
-                        fontSize: "11px",
-                        fontFamily: "popreg",
-                      }}
-                    >
-                      {errField.stateErr}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <div className="col-lg-3 px-0">
                 <div className="mobile_p pr-0">
                   <div className="mb-3 label_input">
                     <label htmlFor="validationCustom02">ZIP CODE</label>
@@ -522,6 +457,7 @@ function Agency() {
                       onChange={handleInput}
                       type="text"
                       name="zipcode"
+                      placeholder="Enter Zip code"
                       className="form-control login_field"
                       id="validationCustom02"
                       required

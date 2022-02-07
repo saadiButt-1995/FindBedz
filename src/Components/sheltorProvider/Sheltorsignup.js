@@ -65,7 +65,6 @@ function Sheltorsignup() {
     setUser({ ...user, [name]: value });
   };
   const submit = async (e) => {
-
     e.preventDefault();
     console.log(validForm());
     if (validForm()) {
@@ -195,7 +194,7 @@ function Sheltorsignup() {
       uid: "-1",
       name: "zia.jpg",
       status: "done",
-      url: "/images/maan.jpg",
+      url: "/images/gg.svg",
     },
   ]);
   const onChange = ({ fileList: newFileList }) => {
@@ -278,6 +277,7 @@ function Sheltorsignup() {
               value={user.userName}
               onChange={handleInput}
               type="text"
+              placeholder="Choose Username"
               className="form-control login_field"
               id="validationCustom01"
               required
@@ -304,6 +304,7 @@ function Sheltorsignup() {
               onChange={handleInput}
               type="text"
               className="form-control login_field"
+              placeholder="Enter Shelter Name"
               id="validationCustom02"
               required
             />
@@ -328,6 +329,7 @@ function Sheltorsignup() {
               value={user.address}
               onChange={handleInput}
               type="text"
+              placeholder="Address"
               className="form-control login_field"
               id="validationCustom01"
               required
@@ -357,6 +359,7 @@ function Sheltorsignup() {
                   type="text"
                   className="form-control login_field"
                   id="validationCustom02"
+                  placeholder="Enter City"
                   required
                 />
                 {errField.cityErr.length > 0 && (
@@ -384,6 +387,7 @@ function Sheltorsignup() {
                   type="text"
                   className="form-control login_field"
                   id="validationCustom02"
+                  placeholder="Enter State"
                   required
                 />
                 {errField.stateErr.length > 0 && (
@@ -410,6 +414,7 @@ function Sheltorsignup() {
                     value={user.zipCode}
                     onChange={handleInput}
                     type="text"
+                    placeholder="Enter Code"
                     className="form-control login_field"
                     id="validationCustom02"
                     required
@@ -439,6 +444,7 @@ function Sheltorsignup() {
               name="password"
               onChange={handleInput}
               value={user.password}
+              placeholder="Create Password"
               type={open === false ? "password" : "text"}
               className="form-control login_field"
               id="validationCustom03"
@@ -530,6 +536,7 @@ function Sheltorsignup() {
               value={user.email}
               onChange={handleInput}
               type="text"
+              placeholder="Enter Email Address"
               className="form-control login_field"
               id="validationCustom02"
               required
@@ -556,6 +563,7 @@ function Sheltorsignup() {
               value={user.contact_person_name}
               onChange={handleInput}
               type="text"
+              placeholder="Name Of The Conatct Person"
               className="form-control login_field"
               id="validationCustom01"
               required
@@ -618,10 +626,10 @@ function Sheltorsignup() {
           <div className="headind_pro">Maximum Time to Hold a Bed</div>
 
           <div className="progress1">
-            <div className="cricle_div">{hour} Hr</div>
+            <div className="cricle_div bluplus">{hour} Hr</div>
             <div className="calcu_btns">
               <button
-                className="plusbtn plusgreen"
+                className="plusbtn plusgreen bluplus"
                 onClick={hourInc}
                 disabled={incVal === 0}
               >

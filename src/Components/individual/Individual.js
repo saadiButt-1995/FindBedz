@@ -44,22 +44,22 @@ const Individual = () => {
     date_of_birth: "",
     county: "",
     state: "",
-    email: "",
+    email: "texxt@gmail.com",
   });
   const navigate = useNavigate();
 
-  const [errField, setErrField] = useState({
-    userNameErr: "",
-    passwordErr: "",
-    phoneErr: "",
-    nickNameErr: "",
-    ethnicityErr: "",
-    // role: "user",
-    date_of_birthErr: "",
-    countyErr: "",
-    stateErr: "",
+  // const [errField, setErrField] = useState({
+  //   userNameErr: "",
+  //   passwordErr: "",
+  //   phoneErr: "",
+  //   nickNameErr: "",
+  //   ethnicityErr: "",
+  //   // role: "user",
+  //   date_of_birthErr: "",
+  //   countyErr: "",
+  //   stateErr: "",
     // email: "test@gmail.com",
-  });
+  // });
 
   let name, value;
   const handleInput = (event) => {
@@ -72,69 +72,70 @@ const Individual = () => {
 
   const submit = async (e) => {
     e.preventDefault();
-    if (validForm()) {
-      users.date_of_birth = year + " " + month + " " + day;
-      console.log(users.date_of_birth, "  date of birth");
-      let url = "https://shelterprovider.herokuapp.com/v1/auth/registerUser";
-      let options = {
-        method: "POST",
-        url: url,
-        headers: {},
-        data: users,
-      };
-      //  try{
-      let response = await axios(options);
+    // if (validForm()) {
+    users.date_of_birth = year + " " + month + " " + day;
+    console.log(users.date_of_birth, "  date of birth");
+    let url = "https://shelterprovider.herokuapp.com/v1/auth/registerUser";
+    let options = {
+      method: "POST",
+      url: url,
+      headers: {},
+      data: users,
+    };
+    //  try{
+    let response = await axios(options);
 
-      console.log(response);
-      if (response.status === 200) {
-        toast.success("Added Successfully!");
-        setTimeout(() => {
-          navigate("/login");
-        }, 1500);
-      } else {
-        toast.error("Something went wrong !");
-      }
+    console.log(response);
+    if (response.status === 200) {
+      toast.success("Added Successfully!");
+      setTimeout(() => {
+
+        navigate("/login");
+      }, 1500);
     } else {
-      console.log(e, "error");
       toast.error("Something went wrong !");
     }
+    // } else {
+    //   console.log(e, "error");
+    //   toast.error("Something went wrong !");
+    // }
   };
 
-  const validForm = () => {
-    let formIsValid = false;
-    setErrField({
-      userNameErr: "",
-      passwordErr: "",
-      phoneErr: "",
-      nickNameErr: "",
-      ethnicityErr: "",
-      // role: "user",
-      date_of_birthErr: "",
-      countyErr: "",
-      stateErr: "",
-    });
-    if (users.userName === "") {
-      formIsValid = true;
-      setErrField((prevState) => ({
-        ...prevState,
-        userNameErr: "Please Enter Name",
-      }));
-    }
+  // const validForm = () => {
+  //   let formIsValid = false;
+  //   setErrField({
+  //     userNameErr: "",
+  //     passwordErr: "",
+  //     phoneErr: "",
+  //     nickNameErr: "",
+  //     ethnicityErr: "",
+  //     // role: "user",
+  //     date_of_birthErr: "",
+  //     countyErr: "",
+  //     stateErr: "",
+  //   });
+  //   if (users.userName === "") {
+  //     formIsValid = true;
+  //     setErrField((prevState) => ({
+  //       ...prevState,
+  //       userNameErr: "Please Enter Name",
+  //     }));
+  //   }
 
-    if (users.phone === "") {
-      formIsValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        passwordErr: "Please Enter Password",
-      }));
-    }
-    if (users.nickName === "") {
-      formIsValid = true;
-      setErrField((prevState) => ({
-        ...prevState,
-        nickNameErr: "Please Enter NickName",
-      }));
-    }
+  //   if (users.phone === "") {
+  //     formIsValid = false;
+  //     setErrField((prevState) => ({
+  //       ...prevState,
+  //       passwordErr: "Please Enter Password",
+  //     }));
+  //   }
+  //   if (users.nickName === "") {
+  //     formIsValid = true;
+  //     setErrField((prevState) => ({
+  //       ...prevState,
+  //       nickNameErr: "Please Enter NickName",
+  //     }));
+  //   }
     // if (users.role === "") {
 
     //   setErrField((prevState) => ({
@@ -158,8 +159,8 @@ const Individual = () => {
     //   }));
     // }
 
-    return formIsValid;
-  };
+  //   return formIsValid;
+  // };
 
   return (
     <div>
@@ -189,9 +190,10 @@ const Individual = () => {
                       type="text"
                       className="form-control login_field"
                       id="validationCustom01"
+                      placeholder="Chosse Username"
                       required
                     />
-                    {errField.userNameErr.length > 0 && (
+                    {/* {errField.userNameErr.length > 0 && (
                       <span
                         style={{
                           color: "red",
@@ -201,7 +203,7 @@ const Individual = () => {
                       >
                         {errField.userNameErr}
                       </span>
-                    )}
+                    )} */}
                   </div>
 
                   <div className="mb-3 label_input">
@@ -213,11 +215,12 @@ const Individual = () => {
                       value={users.nickName}
                       onChange={handleInput}
                       type="text"
+                      placeholder="Nick Name"
                       className="form-control login_field"
                       id="validationCustom02"
                       required
                     />
-                    {errField.nickNameErr.length > 0 && (
+                    {/* {errField.nickNameErr.length > 0 && (
                       <span
                         style={{
                           color: "red",
@@ -227,7 +230,7 @@ const Individual = () => {
                       >
                         {errField.nickNameErr}
                       </span>
-                    )}
+                    )} */}
                   </div>
                   <div className="form-group">
                     <label
@@ -242,9 +245,8 @@ const Individual = () => {
                       className="form-control login_field"
                       id="exampleFormControlSelect1"
                     >
-                      <option className="login_field">
-                        Non-Hispanic White
-                      </option>
+                      <option className="login_field">Enter Ethnicity</option>
+                      <option>Non-Hispanic White</option>
                       <option> German</option>
                       <option>Black/African-American (non-Hispanic)</option>
                       <option> Mexican</option>
@@ -287,7 +289,7 @@ const Individual = () => {
                       <option>Female</option>
                       <option>Other</option>
                     </select>
-                    {errField.date_of_birthErr.length > 0 && (
+                    {/* {errField.date_of_birthErr.length > 0 && (
                       <span
                         style={{
                           color: "red",
@@ -297,7 +299,7 @@ const Individual = () => {
                       >
                         {errField.date_of_birthErr}
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
                 <div className="col-lg-6">
@@ -316,12 +318,13 @@ const Individual = () => {
                     </label>
                     <input
                       name="password"
+                      placeholder="Password"
                       onChange={handleInput}
                       value={users.password}
                       type={open === false ? "password" : "text"}
                       className="first form-control login_field"
                     />
-                    {errField.passwordErr.length > 0 && (
+                    {/* {errField.passwordErr.length > 0 && (
                       <span
                         style={{
                           color: "red",
@@ -331,7 +334,7 @@ const Individual = () => {
                       >
                         {errField.passwordErr}
                       </span>
-                    )}
+                    )} */}
                     {open === false ? (
                       <AiFillEyeInvisible className="svggg" onClick={toggle} />
                     ) : (
@@ -362,6 +365,7 @@ const Individual = () => {
                       onChange={handleInput}
                       value={users.phone}
                       type="number"
+                      placeholder="Phone Number"
                       className="first form-control login_field login_fieldw"
                     />
                   </div>
@@ -452,7 +456,7 @@ const Individual = () => {
                     <option value="8">Eight</option>
                   </select> */}
                   <div className="row">
-                    <div className="col-lg-6 pl-0">
+                    <div className="col-lg-6 pl-0 respon2">
                       <div className="mb-3 label_input">
                         <label htmlFor="validationCustom02">COUNTY</label>
                         <input
@@ -462,8 +466,9 @@ const Individual = () => {
                           onChange={handleInput}
                           className="form-control login_field"
                           id="validationCustom02"
+                          placeholder="Enter County"
                         />
-                        {errField.countyErr.length > 0 && (
+                        {/* {errField.countyErr.length > 0 && (
                           <span
                             style={{
                               color: "red",
@@ -473,21 +478,22 @@ const Individual = () => {
                           >
                             {errField.countyErr}
                           </span>
-                        )}
+                        )} */}
                       </div>
                     </div>
-                    <div className="col-lg-6 pr-0">
+                    <div className="col-lg-6 pr-0 respon">
                       <div className="mb-3 label_input">
                         <label htmlFor="validationCustom02">STATE</label>
                         <input
                           value={users.state}
                           name="state"
+                          placeholder="Enter State"
                           onChange={handleInput}
                           type="text"
                           className="form-control login_field"
                           id="validationCustom02"
                         />
-                        {errField.stateErr.length > 0 && (
+                        {/* {errField.stateErr.length > 0 && (
                           <span
                             style={{
                               color: "red",
@@ -497,7 +503,7 @@ const Individual = () => {
                           >
                             {errField.stateErr}
                           </span>
-                        )}
+                        )} */}
                       </div>
                     </div>
                   </div>

@@ -650,6 +650,26 @@ textarea {
 #basic-addon1 {
   position: absolute;
   z-index: 890;
+  background-color: #101b79;
+  color: #fff;
+}
+.form-check {
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+.bluplus {
+  background-color: #101b79 !important;
+}
+.ant-checkbox-checked .ant-checkbox-inner {
+  background: #101b79 !important;
+  border-color: #101b79 !important;
+}
+.ant-checkbox-input:hover {
+  border: 1px solid #101b79;
+}
+.ant-checkbox-inner:hover {
+  border: 1px solid #101b79 !important;
 }
 .create_card:hover {
   transform: scale(1.1);
@@ -741,20 +761,30 @@ textarea {
   .creat_card2 {
     margin-top: 20px;
   }
+  .respon2 {
+    padding-right: 0 !important;
+  }
 }
 @media only screen and (max-width: 576px) {
   .logtext {
     padding-top: 20px;
   }
+  .respon2 {
+    padding-right: 0 !important;
+  }
   .progress_div {
     height: 678px;
   }
+
   .logindiv {
     display: flex;
     justify-content: center;
     align-items: center;
     padding-bottom: 110px;
     flex-direction: column;
+  }
+  .respon {
+    padding-left: 0 !important;
   }
   .creat_account {
     flex-direction: column;
