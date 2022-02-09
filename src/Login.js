@@ -54,6 +54,7 @@ function Login() {
     setErrField({
       userNameErr: "",
       passwordErr: "",
+      // roll:"shelter",
     });
 
     // if (user.password === "") {

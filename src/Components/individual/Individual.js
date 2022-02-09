@@ -30,7 +30,7 @@ const Individual = () => {
   }
 
   // const [date, setDate] = useState(null);
-  const [selectedDate, setSelectedDate] = useState("2012-1-1");
+  const [selectedDate, setSelectedDate] = useState("1999-01-1");
   // handle toggle
   // const toggle = () => {
   //   setOpen(!open);
@@ -104,15 +104,28 @@ const Individual = () => {
       headers: {},
       data: users,
     };
-    //  try{
-    await axios(options).then((response) => {
-      console.log(response, "   response");
-      console.log(response);
-      toast.success("Added Successfully!");
+    let response = await axios(options);
+    console.log(response);
+
+    if (response.status === 200) {
+      toast.success("Added Successfully !");
       setTimeout(() => {
         navigate("/individual-landingpage");
       }, 1500);
-    });
+    } else {
+      console.log("wrong");
+      toast.error("Account already exists !");
+    }
+    //  try{
+    // await axios(options)
+    //   .then((response) => {
+    //     console.log(response, "   response");
+    //     console.log(response);
+    //     toast.success("Added Successfully!");
+    //     setTimeout(() => {
+    //       navigate("/individual-landingpage");
+    //     }, 1500);
+    //   })
 
     // console.log(response);
     // if (response.status === 200) {
@@ -239,7 +252,7 @@ const Individual = () => {
                     )}
                   </div>
 
-                  <div style={{ display: "none" }} className="form-group">
+                  <div className="form-group">
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
@@ -260,13 +273,13 @@ const Individual = () => {
                       <option>White</option>
                       <option>Asian American</option>
                       <option> American Indian</option>
-                      <option> Other</option>
                       <option>Hispanic and Latino Americans</option>
                       <option>Native Hawaiians</option>
+                      <option> Other</option>
                     </select>
                   </div>
 
-                  <div style={{ display: "none" }} className="form-group">
+                  <div className="form-group">
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
@@ -306,7 +319,7 @@ const Individual = () => {
                       placeholder="************"
                       onChange={handleInput}
                       value={users.password}
-                      type="number"
+                      type="text"
                       className="first form-control login_field"
                     />
                   </div>
@@ -357,7 +370,7 @@ const Individual = () => {
                     )}
                   </div>
 
-                  <div style={{ display: "none" }} className="form-group">
+                  <div className="form-group">
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
@@ -369,7 +382,7 @@ const Individual = () => {
                       <DropdownDate
                         startDate={
                           // optional, if not provided 1900-01-01 is startDate
-                          "1969-02-01" // 'yyyy-mm-dd' format only
+                          "1969-12-01" // 'yyyy-mm-dd' format only
                         }
                         endDate={
                           // optional, if not provided current date is endDate
@@ -418,7 +431,7 @@ const Individual = () => {
                     <option value="7">Seven</option>
                     <option value="8">Eight</option>
                   </select> */}
-                  <div style={{ display: "none" }} className="row">
+                  <div className="row">
                     <div className="col-lg-6 pl-0 respon2">
                       <div className="mb-3 label_input">
                         <label htmlFor="validationCustom02">COUNTY</label>

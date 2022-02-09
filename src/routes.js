@@ -10,7 +10,7 @@ import AgencyLandingpage from "./Components/Agency/AgencyLandingpage";
 import Sheltordashboard from "./Components/sheltorProvider/Sheltordashboard";
 import Empty from "./Empty";
 import Ant from "./Ant";
-import Editprofile from "./Components/individual/Editprofile";
+import Editprofile from "./Components/individual/IndividualEditprofile";
 
 export default function routes() {
   return (
@@ -26,8 +26,7 @@ export default function routes() {
       <Route path="/agency-landingpage" element={<AgencyLandingpage />} />
       <Route path="/empty" element={<Empty />} />
       <Route path="/ant" element={<Ant />} />
-      <Route path="/edit-profile" element={<Editprofile/>}/>
-
+      <Route path="/IndividualEditprofile" element={<Editprofile />} />
     </Routes>
   );
 }

@@ -30,7 +30,7 @@ function Sheltorsignup() {
     // contact_person: "xsasas",
     // massage: "12221",
   });
-    const [phoneValue, setPhonevalue] = useState("");
+  const [phoneValue, setPhonevalue] = useState("");
 
   const [food, setFood] = useState({
     breakfast: false,
@@ -86,8 +86,8 @@ function Sheltorsignup() {
     if (user.food === "" || user.food === undefined) {
       delete user.food;
     }
-    
-       user.phone = phoneValue;
+
+    user.phone = phoneValue;
     console.log(validForm());
     // if (food.breakfast) {
     //   user.food = "breakfast";
@@ -311,13 +311,13 @@ function Sheltorsignup() {
       setValuee(0);
     }
   };
-    const normalizeCardNumber = (value) => {
-      let x = value.replace(/\D/g, "").match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-      let maskedText = !x[2]
-        ? x[1]
-        : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
-      return maskedText;
-    };
+  const normalizeCardNumber = (value) => {
+    let x = value.replace(/\D/g, "").match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+    let maskedText = !x[2]
+      ? x[1]
+      : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
+    return maskedText;
+  };
   // formatePhoneNumber=(phoneNumberString)=>{
   //   let newText="";
   //   let cleaned = ('' + phoneNumberString).replace(/\b/g,'');
@@ -487,7 +487,7 @@ function Sheltorsignup() {
                     name="zipCode"
                     value={user.zipCode}
                     onChange={handleInput}
-                    type="text"
+                    type="number"
                     placeholder="Enter Zip Code"
                     className="form-control login_field"
                     id="validationCustom02"
@@ -867,7 +867,7 @@ function Sheltorsignup() {
         <div className="images section mt-4">
           <p className="checks_labels">ADD IMAGES </p>
           <input
-        style={{display:"none"}}
+            style={{ display: "none" }}
             type="file"
             onChange={(e) => {
               setFileList(e.target.files);

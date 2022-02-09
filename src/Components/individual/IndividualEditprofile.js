@@ -6,7 +6,7 @@ import axios from "axios";
 import { DropdownDate } from "react-dropdown-date";
 import { Checkbox } from "antd";
 
-const Editprofile = () => {
+const IndividualEditprofile = () => {
   // const [open, setOpen] = useState(false);
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
@@ -244,7 +244,7 @@ const Editprofile = () => {
                     )}
                   </div>
 
-                  <div style={{ display: "none" }} className="form-group">
+                  <div className="form-group">
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
@@ -265,14 +265,14 @@ const Editprofile = () => {
                       <option>White</option>
                       <option>Asian American</option>
                       <option> American Indian</option>
-                      <option> Other</option>
                       <option>Hispanic and Latino Americans</option>
                       <option>Mexicans</option>
                       <option>Ojibwe</option>
+                      <option> Other</option>
                     </select>
                   </div>
 
-                  <div style={{ display: "none" }} className="form-group">
+                  <div className="form-group">
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
@@ -363,7 +363,7 @@ const Editprofile = () => {
                     )}
                   </div>
 
-                  <div style={{ display: "none" }} className="form-group">
+                  <div className="form-group">
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
@@ -424,7 +424,7 @@ const Editprofile = () => {
                     <option value="7">Seven</option>
                     <option value="8">Eight</option>
                   </select> */}
-                  <div style={{ display: "none" }} className="row">
+                  <div className="row">
                     <div className="col-lg-6 pl-0 respon2">
                       <div className="mb-3 label_input">
                         <label htmlFor="validationCustom02">COUNTY</label>
@@ -506,4 +506,4 @@ const Editprofile = () => {
   );
 };
 
-export default Editprofile;
+export default IndividualEditprofile;

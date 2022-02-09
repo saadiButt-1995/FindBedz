@@ -19,7 +19,7 @@ function Agency() {
     // roll: "user",
     iam: "",
   });
-    const [phoneValue, setPhonevalue] = useState("");
+  const [phoneValue, setPhonevalue] = useState("");
 
   const navigate = useNavigate();
   // const handleAddrTypeChange = (e) => {
@@ -56,11 +56,10 @@ function Agency() {
     setUser({ ...user, [name]: value });
   };
   const submit = async (e) => {
-
     e.preventDefault();
-     user.phone = phoneValue;
-       
-    console.log('showin   ',validForm());
+    user.phone = phoneValue;
+
+    console.log("showin   ", validForm());
     if (validForm()) {
       let url = "https://shelterprovider.herokuapp.com/v1/auth/registerSheriff";
       let options = {
@@ -151,13 +150,13 @@ function Agency() {
         cityErr: "Please Enter City",
       }));
     }
-    if (user.state === "") {
-      formIsValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        stateErr: "Please Enter State",
-      }));
-    }
+    // if (user.state === "") {
+    //   formIsValid = false;
+    //   setErrField((prevState) => ({
+    //     ...prevState,
+    //     stateErr: "Please Enter State",
+    //   }));
+    // }
     if (user.zipcode === "") {
       formIsValid = false;
       setErrField((prevState) => ({
@@ -165,13 +164,13 @@ function Agency() {
         zipcodeErr: "Please Enter zipCode",
       }));
     }
-    if (user.iam === "") {
-      formIsValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        iamErr: "Please Check this field",
-      }));
-    }
+    // if (user.iam === "") {
+    //   formIsValid = false;
+    //   setErrField((prevState) => ({
+    //     ...prevState,
+    //     iamErr: "Please Check this field",
+    //   }));
+    // }
 
     return formIsValid;
   };
@@ -184,13 +183,13 @@ function Agency() {
   function onChange(e) {
     console.log(`checked = ${e.target.checked}`);
   }
-   const normalizeCardNumber = (value) => {
-     let x = value.replace(/\D/g, "").match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
-     let maskedText = !x[2]
-       ? x[1]
-       : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
-     return maskedText;
-   };
+  const normalizeCardNumber = (value) => {
+    let x = value.replace(/\D/g, "").match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+    let maskedText = !x[2]
+      ? x[1]
+      : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
+    return maskedText;
+  };
 
   return (
     <div className="agency">
@@ -319,7 +318,7 @@ function Agency() {
                 <option>Law enforcement</option>
                 <option>Services provider</option>
               </select>
-              {errField.iamErr.length > 0 && (
+              {/* {errField.iamErr.length > 0 && (
                 <span
                   style={{
                     color: "red",
@@ -329,7 +328,7 @@ function Agency() {
                 >
                   {errField.iamErr}
                 </span>
-              )}
+              )} */}
             </div>
           </div>
           <div className="col-lg-6">
@@ -430,7 +429,7 @@ function Agency() {
                     id="validationCustom02"
                     required
                   />
-                  {errField.stateErr.length > 0 && (
+                  {/* {errField.stateErr.length > 0 && (
                     <span
                       style={{
                         color: "red",
@@ -440,7 +439,7 @@ function Agency() {
                     >
                       {errField.stateErr}
                     </span>
-                  )}
+                  )} */}
                 </div>
               </div>
               <div className="col-lg-3 px-0 ">
@@ -456,7 +455,7 @@ function Agency() {
                     id="validationCustom02"
                     required
                   />
-                  {errField.cityErr.length > 0 && (
+                  {/* {errField.cityErr.length > 0 && (
                     <span
                       style={{
                         color: "red",
@@ -466,26 +465,24 @@ function Agency() {
                     >
                       {errField.cityErr}
                     </span>
-                  )}
+                  )} */}
                 </div>
               </div>
               <div className="col-lg-3 px-0">
                 <div className="mobile_p pr-0">
                   <div className="mb-3 label_input">
-                    <label htmlFor="validationCustom02">
-                      ZIP CODE <span className="star_red">*</span>
-                    </label>
+                    <label htmlFor="validationCustom02">ZIP CODE</label>
                     <input
                       value={user.zipcode}
                       onChange={handleInput}
-                      type="text"
+                      type="number"
                       name="zipcode"
                       placeholder="Enter Zip code"
                       className="form-control login_field"
                       id="validationCustom02"
                       required
                     />
-                    {errField.zipcodeErr.length > 0 && (
+                    {/* {errField.zipcodeErr.length > 0 && (
                       <span
                         style={{
                           color: "red",
@@ -495,7 +492,7 @@ function Agency() {
                       >
                         {errField.zipcodeErr}
                       </span>
-                    )}
+                    )} */}
                   </div>
                 </div>
               </div>

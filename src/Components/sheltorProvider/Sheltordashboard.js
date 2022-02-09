@@ -35,7 +35,7 @@ function Sheltordashboard() {
                   <p className="dashname">Dashboard</p>
                 </div>
                 <div className="">
-                  <p className="dashname">USER NAME</p>
+                  <p className="dashname">SHELTER NAME</p>
                 </div>
               </div>
             </div>

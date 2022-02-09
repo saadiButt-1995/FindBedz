@@ -55,12 +55,10 @@ function AgencyLandingpage() {
               </div>
             </div>
             <div className="col-lg-4 col-md-6">
-              <Link to="/edit-profile">
-                <div className="indiv_card">
-                  <img src="/images/edit_user.svg" alt="" />
-                  <div className="card_title">EDIT PROFILE</div>
-                </div>
-              </Link>
+              <div className="indiv_card">
+                <img src="/images/edit_user.svg" alt="" />
+                <div className="card_title">EDIT PROFILE</div>
+              </div>
             </div>
             {/* <div className="col-lg-3 col-md-6">
               <div className="indiv_card">
