@@ -43,8 +43,8 @@ function Sheltordashboard() {
           <div className="row mt-5">
             <div className="col-lg-3 col-md-6">
               <div className="indiv_card">
-                <img src="/images/bed_clinic.svg" alt="" />
-                <div className="card_title">SEARCH FOR A BED</div>
+                <img src="/images/mange.svg" alt="" />
+                <div className="card_title">MANAGE RESERVATIONS</div>
               </div>
             </div>
             <div className="col-lg-3 col-md-6">
@@ -62,7 +62,7 @@ function Sheltordashboard() {
             <div className="col-lg-3 col-md-6">
               <div className="indiv_card">
                 <img src="/images/edit_user.svg" alt="" />
-                <div className="card_title">Reconnect with family</div>
+                <div className="card_title">EDIT PROFILE</div>
               </div>
             </div>
           </div>

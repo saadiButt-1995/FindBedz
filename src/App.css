@@ -593,6 +593,7 @@ textarea {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  flex-direction: row;
 }
 #dropdown-year {
   background-color: rgba(221, 235, 255, 1);
@@ -603,6 +604,7 @@ textarea {
   /* width: 100px; */
   font-size: 11px;
   color: #000;
+  order: 3;
 }
 #dropdown-year select {
   width: 150px;
@@ -619,10 +621,15 @@ textarea {
   border: none;
   outline: none;
   height: 32px;
+  order: 1;
   font-family: popreg;
   width: 150px;
   font-size: 11px;
   color: #000;
+}
+
+#dropdown-day{
+  order: 2;
 }
 #dropdown-month select {
   width: 150px;
