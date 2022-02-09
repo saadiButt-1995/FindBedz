@@ -200,7 +200,9 @@ function Agency() {
         </div>
       </Link>
 
-      <p className="indi_title mt-1 indi_agancy">ORGANIZATION OR OUTREACH WORKER</p>
+      <p className="indi_title mt-1 indi_agancy">
+        ORGANIZATION OR OUTREACH WORKER
+      </p>
       <div className="container">
         <div className="row justify-content-around">
           <div className="col-lg-6">
@@ -470,7 +472,9 @@ function Agency() {
               <div className="col-lg-3 px-0">
                 <div className="mobile_p pr-0">
                   <div className="mb-3 label_input">
-                    <label htmlFor="validationCustom02">ZIP CODE</label>
+                    <label htmlFor="validationCustom02">
+                      ZIP CODE <span className="star_red">*</span>
+                    </label>
                     <input
                       value={user.zipcode}
                       onChange={handleInput}
@@ -560,6 +564,7 @@ function Agency() {
         >
           <span className="label_input">
             MAY WE USE YOUR DEVICE’S LOCATION SERVICES?
+            <span className="star_red">*</span>
           </span>
         </Checkbox>
         {/* <div className="custom-control custom-switch">

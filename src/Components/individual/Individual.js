@@ -105,19 +105,14 @@ const Individual = () => {
       data: users,
     };
     //  try{
-    await axios(options)
-      .then((response) => {
-        console.log(response, "   response");
-        console.log(response);
-        toast.success("Added Successfully!");
-        setTimeout(() => {
-          navigate("/individual-landingpage");
-        }, 1500);
-      })
-      .catch((error) => {
-        toast.error("Fields Cannot be empty");
-        console.log(error.message, "   error ");
-      });
+    await axios(options).then((response) => {
+      console.log(response, "   response");
+      console.log(response);
+      toast.success("Added Successfully!");
+      setTimeout(() => {
+        navigate("/individual-landingpage");
+      }, 1500);
+    });
 
     // console.log(response);
     // if (response.status === 200) {
@@ -483,6 +478,7 @@ const Individual = () => {
               >
                 <span className="label_input">
                   SYSTEM WILL USE YOUR DEVICE’S LOCATION SERVICES
+                  <span className="star_red">*</span>
                 </span>
               </Checkbox>
             </div>

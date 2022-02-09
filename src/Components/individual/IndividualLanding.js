@@ -18,12 +18,11 @@ function IndividualLanding() {
         <div className="col header_text">
           <div style={{ display: "flex", paddingRight: "30px" }}>
             <p className="header_title">Last Updated On: 2 Hours Ago</p>
-            <Link to="/">
-              <div className="logout_div">
-                <img src="/images/logout.svg" alt="" />
-                <p className="header_title pl-3">Logout</p>
-              </div>
-            </Link>
+
+            <div className="logout_div">
+              <img src="/images/logout.svg" alt="" />
+              <p className="header_title pl-3">Logout</p>
+            </div>
           </div>
         </div>
       </div>
@@ -56,12 +55,10 @@ function IndividualLanding() {
               </div>
             </div>
             <div className="col-lg-3 col-md-6">
-              <Link to="/edit-profile">
-                <div className="indiv_card">
-                  <img src="/images/edit_user.svg" alt="" />
-                  <div className="card_title">EDIT PROFILE</div>
-                </div>
-              </Link>
+              <div className="indiv_card">
+                <img src="/images/edit_user.svg" alt="" />
+                <div className="card_title">EDIT PROFILE</div>
+              </div>
             </div>
             <div className="col-lg-3 col-md-6">
               <div className="indiv_card">

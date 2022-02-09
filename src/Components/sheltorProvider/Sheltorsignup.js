@@ -83,14 +83,18 @@ function Sheltorsignup() {
 
   const submit = async (e) => {
     e.preventDefault();
+    if (user.food === "" || user.food === undefined) {
+      delete user.food;
+    }
+    
        user.phone = phoneValue;
     console.log(validForm());
-    if (food.breakfast) {
-      user.food = "breakfast";
-    }
-    if (food.dinner) {
-      user.food = "dinner";
-    }
+    // if (food.breakfast) {
+    //   user.food = "breakfast";
+    // }
+    // if (food.dinner) {
+    //   user.food = "dinner";
+    // }
     user.totalAllowedForReservation = incVal;
     user.totalNumberOfBeds = valuee;
     user.maxTimeToHoldABed = hour;
@@ -116,7 +120,7 @@ function Sheltorsignup() {
     formdata.append("rules", user.rules);
     formdata.append("maxTimeToHoldABed", user.maxTimeToHoldABed);
     formdata.append("shelterIsFor", user.shelterIsFor);
-    formdata.append("food", user.food);
+    // formdata.append("food", user.food);
     formdata.append("image", fileList[0]);
 
     if (validForm()) {
@@ -863,6 +867,7 @@ function Sheltorsignup() {
         <div className="images section mt-4">
           <p className="checks_labels">ADD IMAGES </p>
           <input
+        style={{display:"none"}}
             type="file"
             onChange={(e) => {
               setFileList(e.target.files);
