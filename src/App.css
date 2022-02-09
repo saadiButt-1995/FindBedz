@@ -33,8 +33,7 @@ a:hover {
 .logodiv {
   padding-top: 52px;
   padding-bottom: 150px;
-  display: flex;
-  justify-content: center;
+  text-align: center;
 }
 .ant-upload-list-item {
   border: 1px solid #008e00 !important;
@@ -51,6 +50,9 @@ a:hover {
 }
 .logodiv11 img {
   height: 90px !important;
+}
+.indi_agancy {
+  margin-bottom: 45px !important;
 }
 .custom-switch {
   margin-left: 14px;
@@ -167,8 +169,8 @@ a:hover {
   font-size: 14px;
 }
 .logodiv11 {
-  padding-bottom: 100px !important;
-  padding-top: 25px !important;
+  padding-bottom: 57px !important;
+  padding-top: 97px !important;
 }
 .logindiv {
   display: flex;
@@ -302,6 +304,7 @@ a:hover {
 .footer_sign_up {
   padding-left: 25px;
   font-family: popreg;
+  cursor: pointer;
 }
 .plusbtn {
   width: 70px;
@@ -353,8 +356,14 @@ a:hover {
   justify-content: space-between; */
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-  height: 60px;
+  height: 75px;
   align-items: center;
+}
+.dashname {
+  font-family: popbold;
+  font-size: 18px;
+  color: #101b79;
+  margin-bottom: 40px;
 }
 .header_title {
   font-family: popmd;
@@ -383,7 +392,7 @@ textarea {
   background-color: #101b79;
   border: 1.5px solid #101b79;
   border-radius: 4px;
-  width: 30%;
+  width: 27%;
   margin-top: 15px;
   font-family: popmd;
   font-size: 14px;
@@ -442,15 +451,19 @@ textarea {
   padding-top: 40px;
   padding-bottom: 25px;
 }
+.ant-checkbox-wrapper {
+  padding-top: 50px !important;
+}
 
 .indi_title {
   font-size: 14px;
   font-family: popbold;
   text-align: center;
+  margin-bottom: 70px;
 }
 .indi_flex {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   flex-wrap: wrap;
 }
 .loginbutton {
@@ -519,7 +532,7 @@ textarea {
 
 .login_log {
   padding-bottom: 18px !important;
-  padding-top: 18px !important;
+  padding-top: 50px !important;
 }
 .log_title {
   font-family: popmd;
@@ -570,12 +583,10 @@ textarea {
   background: #ffffff;
   box-shadow: 0px 4px 10px rgb(0 0 0 / 25%);
   border-radius: 20px;
-  height: 260px;
-  width: 225px;
   text-align: center;
-  padding-top: 60px;
-  padding-bottom: 24px;
+  padding: 80px 30px;
   transition: 1s;
+  height: 290px;
 }
 .login_fieldw {
   padding-left: 50px !important;
@@ -716,7 +727,7 @@ textarea {
   height: 150px !important;
 }
 .logodiv1 {
-  padding-top: 30px !important;
+  padding-top: 60px !important;
   padding-bottom: 70px !important;
 }
 @media only screen and (max-width: 950px) {

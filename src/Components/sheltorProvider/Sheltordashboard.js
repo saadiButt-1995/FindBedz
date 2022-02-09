@@ -1,22 +1,7 @@
-import React, { useState } from "react";
+import React  from "react";
 import { Link } from "react-router-dom";
 function Sheltordashboard() {
-  const [value, Setvalue] = useState(0);
 
-  const increament = () => {
-    if (value < 30) {
-      Setvalue(value + 1);
-    } else {
-      Setvalue(30);
-    }
-  };
-  const decreament = () => {
-    if (value > 0) {
-      Setvalue(value - 1);
-    } else {
-      Setvalue(0);
-    }
-  };
 
   return (
     <>
@@ -34,90 +19,59 @@ function Sheltordashboard() {
         <div className="col header_text">
           <div style={{ display: "flex", paddingRight: "30px" }}>
             <p className="header_title">Last Updated On: 2 Hours Ago</p>
-            <div className="logout_div">
-              <img src="/images/logout.svg" alt="" />
-              <p className="header_title pl-3">Logout</p>
-            </div>
+            <Link to="/">
+              <div className="logout_div">
+                <img src="/images/logout.svg" alt="" />
+                <p className="header_title pl-3">Logout</p>
+              </div>
+            </Link>
           </div>
         </div>
       </div>
-      <div className="dashboard_container">
-        <div className="frst_flex mb-3">
-          <div className="progress3">
-            <div style={{ background: "black" }} className="cricle_div2">
-              34
-            </div>
-            <div className="card_title11">TOTAL RESERVATIONS BEDS</div>
-          </div>
 
-          <div className="progress22">
-            <p className="RESERVATIONS">RESERVATIONS</p>
-            <div className="progress23">
-              <div className="main_cal">
-                <div className="main_cal1">
-                  <p className="title_font">Total reserved beds</p>
-                  <div
-                    style={{ background: "black" }}
-                    className="cricle_div1 set_width"
-                  >
-                    16
-                  </div>
+      <div style={{ paddingTop: "100px" }}>
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12 col-md-6">
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="">
+                  <p className="dashname">Dashboard</p>
                 </div>
-              </div>
-              <div className="main_cal">
-                <div className="main_cal1">
-                  <p className="title_font">Beds still available to Hold</p>
-                  <div
-                    style={{ background: "rgba(221, 193, 20, 1)" }}
-                    className="cricle_div1 set_width"
-                  >
-                    6
-                  </div>
+                <div className="">
+                  <p className="dashname">USER NAME</p>
                 </div>
               </div>
             </div>
-            <button className="managebtn">Manage Reservations</button>
           </div>
-          <div className="progress12">
-            <p className="RESERVATIONS mb-8 mt-4">
-              BEDS AVAILABLE FOR RESERVATIONS
-            </p>
-            <div className="progress2">
-              <div className="cricle_div13">{value}</div>
-              <div className="calcu_btns">
-                <button onClick={increament} className="plusbtn centrebtn">
-                  +
-                </button>
-                <button
-                  onClick={decreament}
-                  className="plusbtn color_red centrebtn"
-                >
-                  -
-                </button>
+          <div className="row mt-5">
+            <div className="col-lg-3 col-md-6">
+              <div className="indiv_card">
+                <img src="/images/bed_clinic.svg" alt="" />
+                <div className="card_title">SEARCH FOR A BED</div>
+              </div>
+            </div>
+            <div className="col-lg-3 col-md-6">
+              <div className="indiv_card">
+                <img src="/images/services.svg" alt="" />
+                <div className="card_title">FIND OTHER SERVICES</div>
+              </div>
+            </div>
+            <div className="col-lg-3 col-md-6">
+              <Link to="/edit-profile">
+                <div className="indiv_card">
+                  <img src="/images/bed_clinic.svg" alt="" />
+                  <div className="card_title">FIND BEDS IN OTHER SHELTERS</div>
+                </div>
+              </Link>
+            </div>
+            <div className="col-lg-3 col-md-6">
+              <div className="indiv_card">
+                <img src="/images/edit_user.svg" alt="" />
+                <div className="card_title">Reconnect with family</div>
               </div>
             </div>
           </div>
         </div>
-        <div className="frst_flex">
-          <div className="progress3">
-            <img
-              className="mt_bed"
-              style={{ height: "60px" }}
-              src="/images/set.svg"
-              alt=""
-            />
-            <div className="card_title1">FIND BEDS IN OTHER SHELTERS</div>
-          </div>
-          <div className="progress3">
-            <img style={{ height: "60px" }} src="/images/pen.svg" alt="" />
-            <div className="card_title1">FIND OTHER SERVICES</div>
-          </div>
-          <div className="progress3">
-            <img style={{ height: "60px" }} src="/images/bed3.svg" alt="" />
-            <div className="card_title1">EDIT profile</div>
-          </div>
-        </div>
-        <div className="frst_flex1"></div>
       </div>
     </>
   );

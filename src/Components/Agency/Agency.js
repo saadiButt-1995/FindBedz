@@ -19,6 +19,7 @@ function Agency() {
     // roll: "user",
     iam: "",
   });
+    const [phoneValue, setPhonevalue] = useState("");
 
   const navigate = useNavigate();
   // const handleAddrTypeChange = (e) => {
@@ -55,8 +56,11 @@ function Agency() {
     setUser({ ...user, [name]: value });
   };
   const submit = async (e) => {
+
     e.preventDefault();
-    console.log(validForm());
+     user.phone = phoneValue;
+       
+    console.log('showin   ',validForm());
     if (validForm()) {
       let url = "https://shelterprovider.herokuapp.com/v1/auth/registerSheriff";
       let options = {
@@ -180,6 +184,13 @@ function Agency() {
   function onChange(e) {
     console.log(`checked = ${e.target.checked}`);
   }
+   const normalizeCardNumber = (value) => {
+     let x = value.replace(/\D/g, "").match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+     let maskedText = !x[2]
+       ? x[1]
+       : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
+     return maskedText;
+   };
 
   return (
     <div className="agency">
@@ -189,7 +200,7 @@ function Agency() {
         </div>
       </Link>
 
-      <p className="indi_title mt-1">ORGANIZATION OR OUTREACH WORKER</p>
+      <p className="indi_title mt-1 indi_agancy">ORGANIZATION OR OUTREACH WORKER</p>
       <div className="container">
         <div className="row justify-content-around">
           <div className="col-lg-6">
@@ -203,7 +214,7 @@ function Agency() {
                 value={user.userName}
                 onChange={handleInput}
                 type="text"
-                placeholder="Choose Username"
+                placeholder="Create a username"
                 className="form-control login_field"
                 id="validationCustom01"
                 required
@@ -229,7 +240,7 @@ function Agency() {
                 value={user.organization}
                 onChange={handleInput}
                 type="text"
-                placeholder="Full Name of Organization"
+                placeholder="Enter full name of organization"
                 className="form-control login_field"
                 id="validationCustom02"
                 required
@@ -248,7 +259,7 @@ function Agency() {
             </div>
             <div className="label_input mb-3">
               <label htmlFor="validationCustom03">
-                PHONE
+                PHONE NUMBER
                 <span
                   style={{
                     fontSize: "10px",
@@ -263,14 +274,21 @@ function Agency() {
                 +1
               </span>
               <input
-                name="phone"
-                onChange={handleInput}
-                value={user.phone}
-                type="number"
                 placeholder="(###) ###-####"
+                type="tel"
+                // value={phoneValue}
+                inputMode="numeric"
+                autoComplete="cc-number"
+                name="cardNumber"
                 className="first form-control login_field login_fieldw"
+                id="cardNumber"
+                onChange={(event) => {
+                  const { value } = event.target;
+                  setPhonevalue(value);
+                  event.target.value = normalizeCardNumber(value);
+                }}
               />
-              {errField.phoneErr.length > 0 && (
+              {errField.phoneErr.length > 10 && (
                 <span
                   style={{
                     color: "red",
@@ -293,7 +311,8 @@ function Agency() {
                 class="form-control login_field"
                 id="exampleFormControlSelect1"
               >
-                <option classname="login_field">Outreach worker</option>
+                <option classname="login_field">Choose your role</option>
+                <option>Outreach worker</option>
                 <option>Municipal agency</option>
                 <option>Law enforcement</option>
                 <option>Services provider</option>
@@ -323,7 +342,7 @@ function Agency() {
                 type={open === false ? "password" : "text"}
                 className="form-control login_field"
                 id="validationCustom03"
-                placeholder="Choose Password"
+                placeholder="************"
                 required
               />
               {open === false ? (
@@ -352,7 +371,7 @@ function Agency() {
                 value={user.email}
                 onChange={handleInput}
                 type="email"
-                placeholder="Email Address"
+                placeholder="user@gmail.com"
                 className="form-control login_field"
                 id="validationCustom02"
                 required
@@ -378,7 +397,7 @@ function Agency() {
                 value={user.address}
                 onChange={handleInput}
                 type="text"
-                placeholder="Address"
+                placeholder="Enter street address"
                 className="form-control login_field"
                 id="validationCustom02"
                 required

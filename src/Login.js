@@ -95,7 +95,7 @@ function Login() {
               value={user.userName}
               onChange={handleInput}
               type="text"
-              placeholder="Username"
+              placeholder="Create a username"
               className="form-control login_field"
               id="inputuserName4"
             />
@@ -116,7 +116,7 @@ function Login() {
               value={user.password}
               onChange={handleInput}
               type="password"
-              placeholder="Password"
+              placeholder="************"
               className="form-control login_field"
               id="inputPassword4"
             />
