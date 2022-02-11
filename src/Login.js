@@ -34,12 +34,21 @@ function Login() {
       };
       try {
         let response = await axios(options);
-
-        console.log(response);
+        let role = response.data.role;
+        console.log(response.data.role, "    user response");
         if (response.status === 200) {
           toast.success("Login Successfully!");
           setTimeout(() => {
-            navigate("/individual-landingpage");
+            if (role === "shelter") {
+              navigate("/sheltor-dashboard");
+            } else if (role === "user") {
+              navigate("/agency-landingpage");
+            } else if (role === "admin") {
+              navigate("/individual-landingpage");
+            } 
+            // else if (role === "sheriff") {
+            //   navigate("/individual-landingpage");
+            // }
           }, 1000);
         }
       } catch (e) {
