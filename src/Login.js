@@ -57,14 +57,6 @@ function Login() {
       // roll:"shelter",
     });
 
-    // if (user.password === "") {
-    //   formIsValid = false;
-    //   setErrField((prevState) => ({
-    //     ...prevState,
-    //     passwordErr: "Please Enter Password",
-    //   }));
-    // }
-
     if (user.userName === "") {
       formIsValid = false;
       setErrField((prevState) => ({
@@ -121,13 +113,6 @@ function Login() {
               className="form-control login_field"
               id="inputPassword4"
             />
-            {/* {errField.passwordErr.length > 0 && (
-              <span
-                style={{ fontSize: "11px", fontFamily: "popreg", color: "red" }}
-              >
-                {errField.passwordErr}
-              </span>
-            )} */}
           </div>
         </div>
         <div className="text-center">

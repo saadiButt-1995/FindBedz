@@ -2,11 +2,11 @@ import { Link } from "react-router-dom";
 function SignUp() {
   return (
     <div className="signup_main">
-      <Link to="/">
-        <div className="logodiv logodiv1">
+      <div className="logodiv logodiv1">
+        <Link to="/">
           <img src="/images/sheltorlogo.svg" alt="" />
-        </div>
-      </Link>
+        </Link>
+      </div>
 
       <div className="create_section">
         <Link className="create_card mb-3" to="/Individual-signup">
