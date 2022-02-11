@@ -113,6 +113,18 @@ function Login() {
               className="form-control login_field"
               id="inputPassword4"
             />
+            <Link to="/forget-password">
+              <p
+                style={{
+                  fontFamily: "popreg",
+                  fontSize: "10px",
+                  float: "right",
+                  marginTop: "5px",
+                }}
+              >
+                Forget Password
+              </p>
+            </Link>
           </div>
         </div>
         <div className="text-center">
