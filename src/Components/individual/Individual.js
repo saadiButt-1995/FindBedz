@@ -40,6 +40,7 @@ const Individual = () => {
     password: "",
     phone: "",
     nickName: "",
+    // roll: "user",
     ethnicity: "",
     role: "user",
     date_of_birth: "",
@@ -382,11 +383,11 @@ const Individual = () => {
                       <DropdownDate
                         startDate={
                           // optional, if not provided 1900-01-01 is startDate
-                          "1969-12-01" // 'yyyy-mm-dd' format only
+                          "1920-12-01" // 'yyyy-mm-dd' format only
                         }
                         endDate={
                           // optional, if not provided current date is endDate
-                          "1999-11-01" // 'yyyy-mm-dd' format only
+                          "2022-11-01" // 'yyyy-mm-dd' format only
                         }
                         selectedDate={
                           // optional

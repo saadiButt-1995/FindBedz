@@ -64,7 +64,7 @@ function Sheltorsignup() {
     stateErr: "",
     zipCodeErr: "",
     contact_person_nameErr: "",
-    // role: "shelter",
+    role: "shelter",
   });
 
   let name, value;
@@ -101,6 +101,7 @@ function Sheltorsignup() {
     //  fileList = fileList.shift();
     console.log(fileList[0], "   file before upload");
     let formdata = new FormData();
+    formdata.append("role", user.role);
     formdata.append("userName", user.userName);
     formdata.append("address", user.address);
     formdata.append("shelterName", user.shelterName);
@@ -143,7 +144,7 @@ function Sheltorsignup() {
           }
         })
         .catch((error) => {
-          toast.error("userName already taken");
+          toast.error("Something went wrong !");
           console.log(error, "   error ");
         });
 

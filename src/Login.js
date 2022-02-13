@@ -42,9 +42,9 @@ function Login() {
             if (role === "shelter") {
               navigate("/sheltor-dashboard");
             } else if (role === "user") {
-              navigate("/agency-landingpage");
-            } else if (role === "admin") {
               navigate("/individual-landingpage");
+            } else if (role === "sheriff") {
+              navigate("/agency-landingpage");
             } 
             // else if (role === "sheriff") {
             //   navigate("/individual-landingpage");
