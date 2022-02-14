@@ -166,13 +166,7 @@ function Organization() {
         cityErr: "Please Enter City",
       }));
     }
-    // if (user.state === "") {
-    //   formIsValid = false;
-    //   setErrField((prevState) => ({
-    //     ...prevState,
-    //     stateErr: "Please Enter State",
-    //   }));
-    // }
+   
     if (user.zipcode === "") {
       formIsValid = false;
       setErrField((prevState) => ({
@@ -180,13 +174,7 @@ function Organization() {
         zipcodeErr: "Please Enter zipCode",
       }));
     }
-    // if (user.iam === "") {
-    //   formIsValid = false;
-    //   setErrField((prevState) => ({
-    //     ...prevState,
-    //     iamErr: "Please Check this field",
-    //   }));
-    // }
+  
 
     return formIsValid;
   };
@@ -334,17 +322,6 @@ function Organization() {
                 <option>Law enforcement</option>
                 <option>Services provider</option>
               </select>
-              {/* {errField.iamErr.length > 0 && (
-                <span
-                  style={{
-                    color: "red",
-                    fontSize: "11px",
-                    fontFamily: "popreg",
-                  }}
-                >
-                  {errField.iamErr}
-                </span>
-              )} */}
             </div>
           </div>
           <div className="col-lg-6">
@@ -432,32 +409,6 @@ function Organization() {
               )}
             </div>
             <div className="row justify-content-md-between">
-              <div className="col-lg-3 px-0">
-                <div className="mb-3 label_input">
-                  <label htmlFor="validationCustom02">STATE</label>
-                  <input
-                    value={user.state}
-                    onChange={handleInput}
-                    type="text"
-                    name="state"
-                    placeholder="Enter State"
-                    className="form-control login_field"
-                    id="validationCustom02"
-                    required
-                  />
-                  {/* {errField.stateErr.length > 0 && (
-                    <span
-                      style={{
-                        color: "red",
-                        fontSize: "11px",
-                        fontFamily: "popreg",
-                      }}
-                    >
-                      {errField.stateErr}
-                    </span>
-                  )} */}
-                </div>
-              </div>
               <div className="col-lg-3 px-0 ">
                 <div className="mb-3 label_input">
                   <label htmlFor="validationCustom02">CITY</label>
@@ -471,17 +422,21 @@ function Organization() {
                     id="validationCustom02"
                     required
                   />
-                  {/* {errField.cityErr.length > 0 && (
-                    <span
-                      style={{
-                        color: "red",
-                        fontSize: "11px",
-                        fontFamily: "popreg",
-                      }}
-                    >
-                      {errField.cityErr}
-                    </span>
-                  )} */}
+                </div>
+              </div>
+              <div className="col-lg-3 px-0">
+                <div className="mb-3 label_input">
+                  <label htmlFor="validationCustom02">STATE</label>
+                  <input
+                    value={user.state}
+                    onChange={handleInput}
+                    type="text"
+                    name="state"
+                    placeholder="Enter State"
+                    className="form-control login_field"
+                    id="validationCustom02"
+                    required
+                  />
                 </div>
               </div>
               <div className="col-lg-3 px-0">
@@ -498,17 +453,6 @@ function Organization() {
                       id="validationCustom02"
                       required
                     />
-                    {/* {errField.zipcodeErr.length > 0 && (
-                      <span
-                        style={{
-                          color: "red",
-                          fontSize: "11px",
-                          fontFamily: "popreg",
-                        }}
-                      >
-                        {errField.zipcodeErr}
-                      </span>
-                    )} */}
                   </div>
                 </div>
               </div>

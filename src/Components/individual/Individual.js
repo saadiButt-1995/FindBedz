@@ -187,7 +187,9 @@ const Individual = () => {
           </div>
         </Link>
 
-        <p className="indi_title">I AM AN INDIVIDUAL SEEKING SERVICES</p>
+        <p style={{ marginBottom: "15px" }} className="indi_title">
+          I AM AN INDIVIDUAL SEEKING SERVICES
+        </p>
         <div className="form-row indi_flex"></div>
         <div>
           <form onSubmit={submit}>
@@ -426,32 +428,7 @@ const Individual = () => {
                     <option value="8">Eight</option>
                   </select> */}
                   <div className="row">
-                    <div className="col-lg-6 pl-0 respon2">
-                      <div className="mb-3 label_input">
-                        <label htmlFor="validationCustom02">COUNTY</label>
-                        <input
-                          name="county"
-                          type="text"
-                          value={users.county}
-                          onChange={handleInput}
-                          className="form-control login_field"
-                          id="validationCustom02"
-                          placeholder="Enter County"
-                        />
-                        {/* {errField.countyErr.length > 0 && (
-                          <span
-                            style={{
-                              color: "red",
-                              fontSize: "11px",
-                              fontFamily: "popreg",
-                            }}
-                          >
-                            {errField.countyErr}
-                          </span>
-                        )} */}
-                      </div>
-                    </div>
-                    <div className="col-lg-6 pr-0 respon">
+                    <div className="col-lg-6 pl-0 respon">
                       <div className="mb-3 label_input">
                         <label htmlFor="validationCustom02">STATE</label>
                         <input
@@ -463,17 +440,20 @@ const Individual = () => {
                           className="form-control login_field"
                           id="validationCustom02"
                         />
-                        {/* {errField.stateErr.length > 0 && (
-                          <span
-                            style={{
-                              color: "red",
-                              fontSize: "11px",
-                              fontFamily: "popreg",
-                            }}
-                          >
-                            {errField.stateErr}
-                          </span>
-                        )} */}
+                      </div>
+                    </div>
+                    <div className="col-lg-6 pr-0 respon2">
+                      <div className="mb-3 label_input">
+                        <label htmlFor="validationCustom02">COUNTY</label>
+                        <input
+                          name="county"
+                          type="text"
+                          value={users.county}
+                          onChange={handleInput}
+                          className="form-control login_field"
+                          id="validationCustom02"
+                          placeholder="Enter County"
+                        />
                       </div>
                     </div>
                   </div>
