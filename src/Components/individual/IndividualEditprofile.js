@@ -185,7 +185,9 @@ const IndividualEditprofile = () => {
           </div>
         </Link>
 
-        <p className="indi_title">I AM AN INDIVIDUAL SEEKING SERVICES</p>
+        <p style={{ marginBottom: "15px" }} className="indi_title">
+          I AM AN INDIVIDUAL SEEKING SERVICES
+        </p>
         <div className="form-row indi_flex"></div>
         <div>
           <form onSubmit={submit}>

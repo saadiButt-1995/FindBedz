@@ -20,7 +20,7 @@ function Sheltordashboard() {
 
             <div className="logout_div">
               <img src="/images/logout.svg" alt="" />
-              <p className="header_title pl-3">Logout</p>
+              {/* <p className="header_title pl-3">Logout</p> */}
             </div>
           </div>
         </div>
