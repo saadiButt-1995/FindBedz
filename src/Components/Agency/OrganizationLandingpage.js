@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-function AgencyLandingpage() {
+function OrganizationLandingpage() {
   return (
     <>
       <div className="row sheltor_dashboard pt-2">
@@ -73,4 +73,4 @@ function AgencyLandingpage() {
   );
 }
 
-export default AgencyLandingpage;
+export default OrganizationLandingpage;

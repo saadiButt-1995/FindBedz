@@ -261,6 +261,16 @@ a:hover {
   display: flex;
   justify-content: center;
 }
+.dash_header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logdiv {
+  position: absolute;
+  right: 40px;
+  padding-top: 20px;
+}
 .progress3 {
   height: 200px;
   background-color: #fff;
@@ -539,6 +549,7 @@ textarea {
   margin-right: auto;
   height: 40px;
   width: 100%;
+  margin-bottom: 10px;
 }
 .logtext {
   font-family: popreg;

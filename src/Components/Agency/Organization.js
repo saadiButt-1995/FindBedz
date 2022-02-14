@@ -5,7 +5,7 @@ import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import axios from "axios";
 import { Checkbox } from "antd";
 
-function Agency() {
+function Organization() {
   const [user, setUser] = useState({
     userName: "",
     password: "",
@@ -81,17 +81,21 @@ function Agency() {
         data: user,
       };
       // try{
-      let response = await axios(options);
-
-      console.log(response);
-      if (response.status === 200) {
-        toast.success("Added Successfully!");
-        setTimeout(() => {
-          navigate("/agency-landingpage");
-        }, 1500);
-      } else {
-        toast.error("Something went wrong !");
-      }
+      await axios(options)
+        .then((response) => {
+          console.log(response, "   response");
+          console.log(response);
+          if (response.status === 200) {
+            toast.success("Added Successfully!");
+            setTimeout(() => {
+              navigate("/OrganizationLandingpage");
+            }, 1500);
+          }
+        })
+        .catch((error) => {
+          toast.error("Something went wrong !");
+          console.log(error, "   error ");
+        });
       // }catch(e){
       //   console.log(e)
       //  toast.error("Something went wrong !");
@@ -599,4 +603,4 @@ function Agency() {
   );
 }
 
-export default Agency;
+export default Organization;

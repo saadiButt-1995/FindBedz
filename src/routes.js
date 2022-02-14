@@ -5,8 +5,8 @@ import Login from "./Login";
 import Individual from "./Components/individual/Individual";
 import IndividualLanding from "./Components/individual/IndividualLanding";
 import Sheltorsignup from "./Components/sheltorProvider/Sheltorsignup";
-import Agency from "./Components/Agency/Agency";
-import AgencyLandingpage from "./Components/Agency/AgencyLandingpage";
+import Organization from "./Components/Agency/Organization";
+import OrganizationLandingpage from "./Components/Agency/OrganizationLandingpage";
 import Sheltordashboard from "./Components/sheltorProvider/Sheltordashboard";
 import Empty from "./Empty";
 import Ant from "./Ant";
@@ -24,9 +24,12 @@ export default function routes() {
       <Route path="/Individual-signup" element={<Individual />} />
       <Route path="/individual-landingpage" element={<IndividualLanding />} />
       <Route path="/sheltor-signup" element={<Sheltorsignup />} />
-      <Route path="/agency-signup" element={<Agency />} />
+      <Route path="/organization" element={<Organization />} />
       <Route path="/sheltor-dashboard" element={<Sheltordashboard />} />
-      <Route path="/agency-landingpage" element={<AgencyLandingpage />} />
+      <Route
+        path="/OrganizationLandingpage"
+        element={<OrganizationLandingpage />}
+      />
       <Route path="/empty" element={<Empty />} />
       <Route path="/ant" element={<Ant />} />
       <Route path="/IndividualEditprofile" element={<Editprofile />} />

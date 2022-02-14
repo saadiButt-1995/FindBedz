@@ -18,7 +18,7 @@ function SignUp() {
         <Link
           style={{ paddingTop: "25px" }}
           className="create_card mb-3"
-          to="/agency-signup"
+          to="/organization"
         >
           <div className="  creat_card11">
             <img className="second_img" src="/images/Group 575.svg" alt="" />

@@ -44,7 +44,7 @@ function Login() {
             } else if (role === "user") {
               navigate("/individual-landingpage");
             } else if (role === "sheriff") {
-              navigate("/agency-landingpage");
+              navigate("/OrganizationLandingpage");
             } 
             // else if (role === "sheriff") {
             //   navigate("/individual-landingpage");

@@ -5,7 +5,18 @@ function IndividualLanding() {
   return (
     <>
       <div>
-        <h6 className="dashtittle">FindBedz</h6>
+        <div className="dash_header">
+          <div>
+            <h6 className="dashtittle">FindBedz</h6>
+          </div>
+
+          <div className="logdiv">
+            <Link to="/">
+              <img src="/images/logout.svg" alt="" />
+            </Link>
+          </div>
+        </div>
+
         <div className="dashlogg">
           <img className="dashlogg" src="/images/dashlog.svg" alt="" />
         </div>

@@ -40,7 +40,6 @@ const Individual = () => {
     password: "",
     phone: "",
     nickName: "",
-    // roll: "user",
     ethnicity: "",
     role: "user",
     date_of_birth: "",
@@ -105,28 +104,21 @@ const Individual = () => {
       headers: {},
       data: users,
     };
-    let response = await axios(options);
-    console.log(response);
-
-    if (response.status === 200) {
-      toast.success("Added Successfully !");
-      setTimeout(() => {
-        navigate("/individual-landingpage");
-      }, 1500);
-    } else {
-      console.log("wrong");
-      toast.error("Account already exists !");
-    }
-    //  try{
-    // await axios(options)
-    //   .then((response) => {
-    //     console.log(response, "   response");
-    //     console.log(response);
-    //     toast.success("Added Successfully!");
-    //     setTimeout(() => {
-    //       navigate("/individual-landingpage");
-    //     }, 1500);
-    //   })
+    await axios(options)
+      .then((response) => {
+        console.log(response, "   response");
+        console.log(response);
+        if (response.status === 200) {
+          toast.success("Added Successfully!");
+          setTimeout(() => {
+            navigate("/individual-landingpage");
+          }, 1500);
+        }
+      })
+      .catch((error) => {
+        toast.error("Something went wrong !");
+        console.log(error, "   error ");
+      });
 
     // console.log(response);
     // if (response.status === 200) {
@@ -141,6 +133,7 @@ const Individual = () => {
     //   console.log(e, "error");
     //   toast.error("Something went wrong !");
   };
+
   // };
 
   const validForm = () => {
