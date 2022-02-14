@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../index.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { DropdownDate } from "react-dropdown-date";
@@ -177,13 +177,47 @@ const IndividualEditprofile = () => {
   return (
     <div>
       <ToastContainer />
-
       <div className="indi_signup">
-        <Link to="/">
-          <div style={{ paddingTop: "50px" }} className="logodiv login_log">
-            <img className="login_logo" src="/images/sheltorlogo.svg" alt="" />
+        <div className="edit_header">
+          <div className="edit_left_bts">
+            <img
+              style={{ height: "29px", paddingRight: "10px" }}
+              src="images/dashhome.svg"
+              alt=""
+            />
+            <img style={{ height: "29px" }} src="/images/back.svg" alt="" />
           </div>
-        </Link>
+          <div
+            style={{
+              fontFamily: "patua",
+              fontSize: "16px",
+              paddingLeft: "32px",
+            }}
+          >
+            FindBedz
+          </div>
+          <div>
+            <img src="/images/logout.svg" alt=""></img>
+          </div>
+        </div>
+        <div className="popo">
+          <img
+            style={{ height: "50px" }}
+            className=""
+            src="/images/edit_user.svg"
+            alt=""
+          />
+          <p
+            style={{
+              marginBottom: "0",
+              fontFamily: "popbold",
+              fontSize: "16px",
+              color: "#151515",
+            }}
+          >
+            EDIT PROFILE
+          </p>
+        </div>
 
         <p style={{ marginBottom: "15px" }} className="indi_title">
           I AM AN INDIVIDUAL SEEKING SERVICES
