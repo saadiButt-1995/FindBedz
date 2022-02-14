@@ -4,70 +4,61 @@ import { Link } from "react-router-dom";
 function IndividualLanding() {
   return (
     <>
-      <div className="row sheltor_dashboard pt-2">
-        <Link to="/">
-          <div className="col header_icon pl-10">
-            <img
-              style={{ height: "45px" }}
-              src="/images/sheltorlogo.svg"
-              alt=""
-            />
-          </div>
-        </Link>
-
-        <div className="col header_text">
-          <div style={{ display: "flex", paddingRight: "30px" }}>
-            <p className="header_title">Last Updated On: 2 Hours Ago</p>
-            <Link to="/">
-              <div className="logout_div">
-                <img src="/images/logout.svg" alt="" />
-                <p className="header_title pl-3">Logout</p>
-              </div>
-            </Link>
-          </div>
+      <div>
+        <h6 className="dashtittle">FindBedz</h6>
+        <div className="dashlogg">
+          <img className="dashlogg" src="/images/dashlog.svg" alt="" />
         </div>
-      </div>
-
-      <div style={{ paddingTop: "100px" }}>
         <div className="container">
           <div className="row">
             <div className="col-lg-12 col-md-6">
               <div className="d-flex align-items-center justify-content-between">
-                <div className="">
+                <div className="dashnamediv">
                   <p className="dashname">Dashboard</p>
-                </div>
-                <div className="">
-                  <p className="dashname">USER NAME</p>
                 </div>
               </div>
             </div>
           </div>
           <div className="row mt-5">
-            <div className="col-lg-3 col-md-6">
+            <div className="col-lg-4 col-md-6">
               <div className="indiv_card">
-                <img src="/images/bed_clinic.svg" alt="" />
-                <div className="card_title">SEARCH FOR A BED</div>
+                <img src="/images/indibed.svg" alt="" />
+                <div className="card_title">FIND A BED</div>
               </div>
             </div>
-            <div className="col-lg-3 col-md-6">
+            <div className="col-lg-4 col-md-6">
               <div className="indiv_card">
                 <img src="/images/services.svg" alt="" />
-                <div className="card_title">FIND OTHER SERVICES</div>
+                <div className="card_title">FIND SERVICES</div>
               </div>
             </div>
 
-            <div className="col-lg-3 col-md-6">
+            <div className="col-lg-4 col-md-6">
               <Link to="/IndividualEditprofile">
                 <div className="indiv_card">
-                  <img src="/images/edit_user.svg" alt="" />
-                  <div className="card_title">EDIT PROFILE</div>
+                  <img src="/images/ride.svg" alt="" />
+                  <div className="card_title">ARRANGE A RIDE</div>
                 </div>
               </Link>
             </div>
-            <div className="col-lg-3 col-md-6">
+          </div>
+          <div className="row mt-5">
+            <div className="col-lg-4 col-md-6">
               <div className="indiv_card">
                 <img src="/images/family.svg" alt="" />
                 <div className="card_title">Reconnect with family</div>
+              </div>
+            </div>
+            <div className="col-lg-4 col-md-6">
+              <div className="indiv_card">
+                <img src="/images/job.svg" alt="" />
+                <div className="card_title">FIND A JOB</div>
+              </div>
+            </div>
+            <div className="col-lg-4 col-md-6">
+              <div className="indiv_card">
+                <img src="/images/edit_user.svg" alt="" />
+                <div className="card_title">EDIT PROFILE</div>
               </div>
             </div>
           </div>

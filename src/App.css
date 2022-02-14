@@ -15,6 +15,10 @@ a:hover {
   margin-right: 0;
 }
 @font-face {
+  font-family: patua;
+  src: url("/src/fonts/PatuaOne-Regular.ttf");
+}
+@font-face {
   font-family: popbold;
   src: url("/src/fonts/Poppins-Bold.ttf");
 }
@@ -359,11 +363,15 @@ a:hover {
   height: 75px;
   align-items: center;
 }
+.dashnamediv {
+  margin-left: auto;
+  margin-right: auto;
+}
 .dashname {
   font-family: popbold;
   font-size: 18px;
   color: #101b79;
-  margin-bottom: 40px;
+  text-align: center;
 }
 .header_title {
   font-family: popmd;
@@ -514,11 +522,23 @@ textarea {
   margin-left: auto;
   margin-right: auto;
 }
+.dashtittle {
+  text-align: center;
+  color: #101b79;
+  font-family: patua;
+  padding-top: 10px;
+}
 .loginbtn:hover {
   background-color: transparent;
   color: #101b79;
   border: 1.5px solid #101b79;
   transition: all 0.45s;
+}
+.dashlogg {
+  margin-left: auto;
+  margin-right: auto;
+  height: 40px;
+  width: 100%;
 }
 .logtext {
   font-family: popreg;
@@ -615,9 +635,10 @@ textarea {
   box-shadow: 0px 4px 10px rgb(0 0 0 / 25%);
   border-radius: 20px;
   text-align: center;
-  padding: 80px 30px;
+  padding: 36px 11px;
   transition: 1s;
-  height: 290px;
+  height: 180px;
+  width: 85%;
 }
 .login_fieldw {
   padding-left: 50px !important;
@@ -688,7 +709,7 @@ textarea {
 }
 
 .indiv_card img {
-  width: 38%;
+  width: 28%;
 }
 .indiv_card:hover {
   transform: scale(1.1);

@@ -57,6 +57,18 @@ function Agency() {
   };
   const submit = async (e) => {
     e.preventDefault();
+    if (user.city === "" || user.city === undefined) {
+      delete user.city;
+    }
+    if (user.state === "" || user.state === undefined) {
+      delete user.state;
+    }
+    if (user.zipcode === "" || user.zipcode === undefined) {
+      delete user.zipcode;
+    }
+    if (user.iam === "" || user.iam === undefined) {
+      delete user.iam;
+    }
     user.phone = phoneValue;
 
     console.log("showin   ", validForm());
@@ -303,7 +315,7 @@ function Agency() {
             </div>
             <div class="form-group">
               <label className="label_input" for="exampleFormControlSelect1">
-                  MY POSITION
+                MY POSITION
               </label>
 
               <select
