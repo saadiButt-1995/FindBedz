@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { DropdownDate } from "react-dropdown-date";
 import { Checkbox } from "antd";
+import { basePath } from "../../config";
 
 const Individual = () => {
   // const [open, setOpen] = useState(false);
@@ -95,9 +96,7 @@ const Individual = () => {
       delete users.state;
     }
     users.phone = phoneValue;
-    console.log("after deleting password from user object", users);
-    console.log(users.date_of_birth, "date of birth");
-    let url = "https://shelterprovider.herokuapp.com/v1/auth/registerUser";
+    let url = `${basePath}auth/registerUser`;
     let options = {
       method: "POST",
       url: url,
@@ -106,7 +105,6 @@ const Individual = () => {
     };
     await axios(options)
       .then((response) => {
-        console.log(response, "   response");
         console.log(response);
         if (response.status === 200) {
           toast.success("Added Successfully!");

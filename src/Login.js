@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
+// import axios from "axios";
+// import { basePath } from "./config";
+import { login, setLocalValues } from "./services/auth";
 
 function Login() {
   const [user, setUser] = useState({
@@ -25,19 +27,13 @@ function Login() {
   const submit = async (e) => {
     e.preventDefault();
     if (validForm()) {
-      let url = "https://shelterprovider.herokuapp.com/v1/auth/login";
-      let options = {
-        method: "POST",
-        url: url,
-        headers: {},
-        data: user,
-      };
+      var response = await login(user)
       try {
-        let response = await axios(options);
         let role = response.data.role;
-        console.log(response.data.role, "    user response");
+        console.log(response.data);
         if (response.status === 200) {
           toast.success("Login Successfully!");
+          setLocalValues(response.data)
           setTimeout(() => {
             if (role === "shelter") {
               navigate("/sheltor-dashboard");
@@ -46,9 +42,6 @@ function Login() {
             } else if (role === "sheriff") {
               navigate("/OrganizationLandingpage");
             } 
-            // else if (role === "sheriff") {
-            //   navigate("/individual-landingpage");
-            // }
           }, 1000);
         }
       } catch (e) {

@@ -1,18 +1,31 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../index.css";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { DropdownDate } from "react-dropdown-date";
 import { Checkbox } from "antd";
+import { basePath } from "../../config";
+import moment from 'moment'
+import { results, states } from "../../services/states_counties";
 
 const IndividualEditprofile = () => {
   // const [open, setOpen] = useState(false);
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
+  const [user, setUserData] = useState(JSON.parse(localStorage.getItem('user_data')));
 
   const [phoneValue, setPhonevalue] = useState("");
+  const [selectedDate, setSelectedDate] = useState('2022-2-2');
+  const [counties, setCounties] = useState([]);
+  const ethnicities = [
+    'African American',   'Native Americans',   'Native',   'Alaska Native',   'White',   'Asian American',   'American Indian',   'Hispanic and Latino Americans',   'Mexicans',   'Ojibwe',   'Other', ]
+
+    useEffect(()=> {
+      setSelectedDate(formatDate(moment(user.date_of_birth).format('llll')))
+      setPhonevalue(normalizeCardNumber(user.phone))
+    }, [])
   const formatDate = (date) => {
     // formats a JS date to 'yyyy-mm-dd'
     var d = new Date(date),
@@ -29,23 +42,17 @@ const IndividualEditprofile = () => {
     console.log(`checked = ${e.target.checked}`);
   }
 
-  // const [date, setDate] = useState(null);
-  const [selectedDate, setSelectedDate] = useState("2012-1-1");
-  // handle toggle
-  // const toggle = () => {
-  //   setOpen(!open);
-  // };
   const [users, setUser] = useState({
-    userName: "",
-    password: "",
-    phone: "",
-    nickName: "",
-    ethnicity: "",
-    role: "user",
-    date_of_birth: "",
-    county: "",
-    state: "",
-    email: "texxt@gmail.com",
+    userName: user.userName,
+    password: '',
+    phone: user.phone,
+    nickName: user.nickName,
+    ethnicity: user.ethnicity,
+    role: user.role,
+    date_of_birth: user.date_of_birth,
+    county: user.county,
+    state: user.state,
+    email: user.email,
   });
   const navigate = useNavigate();
 
@@ -56,18 +63,19 @@ const IndividualEditprofile = () => {
   });
 
   let name, value;
+
+  const cancel = ()=> {
+    setUser({ userName: '', password: '', phone: '', nickName: '', ethnicity: '', role: '', date_of_birth: '', county: '', state: '', email: '',
+    })
+    setSelectedDate('2022-2-2')
+  }
   const handleInput = (event) => {
     name = event.target.name;
     value = event.target.value;
-
     setUser({ ...users, [name]: value });
   };
-  console.log(users);
 
   const submit = async (e) => {
-    //  setPhonevalue(normalizeCardNumber);
-
-    // console.log("uservalue testing ", normalizeCardNumber);
     e.preventDefault();
     console.log("====================================");
     console.log(validForm());
@@ -75,7 +83,6 @@ const IndividualEditprofile = () => {
     // if (validForm()) {
     users.date_of_birth = year + " " + month + " " + day;
 
-    console.log(users);
     if (users.password === "" || users.password === undefined) {
       delete users.password;
     }
@@ -95,19 +102,18 @@ const IndividualEditprofile = () => {
       delete users.state;
     }
     users.phone = phoneValue;
-    console.log("after deleting password from user object", users);
-    console.log(users.date_of_birth, "date of birth");
-    let url = "https://shelterprovider.herokuapp.com/v1/auth/registerUser";
+    let url = `${basePath}users/${localStorage.getItem('user')}}`;
     let options = {
-      method: "POST",
+      method: "PUT",
       url: url,
-      headers: {},
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      },
       data: users,
     };
     //  try{
     await axios(options)
       .then((response) => {
-        console.log(response, "   response");
         console.log(response);
         toast.success("Added Successfully!");
         setTimeout(() => {
@@ -116,7 +122,7 @@ const IndividualEditprofile = () => {
       })
       .catch((error) => {
         toast.error("Fields Cannot be empty");
-        console.log(error.message, "   error ");
+        console.log(error.message, "  error ");
       });
 
     // console.log(response);
@@ -173,6 +179,22 @@ const IndividualEditprofile = () => {
       : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
     return maskedText;
   };
+
+  const changeState = (e)=> {
+    const state = e.target.value
+    // setUser({users, ['state']: state})
+    getCountiesOfState(state)
+  }
+
+  const changeCounty = (e)=> {
+    const county = e.target.value
+    // setUser({users, ['county']: county})
+  }
+
+  const getCountiesOfState = (state)=> {
+    const data = results.filter(x => x.state === state)
+    setCounties(data)
+  }
 
   return (
     <div>
@@ -292,19 +314,15 @@ const IndividualEditprofile = () => {
                       onChange={handleInput}
                       className="form-control login_field"
                       id="exampleFormControlSelect1"
+                      // selected={users.ethnicity}
                     >
-                      <option className="login_field">Enter Ethnicity</option>
-                      <option>African American</option>
-                      <option>Native Americans</option>
-                      <option>Native</option>
-                      <option>Alaska Native</option>
-                      <option>White</option>
-                      <option>Asian American</option>
-                      <option> American Indian</option>
-                      <option>Hispanic and Latino Americans</option>
-                      <option>Mexicans</option>
-                      <option>Ojibwe</option>
-                      <option> Other</option>
+                      <option className="login_field" selected disabled>Enter Ethnicity</option>
+                      {ethnicities.map((item, index)=> {
+                        return(
+                          <option key={index} className="login_field" selected={item == users.ethnicity? true: false}>{item}</option>
+
+                        )
+                      })}
                     </select>
                   </div>
 
@@ -380,9 +398,11 @@ const IndividualEditprofile = () => {
                       name="cardNumber"
                       className="first form-control login_field login_fieldw"
                       id="cardNumber"
+                      value={normalizeCardNumber(users.phone)}
                       onChange={(event) => {
                         const { value } = event.target;
                         setPhonevalue(value);
+                        // setUser({users, ['phone']: value})
                         event.target.value = normalizeCardNumber(value);
                       }}
                     />
@@ -417,98 +437,53 @@ const IndividualEditprofile = () => {
                           // optional, if not provided current date is endDate
                           "1999-11-01" // 'yyyy-mm-dd' format only
                         }
-                        selectedDate={
-                          // optional
-                          selectedDate
-                          // this.state.selectedDate // 'yyyy-mm-dd' format only
-                        }
+                        selectedDate={selectedDate}
                         onYearChange={(year) => {
-                          // optional
                           setYear(year);
-                          console.log(year);
                         }}
                         onDayChange={(day) => {
-                          // optional
                           setDay(day);
-                          console.log(day);
                         }}
                         onMonthChange={(month) => {
-                          // optional
                           setMonth(month);
-                          console.log(month);
                         }}
                         onDateChange={(date) => {
-                          // optional
-                          // console.log(date);
-                          // setDate(date);
                           setSelectedDate(formatDate(date));
-                          // this.setState({
-                          //   date: date,
-                          //   selectedDate: formatDate(date),
-                          // });
                         }}
                       />
                     </div>
                   </div>
-                  {/* <select className="select" multiple>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                    <option value="4">Four</option>
-                    <option value="5">Five</option>
-                    <option value="6">Six</option>
-                    <option value="7">Seven</option>
-                    <option value="8">Eight</option>
-                  </select> */}
+                
                   <div className="row">
                     <div className="col-lg-6 pl-0 respon2">
                       <div className="mb-3 label_input">
-                        <label htmlFor="validationCustom02">COUNTY</label>
-                        <input
-                          name="county"
-                          type="text"
-                          value={users.county}
-                          onChange={handleInput}
-                          className="form-control login_field"
-                          id="validationCustom02"
-                          placeholder="Enter County"
-                        />
-                        {/* {errField.countyErr.length > 0 && (
-                          <span
-                            style={{
-                              color: "red",
-                              fontSize: "11px",
-                              fontFamily: "popreg",
-                            }}
-                          >
-                            {errField.countyErr}
-                          </span>
-                        )} */}
+                      <label htmlFor="validationCustom02">STATE</label>
+                        <select className="form-control login_field" name="states" id="states"
+                        onChange={changeState}
+                        >
+                          <option className="login_field" selected disabled>Select State</option>
+                          {states.map((item, index)=> {
+                            return (
+                              <option className="login_field" key={index} value={item}>{item}</option>
+                            )
+                          })}
+                        </select>
+                       
                       </div>
                     </div>
                     <div className="col-lg-6 pr-0 respon">
                       <div className="mb-3 label_input">
-                        <label htmlFor="validationCustom02">STATE</label>
-                        <input
-                          value={users.state}
-                          name="state"
-                          placeholder="Enter State"
-                          onChange={handleInput}
-                          type="text"
-                          className="form-control login_field"
-                          id="validationCustom02"
-                        />
-                        {/* {errField.stateErr.length > 0 && (
-                          <span
-                            style={{
-                              color: "red",
-                              fontSize: "11px",
-                              fontFamily: "popreg",
-                            }}
-                          >
-                            {errField.stateErr}
-                          </span>
-                        )} */}
+                        <label htmlFor="validationCustom02">COUNTY</label>
+                        <select className="form-control login_field" name="counties" id="counties"
+                        onChange={changeCounty}
+                        >
+                          <option className="login_field" selected disabled>Select County</option>
+                          {counties.map((item, index)=> {
+                            return (
+                              <option className="login_field" key={index} value={item.countyName}>{item.countyName}</option>
+                            )
+                          })}
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -531,7 +506,15 @@ const IndividualEditprofile = () => {
                 className="signupbtn"
                 type={"submit"}
               >
-                SIGNUP
+                Submit Changes
+              </button>
+              <button
+                style={{ marginTop: "30px", color: '#101b79', background: 'transparent', border: 'none' }}
+                className="signupbtn"
+                onClick={cancel}
+                type={"button"}
+              >
+                Cancel
               </button>
               {/* </Link> */}
             </div>

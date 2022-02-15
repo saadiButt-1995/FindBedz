@@ -5,6 +5,7 @@ import ImgCrop from "antd-img-crop";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+import { basePath } from "../../config";
 
 function Sheltorsignup() {
   const [user, setUser] = useState({
@@ -125,7 +126,7 @@ function Sheltorsignup() {
     formdata.append("image", fileList[0]);
 
     if (validForm()) {
-      let url = "https://shelterprovider.herokuapp.com/v1/shelter/create";
+      let url = `${basePath}shelter/create`;
       let options = {
         method: "POST",
         url: url,

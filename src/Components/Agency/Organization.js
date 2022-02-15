@@ -4,6 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import axios from "axios";
 import { Checkbox } from "antd";
+import { basePath } from "../../config";
 
 function Organization() {
   const [user, setUser] = useState({
@@ -73,7 +74,7 @@ function Organization() {
 
     console.log("showin   ", validForm());
     if (validForm()) {
-      let url = "https://shelterprovider.herokuapp.com/v1/auth/registerSheriff";
+      let url = `${basePath}auth/registerSheriff`;
       let options = {
         method: "POST",
         url: url,
