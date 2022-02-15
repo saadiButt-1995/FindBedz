@@ -663,6 +663,16 @@ textarea {
   height: 180px;
   width: 85%;
 }
+.indiv_cardd {
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgb(0 0 0 / 25%);
+  border-radius: 20px;
+  text-align: center;
+  padding: 36px 11px;
+  transition: 1s;
+  height: 210px;
+  width: 100%;
+}
 .login_fieldw {
   padding-left: 50px !important;
 }
@@ -734,7 +744,17 @@ textarea {
 .indiv_card img {
   width: 28%;
 }
+.indiv_cardd img {
+  width: 28%;
+}
+
 .indiv_card:hover {
+  transform: scale(1.1);
+  background: transparent;
+  z-index: 2;
+  box-shadow: 2px 2px 2px #000;
+}
+.indiv_cardd:hover {
   transform: scale(1.1);
   background: transparent;
   z-index: 2;

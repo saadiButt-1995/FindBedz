@@ -117,22 +117,7 @@ const Individual = () => {
         toast.error("Something went wrong !");
         console.log(error, "   error ");
       });
-
-    // console.log(response);
-    // if (response.status === 200) {
-    //   toast.success("Added Successfully!");
-    //   setTimeout(() => {
-    //     navigate("/login");
-    //   }, 1500);
-    // } else {
-    //   toast.error("Something went wrong !");
-    // }
-    // } else {
-    //   console.log(e, "error");
-    //   toast.error("Something went wrong !");
   };
-
-  // };
 
   const validForm = () => {
     let formIsValid = true;

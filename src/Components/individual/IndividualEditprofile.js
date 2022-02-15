@@ -6,7 +6,8 @@ import axios from "axios";
 import { DropdownDate } from "react-dropdown-date";
 import { Checkbox } from "antd";
 import { basePath } from "../../config";
-import moment from 'moment'
+import moment from "moment";
+import { Link } from "react-router-dom";
 import { results, states } from "../../services/states_counties";
 
 const IndividualEditprofile = () => {
@@ -14,18 +15,31 @@ const IndividualEditprofile = () => {
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
-  const [user, setUserData] = useState(JSON.parse(localStorage.getItem('user_data')));
+  const [user, setUserData] = useState(
+    JSON.parse(localStorage.getItem("user_data"))
+  );
 
   const [phoneValue, setPhonevalue] = useState("");
-  const [selectedDate, setSelectedDate] = useState('2022-2-2');
+  const [selectedDate, setSelectedDate] = useState("2022-2-2");
   const [counties, setCounties] = useState([]);
   const ethnicities = [
-    'African American',   'Native Americans',   'Native',   'Alaska Native',   'White',   'Asian American',   'American Indian',   'Hispanic and Latino Americans',   'Mexicans',   'Ojibwe',   'Other', ]
+    "African American",
+    "Native Americans",
+    "Native",
+    "Alaska Native",
+    "White",
+    "Asian American",
+    "American Indian",
+    "Hispanic and Latino Americans",
+    "Mexicans",
+    "Ojibwe",
+    "Other",
+  ];
 
-    useEffect(()=> {
-      setSelectedDate(formatDate(moment(user.date_of_birth).format('llll')))
-      setPhonevalue(normalizeCardNumber(user.phone))
-    }, [])
+  useEffect(() => {
+    setSelectedDate(formatDate(moment(user.date_of_birth).format("llll")));
+    setPhonevalue(normalizeCardNumber(user.phone));
+  }, []);
   const formatDate = (date) => {
     // formats a JS date to 'yyyy-mm-dd'
     var d = new Date(date),
@@ -44,7 +58,7 @@ const IndividualEditprofile = () => {
 
   const [users, setUser] = useState({
     userName: user.userName,
-    password: '',
+    password: "",
     phone: user.phone,
     nickName: user.nickName,
     ethnicity: user.ethnicity,
@@ -64,11 +78,21 @@ const IndividualEditprofile = () => {
 
   let name, value;
 
-  const cancel = ()=> {
-    setUser({ userName: '', password: '', phone: '', nickName: '', ethnicity: '', role: '', date_of_birth: '', county: '', state: '', email: '',
-    })
-    setSelectedDate('2022-2-2')
-  }
+  const cancel = () => {
+    setUser({
+      userName: "",
+      password: "",
+      phone: "",
+      nickName: "",
+      ethnicity: "",
+      role: "",
+      date_of_birth: "",
+      county: "",
+      state: "",
+      email: "",
+    });
+    setSelectedDate("2022-2-2");
+  };
   const handleInput = (event) => {
     name = event.target.name;
     value = event.target.value;
@@ -102,12 +126,12 @@ const IndividualEditprofile = () => {
       delete users.state;
     }
     users.phone = phoneValue;
-    let url = `${basePath}users/${localStorage.getItem('user')}}`;
+    let url = `${basePath}users/${localStorage.getItem("user")}}`;
     let options = {
       method: "PUT",
       url: url,
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       data: users,
     };
@@ -180,21 +204,21 @@ const IndividualEditprofile = () => {
     return maskedText;
   };
 
-  const changeState = (e)=> {
-    const state = e.target.value
+  const changeState = (e) => {
+    const state = e.target.value;
     // setUser({users, ['state']: state})
-    getCountiesOfState(state)
-  }
+    getCountiesOfState(state);
+  };
 
-  const changeCounty = (e)=> {
-    const county = e.target.value
+  const changeCounty = (e) => {
+    const county = e.target.value;
     // setUser({users, ['county']: county})
-  }
+  };
 
-  const getCountiesOfState = (state)=> {
-    const data = results.filter(x => x.state === state)
-    setCounties(data)
-  }
+  const getCountiesOfState = (state) => {
+    const data = results.filter((x) => x.state === state);
+    setCounties(data);
+  };
 
   return (
     <div>
@@ -202,12 +226,16 @@ const IndividualEditprofile = () => {
       <div className="indi_signup">
         <div className="edit_header">
           <div className="edit_left_bts">
-            <img
-              style={{ height: "29px", paddingRight: "10px" }}
-              src="images/dashhome.svg"
-              alt=""
-            />
-            <img style={{ height: "29px" }} src="/images/back.svg" alt="" />
+            <Link to="/">
+              <img
+                style={{ height: "29px", paddingRight: "10px" }}
+                src="images/dashhome.svg"
+                alt=""
+              />
+            </Link>
+            <Link to="/individual-landingpage">
+              <img style={{ height: "29px" }} src="/images/back.svg" alt="" />
+            </Link>
           </div>
           <div
             style={{
@@ -316,12 +344,19 @@ const IndividualEditprofile = () => {
                       id="exampleFormControlSelect1"
                       // selected={users.ethnicity}
                     >
-                      <option className="login_field" selected disabled>Enter Ethnicity</option>
-                      {ethnicities.map((item, index)=> {
-                        return(
-                          <option key={index} className="login_field" selected={item == users.ethnicity? true: false}>{item}</option>
-
-                        )
+                      <option className="login_field" selected disabled>
+                        Enter Ethnicity
+                      </option>
+                      {ethnicities.map((item, index) => {
+                        return (
+                          <option
+                            key={index}
+                            className="login_field"
+                            selected={item == users.ethnicity ? true : false}
+                          >
+                            {item}
+                          </option>
+                        );
                       })}
                     </select>
                   </div>
@@ -453,35 +488,56 @@ const IndividualEditprofile = () => {
                       />
                     </div>
                   </div>
-                
+
                   <div className="row">
                     <div className="col-lg-6 pl-0 respon2">
                       <div className="mb-3 label_input">
-                      <label htmlFor="validationCustom02">STATE</label>
-                        <select className="form-control login_field" name="states" id="states"
-                        onChange={changeState}
+                        <label htmlFor="validationCustom02">STATE</label>
+                        <select
+                          className="form-control login_field"
+                          name="states"
+                          id="states"
+                          onChange={changeState}
                         >
-                          <option className="login_field" selected disabled>Select State</option>
-                          {states.map((item, index)=> {
+                          <option className="login_field" selected disabled>
+                            Select State
+                          </option>
+                          {states.map((item, index) => {
                             return (
-                              <option className="login_field" key={index} value={item}>{item}</option>
-                            )
+                              <option
+                                className="login_field"
+                                key={index}
+                                value={item}
+                              >
+                                {item}
+                              </option>
+                            );
                           })}
                         </select>
-                       
                       </div>
                     </div>
                     <div className="col-lg-6 pr-0 respon">
                       <div className="mb-3 label_input">
                         <label htmlFor="validationCustom02">COUNTY</label>
-                        <select className="form-control login_field" name="counties" id="counties"
-                        onChange={changeCounty}
+                        <select
+                          className="form-control login_field"
+                          name="counties"
+                          id="counties"
+                          onChange={changeCounty}
                         >
-                          <option className="login_field" selected disabled>Select County</option>
-                          {counties.map((item, index)=> {
+                          <option className="login_field" selected disabled>
+                            Select County
+                          </option>
+                          {counties.map((item, index) => {
                             return (
-                              <option className="login_field" key={index} value={item.countyName}>{item.countyName}</option>
-                            )
+                              <option
+                                className="login_field"
+                                key={index}
+                                value={item.countyName}
+                              >
+                                {item.countyName}
+                              </option>
+                            );
                           })}
                         </select>
                       </div>
@@ -509,7 +565,12 @@ const IndividualEditprofile = () => {
                 Submit Changes
               </button>
               <button
-                style={{ marginTop: "30px", color: '#101b79', background: 'transparent', border: 'none' }}
+                style={{
+                  marginTop: "30px",
+                  color: "#101b79",
+                  background: "transparent",
+                  border: "none",
+                }}
                 className="signupbtn"
                 onClick={cancel}
                 type={"button"}

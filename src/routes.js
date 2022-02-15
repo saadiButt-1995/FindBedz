@@ -1,20 +1,23 @@
 import { Route, Routes } from "react-router-dom";
 import Landingpage from "./Landingpage";
-import SignUp from "./SignUp";
-import Login from "./Login";
+////individual/////
 import Individual from "./Components/individual/Individual";
 import IndividualLanding from "./Components/individual/IndividualLanding";
+/////shelter-provider/////
+import Sheltordashboard from "./Components/sheltorProvider/Sheltordashboard";
 import Sheltorsignup from "./Components/sheltorProvider/Sheltorsignup";
+/////Organization/////
 import Organization from "./Components/Agency/Organization";
 import OrganizationLandingpage from "./Components/Agency/OrganizationLandingpage";
-import Sheltordashboard from "./Components/sheltorProvider/Sheltordashboard";
-import Empty from "./Empty";
-import Ant from "./Ant";
+import OrganizationEditprofile from "./Components/Agency/OrganizationEditprofile";
 import Editprofile from "./Components/individual/IndividualEditprofile";
+////////////forget-password///////
 import Newpassword from "./Newpassword";
 import Forget from "./Forget";
 import Enterpin from "./Enterpin";
-
+//////////signup-login//////////
+import SignUp from "./SignUp";
+import Login from "./Login";
 export default function routes() {
   return (
     <Routes>
@@ -30,8 +33,10 @@ export default function routes() {
         path="/OrganizationLandingpage"
         element={<OrganizationLandingpage />}
       />
-      <Route path="/empty" element={<Empty />} />
-      <Route path="/ant" element={<Ant />} />
+      <Route
+        path="/organization-edit-profile"
+        element={<OrganizationEditprofile />}
+      />
       <Route path="/IndividualEditprofile" element={<Editprofile />} />
       <Route path="/forget-password" element={<Forget />} />
       <Route path="/newpassword" element={<Newpassword />} />
