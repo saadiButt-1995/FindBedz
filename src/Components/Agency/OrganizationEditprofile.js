@@ -1,27 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import axios from "axios";
 import { Checkbox } from "antd";
 import { basePath } from "../../config";
+import { logout, setUsersData, updateUserDetails } from "../../services/auth";
 
 function OrganizationEditprofile() {
-  const [user, setUser] = useState({
-    userName: "",
-    password: "",
-    phone: "",
-    email: "",
-    organization: "",
-    address: "",
-    city: "",
-    state: "",
-    zipcode: "",
+  const navigate = useNavigate()
+  const [user, setUserData] = useState(
+    JSON.parse(localStorage.getItem("user_data"))
+  );
+  const [users, setUser] = useState({
+    userName: user.userName,
+    password: user.password,
+    phone: user.phone,
+    email: user.email,
+    organization: user.organization,
+    address: user.address,
+    city: user.city,
+    state: user.state,
+    zipcode: user.zipcode,
     role: "sheriff",
-    iam: "",
+    iam: user.iam,
   });
   const [phoneValue, setPhonevalue] = useState("");
-  const navigate = useNavigate();
   const [errField, setErrField] = useState({
     userNameErr: "",
     passwordErr: "",
@@ -35,61 +39,74 @@ function OrganizationEditprofile() {
     sherifErr: "",
     iamErr: "",
   });
+  const positions = [
+    'Outreach worker',
+    'Municipal agency',
+    'Law enforcement',
+    'Services provider'
+  ]
+  useEffect(() => {
+    setPhonevalue(normalizeCardNumber(user.phone));
+  }, []);
 
   let name, value;
   const handleInput = (event) => {
     name = event.target.name;
     value = event.target.value;
-    setUser({ ...user, [name]: value });
+    setUser({ ...users, [name]: value });
   };
+
+  const signout = () => {
+    logout()
+    navigate('/')
+    
+  }
+
   const submit = async (e) => {
     e.preventDefault();
-    if (user.city === "" || user.city === undefined) {
-      delete user.city;
+    if (users.city === "" || users.city === undefined) {
+      delete users.city;
     }
-    if (user.state === "" || user.state === undefined) {
-      delete user.state;
+    if (users.state === "" || users.state === undefined) {
+      delete users.state;
     }
-    if (user.zipcode === "" || user.zipcode === undefined) {
-      delete user.zipcode;
+    if (users.zipcode === "" || users.zipcode === undefined) {
+      delete users.zipcode;
     }
-    if (user.iam === "" || user.iam === undefined) {
-      delete user.iam;
+    if (users.iam === "" || users.iam === undefined) {
+      delete users.iam;
     }
-    user.phone = phoneValue;
+    users.phone = phoneValue;
+    delete users.userName
+    delete users.role;
+    delete users.password;
+    delete users.organization;
 
     console.log("showin   ", validForm());
     if (validForm()) {
-      let url = `${basePath}auth/registerSheriff`;
-      let options = {
-        method: "POST",
-        url: url,
-        headers: {},
-        data: user,
-      };
-      // try{
-      await axios(options)
-        .then((response) => {
-          console.log(response, "   response");
-          console.log(response);
-          if (response.status === 200) {
-            toast.success("Added Successfully!");
+      try{
+        var response = await updateUserDetails(users)
+        if(response.status == 200){
+          toast.success("Updated Successfully!");
+          setUsersData(user._id)
             setTimeout(() => {
               navigate("/OrganizationLandingpage");
             }, 1500);
+          }else{
+            toast.error("Fields Cannot be empty");
+            console.log(response);
           }
-        })
-        .catch((error) => {
-          toast.error("Something went wrong !");
-          console.log(error, "   error ");
-        });
+      }catch(e){
+        console.log('ERROR*************');
+        toast.error(e.response.data.message);
+      }
     }
   };
 
   const validForm = () => {
     let formIsValid = true;
     setErrField({
-      userNameErr: "",
+      // userNameErr: "",
       passwordErr: "",
       phoneErr: "",
       emailErr: "",
@@ -100,49 +117,49 @@ function OrganizationEditprofile() {
       zipcodeErr: "",
       iamErr: "",
     });
-    if (user.userName === "") {
-      formIsValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        userNameErr: "Please Enter Name",
-      }));
-    }
-    if (user.password === "") {
+    // if (users.userName === "") {
+    //   formIsValid = false;
+    //   setErrField((prevState) => ({
+    //     ...prevState,
+    //     userNameErr: "Please Enter Name",
+    //   }));
+    // }
+    if (users.password === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
         passwordErr: "Please Enter Password",
       }));
     }
-    if (user.phone === "") {
+    if (users.phone === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
         phoneErr: "Please Enter phone",
       }));
     }
-    if (user.email === "") {
+    if (users.email === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
         emailErr: "Please Enter email",
       }));
     }
-    if (user.organization === "") {
+    if (users.organization === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
         organizationErr: "Please Enter organization",
       }));
     }
-    if (user.address === "") {
+    if (users.address === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
         addressErr: "Please Enter address",
       }));
     }
-    if (user.city === "") {
+    if (users.city === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
@@ -150,7 +167,7 @@ function OrganizationEditprofile() {
       }));
     }
 
-    if (user.zipcode === "") {
+    if (users.zipcode === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
@@ -201,7 +218,7 @@ function OrganizationEditprofile() {
         >
           FindBedz
         </div>
-        <div>
+        <div style={{ cursor: 'pointer' }} onClick={signout}>
           <img src="/images/logout.svg" alt=""></img>
         </div>
       </div>
@@ -232,19 +249,20 @@ function OrganizationEditprofile() {
             <ToastContainer />
             <div className="mb-3 label_input">
               <label htmlFor="validationCustom01">
-                CHOOSE USERNAME <span className="star_red">*</span>
+                CHOOSE USERNAME 
+                {/* <span className="star_red">*</span> */}
               </label>
               <input
                 name="userName"
-                value={user.userName}
+                value={users.userName}
                 onChange={handleInput}
                 type="text"
                 placeholder="Create a username"
                 className="form-control login_field"
                 id="validationCustom01"
-                required
+                disabled
               />
-              {errField.userNameErr.length > 0 && (
+              {/* {errField.userNameErr.length > 0 && (
                 <span
                   style={{
                     color: "red",
@@ -254,7 +272,7 @@ function OrganizationEditprofile() {
                 >
                   {errField.userNameErr}
                 </span>
-              )}
+              )} */}
             </div>
             <div className="mb-3 label_input">
               <label htmlFor="validationCustom02">
@@ -262,7 +280,7 @@ function OrganizationEditprofile() {
               </label>
               <input
                 name="organization"
-                value={user.organization}
+                value={users.organization}
                 onChange={handleInput}
                 type="text"
                 placeholder="Enter full name of organization"
@@ -307,6 +325,7 @@ function OrganizationEditprofile() {
                 name="cardNumber"
                 className="first form-control login_field login_fieldw"
                 id="cardNumber"
+                value={normalizeCardNumber(users.phone)}
                 onChange={(event) => {
                   const { value } = event.target;
                   setPhonevalue(value);
@@ -336,28 +355,30 @@ function OrganizationEditprofile() {
                 class="form-control login_field"
                 id="exampleFormControlSelect1"
               >
-                <option classname="login_field">Choose your role</option>
-                <option>Outreach worker</option>
-                <option>Municipal agency</option>
-                <option>Law enforcement</option>
-                <option>Services provider</option>
+                <option classname="login_field" selected disabled>Choose your role</option>
+                {positions.map((item, index)=> {
+                  return (
+                    <option classname="login_field" selected={item == users.iam? true : false}>{item}</option>
+                  )
+                })}
               </select>
             </div>
           </div>
           <div className="col-lg-6">
             <div className="label_input mb-3">
               <label htmlFor="validationCustom03">
-                CHOOSE PASSWORD <span className="star_red">*</span>
+                CHOOSE PASSWORD 
+                {/* <span className="star_red">*</span> */}
               </label>
               <input
                 name="password"
-                value={user.password}
+                value={users.password}
                 onChange={handleInput}
                 type={open === false ? "password" : "text"}
                 className="form-control login_field"
                 id="validationCustom03"
                 placeholder="************"
-                required
+                disabled
               />
               {open === false ? (
                 <AiFillEyeInvisible className="svggg" onClick={toggle} />
@@ -382,7 +403,7 @@ function OrganizationEditprofile() {
               </label>
               <input
                 name="email"
-                value={user.email}
+                value={users.email}
                 onChange={handleInput}
                 type="email"
                 placeholder="user@gmail.com"
@@ -408,7 +429,7 @@ function OrganizationEditprofile() {
               </label>
               <input
                 name="address"
-                value={user.address}
+                value={users.address}
                 onChange={handleInput}
                 type="text"
                 placeholder="Enter street address"
@@ -433,7 +454,7 @@ function OrganizationEditprofile() {
                 <div className="mb-3 label_input">
                   <label htmlFor="validationCustom02">CITY</label>
                   <input
-                    value={user.city}
+                    value={users.city}
                     onChange={handleInput}
                     type="text"
                     name="city"
@@ -448,7 +469,7 @@ function OrganizationEditprofile() {
                 <div className="mb-3 label_input">
                   <label htmlFor="validationCustom02">STATE</label>
                   <input
-                    value={user.state}
+                    value={users.state}
                     onChange={handleInput}
                     type="text"
                     name="state"
@@ -464,7 +485,7 @@ function OrganizationEditprofile() {
                   <div className="mb-3 label_input">
                     <label htmlFor="validationCustom02">ZIP CODE</label>
                     <input
-                      value={user.zipcode}
+                      value={users.zipcode}
                       onChange={handleInput}
                       type="number"
                       name="zipcode"
@@ -479,28 +500,6 @@ function OrganizationEditprofile() {
             </div>
           </div>
         </div>
-        <Checkbox
-          style={{ paddingLeft: "17px", paddingTop: "20px" }}
-          onChange={onChange}
-        >
-          <span className="label_input">
-            MAY WE USE YOUR DEVICE’S LOCATION SERVICES?
-            <span className="star_red">*</span>
-          </span>
-        </Checkbox>
-        {/* <div className="custom-control custom-switch">
-          <input
-            type="checkbox"
-            className="custom-control-input"
-            id="customSwitch1"
-          />
-          <label
-            className="custom-control-label label_input"
-            htmlFor="customSwitch1"
-          >
-            MAY WE USE YOUR DEVICE’S LOCATION SERVICES?
-          </label>
-        </div> */}
         <div className="btn_center">
           <Link to="/agency-landingpage" onClick={submit}>
             <button className="signupbtn mrgin_btn">SIGNUP</button>

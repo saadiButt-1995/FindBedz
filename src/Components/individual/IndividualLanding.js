@@ -1,7 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../../services/auth";
 
 function IndividualLanding() {
+  const navigate = useNavigate()
+
+  const signout = () => {
+    logout()
+    navigate('/')
+  }
+
   return (
     <>
       <div>
@@ -10,10 +18,8 @@ function IndividualLanding() {
             <h6 className="dashtittle">FindBedz</h6>
           </div>
 
-          <div className="logdiv">
-            <Link to="/">
+          <div className="logdiv" style={{ cursor: 'pointer' }} onClick={signout}>
               <img src="/images/logout.svg" alt="" />
-            </Link>
           </div>
         </div>
 

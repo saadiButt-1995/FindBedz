@@ -21,21 +21,10 @@ function Organization() {
     role: "sheriff",
     iam: "",
   });
-  const [phoneValue, setPhonevalue] = useState("");
-
+  
   const navigate = useNavigate();
-  // const handleAddrTypeChange = (e) => {
-  //   console.clear();
-  //   console.log(user.iam[e.target.value]);
-  //   setUser({ ...user, iam: e.target.value });
-  // };
-  // const [role, setRole] = useState("sheriif");
-  // const  = (event) => {
-  //   event.preventDefault();
-  //   console.log(`
-  //     Role: ${role}
-  //   `);
-  // };
+  const [phoneValue, setPhonevalue] = useState("");
+  const [terms, setTerms] = useState(false);
 
   const [errField, setErrField] = useState({
     userNameErr: "",
@@ -59,6 +48,10 @@ function Organization() {
   };
   const submit = async (e) => {
     e.preventDefault();
+    if(!terms){
+      toast.error('Please Check Device Locations Services!')
+      return
+    }
     if (user.city === "" || user.city === undefined) {
       delete user.city;
     }
@@ -169,8 +162,8 @@ function Organization() {
   const toggle = () => {
     setOpen(!open);
   };
-  function onChange(e) {
-    console.log(`checked = ${e.target.checked}`);
+  const onChange = (e)=> {
+    setTerms(e.target.checked)
   }
   const normalizeCardNumber = (value) => {
     let x = value.replace(/\D/g, "").match(/(\d{0,3})(\d{0,3})(\d{0,4})/);

@@ -1,6 +1,7 @@
 import {axios} from '../config'
 
-
+const user = localStorage.getItem("user")
+const token = `Bearer ${localStorage.getItem("token")}`
 
 const login = async(data) => {
     var response = await axios.post(`auth/login`, data)
@@ -31,13 +32,22 @@ const setLocalValues = async(data) => {
     localStorage.setItem('status', status)
     localStorage.setItem('role', role)
 
+    setUsersData(user)
+}
+
+const setUsersData = async(user)=> {
     var result = await getUserDetails(user)
     localStorage.setItem('user_data', JSON.stringify(result.data.user))
-    console.log(result.data);
 }
 
 const getUserDetails = async(user_query) => {
     return await axios.get(`users/${user_query}`)
+}
+
+const updateUserDetails = async(data) => {
+    return await axios.put(`users/${user}`, data, {headers: {
+        Authorization: token,
+      }})
 }
 
 const individualSignup = async(data) => {
@@ -57,4 +67,13 @@ const providerSignup = async(data) => {
 
 
 
-export {setLocalValues, login, logout, individualSignup, organizationSignup, providerSignup}
+export {
+    setLocalValues, 
+    login, 
+    logout, 
+    individualSignup, 
+    organizationSignup, 
+    providerSignup, 
+    updateUserDetails,
+    setUsersData,
+}

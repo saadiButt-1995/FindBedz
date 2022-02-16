@@ -84,9 +84,9 @@ a:hover {
   background: #ddebff;
   box-shadow: inset -4px -4px 6px rgba(0, 0, 0, 0.15),
     inset 4px 4px 4px rgba(0, 0, 0, 0.25);
-  padding-left: 30px;
-  padding-right: 30px;
-  padding-top: 40px;
+  /* padding-left: 30px;
+  padding-right: 30px; */
+  padding-top: 20px;
 }
 .cricle_div1 {
   width: 60px;
@@ -572,6 +572,27 @@ textarea {
 }
 .logodiv img {
   height: 100px;
+}
+.position_right {
+  float: right !important;
+  padding-right: 0 !important;
+}
+.col-form-label {
+  font-size: 14px;
+  font-family: popreg;
+}
+.animals {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.following {
+  color: #151515;
+  font-family: popreg;
+  font-size: 19px;
+  letter-spacing: 2px;
+  font-weight: 600;
+  margin-bottom: 2rem;
 }
 .creat_account {
   display: flex;

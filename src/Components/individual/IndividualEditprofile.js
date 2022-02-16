@@ -9,8 +9,10 @@ import { basePath } from "../../config";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { results, states } from "../../services/states_counties";
+import { logout, setUsersData, updateUserDetails } from "../../services/auth";
 
 const IndividualEditprofile = () => {
+  const navigate = useNavigate()
   // const [open, setOpen] = useState(false);
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
@@ -18,7 +20,6 @@ const IndividualEditprofile = () => {
   const [user, setUserData] = useState(
     JSON.parse(localStorage.getItem("user_data"))
   );
-
   const [phoneValue, setPhonevalue] = useState("");
   const [selectedDate, setSelectedDate] = useState("2022-2-2");
   const [counties, setCounties] = useState([]);
@@ -58,7 +59,7 @@ const IndividualEditprofile = () => {
 
   const [users, setUser] = useState({
     userName: user.userName,
-    password: "",
+    password: user.password,
     phone: user.phone,
     nickName: user.nickName,
     ethnicity: user.ethnicity,
@@ -68,10 +69,9 @@ const IndividualEditprofile = () => {
     state: user.state,
     email: user.email,
   });
-  const navigate = useNavigate();
 
   const [errField, setErrField] = useState({
-    userNameErr: "",
+    // userNameErr: "",
     nickName: "",
     phoneErr: "",
   });
@@ -80,7 +80,7 @@ const IndividualEditprofile = () => {
 
   const cancel = () => {
     setUser({
-      userName: "",
+      // userName: "",
       password: "",
       phone: "",
       nickName: "",
@@ -99,6 +99,12 @@ const IndividualEditprofile = () => {
     setUser({ ...users, [name]: value });
   };
 
+  const signout = () => {
+    logout()
+    navigate('/')
+    
+  }
+
   const submit = async (e) => {
     e.preventDefault();
     console.log("====================================");
@@ -107,9 +113,12 @@ const IndividualEditprofile = () => {
     // if (validForm()) {
     users.date_of_birth = year + " " + month + " " + day;
 
-    if (users.password === "" || users.password === undefined) {
-      delete users.password;
-    }
+    // if (users.password === "" || users.password === undefined) {
+      // delete users.password;
+    // }
+    delete users.userName;
+    delete users.role;
+    delete users.password;    
     if (users.county === "" || users.county === undefined) {
       delete users.county;
     }
@@ -126,58 +135,38 @@ const IndividualEditprofile = () => {
       delete users.state;
     }
     users.phone = phoneValue;
-    let url = `${basePath}users/${localStorage.getItem("user")}}`;
-    let options = {
-      method: "PUT",
-      url: url,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      data: users,
-    };
-    //  try{
-    await axios(options)
-      .then((response) => {
-        console.log(response);
-        toast.success("Added Successfully!");
-        setTimeout(() => {
-          navigate("/individual-landingpage");
-        }, 1500);
-      })
-      .catch((error) => {
-        toast.error("Fields Cannot be empty");
-        console.log(error.message, "  error ");
-      });
-
-    // console.log(response);
-    // if (response.status === 200) {
-    //   toast.success("Added Successfully!");
-    //   setTimeout(() => {
-    //     navigate("/login");
-    //   }, 1500);
-    // } else {
-    //   toast.error("Something went wrong !");
-    // }
-    // } else {
-    //   console.log(e, "error");
-    //   toast.error("Something went wrong !");
+    try{
+      var response = await updateUserDetails(users)
+      if(response.status == 200){
+        toast.success("Updated Successfully!");
+        setUsersData(user._id)
+          setTimeout(() => {
+            navigate("/individual-landingpage");
+          }, 1500);
+        }else{
+          toast.error("Fields Cannot be empty");
+          console.log(response);
+        }
+    }catch(e){
+      console.log('ERROR*************');
+      toast.error(e.response.data.message);
+    }
   };
-  // };
 
   const validForm = () => {
     let formIsValid = true;
     setErrField({
-      userNameErr: "",
+      // userNameErr: "",
       nickName: "",
       phoneErr: "",
     });
-    if (users.userName === "") {
-      formIsValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        userNameErr: "Name is Required",
-      }));
-    }
+    // if (users.userName === "") {
+    //   formIsValid = false;
+    //   setErrField((prevState) => ({
+    //     ...prevState,
+    //     userNameErr: "Name is Required",
+    //   }));
+    // }
 
     if (phoneValue === "") {
       formIsValid = false;
@@ -204,29 +193,16 @@ const IndividualEditprofile = () => {
     return maskedText;
   };
 
-<<<<<<< HEAD
-  const changeState = (e)=> {
-    const state = e.target.value
-    setUser({users, ['state']: state})
-    getCountiesOfState(state)
-  }
-
-  const changeCounty = (e)=> {
-    const county = e.target.value
-    setUser({users, ['county']: county})
-  }
-=======
   const changeState = (e) => {
     const state = e.target.value;
-    // setUser({users, ['state']: state})
+    setUser({...users, state: state})
     getCountiesOfState(state);
   };
 
   const changeCounty = (e) => {
     const county = e.target.value;
-    // setUser({users, ['county']: county})
+    setUser({...users, county: county})
   };
->>>>>>> ffe148feb9f201e616eb378376c5409ebf7ab4cd
 
   const getCountiesOfState = (state) => {
     const data = results.filter((x) => x.state === state);
@@ -259,7 +235,7 @@ const IndividualEditprofile = () => {
           >
             FindBedz
           </div>
-          <div style={{ cursor: 'pointer' }}>
+          <div style={{ cursor: 'pointer' }} onClick={signout}>
             <img src="/images/logout.svg" alt=""></img>
           </div>
         </div>
@@ -293,7 +269,8 @@ const IndividualEditprofile = () => {
                 <div className="col-lg-6">
                   <div className="mb-3 label_input">
                     <label htmlFor="validationCustom01">
-                      CHOOSE USERNAME <span className="star_red">*</span>
+                      CHOOSE USERNAME 
+                      {/* <span className="star_red">*</span> */}
                     </label>
                     <input
                       name="userName"
@@ -303,8 +280,9 @@ const IndividualEditprofile = () => {
                       className="form-control login_field"
                       id="validationCustom01"
                       placeholder="Create a username"
+                      disabled
                     />
-                    {errField.userNameErr.length > 0 && (
+                    {/* {errField.userNameErr.length > 0 && (
                       <span
                         style={{
                           color: "red",
@@ -314,7 +292,7 @@ const IndividualEditprofile = () => {
                       >
                         {errField.userNameErr}
                       </span>
-                    )}
+                    )} */}
                   </div>
 
                   <div className="mb-3 label_input">
@@ -558,14 +536,6 @@ const IndividualEditprofile = () => {
                   </div>
                 </div>
               </div>
-              <Checkbox
-                style={{ paddingLeft: "17px", paddingTop: "20px" }}
-                onChange={onChange}
-              >
-                <span className="label_input">
-                  SYSTEM WILL USE YOUR DEVICE’S LOCATION SERVICES
-                </span>
-              </Checkbox>
             </div>
 
             <div className="btn_center">

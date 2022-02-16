@@ -23,14 +23,12 @@ function Login() {
 
     setUser({ ...user, [name]: value });
   };
-  console.log(user);
   const submit = async (e) => {
     e.preventDefault();
     if (validForm()) {
-      var response = await login(user)
       try {
+        var response = await login(user)
         let role = response.data.role;
-        console.log(response.data);
         if (response.status === 200) {
           toast.success("Login Successfully!");
           setLocalValues(response.data)
@@ -43,10 +41,12 @@ function Login() {
               navigate("/OrganizationLandingpage");
             } 
           }, 1000);
+        }else{
+          toast.error("error!");
         }
       } catch (e) {
-        console.log(e);
-        toast.error("Something went wrong !");
+        console.log('ERROR*************');
+        toast.error(e.response.data.message);
       }
     }
   };

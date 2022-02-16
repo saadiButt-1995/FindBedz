@@ -27,9 +27,6 @@ function Sheltorsignup() {
     maxTimeToHoldABed: "",
     food: "",
     shelterIsFor: "family",
-
-    // contact_person: "xsasas",
-    // massage: "12221",
   });
   const [phoneValue, setPhonevalue] = useState("");
 
@@ -41,18 +38,6 @@ function Sheltorsignup() {
   });
 
   const navigate = useNavigate();
-  // const handleAddrTypeChange = (e) => {
-  //   console.clear();
-  //   console.log(user.iam[e.target.value]);
-  //   setUser({ ...user, iam: e.target.value });
-  // };
-  // const [role, setRole] = useState("sheriif");
-  // const  = (event) => {
-  //   event.preventDefault();
-  //   console.log(`
-  //     Role: ${role}
-  //   `);
-  // };
 
   const [errField, setErrField] = useState({
     userNameErr: "",
@@ -90,16 +75,9 @@ function Sheltorsignup() {
 
     user.phone = phoneValue;
     console.log(validForm());
-    // if (food.breakfast) {
-    //   user.food = "breakfast";
-    // }
-    // if (food.dinner) {
-    //   user.food = "dinner";
-    // }
     user.totalAllowedForReservation = incVal;
     user.totalNumberOfBeds = valuee;
     user.maxTimeToHoldABed = hour;
-    //  fileList = fileList.shift();
     console.log(fileList[0], "   file before upload");
     let formdata = new FormData();
     formdata.append("role", user.role);
@@ -148,11 +126,6 @@ function Sheltorsignup() {
           toast.error("Something went wrong !");
           console.log(error, "   error ");
         });
-
-      // }catch(e){
-      //   console.log(e)
-      //  toast.error("Something went wrong !");
-      // }
     }
   };
 
@@ -245,7 +218,6 @@ function Sheltorsignup() {
   };
   const [open, setOpen] = useState(false);
 
-  // handle toggle
   const toggle = () => {
     setOpen(!open);
   };
@@ -253,10 +225,6 @@ function Sheltorsignup() {
   const [incVal, setIncVal] = useState(0);
   const [hour, setHour] = useState(0);
   const [fileList, setFileList] = useState([]);
-  // const onChange = ({ fileList: newFileList }) => {
-  //   setFileList(newFileList);
-  //   console.log(newFileList, "   files");
-  // };
   const onPreview = async (file) => {
     let src = file.url;
     if (!src) {
@@ -320,18 +288,6 @@ function Sheltorsignup() {
       : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
     return maskedText;
   };
-  // formatePhoneNumber=(phoneNumberString)=>{
-  //   let newText="";
-  //   let cleaned = ('' + phoneNumberString).replace(/\b/g,'');
-  //   for(var i = 0; i < cleaned.length; i++){
-  //     if (i == 0){
-  //       newText = '(';
-  //       else if (i == 3){
-
-  //       }
-  //     }
-  //   }
-  // }
 
   return (
     <div className="Sheltorsignup">
@@ -586,31 +542,7 @@ function Sheltorsignup() {
               </span>
             )}
           </div>
-          {/* <div className="mb-3 label_input">
-            <label htmlFor="validationCustom02">
-              PHONE <span className="star_red">*</span>
-            </label>
-            <input
-              name="phone"
-              onChange={handleInput}
-              value={user.phone}
-              type="text"
-              className="form-control login_field"
-              id="validationCustom02"
-              required
-            />
-            {errField.phoneErr.length > 0 && (
-              <span
-                style={{
-                  color: "red",
-                  fontSize: "11px",
-                  fontFamily: "popreg",
-                }}
-              >
-                {errField.phoneErr}
-              </span>
-            )}
-          </div> */}
+
           <div className="mb-3 label_input">
             <label htmlFor="validationCustom02">
               ENTER EMAIL ADDRESS<span className="star_red">*</span>
@@ -679,7 +611,6 @@ function Sheltorsignup() {
               className="cricle_div"
             >
               {valuee}
-              {/* {user.totalNumberOfBeds} */}
             </div>
             <div className="calcu_btns">
               <button className="plusbtn" onClick={increament}>
@@ -734,10 +665,15 @@ function Sheltorsignup() {
         THE ITEMS BELOW CAN ALSO BE ADDED LATER UNDER “EDIT PROFILE”
       </p>
       <div className="container mt-4 background_contain">
+        <p className="following">
+          THE FOLLOWING ITEMS CAN ALSO BE ADDED LATER UNDER “EDIT PROFILE”
+        </p>
         <div className="row">
           <div className="col-lg-6">
             <div classname="checkboxs">
-              <p className="checks_labels">Click all that apply</p>
+              <p style={{ fontWeight: "600" }} className="checks_labels">
+                MEALS PROVIDED (check all that apply):
+              </p>
               <div className="form-group form-check ">
                 <input
                   type="checkbox"
@@ -797,7 +733,16 @@ function Sheltorsignup() {
             </div>
           </div>
           <div className=" col-lg-6 mobile_view">
-            <p className="checks_labels">RULES/REQUIREMENTS</p>
+            <p
+              style={{
+                fontSize: "16px",
+                fontWeight: "600",
+                letterSpacing: "1px",
+              }}
+              className="checks_labels"
+            >
+              Shelter Is For:
+            </p>
             <div className="radiobnts">
               <div className="form-check form-group">
                 <input
@@ -866,6 +811,164 @@ function Sheltorsignup() {
             </div>
           </div>
         </div>
+        <div className="form-group row">
+          <label
+            style={{
+              // fontSize: "14px",
+              fontWeight: "600",
+              letterSpacing: "1px",
+            }}
+            htmlFor="inputEmail3"
+            className="col-sm-2 col-form-label"
+          >
+            HOURS OF INTAKE:
+          </label>
+          <div className="col-lg-4 pl-0">
+            <input type="number" className="form-control" id="" />
+          </div>
+        </div>
+        <div style={{ marginTop: "20px" }} className="row">
+          <div className="col-lg-6">
+            <div style={{ marginBottom: "20px" }} classname="checkboxs">
+              <p style={{ fontWeight: "600" }} className="checks_labels">
+                PETS ALLOWED (Check all that apply):
+              </p>
+              <div className="animals">
+                <div className="form-group form-check checks_labels">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="exampleCheck4"
+                  />
+                  <label
+                    style={{ marginLeft: "20px" }}
+                    className="form-check-label checks_labels"
+                    htmlFor="exampleCheck5"
+                  >
+                    DOGS
+                  </label>
+                </div>
+                <div className="form-group form-check checks_labels">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="exampleCheck6"
+                  />
+                  <label
+                    style={{ marginLeft: "20px" }}
+                    className="form-check-label checks_labels"
+                    htmlFor="exampleCheck1"
+                  >
+                    CATS
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div classname="checkboxs">
+              <p style={{ fontWeight: "600" }} className="checks_labels">
+                STORAGE AVAILABLE:
+              </p>
+              <div className="animals">
+                <div className="form-group form-check checks_labels">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="exampleCheck4"
+                  />
+                  <label
+                    style={{ marginLeft: "20px" }}
+                    className="form-check-label checks_labels"
+                    htmlFor="exampleCheck5"
+                  >
+                    None
+                  </label>
+                </div>
+                <div className="form-group form-check checks_labels">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="exampleCheck6"
+                  />
+                  <label
+                    style={{ marginLeft: "20px" }}
+                    className="form-check-label checks_labels"
+                    htmlFor="exampleCheck1"
+                  >
+                    YES (describe below)
+                  </label>
+                </div>
+              </div>
+              <div className="col-lg-4 pl-0  position_right">
+                <input type="number" className="form-control" id="" />
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-6">
+            <div classname="checkboxs">
+              <p style={{ fontWeight: "600" }} className="checks_labels">
+                AMENITIES PROVIDED (check all that apply):
+              </p>
+              <div className="form-group form-check ">
+                <input
+                  type="checkbox"
+                  name="breakfast"
+                  onChange={(e) => {
+                    handleCheckBox(e);
+                  }}
+                  className="form-check-input"
+                  id="exampleCheck1"
+                />
+                <label
+                  className="form-check-label checks_labels"
+                  htmlFor="exampleCheck1"
+                >
+                  Power Outlets
+                </label>
+              </div>
+              <div className="form-group form-check">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  id="exampleCheck2"
+                />
+                <label
+                  className="form-check-label checks_labels"
+                  htmlFor="exampleCheck3"
+                >
+                  Computer Access
+                </label>
+              </div>
+              <div className="form-group form-check checks_labels">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  id="exampleCheck4"
+                />
+                <label
+                  className="form-check-label checks_labels"
+                  htmlFor="exampleCheck5"
+                >
+                  WIFI
+                </label>
+              </div>
+              <div className="form-group form-check checks_labels">
+                <input
+                  type="checkbox"
+                  className="form-check-input"
+                  id="exampleCheck6"
+                />
+                <label
+                  className="form-check-label checks_labels"
+                  htmlFor="exampleCheck1"
+                >
+                  Shower
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-lg-6"></div>
         <div className="images section mt-4">
           <p className="checks_labels">ADD IMAGES </p>
           <input
@@ -880,8 +983,6 @@ function Sheltorsignup() {
               <Upload
                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                 listType="picture-card"
-                // fileList={fileList}
-                // onChange={onChange}
                 onPreview={onPreview}
               >
                 {fileList.length < 5 && "+ Upload"}

@@ -16,7 +16,7 @@ const Individual = () => {
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
   const [counties, setCounties] = useState([]);
-
+  const [terms, setTerms] = useState(false);
   const [phoneValue, setPhonevalue] = useState("");
   const formatDate = (date) => {
     // formats a JS date to 'yyyy-mm-dd'
@@ -30,8 +30,8 @@ const Individual = () => {
 
     return [year, month, day].join("-");
   };
-  function onChange(e) {
-    console.log(`checked = ${e.target.checked}`);
+  const onChange = (e)=> {
+    setTerms(e.target.checked)
   }
 
   // const [date, setDate] = useState(null);
@@ -65,13 +65,13 @@ const Individual = () => {
 
   const changeState = (e)=> {
     const state = e.target.value
-    setUser({users, ['state']: state})
+    setUser({...users, state: state})
     getCountiesOfState(state)
   }
 
   const changeCounty = (e)=> {
     const county = e.target.value
-    setUser({users, ['county']: county})
+    setUser({...users, county: county})
   }
 
   const getCountiesOfState = (state)=> {
@@ -83,8 +83,12 @@ const Individual = () => {
     console.log("====================================");
     console.log(validForm());
     console.log("====================================");
-    users.date_of_birth = year + " " + month + " " + day;
+    if(!terms){
+      toast.error('Please Check Device Locations Services!')
+      return
+    }
 
+    users.date_of_birth = year + " " + month + " " + day;
     if (users.password === "" || users.password === undefined) {
       delete users.password;
     }
@@ -104,17 +108,22 @@ const Individual = () => {
       delete users.state;
     }
     users.phone = phoneValue;
-    var response = await individualSignup(users)
-        if (response.status === 200) {
-          toast.success("Account Created Successfully!");
-          setTimeout(() => {
-            navigate("/login");
-            toast.success("Please Login To Continue!");
+    try{
+      var response = await individualSignup(users)
+      if (response.status === 200) {
+        toast.success("Account Created Successfully!");
+        setTimeout(() => {
+          navigate("/login");
+          toast.success("Please Login To Continue!");
         }, 1500);
-        }else{
+      }else{
         toast.error("Something went wrong !");
         console.log(response);
       }
+    }catch(e){
+      console.log('ERROR*************');
+      toast.error(e.response.data.message);
+    }
   };
 
   const validForm = () => {

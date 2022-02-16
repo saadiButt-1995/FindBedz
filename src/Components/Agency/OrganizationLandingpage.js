@@ -68,7 +68,7 @@ function OrganizationLandingpage() {
               </div>
             </div>
             <div className="col-lg-4 col-md-6">
-              <Link to="/IndividualEditprofile">
+              <Link to="/organization-edit-profile">
                 <div className="indiv_card">
                   <img src="/images/edit_user.svg" alt="" />
                   <div className="card_title">EDIT PROFILE</div>
