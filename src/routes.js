@@ -43,21 +43,29 @@ export default function routes() {
       <PrivateRoute component={Newpassword} path="/newpassword" exact />
       <PrivateRoute component={Enterpin} path="/enterpin" exact /> */}
       
-      <Route exact path="/" element={<PublicRoute restricted={false} component={Landingpage} exact />} />
+      <Route exact path="/" element={<PublicRoute restricted={true} component={Landingpage} exact />} />
       <Route path="/signup" element={<PublicRoute restricted={true} component={SignUp} exact />} />
-      <Route path="/login" element={<PublicRoute restricted={true} component={Login} path="/login" exact />} />
+      <Route path="/login" element={<PublicRoute restricted={true} component={Login}  />} />
       <Route path="/dashboard" element={<Dashboard/>} />
-      <Route path="/Individual-signup" element={<PrivateRoute component={Individual} path="/Individual-signup" exact />} />
+
+      {/* individuals */}
+      <Route path="/Individual-signup" element={<PublicRoute restricted={true} component={Individual}  exact />} />
       <Route path="/individual-landingpage" element={<PrivateRoute component={IndividualLanding} path="/individual-landingpage" exact />} />
-      <Route path="/sheltor-signup" element={<PrivateRoute component={Sheltorsignup} path="/sheltor-signup" exact />} />
-      <Route path="/organization" element={<PrivateRoute component={Organization} path="/organization" exact />} />
-      <Route path="/sheltor-dashboard" element={<PrivateRoute component={Sheltordashboard} path="/sheltor-dashboard" exact />} />
-      <Route path="/OrganizationLandingpage" element={<PrivateRoute component={OrganizationLandingpage} path="/OrganizationLandingpage" exact />} />
-      <Route path="/organization-edit-profile" element={<PrivateRoute component={OrganizationEditprofile} path="/organization-edit-profile" exact />} />
-      <Route path="/IndividualEditprofile" element={<PrivateRoute component={Editprofile} path="/IndividualEditprofile" exact />} />
-      <Route path="/forget-password" element={<PrivateRoute component={Forget} path="/forget-password" exact />} />
-      <Route path="/newpassword" element={<PrivateRoute component={Newpassword} path="/newpassword" exact />} />
-      <Route path="/enterpin" element={<PrivateRoute component={Enterpin} path="/enterpin" exact />} />
+      <Route path="/IndividualEditprofile" element={<PrivateRoute component={Editprofile}  exact />} />
+      
+      {/* Shelter */}
+      <Route path="/sheltor-signup" element={<PublicRoute restricted={true} component={Sheltorsignup}  exact />} />
+      <Route path="/sheltor-dashboard" element={<PrivateRoute component={Sheltordashboard}  exact />} />
+      
+      {/* Organizations */}
+      <Route path="/organization" element={<PublicRoute restricted={true} component={Organization}  />} />
+      <Route path="/OrganizationLandingpage" element={<PrivateRoute component={OrganizationLandingpage}  exact />} />
+      <Route path="/organization-edit-profile" element={<PrivateRoute component={OrganizationEditprofile} exact />} />
+      
+      
+      <Route path="/forget-password" element={<PrivateRoute component={Forget}  exact />} />
+      <Route path="/newpassword" element={<PrivateRoute component={Newpassword}  exact />} />
+      <Route path="/enterpin" element={<PrivateRoute component={Enterpin}  exact />} />
     </Routes>
   );
 }
