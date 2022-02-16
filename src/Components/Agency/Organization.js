@@ -5,6 +5,7 @@ import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import axios from "axios";
 import { Checkbox } from "antd";
 import { basePath } from "../../config";
+import { organizationSignup } from "../../services/auth";
 
 function Organization() {
   const [user, setUser] = useState({
@@ -72,35 +73,18 @@ function Organization() {
     }
     user.phone = phoneValue;
 
-    console.log("showin   ", validForm());
     if (validForm()) {
-      let url = `${basePath}auth/registerSheriff`;
-      let options = {
-        method: "POST",
-        url: url,
-        headers: {},
-        data: user,
-      };
-      // try{
-      await axios(options)
-        .then((response) => {
-          console.log(response, "   response");
-          console.log(response);
-          if (response.status === 200) {
-            toast.success("Added Successfully!");
-            setTimeout(() => {
-              navigate("/OrganizationLandingpage");
-            }, 1500);
-          }
-        })
-        .catch((error) => {
-          toast.error("Something went wrong !");
-          console.log(error, "   error ");
-        });
-      // }catch(e){
-      //   console.log(e)
-      //  toast.error("Something went wrong !");
-      // }
+      var response = await organizationSignup(user)
+        if (response.status === 200) {
+          toast.success("Account Created Successfully!");
+          setTimeout(() => {
+            navigate("/login");
+            toast.success("Please Login To Continue!");
+        }, 1500);
+        }else{
+        toast.error("Something went wrong !");
+        console.log(response);
+      }
     }
   };
 

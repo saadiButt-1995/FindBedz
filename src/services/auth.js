@@ -40,21 +40,21 @@ const getUserDetails = async(user_query) => {
     return await axios.get(`users/${user_query}`)
 }
 
-// const individualSignup = async(user_query) => {
-//     return await axios.get(`users/${user_query}`)
-// }
+const individualSignup = async(data) => {
+    return await axios.post(`auth/registerUser`, data)
+}
 
 
-// const organizationSignup = async(user_query) => {
-//     return await axios.get(`users/${user_query}`)
-// }
+const organizationSignup = async(data) => {
+    return await axios.post(`auth/registerSheriff`, data)
+}
 
-// const providerSignup = async(user_query) => {
-//     return await axios.get(`users/${user_query}`)
-// }
-
-
+const providerSignup = async(data) => {
+    return await axios.post(``, data)
+}
 
 
 
-export {setLocalValues, login, logout}
+
+
+export {setLocalValues, login, logout, individualSignup, organizationSignup, providerSignup}

@@ -182,13 +182,13 @@ const IndividualEditprofile = () => {
 
   const changeState = (e)=> {
     const state = e.target.value
-    // setUser({users, ['state']: state})
+    setUser({users, ['state']: state})
     getCountiesOfState(state)
   }
 
   const changeCounty = (e)=> {
     const county = e.target.value
-    // setUser({users, ['county']: county})
+    setUser({users, ['county']: county})
   }
 
   const getCountiesOfState = (state)=> {
@@ -218,7 +218,7 @@ const IndividualEditprofile = () => {
           >
             FindBedz
           </div>
-          <div>
+          <div style={{ cursor: 'pointer' }}>
             <img src="/images/logout.svg" alt=""></img>
           </div>
         </div>

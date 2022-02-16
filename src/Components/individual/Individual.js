@@ -6,12 +6,16 @@ import axios from "axios";
 import { DropdownDate } from "react-dropdown-date";
 import { Checkbox } from "antd";
 import { basePath } from "../../config";
+import {individualSignup} from '../../services/auth'
+import moment from 'moment'
+import { results, states } from "../../services/states_counties";
 
 const Individual = () => {
   // const [open, setOpen] = useState(false);
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
+  const [counties, setCounties] = useState([]);
 
   const [phoneValue, setPhonevalue] = useState("");
   const formatDate = (date) => {
@@ -32,10 +36,6 @@ const Individual = () => {
 
   // const [date, setDate] = useState(null);
   const [selectedDate, setSelectedDate] = useState("1999-01-1");
-  // handle toggle
-  // const toggle = () => {
-  //   setOpen(!open);
-  // };
   const [users, setUser] = useState({
     userName: "",
     password: "",
@@ -60,23 +60,31 @@ const Individual = () => {
   const handleInput = (event) => {
     name = event.target.name;
     value = event.target.value;
-
     setUser({ ...users, [name]: value });
   };
-  console.log(users);
 
+  const changeState = (e)=> {
+    const state = e.target.value
+    setUser({users, ['state']: state})
+    getCountiesOfState(state)
+  }
+
+  const changeCounty = (e)=> {
+    const county = e.target.value
+    setUser({users, ['county']: county})
+  }
+
+  const getCountiesOfState = (state)=> {
+    const data = results.filter(x => x.state === state)
+    setCounties(data)
+  }
   const submit = async (e) => {
-    //  setPhonevalue(normalizeCardNumber);
-
-    // console.log("uservalue testing ", normalizeCardNumber);
     e.preventDefault();
     console.log("====================================");
     console.log(validForm());
     console.log("====================================");
-    // if (validForm()) {
     users.date_of_birth = year + " " + month + " " + day;
 
-    console.log(users);
     if (users.password === "" || users.password === undefined) {
       delete users.password;
     }
@@ -96,43 +104,18 @@ const Individual = () => {
       delete users.state;
     }
     users.phone = phoneValue;
-    let url = `${basePath}auth/registerUser`;
-    let options = {
-      method: "POST",
-      url: url,
-      headers: {},
-      data: users,
-    };
-    await axios(options)
-      .then((response) => {
-        console.log(response);
+    var response = await individualSignup(users)
         if (response.status === 200) {
-          toast.success("Added Successfully!");
+          toast.success("Account Created Successfully!");
           setTimeout(() => {
-            navigate("/individual-landingpage");
-          }, 1500);
-        }
-      })
-      .catch((error) => {
+            navigate("/login");
+            toast.success("Please Login To Continue!");
+        }, 1500);
+        }else{
         toast.error("Something went wrong !");
-        console.log(error, "   error ");
-      });
-
-    // console.log(response);
-    // if (response.status === 200) {
-    //   toast.success("Added Successfully!");
-    //   setTimeout(() => {
-    //     navigate("/login");
-    //   }, 1500);
-    // } else {
-    //   toast.error("Something went wrong !");
-    // }
-    // } else {
-    //   console.log(e, "error");
-    //   toast.error("Something went wrong !");
+        console.log(response);
+      }
   };
-
-  // };
 
   const validForm = () => {
     let formIsValid = true;
@@ -426,32 +409,35 @@ const Individual = () => {
                     <option value="8">Eight</option>
                   </select> */}
                   <div className="row">
-                    <div className="col-lg-6 pl-0 respon">
+                    <div className="col-lg-6 pl-0 respon2">
                       <div className="mb-3 label_input">
-                        <label htmlFor="validationCustom02">STATE</label>
-                        <input
-                          value={users.state}
-                          name="state"
-                          placeholder="Enter State"
-                          onChange={handleInput}
-                          type="text"
-                          className="form-control login_field"
-                          id="validationCustom02"
-                        />
+                      <label htmlFor="validationCustom02">STATE</label>
+                        <select className="form-control login_field" name="states" id="states"
+                        onChange={changeState}
+                        >
+                          <option className="login_field" selected disabled>Select State</option>
+                          {states.map((item, index)=> {
+                            return (
+                              <option className="login_field" key={index} value={item}>{item}</option>
+                            )
+                          })}
+                        </select>
+                       
                       </div>
                     </div>
-                    <div className="col-lg-6 pr-0 respon2">
+                    <div className="col-lg-6 pr-0 respon">
                       <div className="mb-3 label_input">
                         <label htmlFor="validationCustom02">COUNTY</label>
-                        <input
-                          name="county"
-                          type="text"
-                          value={users.county}
-                          onChange={handleInput}
-                          className="form-control login_field"
-                          id="validationCustom02"
-                          placeholder="Enter County"
-                        />
+                        <select className="form-control login_field" name="counties" id="counties"
+                        onChange={changeCounty}
+                        >
+                          <option className="login_field" selected disabled>Select County</option>
+                          {counties.map((item, index)=> {
+                            return (
+                              <option className="login_field" key={index} value={item.countyName}>{item.countyName}</option>
+                            )
+                          })}
+                        </select>
                       </div>
                     </div>
                   </div>
