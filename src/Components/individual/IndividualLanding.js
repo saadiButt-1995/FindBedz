@@ -19,7 +19,7 @@ function IndividualLanding() {
 
         <div className="dashlogg">
           <Link to="/">
-            <img className="dashlogg" src="/images/dashlog.svg" alt="" />
+            <img className="dashlogg" src="/images/dashhome.svg" alt="" />
           </Link>
         </div>
         <div className="container">
@@ -41,7 +41,7 @@ function IndividualLanding() {
             </div>
             <div className="col-lg-4 col-md-6">
               <div className="indiv_card">
-                <img src="/images/services.svg" alt="" />
+                <img src="/images/hath.svg" alt="" />
                 <div className="card_title">FIND SERVICES</div>
               </div>
             </div>
@@ -70,7 +70,6 @@ function IndividualLanding() {
             </div>
             <div className="col-lg-4 col-md-6">
               <Link to="/IndividualEditprofile">
-              
                 <div className="indiv_card">
                   <img src="/images/edit_user.svg" alt="" />
                   <div className="card_title">EDIT PROFILE</div>
