@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "./Components/global.css"
 function SignUp() {
   return (
     <div className="signup_main">
@@ -7,7 +8,10 @@ function SignUp() {
           <img src="/images/sheltorlogo.svg" alt="" />
         </Link>
       </div>
-
+<div className="text-center mt-3 mb-5">
+<p className="mb-0 create">CREATE AN ACCOUNT</p>
+<p className="option">Please Choose an Option to continue</p>
+</div>
       <div className="create_section">
         <Link className="create_card mb-3" to="/Individual-signup">
           <div className="">

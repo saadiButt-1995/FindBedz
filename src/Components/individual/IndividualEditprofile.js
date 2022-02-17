@@ -1,21 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../index.css";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { DropdownDate } from "react-dropdown-date";
-import moment from "moment";
 import { Link } from "react-router-dom";
 import { results, states } from "../../services/states_counties";
 import { logout, setUsersData, updateUserDetails } from "../../services/auth";
 
 const IndividualEditprofile = () => {
   const navigate = useNavigate()
-  const [day, setDay] = useState("");
-  const [month, setMonth] = useState("");
-  const [year, setYear] = useState("");
   const user = JSON.parse(localStorage.getItem("user_data"));
   const [phoneValue, setPhonevalue] = useState("");
-  const [selectedDate, setSelectedDate] = useState("2022-2-2");
+  const [selectedDate, setSelectedDate] = useState("2022-02-02");
+  
   const [counties, setCounties] = useState([]);
   const [users, setUser] = useState({
     userName: user.userName,
@@ -30,32 +27,36 @@ const IndividualEditprofile = () => {
     email: user.email,
   });
   const ethnicities = [
-    "African American",
-    "Native Americans",
-    "Native",
-    "Alaska Native",
-    "White",
-    "Asian American",
-    "American Indian",
-    "Hispanic and Latino Americans",
-    "Mexicans",
-    "Ojibwe",
-    "Other",
+  'WHITE-BRITISH',
+  'WHITE-Irish',
+  'WHITE-Any other white backgroud',
+  'ASIAN OR ASIAN BRITISH - Indian',
+  'ASIAN OR ASIAN BRITISH - Pakistan',
+  'ASIAN OR ASIAN BRITISH - Bangladeshi',
+  'ASIAN OR ASIAN BRITISH - Any other Asian background',
+  'BLACK OR BLACK BRITISH - Caribbean',
+  'BLACK OR BLACK BRITISH - African',
+  'BLACK OR BLACK BRITISH - Any other black background',
+  'MIXED - White & Black Caribbean',
+  'MIXED - White & Black African',
+  'MIXED - White & Asian',
+  'MIXED - any other mixed background',
+  'OTHER ETHNIC GROUP - Chinese',
+  'OTHER ETHNIC GROUP - any other ethnic group',
   ];
 
-  const formatDate = (date) => {
-    // formats a JS date to 'yyyy-mm-dd'
+  const formatDate = (date) => {	// formats a JS date to 'yyyy-mm-dd'
     var d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
+      month = '' + (d.getMonth() + 1),
+      day = '' + d.getDate(),
       year = d.getFullYear();
-
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-
-    return [year, month, day].join("-");
-  };
-
+  
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    setSelectedDate([year, month, day].join('-'))
+  
+    return [year, month, day].join('-');
+  }
  
 
   const [errField, setErrField] = useState({
@@ -79,7 +80,6 @@ const IndividualEditprofile = () => {
       state: "",
       email: "",
     });
-    setSelectedDate("2022-2-2");
   };
   const handleInput = (event) => {
     name = event.target.name;
@@ -99,8 +99,7 @@ const IndividualEditprofile = () => {
     console.log(validForm());
     console.log("====================================");
     // if (validForm()) {
-    users.date_of_birth = year + " " + month + " " + day;
-
+    users.date_of_birth = selectedDate
     // if (users.password === "" || users.password === undefined) {
       // delete users.password;
     // }
@@ -124,6 +123,7 @@ const IndividualEditprofile = () => {
     }
     users.phone = phoneValue;
     try{
+      console.log(users);
       var response = await updateUserDetails(users)
       if(response.status === 200){
         toast.success("Updated Successfully!");
@@ -197,8 +197,15 @@ const IndividualEditprofile = () => {
     setCounties(data);
   };
 
-  setSelectedDate(formatDate(moment(users.date_of_birth).format("llll")));
-  setPhonevalue(normalizeCardNumber(users.phone));
+  useEffect(()=> {
+    // console.log(moment(users.date_of_birth).format("yyyy-mm-d"));
+    // setSelectedDate(moment(users.date_of_birth).format("yyyy-M-d"));
+    setPhonevalue(normalizeCardNumber(users.phone));
+    setTimeout(() => {
+      getCountiesOfState(users.state);
+      // changeState(users.state)
+    }, 1000);
+  }, []) // eslint-disable-next-line react-hooks/exhaustive-deps
 
   return (
     <div>
@@ -243,15 +250,17 @@ const IndividualEditprofile = () => {
               fontFamily: "popbold",
               fontSize: "16px",
               color: "#151515",
+              marginTop: '10px',
+              letterSpacing: '2px'
             }}
           >
             EDIT PROFILE
           </p>
         </div>
 
-        <p style={{ marginBottom: "15px" }} className="indi_title">
+        {/* <p style={{ marginBottom: "15px" }} className="indi_title">
           I AM AN INDIVIDUAL SEEKING SERVICES
-        </p>
+        </p> */}
         <div className="form-row indi_flex"></div>
         <div>
           <form onSubmit={submit}>
@@ -260,8 +269,7 @@ const IndividualEditprofile = () => {
                 <div className="col-lg-6">
                   <div className="mb-3 label_input">
                     <label htmlFor="validationCustom01">
-                      CHOOSE USERNAME 
-                      {/* <span className="star_red">*</span> */}
+                      USERNAME <span className="star_red">*</span>
                     </label>
                     <input
                       name="userName"
@@ -288,7 +296,7 @@ const IndividualEditprofile = () => {
 
                   <div className="mb-3 label_input">
                     <label htmlFor="validationCustom02">
-                      NICK NAME <span className="star_red">*</span>
+                    SALUTATION (NICK NAME)<span className="star_red">*</span> 
                     </label>
                     <input
                       name="nickName"
@@ -317,7 +325,7 @@ const IndividualEditprofile = () => {
                       className="label_input"
                       for="exampleFormControlSelect1"
                     >
-                      Ethnicity
+                      ETHNICITY
                     </label>
                     <select
                       name="ethnicity"
@@ -343,7 +351,7 @@ const IndividualEditprofile = () => {
                     </select>
                   </div>
 
-                  <div className="form-group">
+                  <div className="form-group" style={{marginTop: '-5px'}}>
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
@@ -409,7 +417,6 @@ const IndividualEditprofile = () => {
                     <input
                       placeholder="(###) ###-####"
                       type="tel"
-                      // value={phoneValue}
                       inputMode="numeric"
                       autoComplete="cc-number"
                       name="cardNumber"
@@ -419,7 +426,6 @@ const IndividualEditprofile = () => {
                       onChange={(event) => {
                         const { value } = event.target;
                         setPhonevalue(value);
-                        // setUser({users, ['phone']: value})
                         event.target.value = normalizeCardNumber(value);
                       }}
                     />
@@ -441,28 +447,24 @@ const IndividualEditprofile = () => {
                       className="label_input"
                       for="exampleFormControlSelect1"
                     >
-                      AGE
+                      DATE OF BIRTH
                     </label>
                     <div className="">
                       {/* <Datepicker /> */}
                       <DropdownDate
-                        startDate={
-                          // optional, if not provided 1900-01-01 is startDate
-                          "1969-02-01" // 'yyyy-mm-dd' format only
+                        startDate={                       // optional, if not provided 1900-01-01 is startDate
+                          '1920-01-01'                    // 'yyyy-mm-dd' format only
                         }
-                        endDate={
-                          // optional, if not provided current date is endDate
-                          "1999-11-01" // 'yyyy-mm-dd' format only
+                        endDate={                         // optional, if not provided current date is endDate
+                          '2022-12-31'                    // 'yyyy-mm-dd' format only
                         }
+                       
                         selectedDate={selectedDate}
                         onYearChange={(year) => {
-                          setYear(year);
                         }}
                         onDayChange={(day) => {
-                          setDay(day);
                         }}
                         onMonthChange={(month) => {
-                          setMonth(month);
                         }}
                         onDateChange={(date) => {
                           setSelectedDate(formatDate(date));
@@ -490,6 +492,7 @@ const IndividualEditprofile = () => {
                                 className="login_field"
                                 key={index}
                                 value={item}
+                                selected={item===users.state?true:false}
                               >
                                 {item}
                               </option>
@@ -507,15 +510,18 @@ const IndividualEditprofile = () => {
                           id="counties"
                           onChange={changeCounty}
                         >
-                          <option className="login_field" selected disabled>
-                            Select County
-                          </option>
+                          {users.state?
+                            <option className="login_field" selected disabled>
+                             Select County
+                            </option>
+                          :null}
                           {counties.map((item, index) => {
                             return (
                               <option
                                 className="login_field"
                                 key={index}
                                 value={item.countyName}
+                                selected={item.countyName===users.county?true:false}
                               >
                                 {item.countyName}
                               </option>
@@ -527,16 +533,15 @@ const IndividualEditprofile = () => {
                   </div>
                 </div>
               </div>
-            </div>
 
             <div className="btn_center">
               {/* <Link to="/login" onClick={submit}> */}
               <button
-                style={{ marginTop: "30px" }}
+                style={{ marginTop: "30px", letterSpacing: '2px' }}
                 className="signupbtn"
                 type={"submit"}
               >
-                Submit Changes
+                SUBMIT CHANGES
               </button>
               <button
                 style={{
@@ -549,10 +554,13 @@ const IndividualEditprofile = () => {
                 onClick={cancel}
                 type={"button"}
               >
-                Cancel
+                CANCEL
               </button>
               {/* </Link> */}
             </div>
+
+            </div>
+
           </form>
         </div>
       </div>

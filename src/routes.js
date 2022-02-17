@@ -15,6 +15,7 @@ import Organization from "./Components/Agency/Organization";
 import OrganizationLandingpage from "./Components/Agency/OrganizationLandingpage";
 import OrganizationEditprofile from "./Components/Agency/OrganizationEditprofile";
 import Editprofile from "./Components/individual/IndividualEditprofile";
+import FindAbed from "./Components/individual/individualbedservices/FindAbed";
 ////////////forget-password///////
 import Newpassword from "./Newpassword";
 import Forget from "./Forget";
@@ -66,6 +67,9 @@ export default function routes() {
       <Route path="/forget-password" element={<PrivateRoute component={Forget}  exact />} />
       <Route path="/newpassword" element={<PrivateRoute component={Newpassword}  exact />} />
       <Route path="/enterpin" element={<PrivateRoute component={Enterpin}  exact />} />
+
+
+      <Route path="/find-a-bed" element={<PrivateRoute component={FindAbed}  exact />} />
     </Routes>
   );
 }

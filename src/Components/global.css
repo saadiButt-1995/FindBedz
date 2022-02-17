@@ -1,0 +1,12 @@
+.create{
+    font-weight: 700;
+    font: 30px popbold;
+    word-spacing: 5px;
+    letter-spacing: 2px;
+}
+.option{
+    font: 20px popbold;
+    color: #808080;
+    font-weight: 700;
+    letter-spacing: 3px;
+}

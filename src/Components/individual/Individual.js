@@ -81,7 +81,7 @@ const Individual = () => {
     console.log(validForm());
     console.log("====================================");
     if(!terms){
-      toast.error('Please Check Device Locations Services!')
+      toast.error("Please allow this app to access your device's location!")
       return
     }
 
@@ -145,13 +145,13 @@ const Individual = () => {
         phoneErr: "Phone Number is Required",
       }));
     }
-    if (users.nickName === "") {
-      formIsValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        nickName: "NickName is Required",
-      }));
-    }
+      // if (users.nickName === "") {
+      //   formIsValid = false;
+      //   setErrField((prevState) => ({
+      //     ...prevState,
+      //     nickName: "NickName is Required",
+      //   }));
+      // }
 
     return formIsValid;
   };
@@ -168,11 +168,13 @@ const Individual = () => {
       <ToastContainer />
 
       <div className="indi_signup">
-        <Link to="/">
+        
           <div style={{ paddingTop: "50px" }} className="logodiv login_log">
+          <Link to="/">
             <img className="login_logo" src="/images/sheltorlogo.svg" alt="" />
+            </Link>
           </div>
-        </Link>
+        
 
         <p style={{ marginBottom: "15px" }} className="indi_title">
           I AM AN INDIVIDUAL SEEKING SERVICES
@@ -240,7 +242,7 @@ const Individual = () => {
                       className="label_input"
                       for="exampleFormControlSelect1"
                     >
-                      Ethnicity
+                      ETHNICITY
                     </label>
                     <select
                       name="ethnicity"
@@ -249,16 +251,22 @@ const Individual = () => {
                       id="exampleFormControlSelect1"
                     >
                       <option className="login_field">Enter Ethnicity</option>
-                      <option>African American</option>
-                      <option>Native Americans</option>
-                      <option>Native</option>
-                      <option>Alaska Native</option>
-                      <option>White</option>
-                      <option>Asian American</option>
-                      <option> American Indian</option>
-                      <option>Hispanic and Latino Americans</option>
-                      <option>Native Hawaiians</option>
-                      <option> Other</option>
+                      <option>WHITE-BRITISH</option>
+                      <option>WHITE-Irish</option>
+                      <option>WHITE-Any other white backgroud</option>
+                      <option>ASIAN OR ASIAN BRITISH - Indian</option>
+                      <option>ASIAN OR ASIAN BRITISH - Pakistan</option>
+                      <option>ASIAN OR ASIAN BRITISH - Bangladeshi</option>
+                      <option> ASIAN OR ASIAN BRITISH - Any other Asian background</option>
+                      <option>BLACK OR BLACK BRITISH - Caribbean</option>
+                      <option>BLACK OR BLACK BRITISH - African</option>
+                      <option> BLACK OR BLACK BRITISH - Any other black background</option>
+                      <option>MIXED - White & Black Caribbean</option>
+                      <option>MIXED - White & Black African</option>
+                      <option>MIXED - White & Asian</option>
+                      <option>MIXED - any other mixed background</option>
+                      <option>OTHER ETHNIC GROUP - Chinese</option>
+                      <option>OTHER ETHNIC GROUP - any other ethnic group</option>
                     </select>
                   </div>
 
@@ -286,7 +294,7 @@ const Individual = () => {
                 <div className="col-lg-6">
                   <div className="label_input mb-3">
                     <label htmlFor="validationCustom03">
-                      PASSWORD
+                      PASSWORD 
                       <span
                         style={{
                           fontSize: "10px",
@@ -308,16 +316,7 @@ const Individual = () => {
                   </div>
                   <div className="label_input mb-3">
                     <label htmlFor="validationCustom03">
-                      PHONE NUMBER
-                      <span
-                        style={{
-                          fontSize: "10px",
-                          fontFamily: "popreg",
-                          color: "#828282",
-                        }}
-                      >
-                        <span className="star_red">*</span>
-                      </span>
+                      PHONE NUMBER <span className="star_red">*</span>
                     </label>
                     <span
                       className="input-group-text login_field"
@@ -358,7 +357,7 @@ const Individual = () => {
                       className="label_input"
                       for="exampleFormControlSelect1"
                     >
-                      AGE
+                      AGE <span className="star_red">*</span>
                     </label>
                     <div className="">
                       {/* <Datepicker /> */}
@@ -433,7 +432,7 @@ const Individual = () => {
                     </div>
                     <div className="col-lg-6 pr-0 respon">
                       <div className="mb-3 label_input">
-                        <label htmlFor="validationCustom02">COUNTY</label>
+                        <label htmlFor="validationCustom02">COUNTY </label>
                         <select className="form-control login_field" name="counties" id="counties"
                         onChange={changeCounty}
                         >
@@ -453,7 +452,7 @@ const Individual = () => {
                 style={{ paddingLeft: "17px", paddingTop: "20px" }}
                 onChange={onChange}
               >
-                <span className="label_input">
+                <span className="label_input location ml-2">
                   SYSTEM WILL USE YOUR DEVICE’S LOCATION SERVICES
                   <span className="star_red">*</span>
                 </span>

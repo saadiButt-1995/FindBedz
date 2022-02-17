@@ -4,11 +4,13 @@ const Landingpage = () => {
   return (
     <>
       <div className="landingpage">
-        <Link to="/">
+        
           <div className="logodiv">
+          <Link to="/">
             <img src="/images/sheltorlogo.svg" alt="" />
+            </Link>
           </div>
-        </Link>
+        
         <div className="account">
           <div className="logindiv">
             <Link to="/login">

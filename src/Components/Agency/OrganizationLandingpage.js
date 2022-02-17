@@ -1,6 +1,14 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../../services/auth";
+
 function OrganizationLandingpage() {
+  const navigate = useNavigate()
+  const signout = () => {
+    logout()
+    navigate('/')
+  }
+
   return (
     <>
     <div>
@@ -8,10 +16,8 @@ function OrganizationLandingpage() {
         <div>
           <h6 className="dashtittle">FindBedz</h6>
         </div>
-        <div className="logdiv">
-          <Link to="/">
-            <img src="/images/logout.svg" alt="" />
-          </Link>
+        <div className="logdiv" style={{cursor: 'pointer'}} onClick={signout}>
+          <img src="/images/logout.svg" alt="" />
         </div>
       </div>
       <div className="dashlogg">
@@ -43,19 +49,17 @@ function OrganizationLandingpage() {
             </div>
           </div>
           <div className="col-lg-4 col-md-6">
-            <Link to="/IndividualEditprofile">
               <div className="indiv_card">
-                <img src="/images/ride.svg" alt="" />
-                <div className="card_title">ARRANGE A RIDE</div>
+                <img src="/images/arrangeARide.svg" alt="" height="74px" />
+                <div className="card_title" style={{ marginTop: '-10px'}}>ARRANGE A RIDE</div>
               </div>
-            </Link>
           </div>
         </div>
         <div className="row mt-5">
           <div className="col-lg-4 col-md-6">
             <div className="indiv_card">
               <img src="/images/family.svg" alt="" />
-              <div className="card_title">Reconnect with family</div>
+              <div className="card_title">RECONNECT WITH FAMILY</div>
             </div>
           </div>
           <div className="col-lg-4 col-md-6">
@@ -65,7 +69,7 @@ function OrganizationLandingpage() {
             </div>
           </div>
           <div className="col-lg-4 col-md-6">
-            <Link to="/IndividualEditprofile">
+            <Link to="/organization-edit-profile">
               <div className="indiv_card">
                 <img src="/images/edit_user.svg" alt="" />
                 <div className="card_title">EDIT PROFILE</div>

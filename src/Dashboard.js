@@ -8,9 +8,9 @@ const Dashboard = () => {
     if(role === 'user'){
       navigate('/individual-landingpage')
     }else if(role === 'sheriff'){
-      navigate('/sheltor-dashboard')
-    }else{
       navigate('/OrganizationLandingpage')
+    }else if(role === 'shelter'){
+      navigate('/sheltor-dashboard')
     }
   })
   return (

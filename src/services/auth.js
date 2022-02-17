@@ -44,6 +44,16 @@ const getUserDetails = async(user_query) => {
     return await axios.get(`users/${user_query}`)
 }
 
+const getShelterDetails = async(user_query) => {
+    var result = await axios.get(`shelter/get?shelterId=${user_query}`)
+    localStorage.setItem('user', user_query)
+    localStorage.setItem('token', user_query)
+    localStorage.setItem('status', true)
+    localStorage.setItem('role', "shelter")
+    localStorage.setItem("user_data", JSON.stringify(result.data.shelter))
+}
+
+
 const updateUserDetails = async(data) => {
     return await axios.put(`users/${user}`, data, {headers: {
         Authorization: token,
@@ -60,7 +70,9 @@ const organizationSignup = async(data) => {
 }
 
 const providerSignup = async(data) => {
-    return await axios.post(``, data)
+    return await axios.post(`shelter/create`, data, {headers: {
+        'Content-Type': 'multipart/form-data'
+      }})
 }
 
 
@@ -76,4 +88,5 @@ export {
     providerSignup, 
     updateUserDetails,
     setUsersData,
+    getShelterDetails,
 }

@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { logout, setUsersData, updateUserDetails } from "../../services/auth";
 
 function OrganizationEditprofile() {
@@ -16,7 +15,7 @@ function OrganizationEditprofile() {
     address: user.address,
     city: user.city,
     state: user.state,
-    zipcode: user.zipcode,
+    zip_code: user.zip_code,
     role: "sheriff",
     iam: user.iam,
   });
@@ -63,8 +62,8 @@ function OrganizationEditprofile() {
     if (users.state === "" || users.state === undefined) {
       delete users.state;
     }
-    if (users.zipcode === "" || users.zipcode === undefined) {
-      delete users.zipcode;
+    if (users.zip_code === "" || users.zip_code === undefined) {
+      delete users.zip_code;
     }
     if (users.iam === "" || users.iam === undefined) {
       delete users.iam;
@@ -160,7 +159,7 @@ function OrganizationEditprofile() {
       }));
     }
 
-    if (users.zipcode === "") {
+    if (users.zip_code === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
@@ -170,12 +169,7 @@ function OrganizationEditprofile() {
 
     return formIsValid;
   };
-  const [open, setOpen] = useState(false);
 
-  // handle toggle
-  const toggle = () => {
-    setOpen(!open);
-  };
   
   const normalizeCardNumber = (value) => {
     let x = value.replace(/\D/g, "").match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
@@ -184,8 +178,24 @@ function OrganizationEditprofile() {
       : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
     return maskedText;
   };
-  setPhonevalue(normalizeCardNumber(users.phone));
-
+  
+  const cancel = () => {
+    setUser({
+      // userName: "",
+      password: "",
+      phone: "",
+      nickName: "",
+      ethnicity: "",
+      role: "",
+      date_of_birth: "",
+      county: "",
+      state: "",
+      email: "",
+    });
+  };
+  useEffect(()=> {
+    // setPhonevalue(normalizeCardNumber(users.phone));
+  }, [])
   return (
     <div className="agency">
       <div className="edit_header">
@@ -227,21 +237,20 @@ function OrganizationEditprofile() {
             fontFamily: "popbold",
             fontSize: "16px",
             color: "#151515",
+            marginTop: '10px',
           }}
         >
           EDIT PROFILE
         </p>
       </div>
-      <p className="indi_title mt-1 indi_agancy">
-        ORGANIZATION OR OUTREACH WORKER
-      </p>
+   
       <div className="container">
         <div className="row justify-content-around">
           <div className="col-lg-6">
             <ToastContainer />
             <div className="mb-3 label_input">
               <label htmlFor="validationCustom01">
-                CHOOSE USERNAME 
+                USERNAME 
                 {/* <span className="star_red">*</span> */}
               </label>
               <input
@@ -359,24 +368,23 @@ function OrganizationEditprofile() {
           <div className="col-lg-6">
             <div className="label_input mb-3">
               <label htmlFor="validationCustom03">
-                CHOOSE PASSWORD 
+                PASSWORD 
                 {/* <span className="star_red">*</span> */}
               </label>
               <input
                 name="password"
                 value={users.password}
                 onChange={handleInput}
-                type={open === false ? "password" : "text"}
                 className="form-control login_field"
                 id="validationCustom03"
                 placeholder="************"
                 disabled
               />
-              {open === false ? (
+              {/* {open === false ? (
                 <AiFillEyeInvisible className="svggg" onClick={toggle} />
               ) : (
                 <AiFillEye className="svggg" onClick={toggle} />
-              )}
+              )} */}
               {errField.passwordErr.length > 0 && (
                 <span
                   style={{
@@ -477,10 +485,10 @@ function OrganizationEditprofile() {
                   <div className="mb-3 label_input">
                     <label htmlFor="validationCustom02">ZIP CODE</label>
                     <input
-                      value={users.zipcode}
+                      value={users.zip_code}
                       onChange={handleInput}
                       type="number"
-                      name="zipcode"
+                      name="zip_code"
                       placeholder="Enter Zip code"
                       className="form-control login_field"
                       id="validationCustom02"
@@ -493,10 +501,30 @@ function OrganizationEditprofile() {
           </div>
         </div>
         <div className="btn_center">
-          <Link to="/agency-landingpage" onClick={submit}>
-            <button className="signupbtn mrgin_btn">SIGNUP</button>
-          </Link>
-        </div>
+              {/* <Link to="/login" onClick={submit}> */}
+              <button
+                style={{ marginTop: "30px", letterSpacing: '2px' }}
+                className="signupbtn"
+                type={"button"}
+                onClick={submit}
+              >
+                SUBMIT CHANGES
+              </button>
+              <button
+                style={{
+                  marginTop: "30px",
+                  color: "#101b79",
+                  background: "transparent",
+                  border: "none",
+                }}
+                className="signupbtn"
+                onClick={cancel}
+                type={"button"}
+              >
+                CANCEL
+              </button>
+              {/* </Link> */}
+            </div>
       </div>
     </div>
   );

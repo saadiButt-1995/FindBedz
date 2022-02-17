@@ -33,7 +33,10 @@ a:hover {
 .second_img {
   height: 170px !important;
 }
-
+.location{
+  position: absolute;
+  margin-top: 4px;
+}
 .logodiv {
   padding-top: 52px;
   padding-bottom: 150px;
@@ -99,9 +102,38 @@ a:hover {
   color: #fff;
   background-color: #008e00;
 }
+.contactdiv {
+  display: flex;
+}
+.font10 {
+  font-size: 10px !important;
+}
+.phonecall {
+  display: flex;
+  align-items: center;
+}
+.abc_details {
+  display: flex;
+  background: #ffffff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  justify-content: space-between;
+  align-items: center;
+  height: 113px;
+}
 .login_field1 {
   background-color: rgb(226, 228, 231) !important;
   margin-bottom: 30px;
+}
+.title_shelter {
+  color: #101b79;
+  font-family: popbold;
+  font-weight: bold;
+  font-size: 15px;
+}
+.adress_title {
+  color: #808080;
+  font-size: 10px;
 }
 .para_sheltor {
   text-align: center;
@@ -138,6 +170,31 @@ a:hover {
   margin-right: auto;
   margin-bottom: 20px;
 }
+.avail_title {
+  font-family: popreg;
+  font-size: 13px;
+}
+.avail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cricle_div23 {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  text-align: center;
+  font-family: popmd;
+  font-size: 17px;
+  padding-top: 10px;
+  margin-top: 20px;
+  color: #fff;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  background-color: rgba(255, 30, 30, 1);
+}
+
 .radio_check_up {
   display: flex;
   justify-content: space-around;
@@ -180,6 +237,7 @@ a:hover {
 .checks_labels {
   font-family: popmd;
   font-size: 14px;
+  margin-top: 2px;
 }
 .logodiv11 {
   padding-bottom: 57px !important;
@@ -297,6 +355,12 @@ a:hover {
 .color_gold {
   background-color: #ddc114;
 }
+.color_black {
+  background-color: #000 !important;
+}
+.color_green {
+  background: #008e00;
+}
 .calcu_btns {
   display: flex;
   flex-direction: column;
@@ -389,8 +453,9 @@ a:hover {
 .dashname {
   font-family: popbold;
   font-size: 18px;
-  color: #101b79;
   text-align: center;
+  letter-spacing: 3px;
+  color: #151515;
 }
 .header_title {
   font-family: popmd;
@@ -436,6 +501,7 @@ textarea {
 .label_input {
   font-family: popmd;
   font-size: 11px;
+  color: #151515;
 }
 .label_input1 {
   font-family: popmd;
@@ -500,6 +566,10 @@ textarea {
 }
 .reset_p {
   margin-bottom: 2rem !important;
+  font-family: popreg;
+}
+.dec_p {
+  color: rgba(128, 128, 128, 1);
   font-family: popreg;
 }
 .loginbutton {
@@ -568,6 +638,65 @@ textarea {
   width: 100%;
   margin-bottom: 10px;
 }
+.filters {
+  width: 28%;
+  background: #ffffff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  height: 123vh;
+  padding-left: 20px;
+}
+.filter_title {
+  color: #101b79;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  padding-bottom: 27px;
+  padding-top: 14px;
+}
+.total_avail {
+  display: flex;
+  justify-content: space-evenly;
+}
+.total_beds {
+  text-align: center;
+  color: #000;
+  font-family: popbold !important;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+.avail_beds {
+  text-align: center !important;
+  color: #000;
+  font-family: popbold !important;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+.bed_services {
+  width: 85%;
+}
+.meal_seciton {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.des_tilte {
+  font-size: 11px;
+  font-family: popbold;
+}
+.abc_section {
+  width: 30%;
+  background: #ffffff;
+  box-shadow: 0px 4px 12px rgb(0 0 0 / 25%);
+  margin-left: 20px;
+  border-radius: 20px;
+}
+.find_services {
+  display: flex;
+  padding-right: 20px;
+  padding-left: 20px;
+}
 .logtext {
   font-family: popreg;
   font-size: 16px;
@@ -578,6 +707,16 @@ textarea {
 .logodiv img {
   height: 100px;
 }
+.golden {
+  background-color: rgba(221, 193, 20, 1);
+}
+.beds_tittle {
+  margin-bottom: 0;
+  font-family: popbold;
+  font-size: 18px;
+  letter-spacing: 2px;
+  color: #151515;
+}
 .position_right {
   float: right !important;
   padding-right: 0 !important;
@@ -586,22 +725,17 @@ textarea {
   font-size: 14px;
   font-family: popreg;
 }
+.slepp {
+  margin-top: 16px;
+  margin-bottom: 14px;
+}
+.green {
+  background-color: #008e00;
+}
 .animals {
   display: flex;
+  justify-content: flex-start;
   flex-wrap: wrap;
-}
-.animals .form-check{
-  margin-left: 20px;
-}
-.storages {
-  display: flex;
-  flex-wrap: wrap;
-} 
-.storages div{
-  width: 50%;
-}
-.images img{
-  cursor: pointer;
 }
 .following {
   color: #151515;
@@ -617,7 +751,7 @@ textarea {
   align-items: center;
 }
 .login_logo {
-  height: 70px !important;
+  height: 90px !important;
 }
 
 .login_log {
@@ -808,6 +942,7 @@ textarea {
   display: flex;
   justify-content: flex-start;
   align-items: baseline;
+  margin-top: 2px;
 }
 .bluplus {
   background-color: #101b79 !important;
@@ -838,7 +973,7 @@ textarea {
   font-family: popbold;
   font-size: 13px;
   letter-spacing: 2px;
-  color: #101b79;
+  color: #151515;
 }
 .mt_bed {
   margin-top: -10px;

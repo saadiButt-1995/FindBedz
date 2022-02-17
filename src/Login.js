@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 // import axios from "axios";
 // import { basePath } from "./config";
-import { login, setLocalValues } from "./services/auth";
+import { getShelterDetails, login, setLocalValues } from "./services/auth";
 
 function Login() {
   const [user, setUser] = useState({
@@ -31,13 +31,17 @@ function Login() {
         let role = response.data.role;
         if (response.status === 200) {
           toast.success("Login Successfully!");
-          setLocalValues(response.data)
           setTimeout(() => {
             if (role === "shelter") {
-              navigate("/sheltor-dashboard");
+              getShelterDetails(response.data.user)
+              setTimeout(() => {
+                navigate("/sheltor-dashboard");
+              }, 1000);
             } else if (role === "user") {
+              setLocalValues(response.data)
               navigate("/individual-landingpage");
             } else if (role === "sheriff") {
+              setLocalValues(response.data)
               navigate("/OrganizationLandingpage");
             } 
           }, 1000);
@@ -72,11 +76,13 @@ function Login() {
 
   return (
     <div className="main_login">
-      <Link to="/">
+     
         <div className="logodiv login_log">
+        <Link to="/">
           <img className="login_logo" src="/images/sheltorlogo.svg" alt="" />
+          </Link>
         </div>
-      </Link>
+      
 
       <ToastContainer />
       <div className="login_text">
@@ -104,7 +110,7 @@ function Login() {
           </div>
           <div className="form-group col-md-4 login_inputs">
             <label className="label_input1">
-              PASSWORD <span style={{ color: "#828282" }}>(optional)</span>
+              PASSWORD <span style={{ color: "#828282" }}></span>
             </label>
             <input
               name="password"
@@ -122,6 +128,7 @@ function Login() {
                   fontSize: "10px",
                   float: "right",
                   marginTop: "5px",
+                  textDecoration:"underline"
                 }}
               >
                 Forget Password
@@ -136,7 +143,7 @@ function Login() {
           <p className="footer_link">
             No Account? Create one
             <Link to="/signup">
-              <span> here</span>
+              <span>here</span>
             </Link>
           </p>
         </div>

@@ -1,6 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../../services/auth";
+
 function Sheltordashboard() {
+  const navigate = useNavigate()
+
+  const user = JSON.parse(localStorage.getItem('user_data'))
+  
+  const signout = () => {
+    logout()
+    navigate('/')
+  }
   return (
     <>
       <div className="edit_header">
@@ -26,7 +36,7 @@ function Sheltordashboard() {
         >
           FindBedz
         </div>
-        <div>
+        <div style={{cursor: 'pointer'}} onClick={signout}>
           <img src="/images/logout.svg" alt=""></img>
         </div>
       </div>
@@ -58,7 +68,7 @@ function Sheltordashboard() {
                   <p className="dashname">Dashboard</p>
                 </div>
                 <div className="">
-                  <p className="dashname">SHELTER NAME</p>
+                  <p className="dashname">{user.shelterName}</p>
                 </div>
               </div>
             </div>

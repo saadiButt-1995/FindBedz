@@ -15,7 +15,7 @@ function Organization() {
     address: "",
     city: "",
     state: "",
-    zipcode: "",
+    zip_code: "",
     role: "sheriff",
     iam: "",
   });
@@ -47,7 +47,7 @@ function Organization() {
   const submit = async (e) => {
     e.preventDefault();
     if(!terms){
-      toast.error('Please Check Device Locations Services!')
+      toast.error("Please allow this app to access your device's location")
       return
     }
     if (user.city === "" || user.city === undefined) {
@@ -56,8 +56,8 @@ function Organization() {
     if (user.state === "" || user.state === undefined) {
       delete user.state;
     }
-    if (user.zipcode === "" || user.zipcode === undefined) {
-      delete user.zipcode;
+    if (user.zip_code === "" || user.zip_code === undefined) {
+      delete user.zip_code;
     }
     if (user.iam === "" || user.iam === undefined) {
       delete user.iam;
@@ -143,7 +143,7 @@ function Organization() {
       }));
     }
    
-    if (user.zipcode === "") {
+    if (user.zip_code === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
@@ -173,11 +173,13 @@ function Organization() {
 
   return (
     <div className="agency">
-      <Link to="/">
+      
         <div className="logodiv login_log">
+        <Link to="/">
           <img className="login_logo" src="/images/sheltorlogo.svg" alt="" />
+          </Link>
         </div>
-      </Link>
+      
 
       <p className="indi_title mt-1 indi_agancy">
         ORGANIZATION OR OUTREACH WORKER
@@ -283,7 +285,7 @@ function Organization() {
             </div>
             <div class="form-group">
               <label className="label_input" for="exampleFormControlSelect1">
-                MY POSITION
+                MY POSITION <span className="star_red">*</span>
               </label>
 
               <select
@@ -387,7 +389,7 @@ function Organization() {
             <div className="row justify-content-md-between">
               <div className="col-lg-3 px-0 ">
                 <div className="mb-3 label_input">
-                  <label htmlFor="validationCustom02">CITY</label>
+                  <label htmlFor="validationCustom02">CITY <span className="star_red">*</span></label>
                   <input
                     value={user.city}
                     onChange={handleInput}
@@ -402,7 +404,7 @@ function Organization() {
               </div>
               <div className="col-lg-3 px-0">
                 <div className="mb-3 label_input">
-                  <label htmlFor="validationCustom02">STATE</label>
+                  <label htmlFor="validationCustom02">STATE <span className="star_red">*</span></label>
                   <input
                     value={user.state}
                     onChange={handleInput}
@@ -418,12 +420,12 @@ function Organization() {
               <div className="col-lg-3 px-0">
                 <div className="mobile_p pr-0">
                   <div className="mb-3 label_input">
-                    <label htmlFor="validationCustom02">ZIP CODE</label>
+                    <label htmlFor="validationCustom02">ZIP CODE <span className="star_red">*</span></label>
                     <input
-                      value={user.zipcode}
+                      value={user.zip_code}
                       onChange={handleInput}
                       type="number"
-                      name="zipcode"
+                      name="zip_code"
                       placeholder="Enter Zip code"
                       className="form-control login_field"
                       id="validationCustom02"
@@ -467,8 +469,8 @@ function Organization() {
                     ZIP CODE <span className="star_red">*</span>
                   </label>
                   <input
-                    name="zipcode"
-                    value={user.zipcode}
+                    name="zip_code"
+                    value={user.zip_code}
                     onChange={handleInput}
                     type="text"
                     className="form-control login_field"
@@ -495,7 +497,7 @@ function Organization() {
           style={{ paddingLeft: "17px", paddingTop: "20px" }}
           onChange={onChange}
         >
-          <span className="label_input">
+          <span className="label_input location ml-2 " style={{}}>
             MAY WE USE YOUR DEVICE’S LOCATION SERVICES?
             <span className="star_red">*</span>
           </span>
