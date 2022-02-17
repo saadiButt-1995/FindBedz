@@ -18,8 +18,10 @@ function IndividualLanding() {
             <h6 className="dashtittle">FindBedz</h6>
           </div>
 
-          <div className="logdiv" style={{ cursor: 'pointer' }} onClick={signout}>
+          <div className="logdiv">
+            <Link to="/">
               <img src="/images/logout.svg" alt="" />
+            </Link>
           </div>
         </div>
 

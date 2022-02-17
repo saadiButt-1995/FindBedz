@@ -171,6 +171,11 @@ a:hover {
 }
 .flex_images {
   display: flex;
+  justify-content: flex-start;  
+}
+.flex_images img{
+  margin: 10px 20px;
+  cursor: pointer;
 }
 .checks_labels {
   font-family: popmd;
@@ -583,8 +588,20 @@ textarea {
 }
 .animals {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
+}
+.animals .form-check{
+  margin-left: 20px;
+}
+.storages {
+  display: flex;
+  flex-wrap: wrap;
+} 
+.storages div{
+  width: 50%;
+}
+.images img{
+  cursor: pointer;
 }
 .following {
   color: #151515;
