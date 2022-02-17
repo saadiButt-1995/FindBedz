@@ -19,7 +19,6 @@ function OrganizationEditprofile() {
     role: "sheriff",
     iam: user.iam,
   });
-  const [phoneValue, setPhonevalue] = useState("");
   const [errField, setErrField] = useState({
     userNameErr: "",
     passwordErr: "",
@@ -68,7 +67,6 @@ function OrganizationEditprofile() {
     if (users.iam === "" || users.iam === undefined) {
       delete users.iam;
     }
-    users.phone = phoneValue;
     delete users.userName
     delete users.role;
     delete users.password;
@@ -194,7 +192,6 @@ function OrganizationEditprofile() {
     });
   };
   useEffect(()=> {
-    // setPhonevalue(normalizeCardNumber(users.phone));
   }, [])
   return (
     <div className="agency">
@@ -320,16 +317,15 @@ function OrganizationEditprofile() {
               <input
                 placeholder="(###) ###-####"
                 type="tel"
-                // value={phoneValue}
                 inputMode="numeric"
                 autoComplete="cc-number"
                 name="cardNumber"
                 className="first form-control login_field login_fieldw"
                 id="cardNumber"
-                value={normalizeCardNumber(users.phone)}
+                defaultValue={normalizeCardNumber(users.phone)}
                 onChange={(event) => {
                   const { value } = event.target;
-                  setPhonevalue(value);
+                  users.phone = value
                   event.target.value = normalizeCardNumber(value);
                 }}
               />
@@ -345,7 +341,7 @@ function OrganizationEditprofile() {
                 </span>
               )}
             </div>
-            <div class="form-group">
+            <div class="form-group" style={{marginTop: '-5px'}}>
               <label className="label_input" for="exampleFormControlSelect1">
                 MY POSITION
               </label>

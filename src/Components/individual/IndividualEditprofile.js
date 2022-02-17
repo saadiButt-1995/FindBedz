@@ -10,7 +10,6 @@ import { logout, setUsersData, updateUserDetails } from "../../services/auth";
 const IndividualEditprofile = () => {
   const navigate = useNavigate()
   const user = JSON.parse(localStorage.getItem("user_data"));
-  const [phoneValue, setPhonevalue] = useState("");
   const [selectedDate, setSelectedDate] = useState("2022-02-02");
   
   const [counties, setCounties] = useState([]);
@@ -121,7 +120,6 @@ const IndividualEditprofile = () => {
     if (users.state === "" || users.state === undefined) {
       delete users.state;
     }
-    users.phone = phoneValue;
     try{
       console.log(users);
       var response = await updateUserDetails(users)
@@ -156,7 +154,7 @@ const IndividualEditprofile = () => {
     //   }));
     // }
 
-    if (phoneValue === "") {
+    if (users.phone === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
@@ -198,14 +196,12 @@ const IndividualEditprofile = () => {
   };
 
   useEffect(()=> {
-    // console.log(moment(users.date_of_birth).format("yyyy-mm-d"));
-    // setSelectedDate(moment(users.date_of_birth).format("yyyy-M-d"));
-    // setPhonevalue(normalizeCardNumber(users.phone));
     setTimeout(() => {
+      /* eslint-disable */
+      getCountiesOfState(users.state);
       // changeState(users.state)
     }, 1000);
   }, []) // eslint-disable-next-line react-hooks/exhaustive-deps
-  getCountiesOfState(users.state);
 
   return (
     <div>
@@ -422,10 +418,10 @@ const IndividualEditprofile = () => {
                       name="cardNumber"
                       className="first form-control login_field login_fieldw"
                       id="cardNumber"
-                      value={normalizeCardNumber(users.phone)}
+                      defaultValue={normalizeCardNumber(users.phone)}
                       onChange={(event) => {
                         const { value } = event.target;
-                        setPhonevalue(value);
+                        users.phone = value
                         event.target.value = normalizeCardNumber(value);
                       }}
                     />
