@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Upload } from "antd";
-import ImgCrop from "antd-img-crop";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
-import { basePath } from "../../config";
 import { providerSignup } from "../../services/auth";
 
 function Sheltorsignup() {
@@ -35,7 +31,6 @@ function Sheltorsignup() {
   const [rules, setRules] = useState("");
   const [storage, setStorage] = useState(false);
   const [storage_message, setStorageMessage] = useState('');
-  const [images, setImages] = useState([]);
   const [amenities, setAmenities] = useState([]);
   const [foods, setFoods] = useState([]);
   const [pets, setPets] = useState([]);
@@ -49,7 +44,6 @@ function Sheltorsignup() {
   const foodTypes = ['breakfast', 'lunch', 'dinner', 'snacks'];
   const shelterTypes = ['Adults', 'Female Only', 'Male Only', 'Family Friendly'];
   const petTypes = ['Dogs', 'Cats'];
-  const storageTypes = ['None', 'Yes'];
   
 
   const navigate = useNavigate();
@@ -222,10 +216,10 @@ function Sheltorsignup() {
   const FoodHandle = (value)=> {
     var exists = false
     var index = 0
-    foods.forEach((item, index)=> {
+    foods.forEach((item, key)=> {
       if(item === value){
         exists = true
-        index = index
+        index = key
       }
     })
     if(!exists){
@@ -233,15 +227,18 @@ function Sheltorsignup() {
     }else{
       foods.splice(index, 1)
     }
+    setTimeout(() => {
+      setFoods(foods)
+    }, 200);
   }
 
   const AmenityHandle = (value)=> {
     var exists = false
     var index = 0
-    amenities.forEach((item, index)=> {
+    amenities.forEach((item, key)=> {
       if(item === value){
         exists = true
-        index = index
+        index = key
       }
     })
     if(!exists){
@@ -249,15 +246,18 @@ function Sheltorsignup() {
     }else{
       amenities.splice(index, 1)
     }
+    setTimeout(() => {
+      setAmenities(amenities)
+    }, 200);
   }
 
   const PetHandle = (value)=> {
     var exists = false
     var index = 0
-    pets.forEach((item, index)=> {
+    pets.forEach((item, key)=> {
       if(item === value){
         exists = true
-        index = index
+        index = key
       }
     })
     if(!exists){
@@ -265,6 +265,9 @@ function Sheltorsignup() {
     }else{
       pets.splice(index, 1)
     }
+    setTimeout(() => {
+      setPets(pets)
+    }, 200);
   }
 
   const chooseImage = ()=> {
@@ -302,11 +305,7 @@ function Sheltorsignup() {
   }
   const isImage = (filename) => {
     var ext = getExtension(filename);
-    switch (ext.toLowerCase()) {
-      case "png":
-      case "jpg":
-      case "jpeg":
-      case "gif":
+    if (ext === "png" || ext === "jpg" || ext === "jpeg" || ext === "gif"){
       return true;
     }
     return false;
@@ -355,16 +354,16 @@ function Sheltorsignup() {
     formdata.append("storage", storage);
     formdata.append("storage_message", storage_message);
     formdata.append("shelterIsFor", shelter_For);
-    fileList.map((image, index)=> {
+    fileList.forEach((image)=> {
       formdata.append("image", image);
     })
-    foods.map((item, index)=> {
+    foods.forEach((item)=> {
       formdata.append("food", item);
     })
-    amenities.map((item, index)=> {
+    amenities.forEach((item)=> {
       formdata.append("amenities", item);
     })
-    pets.map((item, index)=> {
+    pets.forEach((item)=> {
       formdata.append("pets", item);
     })
     
@@ -814,7 +813,7 @@ function Sheltorsignup() {
                       id={`shelters${index}`}
                       defaultValue="option1"
                       defaultChecked
-                      // onChange={()=> setType(item.name)}
+                      onChange={()=> setShelterFor(item)}
                     />
                     <label
                       className="form-check-label checks_labels"
@@ -832,7 +831,6 @@ function Sheltorsignup() {
         <div className="form-group row">
           <label
             style={{
-              // fontSize: "14px",
               fontWeight: "600",
               letterSpacing: "1px",
             }}
@@ -912,7 +910,7 @@ function Sheltorsignup() {
                 </label>
                 <br/>
                 {storage?
-                  <input type="number" className="form-control" id="" placeholder="Description types of storages " />
+                  <input type="number" className="form-control" id="" placeholder="Description types of storages" onClick={(e)=> setStorageMessage(e.target.value)} />
                 :null}
               </div>
               
@@ -961,7 +959,7 @@ function Sheltorsignup() {
             {fileList.map((item, index)=> {
               return (
                 <div className="text-center" key={index}>
-                  <img src={item} width="100px" height="100px" />
+                  <img src={item} width="100px" height="100px" alt="image123"/>
                   <br/>
                   <span className="text-white bg-danger" style={{cursor: 'pointer', borderRadius: '50%', padding: '5px 10px'}} onClick={()=> deletePhoto(index)}>X</span>
                 </div>

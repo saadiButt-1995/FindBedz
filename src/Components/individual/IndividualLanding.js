@@ -18,7 +18,7 @@ function IndividualLanding() {
             <h6 className="dashtittle">FindBedz</h6>
           </div>
 
-          <div className="logdiv">
+          <div className="logdiv" onClick={signout}>
             <Link to="/">
               <img src="/images/logout.svg" alt="" />
             </Link>

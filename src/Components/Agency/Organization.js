@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import axios from "axios";
 import { Checkbox } from "antd";
-import { basePath } from "../../config";
 import { organizationSignup } from "../../services/auth";
 
 function Organization() {

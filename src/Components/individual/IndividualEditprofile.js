@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../../index.css";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
 import { DropdownDate } from "react-dropdown-date";
-import { Checkbox } from "antd";
-import { basePath } from "../../config";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { results, states } from "../../services/states_counties";
@@ -13,16 +10,25 @@ import { logout, setUsersData, updateUserDetails } from "../../services/auth";
 
 const IndividualEditprofile = () => {
   const navigate = useNavigate()
-  // const [open, setOpen] = useState(false);
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
-  const [user, setUserData] = useState(
-    JSON.parse(localStorage.getItem("user_data"))
-  );
+  const user = JSON.parse(localStorage.getItem("user_data"));
   const [phoneValue, setPhonevalue] = useState("");
   const [selectedDate, setSelectedDate] = useState("2022-2-2");
   const [counties, setCounties] = useState([]);
+  const [users, setUser] = useState({
+    userName: user.userName,
+    password: user.password,
+    phone: user.phone,
+    nickName: user.nickName,
+    ethnicity: user.ethnicity,
+    role: user.role,
+    date_of_birth: user.date_of_birth,
+    county: user.county,
+    state: user.state,
+    email: user.email,
+  });
   const ethnicities = [
     "African American",
     "Native Americans",
@@ -37,10 +43,6 @@ const IndividualEditprofile = () => {
     "Other",
   ];
 
-  useEffect(() => {
-    setSelectedDate(formatDate(moment(user.date_of_birth).format("llll")));
-    setPhonevalue(normalizeCardNumber(user.phone));
-  }, []);
   const formatDate = (date) => {
     // formats a JS date to 'yyyy-mm-dd'
     var d = new Date(date),
@@ -53,22 +55,8 @@ const IndividualEditprofile = () => {
 
     return [year, month, day].join("-");
   };
-  function onChange(e) {
-    console.log(`checked = ${e.target.checked}`);
-  }
 
-  const [users, setUser] = useState({
-    userName: user.userName,
-    password: user.password,
-    phone: user.phone,
-    nickName: user.nickName,
-    ethnicity: user.ethnicity,
-    role: user.role,
-    date_of_birth: user.date_of_birth,
-    county: user.county,
-    state: user.state,
-    email: user.email,
-  });
+ 
 
   const [errField, setErrField] = useState({
     // userNameErr: "",
@@ -137,7 +125,7 @@ const IndividualEditprofile = () => {
     users.phone = phoneValue;
     try{
       var response = await updateUserDetails(users)
-      if(response.status == 200){
+      if(response.status === 200){
         toast.success("Updated Successfully!");
         setUsersData(user._id)
           setTimeout(() => {
@@ -208,6 +196,9 @@ const IndividualEditprofile = () => {
     const data = results.filter((x) => x.state === state);
     setCounties(data);
   };
+
+  setSelectedDate(formatDate(moment(users.date_of_birth).format("llll")));
+  setPhonevalue(normalizeCardNumber(users.phone));
 
   return (
     <div>
@@ -343,7 +334,7 @@ const IndividualEditprofile = () => {
                           <option
                             key={index}
                             className="login_field"
-                            selected={item == users.ethnicity ? true : false}
+                            selected={item === users.ethnicity ? true : false}
                           >
                             {item}
                           </option>

@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import "../../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
 import { DropdownDate } from "react-dropdown-date";
 import { Checkbox } from "antd";
-import { basePath } from "../../config";
 import {individualSignup} from '../../services/auth'
-import moment from 'moment'
 import { results, states } from "../../services/states_counties";
 
 const Individual = () => {

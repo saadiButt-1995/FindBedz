@@ -1,17 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import axios from "axios";
-import { Checkbox } from "antd";
-import { basePath } from "../../config";
 import { logout, setUsersData, updateUserDetails } from "../../services/auth";
 
 function OrganizationEditprofile() {
   const navigate = useNavigate()
-  const [user, setUserData] = useState(
-    JSON.parse(localStorage.getItem("user_data"))
-  );
+  const user = JSON.parse(localStorage.getItem("user_data"))
   const [users, setUser] = useState({
     userName: user.userName,
     password: user.password,
@@ -45,9 +40,7 @@ function OrganizationEditprofile() {
     'Law enforcement',
     'Services provider'
   ]
-  useEffect(() => {
-    setPhonevalue(normalizeCardNumber(user.phone));
-  }, []);
+  
 
   let name, value;
   const handleInput = (event) => {
@@ -86,7 +79,7 @@ function OrganizationEditprofile() {
     if (validForm()) {
       try{
         var response = await updateUserDetails(users)
-        if(response.status == 200){
+        if(response.status === 200){
           toast.success("Updated Successfully!");
           setUsersData(user._id)
             setTimeout(() => {
@@ -183,9 +176,7 @@ function OrganizationEditprofile() {
   const toggle = () => {
     setOpen(!open);
   };
-  function onChange(e) {
-    console.log(`checked = ${e.target.checked}`);
-  }
+  
   const normalizeCardNumber = (value) => {
     let x = value.replace(/\D/g, "").match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
     let maskedText = !x[2]
@@ -193,6 +184,7 @@ function OrganizationEditprofile() {
       : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
     return maskedText;
   };
+  setPhonevalue(normalizeCardNumber(users.phone));
 
   return (
     <div className="agency">
@@ -358,7 +350,7 @@ function OrganizationEditprofile() {
                 <option classname="login_field" selected disabled>Choose your role</option>
                 {positions.map((item, index)=> {
                   return (
-                    <option classname="login_field" selected={item == users.iam? true : false}>{item}</option>
+                    <option classname="login_field" selected={item === users.iam? true : false}>{item}</option>
                   )
                 })}
               </select>

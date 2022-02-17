@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import {  useNavigate } from "react-router-dom";
 const Dashboard = () => {
   
   const navigate = useNavigate()
-  const [role, setRole] = useState(localStorage.getItem('role'))
+  const role = localStorage.getItem('role')
   useEffect(()=> {
-    if(role == 'user'){
+    if(role === 'user'){
       navigate('/individual-landingpage')
-    }else if(role == 'sheriff'){
+    }else if(role === 'sheriff'){
       navigate('/sheltor-dashboard')
     }else{
       navigate('/OrganizationLandingpage')
