@@ -8,7 +8,7 @@ import axios from "axios";
 import { basePath } from "../../config";
 import { providerSignup } from "../../services/auth";
 
-function Sheltorsignup() {
+function SheltorEditProfile() {
   const [user, setUser] = useState({
     userName: "",
     password: "",
@@ -1000,4 +1000,4 @@ function Sheltorsignup() {
   );
 }
 
-export default Sheltorsignup;
+export default SheltorEditProfile;

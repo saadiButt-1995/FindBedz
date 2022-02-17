@@ -200,12 +200,12 @@ const IndividualEditprofile = () => {
   useEffect(()=> {
     // console.log(moment(users.date_of_birth).format("yyyy-mm-d"));
     // setSelectedDate(moment(users.date_of_birth).format("yyyy-M-d"));
-    setPhonevalue(normalizeCardNumber(users.phone));
+    // setPhonevalue(normalizeCardNumber(users.phone));
     setTimeout(() => {
-      getCountiesOfState(users.state);
       // changeState(users.state)
     }, 1000);
   }, []) // eslint-disable-next-line react-hooks/exhaustive-deps
+  getCountiesOfState(users.state);
 
   return (
     <div>
