@@ -10,6 +10,8 @@ import { logout, setUsersData, updateUserDetails } from "../../services/auth";
 const IndividualEditprofile = () => {
   const navigate = useNavigate()
   const user = JSON.parse(localStorage.getItem("user_data"));
+  const user_id = localStorage.getItem("user")
+  const token = `Bearer ${localStorage.getItem("token")}`
   const [selectedDate, setSelectedDate] = useState("2022-02-02");
   
   const [counties, setCounties] = useState([]);
@@ -121,8 +123,7 @@ const IndividualEditprofile = () => {
       delete users.state;
     }
     try{
-      console.log(users);
-      var response = await updateUserDetails(users)
+      var response = await updateUserDetails(users, user_id, token)
       if(response.status === 200){
         toast.success("Updated Successfully!");
         setUsersData(user._id)

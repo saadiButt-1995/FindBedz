@@ -734,9 +734,27 @@ textarea {
 }
 .animals {
   display: flex;
-  justify-content: flex-start;
   flex-wrap: wrap;
 }
+.animals .form-check{
+  margin-right: 20px;
+}
+.storages {
+  display: flex;
+  flex-wrap: wrap;
+}
+.storages div{
+  width: 50%;
+}
+.images img{
+  cursor: pointer;
+}
+/* .animals {
+}
+.animals .form-check{
+  display: inline-block;
+  margin-right: 15px;
+} */
 .following {
   color: #151515;
   font-family: popreg;

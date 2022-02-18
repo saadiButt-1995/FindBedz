@@ -1,7 +1,7 @@
 import {axios} from '../config'
 
-const user = localStorage.getItem("user")
-const token = `Bearer ${localStorage.getItem("token")}`
+// const user = localStorage.getItem("user")
+// const token = `Bearer ${localStorage.getItem("token")}`
 
 const login = async(data) => {
     var response = await axios.post(`auth/login`, data)
@@ -54,11 +54,18 @@ const getShelterDetails = async(user_query) => {
 }
 
 
-const updateUserDetails = async(data) => {
+const updateUserDetails = async(data, user, token) => {
     return await axios.put(`users/${user}`, data, {headers: {
         Authorization: token,
-      }})
+    }})
 }
+
+const updateShelterDetails = async(data, user, token) => {
+    return await axios.put(`shelter/update?shelterId=${user}`, data, {headers: {
+        Authorization: token,
+    }})
+}
+
 
 const individualSignup = async(data) => {
     return await axios.post(`auth/registerUser`, data)
@@ -89,4 +96,5 @@ export {
     updateUserDetails,
     setUsersData,
     getShelterDetails,
+    updateShelterDetails,
 }

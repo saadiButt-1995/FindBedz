@@ -93,10 +93,12 @@ function Sheltordashboard() {
               </div>
             </div>
             <div className="col-lg-3 col-md-6">
-              <div className="indiv_cardd">
-                <img src="/images/edit_user.svg" alt="" />
-                <div className="card_title">EDIT PROFILE</div>
-              </div>
+              <Link to="/shelter-editprofile">
+                <div className="indiv_cardd">
+                  <img src="/images/edit_user.svg" alt="" />
+                  <div className="card_title">EDIT PROFILE</div>
+                </div>
+              </Link>
             </div>
           </div>
         </div>

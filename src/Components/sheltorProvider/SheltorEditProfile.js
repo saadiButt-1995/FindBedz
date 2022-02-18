@@ -1,58 +1,127 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Upload } from "antd";
-import ImgCrop from "antd-img-crop";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
-import { basePath } from "../../config";
-import { providerSignup } from "../../services/auth";
+import { getShelterDetails, logout, updateShelterDetails } from "../../services/auth";
+import $ from 'jquery'
+function ShelterEditProfile() {
+  const navigate = useNavigate()
+  const u = JSON.parse(localStorage.getItem("user_data"));
+  const user_id = localStorage.getItem("user")
+  const token = `Bearer ${localStorage.getItem("token")}`
 
-function SheltorEditProfile() {
   const [user, setUser] = useState({
-    userName: "",
-    password: "",
-    shelterName: "",
-    phone: "",
-    email: "",
-    address: "",
-    city: "",
-    state: "",
-    contact_person_name: "",
-    zipCode: "",
+    userName: u.userName,
+    password: u.password,
+    shelterName: u.shelterName,
+    phone: u.phone,
+    email: u.email,
+    address: u.address,
+    city: u.city,
+    state: u.state,
+    contact_person_name: u.contact_person_name,
+    zipCode: u.zipCode,
     role: "shelter",
-    totalAllowedForReservation: "",
-    totalNumberOfBeds: "",
-    description: "testadsf",
-    rules: "testfasdf",
-    maxTimeToHoldABed: "",
-    food: "",
+    totalAllowedForReservation: u.totalAllowedForReservation,
+    totalNumberOfBeds: u.totalNumberOfBeds,
+    description: u.description,
+    rules: u.rules,
+    maxTimeToHoldABed: u.maxTimeToHoldABed,
+    food: u.foods,
     shelterIsFor: "family",
   });
 
-  const [phoneValue, setPhonevalue] = useState("");
-  const [description, setDescription] = useState("");
-  const [rules, setRules] = useState("");
-  const [storage, setStorage] = useState(false);
-  const [storage_message, setStorageMessage] = useState('');
-  const [images, setImages] = useState([]);
-  const [amenities, setAmenities] = useState([]);
-  const [foods, setFoods] = useState([]);
-  const [pets, setPets] = useState([]);
+  const [description, setDescription] = useState(u.description);
+  const [rules, setRules] = useState(u.rules);
+  const [storage, setStorage] = useState(u.storage);
+  const [storage_message, setStorageMessage] = useState(u.storage_available_desc);
+  const [amenities, setAmenities] = useState(u.amenities);
+  const [foods, setFoods] = useState(u.food);
+  const [pets, setPets] = useState(u.pets_allowed);
   const [shelter_For, setShelterFor] = useState('')
-  const [valuee, setValuee] = useState(0);
-  const [incVal, setIncVal] = useState(0);
-  const [hour, setHour] = useState(0);
-  const [fileList, setFileList] = useState([]);
+  const [valuee, setValuee] = useState(u.totalNumberOfBeds);
+  const [incVal, setIncVal] = useState(u.totalAllowedForReservation);
+  const [hour, setHour] = useState(u.maxTimeToHoldABed);  
+  const [hours_intake, setHoursIntake] = useState(u.hours_intake);
+  const [fileList, setFileList] = useState(u.image);
+  const [images, setImages] = useState([]);
 
-  const ameniity_types = ['Power Outlets', 'Computer Access', 'WIFI', 'Shower'];
-  const foodTypes = ['breakfast', 'lunch', 'dinner', 'snacks'];
-  const shelterTypes = ['Adults', 'Female Only', 'Male Only', 'Family Friendly'];
-  const petTypes = ['Dogs', 'Cats'];
-  const storageTypes = ['None', 'Yes'];
+  const shelterTypes = [
+    {showname:'Adults ( any gender )', name: 'adults'}, 
+    {showname:'Female Only', name: 'female'}, 
+    {showname:'Male Only', name: 'male'}, 
+    {showname:'Family Friendly', name: 'family'}
+  ]
+  const foodTypes = [
+    {showname:'Breakfast', name: 'breakfast'}, 
+    {showname:'Lunch', name: 'lunch'}, 
+    {showname:'Dinner', name: 'dinner'}, 
+    {showname:'Snacks', name: 'snacks'}
+  ]
+  const ameniity_types = [
+    {showname:'Power Outlets', name: 'power_outlets'}, 
+    {showname:'Computer Access', name: 'computer_access'}, 
+    {showname:'WIFI', name: 'wifi'}, 
+    {showname:'Shower', name: 'shower'}
+  ]
+  const petTypes = [
+    {showname:'Dogs', name: 'dogs'}, 
+    {showname:'Cats', name: 'cats'}, 
+  ]
+
+  const signout = () => {
+    logout()
+    navigate('/')
+    
+  }
   
+  useEffect(()=> {
+    /* eslint-disable */
+    setValues()
+  }, [])
 
-  const navigate = useNavigate();
+  const setValues = () => {
+    u.food.forEach(x=> {
+      foodTypes.forEach((item, index)=> {
+        if(x === item.name){
+          foodTypes[index].checked = true
+          $('#food'+index).prop('checked', true);
+          console.log('checked');
+        }
+      })
+    })
+    u.amenities.forEach(x=> {
+      ameniity_types.forEach((item, index)=> {
+        if(x === item.name){
+          ameniity_types[index].checked = true
+          $('#amenities'+index).prop('checked', true);
+        }
+      })
+    })
+    u.pets_allowed.forEach(x=> {
+      petTypes.forEach((item, index)=> {
+        if(x === item.name){
+          petTypes[index].checked = true
+          $('#pets'+index).prop('checked', true);
+        }
+      })
+    })
+    u.shelterIsFor.forEach(x=> {
+      shelterTypes.forEach((item, index)=> {
+        if(x === item.name){
+          shelterTypes[index].checked = true
+          $('#shelters'+index).prop("checked", true);
+          console.log('checked');
+      }
+      })
+    })
+
+    if(u.storage === 'none'){
+      $('#storages1').prop("checked", true);
+    }else{
+      $('#storages0').prop("checked", true);
+    }
+  }
 
   const [errField, setErrField] = useState({
     userNameErr: "",
@@ -222,10 +291,10 @@ function SheltorEditProfile() {
   const FoodHandle = (value)=> {
     var exists = false
     var index = 0
-    foods.forEach((item, index)=> {
+    foods.forEach((item, key)=> {
       if(item === value){
         exists = true
-        index = index
+        index = key
       }
     })
     if(!exists){
@@ -233,15 +302,18 @@ function SheltorEditProfile() {
     }else{
       foods.splice(index, 1)
     }
+    setTimeout(() => {
+      setFoods(foods)
+    }, 200);
   }
 
   const AmenityHandle = (value)=> {
     var exists = false
     var index = 0
-    amenities.forEach((item, index)=> {
+    amenities.forEach((item, key)=> {
       if(item === value){
         exists = true
-        index = index
+        index = key
       }
     })
     if(!exists){
@@ -249,15 +321,18 @@ function SheltorEditProfile() {
     }else{
       amenities.splice(index, 1)
     }
+    setTimeout(() => {
+      setAmenities(amenities)
+    }, 200);
   }
 
   const PetHandle = (value)=> {
     var exists = false
     var index = 0
-    pets.forEach((item, index)=> {
+    pets.forEach((item, key)=> {
       if(item === value){
         exists = true
-        index = index
+        index = key
       }
     })
     if(!exists){
@@ -265,6 +340,9 @@ function SheltorEditProfile() {
     }else{
       pets.splice(index, 1)
     }
+    setTimeout(() => {
+      setPets(pets)
+    }, 200);
   }
 
   const chooseImage = ()=> {
@@ -272,41 +350,31 @@ function SheltorEditProfile() {
   }
 
   const selectImage = (event)=> {
-    var pic = "";
+    var imagefile = document.querySelector('#image');
     if (event.target.files && event.target.files[0]) {
-      let img = event.target.files[0];
+      const files = Array.from(imagefile.files);
+      setImages(images.concat(files[0]))
+        let img = event.target.files[0];
 
-      // check resolutions
-      setTimeout(() => {
+        // check resolutions
         if (isImage(img.name)) {
-            
-            // setImage(URL.createObjectURL(img))
-            let reader = new FileReader();
-            reader.readAsDataURL(img);
-            reader.onload = async() =>{                
-                pic = reader.result;
-            };
-            reader.onerror = function (error) {
-              console.log("Error: ", error);
-            };
-            setTimeout(() => {
-                setFileList(fileList.concat(pic))
-              }, 1000);
-          }else { 
-            toast.error('Invalid image format..')
-            return false
-          }
-      }, 200);
-
+          let reader = new FileReader();
+          reader.readAsDataURL(img);
+          reader.onload = async() =>{                
+              setFileList(fileList.concat(reader.result))
+          };
+          reader.onerror = function (error) {
+            console.log("Error: ", error);
+          };
+        }else { 
+          toast.error('Invalid image format..')
+          return false
+        }
     }
   }
   const isImage = (filename) => {
     var ext = getExtension(filename);
-    switch (ext.toLowerCase()) {
-      case "png":
-      case "jpg":
-      case "jpeg":
-      case "gif":
+    if (ext === "png" || ext === "jpg" || ext === "jpeg" || ext === "gif"){
       return true;
     }
     return false;
@@ -331,73 +399,118 @@ function SheltorEditProfile() {
       delete user.food;
     }
 
-    user.phone = phoneValue;
     user.totalAllowedForReservation = incVal;
     user.totalNumberOfBeds = valuee;
     user.maxTimeToHoldABed = hour;
     let formdata = new FormData();
     formdata.append("role", user.role);
-    formdata.append("userName", user.userName);
     formdata.append("address", user.address);
     formdata.append("shelterName", user.shelterName);
     formdata.append("phone", user.phone);
     formdata.append("email", user.email);
-    formdata.append("password", user.password);
     formdata.append("city", user.city);
     formdata.append("state", user.state);
     formdata.append("contact_person_name", user.contact_person_name);
     formdata.append("zipCode", user.zipCode);
     formdata.append( "totalAllowedForReservation", user.totalAllowedForReservation );
     formdata.append("totalNumberOfBeds", user.totalNumberOfBeds);
-    formdata.append("description", description);
-    formdata.append("rules", rules);
-    formdata.append("maxTimeToHoldABed", user.maxTimeToHoldABed);
-    formdata.append("storage", storage);
-    formdata.append("storage_message", storage_message);
-    formdata.append("shelterIsFor", shelter_For);
-    fileList.map((image, index)=> {
-      formdata.append("image", image);
-    })
-    foods.map((item, index)=> {
-      formdata.append("food", item);
-    })
-    amenities.map((item, index)=> {
-      formdata.append("amenities", item);
-    })
-    pets.map((item, index)=> {
-      formdata.append("pets", item);
-    })
+    if(user.maxTimeToHoldABed !== '')
+      formdata.append("maxTimeToHoldABed", user.maxTimeToHoldABed);
+    if(rules !== '')
+      formdata.append("rules", rules);
+    if(description !== '')
+      formdata.append("description", description);
+    if(storage !== '')
+      formdata.append("storage", storage);
+    if(storage_message !== '')
+      formdata.append("storage_available_desc", storage_message);
+    if(shelter_For)
+      formdata.append("shelterIsFor", shelter_For);
+    if(hours_intake)
+      formdata.append("hours_of_intake", hours_intake);
+    if(images.length > 0){
+      images.forEach((image)=> {
+        formdata.append("image", image);
+      })
+    }
+    if(foods.length > 0){
+      foods.forEach((item)=> {
+        formdata.append("food", item);
+      })
+    }
+    if(amenities.length > 0){
+      amenities.forEach((item)=> {
+        formdata.append("amenities", item);
+      })
+    }
+    if(pets.length > 0){
+      pets.forEach((item)=> {
+        formdata.append("pets_allowed", item);
+      })
+    }
     
-
     if (validForm()) {
-      console.log(formdata);
-      var response = await providerSignup(formdata)
-        if (response.status === 200) {
-          toast.success("Account Created Successfully!");
-          setTimeout(() => {
-            navigate("/login");
-            toast.success("Please Login To Continue!");
-        }, 1500);
-        }else{
-        toast.error("Something went wrong !");
-        console.log(response);
+      try{
+        var response = await updateShelterDetails(formdata, user_id, token)
+        if(response.status === 200){
+          toast.success("Updated Successfully!");
+          getShelterDetails(response.data.shelter.id)
+            setTimeout(() => {
+              navigate("/");
+            }, 1500);
+          }else{
+            toast.error("Fields Cannot be empty");
+            console.log(response);
+          }
+      }catch(e){
+        console.log('ERROR*************');
+        toast.error(e.response.data.message);
       }
     }
   };
   return (
     <div className="Sheltorsignup">
-      <ToastContainer />
-      <Link to="/">
-        <div className="logodiv login_log">
-          <img className="login_logo" src="/images/sheltorlogo.svg" alt="" />
+     <ToastContainer />
+      <div className="edit_header">
+          <div className="edit_left_bts">
+            <Link to="/">
+              <img
+                style={{ height: "29px", paddingRight: "10px" }}
+                src="images/dashhome.svg"
+                alt=""
+              />
+            </Link>
+            <Link to="/individual-landingpage">
+              <img style={{ height: "29px" }} src="/images/back.svg" alt="" />
+            </Link>
+          </div>
+          <div
+            style={{
+              fontFamily: "patua",
+              fontSize: "16px",
+              paddingLeft: "32px",
+            }}
+          >
+            FindBedz
+          </div>
+          <div style={{ cursor: 'pointer' }} onClick={signout}>
+            <img src="/images/logout.svg" alt=""></img>
+          </div>
         </div>
-      </Link>
-      <p className="indi_title">SIGNUP FOR SHELTER PROVIDER</p>
+        <div className="popo">
+          <img
+            className=""
+            src="/images/edit_user.svg"
+            alt=""
+          />
+        </div>
+     
+      <p className="indi_title" style={{fontSize: '30px'}}> EDIT PROFILE</p>
       <div className="row justify-content-around">
         <div className="col-lg-5">
           <div className="mb-3 label_input">
             <label htmlFor="validationCustom01">
-              CHOOSE USERNAME<span className="star_red">*</span>
+            USERNAME<span className="star_red">*</span>
             </label>
             <input
               name="userName"
@@ -613,15 +726,15 @@ function SheltorEditProfile() {
             <input
               placeholder="(###) ###-####"
               type="tel"
-              // value={phoneValue}
               inputMode="numeric"
               autoComplete="cc-number"
               name="cardNumber"
               className="first form-control login_field login_fieldw"
               id="cardNumber"
+              defaultValue={user.phone}
               onChange={(event) => {
                 const { value } = event.target;
-                setPhonevalue(value);
+                user.phone = value  
                 event.target.value = normalizeCardNumber(value);
               }}
             />
@@ -733,7 +846,7 @@ function SheltorEditProfile() {
           </div>
         </div>
         <div className="progress_card">
-          <div className="headind_pro">Maximum Time to Hold a Bed</div>
+          <div className="headind_pro">MAXIMUM TIME TO HOLD A BED</div>
 
           <div className="progress1">
             <div className="cricle_div bluplus">{hour} Hr</div>
@@ -756,9 +869,6 @@ function SheltorEditProfile() {
           </div>
         </div>
       </div>
-      <p className="para_sheltor">
-        THE ITEMS BELOW CAN ALSO BE ADDED LATER UNDER “EDIT PROFILE”
-      </p>
       <div className="container mt-4 background_contain">
         <p className="following">
           THE FOLLOWING ITEMS CAN ALSO BE ADDED LATER UNDER “EDIT PROFILE”
@@ -774,17 +884,17 @@ function SheltorEditProfile() {
                   <div className="form-group form-check" key={index}>
                     <input
                       type="checkbox"
-                      name="breakfast"
+                      name={`food${index}`}
                       onChange={(e)=> FoodHandle(e.target.value)}
                       className="form-check-input"
-                      id="exampleCheck1"
-                      value={item}
+                      id={`food${index}`}
+                      value={item.name}
                     />
                     <label
                       className="form-check-label checks_labels"
                       htmlFor="exampleCheck1"
                     >
-                      {item}
+                      {item.showname}
                     </label>
                   </div>
                 )
@@ -810,17 +920,15 @@ function SheltorEditProfile() {
                     <input
                       className="form-check-input"
                       type="radio"
-                      name="shelters"
+                      name={`shelters${index}`}
                       id={`shelters${index}`}
-                      defaultValue="option1"
-                      defaultChecked
-                      // onChange={()=> setType(item.name)}
+                      onChange={()=> setShelterFor(item.name)}
                     />
                     <label
                       className="form-check-label checks_labels"
                       htmlFor={`shelters${index}`}
                     >
-                      {item}
+                      {item.showname}
                     </label>
                   </div>
                 )
@@ -832,7 +940,6 @@ function SheltorEditProfile() {
         <div className="form-group row">
           <label
             style={{
-              // fontSize: "14px",
               fontWeight: "600",
               letterSpacing: "1px",
             }}
@@ -842,7 +949,7 @@ function SheltorEditProfile() {
             HOURS OF INTAKE:
           </label>
           <div className="col-lg-4 pl-0">
-            <input type="number" className="form-control" id="" />
+            <input type="number" className="form-control" id="" onChange={(e)=> setHoursIntake(e.target.value)}/>
           </div>
         </div>
         <div style={{ marginTop: "20px" }} className="row">
@@ -857,17 +964,17 @@ function SheltorEditProfile() {
                   <div className="form-group form-check" key={index}>
                     <input
                       type="checkbox"
-                      name="breakfast"
+                      name={`pets${index}`}
                       onChange={(e)=> PetHandle(e.target.value)}
                       className="form-check-input"
-                      id="exampleCheck1"
-                      value={item}
+                      id={`pets${index}`}
+                      value={item.name}
                     />
                     <label
                       className="form-check-label checks_labels"
                       htmlFor="exampleCheck1"
                     >
-                      {item}
+                      {item.showname}
                     </label>
                   </div>
                   )
@@ -883,11 +990,11 @@ function SheltorEditProfile() {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name="exampleRadios"
+                  name={`storages0`}
                   id={`storages0`}
                   defaultValue="option1"
-                  onChange={()=> setStorage(false)}
-                />
+                  onChange={()=> setStorage('none')}
+                  />
                 <label
                   className="form-check-label checks_labels"
                   htmlFor={`storages0`}
@@ -902,7 +1009,7 @@ function SheltorEditProfile() {
                   name="exampleRadios"
                   id={`storages1`}
                   defaultValue="option1"
-                  onChange={()=> setStorage(true)}
+                  onChange={()=> setStorage('yes')}
                 />
                 <label
                   className="form-check-label checks_labels"
@@ -911,8 +1018,8 @@ function SheltorEditProfile() {
                   Yes
                 </label>
                 <br/>
-                {storage?
-                  <input type="number" className="form-control" id="" placeholder="Description types of storages " />
+                {storage === 'yes'?
+                  <input type="text" style={{marginLeft: '-20px'}} className="form-control" id="" placeholder="Description types of storages" onChange={(e)=> setStorageMessage(e.target.value)} />
                 :null}
               </div>
               
@@ -932,17 +1039,17 @@ function SheltorEditProfile() {
                   <div className="form-group form-check" key={index}>
                     <input
                       type="checkbox"
-                      name="breakfast"
+                      name={`amenities${index}`}
                       onChange={(e)=> AmenityHandle(e.target.value)}
                       className="form-check-input"
-                      id="exampleCheck1"
-                      value={item}
+                      id={`amenities${index}`}
+                      value={item.name}
                     />
                     <label
                       className="form-check-label checks_labels"
                       htmlFor="exampleCheck1"
                     >
-                      {item}
+                      {item.showname}
                     </label>
                   </div>
                   )
@@ -951,17 +1058,19 @@ function SheltorEditProfile() {
           </div>
         </div>
 
-        <div className="col-lg-6"></div>
-        <div className="images section mt-4">
-          <p className="checks_labels">ADD IMAGES </p>
+        <div className="col-lg-12">
+          <div className="images section mt-4">
+          <p style={{ fontWeight: "600" }} className="checks_labels">
+          ADD IMAGES
+          </p>
 
-          <input type="file" id="image" style={{display: 'none'}} onChange={selectImage}/>
+          <input type="file" id="image" style={{display: 'none'}} onChange={selectImage} multiple/>
 
           <div className="flex_images">
             {fileList.map((item, index)=> {
               return (
                 <div className="text-center" key={index}>
-                  <img src={item} width="100px" height="100px" />
+                  <img src={item} width="100px" height="100px" alt="image123"/>
                   <br/>
                   <span className="text-white bg-danger" style={{cursor: 'pointer', borderRadius: '50%', padding: '5px 10px'}} onClick={()=> deletePhoto(index)}>X</span>
                 </div>
@@ -977,6 +1086,7 @@ function SheltorEditProfile() {
             <p className="checks_labels">DESCRIPTION</p>
             <textarea
               className="checks_labels login_field1 with_input"
+              value={description}
               type="text" onChange={(e)=> setDescription(e.target.value)}
             ></textarea>
           </div>
@@ -985,10 +1095,12 @@ function SheltorEditProfile() {
             <p className="checks_labels">RULES/REQUIREMENTS</p>
             <textarea
               className="checks_labels login_field1 with_input"
+              value={rules}
               type="text" onChange={(e)=> setRules(e.target.value)}
             ></textarea>
           </div>
         </div>
+      </div>
       </div>
       <div className="signup_footer">
         <Link onClick={submit} className="" to="/sheltor-dashboard">
@@ -1000,4 +1112,4 @@ function SheltorEditProfile() {
   );
 }
 
-export default SheltorEditProfile;
+export default ShelterEditProfile;

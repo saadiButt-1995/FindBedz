@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 const Landingpage = () => {
+
+  
   return (
     <>
       <div className="landingpage">
-        
           <div className="logodiv">
           <Link to="/">
             <img src="/images/sheltorlogo.svg" alt="" />

@@ -6,6 +6,8 @@ import { logout, setUsersData, updateUserDetails } from "../../services/auth";
 function OrganizationEditprofile() {
   const navigate = useNavigate()
   const user = JSON.parse(localStorage.getItem("user_data"))
+  const user_id = localStorage.getItem("user")
+  const token = `Bearer ${localStorage.getItem("token")}`
   const [users, setUser] = useState({
     userName: user.userName,
     password: user.password,
@@ -72,10 +74,9 @@ function OrganizationEditprofile() {
     delete users.password;
     delete users.organization;
 
-    console.log("showin   ", validForm());
     if (validForm()) {
       try{
-        var response = await updateUserDetails(users)
+        var response = await updateUserDetails(users, user_id, token)
         if(response.status === 200){
           toast.success("Updated Successfully!");
           setUsersData(user._id)

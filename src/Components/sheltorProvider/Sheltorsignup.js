@@ -426,7 +426,7 @@ function Sheltorsignup() {
           <img className="login_logo" src="/images/sheltorlogo.svg" alt="" />
       </Link>
         </div>
-      <p className="indi_title">CREATE AN ACCOUNT</p>
+      <p className="indi_title">SHELTER PROVIDER</p>
       <div className="row justify-content-around">
         <div className="col-lg-5">
           <div className="mb-3 label_input">
@@ -790,9 +790,6 @@ function Sheltorsignup() {
           </div>
         </div>
       </div>
-      <p className="para_sheltor">
-        THE ITEMS BELOW CAN ALSO BE ADDED LATER UNDER “EDIT PROFILE”
-      </p>
       <div className="container mt-4 background_contain">
         <p className="following">
           THE FOLLOWING ITEMS CAN ALSO BE ADDED LATER UNDER “EDIT PROFILE”
