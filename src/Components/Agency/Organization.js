@@ -10,8 +10,8 @@ import MainNav from '../Auth/Navs/MainNav'
 function Organization() {
   const [user, setUser] = useState({
     userName: "",
-    first_name: "",
-    last_name: "",
+    firstName: "",
+    lastName: "",
     password: "",
     phone: "",
     email: "",
@@ -136,14 +136,14 @@ function Organization() {
         organizationErr: "Please Enter organization",
       }));
     }
-    if (user.first_name === "") {
+    if (user.firstName === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
         FirstErr: "Please Enter First Name",
       }));
     }
-    if (user.last_name === "") {
+    if (user.lastName === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
@@ -238,8 +238,8 @@ function Organization() {
                       FIRST NAME <span className="star_red">*</span>
                     </label>
                     <input
-                      name="first_name"
-                      value={user.first_name}
+                      name="firstName"
+                      value={user.firstName}
                       onChange={handleInput}
                       type="text"
                       placeholder="Enter first name"
@@ -264,8 +264,8 @@ function Organization() {
                       LAST NAME <span className="star_red">*</span>
                     </label>
                     <input
-                      name="last_name"
-                      value={user.last_name}
+                      name="lastName"
+                      value={user.lastName}
                       onChange={handleInput}
                       type="text"
                       placeholder="Enter last name"

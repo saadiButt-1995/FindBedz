@@ -11,8 +11,8 @@ function OrganizationEditprofile() {
   const token = `Bearer ${localStorage.getItem("token")}`
   const [users, setUser] = useState({
     userName: user.userName,
-    first_name: user.first_name,
-    last_name: user.last_name,
+    firstName: user.firstName,
+    lastName: user.lastName,
     password: user.password,
     phone: user.phone,
     email: user.email,
@@ -148,14 +148,14 @@ function OrganizationEditprofile() {
         organizationErr: "Please Enter organization",
       }));
     }
-    if (user.first_name === "") {
+    if (user.firstName === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
         FirstErr: "Please Enter First Name",
       }));
     }
-    if (user.last_name === "") {
+    if (user.lastName === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
@@ -290,8 +290,8 @@ function OrganizationEditprofile() {
                       FIRST NAME <span className="star_red">*</span>
                     </label>
                     <input
-                      name="first_name"
-                      value={users.first_name}
+                      name="firstName"
+                      value={users.firstName}
                       onChange={handleInput}
                       type="text"
                       placeholder="Enter first name"
@@ -316,8 +316,8 @@ function OrganizationEditprofile() {
                       LAST NAME <span className="star_red">*</span>
                     </label>
                     <input
-                      name="last_name"
-                      value={users.last_name}
+                      name="lastName"
+                      value={users.lastName}
                       onChange={handleInput}
                       type="text"
                       placeholder="Enter last name"
