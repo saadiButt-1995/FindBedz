@@ -6,7 +6,7 @@ const Home = () => {
       
     return (
         <Wrapper>
-            <div className="account">
+            <div className="account ">
                 <div className="logindiv">
                     <Link to="/login">
                     <button className="loginbtn">Login</button>

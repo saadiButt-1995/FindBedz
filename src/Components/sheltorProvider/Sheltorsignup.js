@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
 import { getShelterDetails, providerSignup } from "../../services/auth";
+import { Wrapper } from "../Auth/Auth.styled";
+import MainNav from '../Auth/Navs/MainNav'
 
 function Sheltorsignup() {
   const [user, setUser] = useState({
@@ -418,169 +420,109 @@ function Sheltorsignup() {
     }
   };
   return (
-    <div className="Sheltorsignup">
-      <ToastContainer />
-     
-        <div className="logodiv login_log">
-        <Link to="/">
-          <img className="login_logo" src="/images/sheltorlogo.svg" alt="" />
-      </Link>
-        </div>
-      <p className="indi_title">SHELTER PROVIDER</p>
-      <div className="row justify-content-around">
-        <div className="col-lg-5">
-          <div className="mb-3 label_input">
-            <label htmlFor="validationCustom01">
-            USERNAME<span className="star_red">*</span>
-            </label>
-            <input
-              name="userName"
-              value={user.userName}
-              onChange={handleInput}
-              type="text"
-              placeholder="Create a username"
-              className="form-control login_field"
-              id="validationCustom01"
-              required
-            />
-            {errField.userNameErr.length > 0 && (
-              <span
-                style={{
-                  color: "red",
-                  fontSize: "11px",
-                  fontFamily: "popreg",
-                }}
-              >
-                {errField.userNameErr}
-              </span>
-            )}
-          </div>
-          <div className="mb-3 label_input">
-            <label htmlFor="validationCustom02">
-              ENTER SHELTER NAME<span className="star_red">*</span>
-            </label>
-            <input
-              name="shelterName"
-              value={user.shelterName}
-              onChange={handleInput}
-              type="text"
-              className="form-control login_field"
-              placeholder="Create a shelter name"
-              id="validationCustom02"
-              required
-            />
-            {errField.shelterNameErr.length > 0 && (
-              <span
-                style={{
-                  color: "red",
-                  fontSize: "11px",
-                  fontFamily: "popreg",
-                }}
-              >
-                {errField.shelterNameErr}
-              </span>
-            )}
-          </div>
-          <div className="mb-3 label_input">
-            <label htmlFor="validationCustom01">
-              ADDRESS<span className="star_red">*</span>
-            </label>
-            <input
-              name="address"
-              value={user.address}
-              onChange={handleInput}
-              type="text"
-              placeholder="Enter street address"
-              className="form-control login_field"
-              id="validationCustom01"
-              required
-            />
-            {errField.addressErr.length > 0 && (
-              <span
-                style={{
-                  color: "red",
-                  fontSize: "11px",
-                  fontFamily: "popreg",
-                }}
-              >
-                {errField.addressErr}
-              </span>
-            )}
-          </div>
-          <div className="row justify-content-md-between">
-            <div className="col-lg-3 px-0 ">
-              <div className="mb-3 label_input">
-                <label htmlFor="validationCustom02">
-                  CITY<span className="star_red">*</span>
-                </label>
-                <input
-                  name="city"
-                  value={user.city}
-                  onChange={handleInput}
-                  type="text"
-                  className="form-control login_field"
-                  id="validationCustom02"
-                  placeholder="Enter City"
-                  required
-                />
-                {errField.cityErr.length > 0 && (
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: "11px",
-                      fontFamily: "popreg",
-                    }}
-                  >
-                    {errField.cityErr}
-                  </span>
-                )}
-              </div>
+    <Wrapper>
+        <ToastContainer />
+        <MainNav/>
+      <div className="account">
+         
+        <p className="header_title">CREATE AN ACCOUNT</p>
+        <div className="row justify-content-around mt-5">
+          <div className="col-lg-5">
+            <div className="mb-3 label_input">
+              <label htmlFor="validationCustom01">
+              USERNAME<span className="star_red">*</span>
+              </label>
+              <input
+                name="userName"
+                value={user.userName}
+                onChange={handleInput}
+                type="text"
+                placeholder="Create a username"
+                className="form-control login_field"
+                id="validationCustom01"
+                required
+              />
+              {errField.userNameErr.length > 0 && (
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11px",
+                    fontFamily: "popreg",
+                  }}
+                >
+                  {errField.userNameErr}
+                </span>
+              )}
             </div>
-            <div className="col-lg-3 px-0">
-              <div className="mb-3 label_input">
-                <label htmlFor="validationCustom02">
-                  STATE<span className="star_red">*</span>
-                </label>
-                <input
-                  name="state"
-                  onChange={handleInput}
-                  value={user.state}
-                  type="text"
-                  className="form-control login_field"
-                  id="validationCustom02"
-                  placeholder="Enter State"
-                  required
-                />
-                {errField.stateErr.length > 0 && (
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: "11px",
-                      fontFamily: "popreg",
-                    }}
-                  >
-                    {errField.stateErr}
-                  </span>
-                )}
-              </div>
+            <div className="mb-3 label_input">
+              <label htmlFor="validationCustom02">
+                ENTER SHELTER NAME<span className="star_red">*</span>
+              </label>
+              <input
+                name="shelterName"
+                value={user.shelterName}
+                onChange={handleInput}
+                type="text"
+                className="form-control login_field"
+                placeholder="Create a shelter name"
+                id="validationCustom02"
+                required
+              />
+              {errField.shelterNameErr.length > 0 && (
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11px",
+                    fontFamily: "popreg",
+                  }}
+                >
+                  {errField.shelterNameErr}
+                </span>
+              )}
             </div>
-            <div className="col-lg-3 px-0">
-              <div className="mobile_p pr-0">
+            <div className="mb-3 label_input">
+              <label htmlFor="validationCustom01">
+                ADDRESS<span className="star_red">*</span>
+              </label>
+              <input
+                name="address"
+                value={user.address}
+                onChange={handleInput}
+                type="text"
+                placeholder="Enter street address"
+                className="form-control login_field"
+                id="validationCustom01"
+                required
+              />
+              {errField.addressErr.length > 0 && (
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11px",
+                    fontFamily: "popreg",
+                  }}
+                >
+                  {errField.addressErr}
+                </span>
+              )}
+            </div>
+            <div className="row justify-content-md-between">
+              <div className="col-lg-3 px-0 ">
                 <div className="mb-3 label_input">
                   <label htmlFor="validationCustom02">
-                    ZIP CODE<span className="star_red">*</span>
+                    CITY<span className="star_red">*</span>
                   </label>
                   <input
-                    name="zipCode"
-                    value={user.zipCode}
+                    name="city"
+                    value={user.city}
                     onChange={handleInput}
-                    type="number"
-                    placeholder="Enter Zip Code"
+                    type="text"
                     className="form-control login_field"
                     id="validationCustom02"
+                    placeholder="Enter City"
                     required
                   />
-                  {errField.zipCodeErr.length > 0 && (
+                  {errField.cityErr.length > 0 && (
                     <span
                       style={{
                         color: "red",
@@ -588,446 +530,506 @@ function Sheltorsignup() {
                         fontFamily: "popreg",
                       }}
                     >
-                      {errField.zipCodeErr}
+                      {errField.cityErr}
                     </span>
                   )}
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-5">
-          <div className="label_input mb-4">
-            <label htmlFor="validationCustom03">
-              CREATE PASSWORD<span className="star_red">*</span>
-            </label>
-            <input
-              name="password"
-              onChange={handleInput}
-              value={user.password}
-              placeholder="************"
-              type={open === false ? "password" : "text"}
-              className="form-control login_field"
-              id="validationCustom03"
-              required
-            />
-            {errField.passwordErr.length > 0 && (
-              <span
-                style={{
-                  color: "red",
-                  fontSize: "11px",
-                  fontFamily: "popreg",
-                }}
-              >
-                {errField.passwordErr}
-              </span>
-            )}
-            {open === false ? (
-              <AiFillEyeInvisible className="svggg" onClick={toggle} />
-            ) : (
-              <AiFillEye className="svggg" onClick={toggle} />
-            )}
-          </div>
-          <div className="label_input mb-3">
-            <label htmlFor="validationCustom03">
-              PHONE NUMBER
-              <span
-                style={{
-                  fontSize: "10px",
-                  fontFamily: "popreg",
-                  color: "#828282",
-                }}
-              >
-                <span className="star_red">*</span>
-              </span>
-            </label>
-            <span className="input-group-text login_field" id="basic-addon1">
-              +1
-            </span>
-            <input
-              placeholder="(###) ###-####"
-              type="tel"
-              // value={phoneValue}
-              inputMode="numeric"
-              autoComplete="cc-number"
-              name="cardNumber"
-              className="first form-control login_field login_fieldw"
-              id="cardNumber"
-              onChange={(event) => {
-                const { value } = event.target;
-                setPhonevalue(value);
-                event.target.value = normalizeCardNumber(value);
-              }}
-            />
-            {errField.phoneErr.length > 10 && (
-              <span
-                style={{
-                  color: "red",
-                  fontSize: "11px",
-                  fontFamily: "popreg",
-                }}
-              >
-                {errField.phoneErr}
-              </span>
-            )}
-          </div>
-
-          <div className="mb-3 label_input">
-            <label htmlFor="validationCustom02">
-              ENTER EMAIL ADDRESS<span className="star_red">*</span>
-            </label>
-            <input
-              name="email"
-              value={user.email}
-              onChange={handleInput}
-              type="text"
-              placeholder="user@gmail.com"
-              className="form-control login_field"
-              id="validationCustom02"
-              required
-            />
-            {errField.emailErr.length > 0 && (
-              <span
-                style={{
-                  color: "red",
-                  fontSize: "11px",
-                  fontFamily: "popreg",
-                }}
-              >
-                {errField.emailErr}
-              </span>
-            )}
-          </div>
-
-          <div className="mb-3 label_input">
-            <label htmlFor="validationCustom01">
-              NAME OF THE CONTACT PERSON <span className="star_red">*</span>
-            </label>
-            <input
-              name="contact_person_name"
-              value={user.contact_person_name}
-              onChange={handleInput}
-              type="text"
-              placeholder="Create contact person name"
-              className="form-control login_field"
-              id="validationCustom01"
-              required
-            />
-            {errField.contact_person_nameErr.length > 0 && (
-              <span
-                style={{
-                  color: "red",
-                  fontSize: "11px",
-                  fontFamily: "popreg",
-                }}
-              >
-                {errField.contact_person_nameErr}
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
-
-      <div className="progress_div">
-        <div className="progress_card">
-          <div className="headind_pro">TOTAL NUMBER OF BEDS YOU HAVE</div>
-
-          <div className="progress1">
-            <div
-              type="number"
-              name="totalNumberOfBeds"
-              onChange={handleInput}
-              className="cricle_div"
-            >
-              {valuee}
-            </div>
-            <div className="calcu_btns">
-              <button className="plusbtn" onClick={increament}>
-                +
-              </button>
-              <button className="plusbtn color_red" onClick={decreament}>
-                -
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="progress_card">
-          <div className="headind_pro">TOTAL ALLOWED FOR RESERVATION</div>
-
-          <div className="progress1">
-            <div className="cricle_div color_gold">{incVal}</div>
-            <div className="calcu_btns">
-              <button className="plusbtn" onClick={valInc}>
-                +
-              </button>
-              <button className="plusbtn color_red" onClick={valDec}>
-                -
-              </button>
-            </div>
-          </div>
-        </div>
-        <div className="progress_card">
-          <div className="headind_pro">MAXIMUM TIME TO HOLD A BED</div>
-
-          <div className="progress1">
-            <div className="cricle_div bluplus">{hour} Hr</div>
-            <div className="calcu_btns">
-              <button
-                className="plusbtn plusgreen bluplus"
-                onClick={hourInc}
-                disabled={incVal === 0}
-              >
-                +
-              </button>
-              <button
-                className="plusbtn color_red"
-                onClick={hourDec}
-                disabled={incVal === 0}
-              >
-                -
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="container mt-4 background_contain">
-        <p className="following">
-          THE FOLLOWING ITEMS CAN ALSO BE ADDED LATER UNDER “EDIT PROFILE”
-        </p>
-        <div className="row">
-          <div className="col-lg-6">
-            <div classname="checkboxs">
-              <p style={{ fontWeight: "600" }} className="checks_labels">
-                MEALS PROVIDED (check all that apply):
-              </p>
-              {foodTypes.map((item, index)=> {
-                return (
-                  <div className="form-group form-check" key={index}>
-                    <input
-                      type="checkbox"
-                      name="breakfast"
-                      onChange={(e)=> FoodHandle(e.target.value)}
-                      className="form-check-input"
-                      id="exampleCheck1"
-                      value={item.name}
-                    />
-                    <label
-                      className="form-check-label checks_labels"
-                      htmlFor="exampleCheck1"
+              <div className="col-lg-3 px-0">
+                <div className="mb-3 label_input">
+                  <label htmlFor="validationCustom02">
+                    STATE<span className="star_red">*</span>
+                  </label>
+                  <input
+                    name="state"
+                    onChange={handleInput}
+                    value={user.state}
+                    type="text"
+                    className="form-control login_field"
+                    id="validationCustom02"
+                    placeholder="Enter State"
+                    required
+                  />
+                  {errField.stateErr.length > 0 && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "11px",
+                        fontFamily: "popreg",
+                      }}
                     >
-                      {item.showname}
+                      {errField.stateErr}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="col-lg-3 px-0">
+                <div className="mobile_p pr-0">
+                  <div className="mb-3 label_input">
+                    <label htmlFor="validationCustom02">
+                      ZIP CODE<span className="star_red">*</span>
                     </label>
+                    <input
+                      name="zipCode"
+                      value={user.zipCode}
+                      onChange={handleInput}
+                      type="number"
+                      placeholder="Enter Zip Code"
+                      className="form-control login_field"
+                      id="validationCustom02"
+                      required
+                    />
+                    {errField.zipCodeErr.length > 0 && (
+                      <span
+                        style={{
+                          color: "red",
+                          fontSize: "11px",
+                          fontFamily: "popreg",
+                        }}
+                      >
+                        {errField.zipCodeErr}
+                      </span>
+                    )}
                   </div>
-                )
-              })}
-              
+                </div>
+              </div>
             </div>
           </div>
-          <div className=" col-lg-6 mobile_view">
-            <p
+          <div className="col-lg-5">
+            <div className="label_input mb-4">
+              <label htmlFor="validationCustom03">
+                CREATE PASSWORD<span className="star_red">*</span>
+              </label>
+              <input
+                name="password"
+                onChange={handleInput}
+                value={user.password}
+                placeholder="************"
+                type={open === false ? "password" : "text"}
+                className="form-control login_field"
+                id="validationCustom03"
+                required
+              />
+              {errField.passwordErr.length > 0 && (
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11px",
+                    fontFamily: "popreg",
+                  }}
+                >
+                  {errField.passwordErr}
+                </span>
+              )}
+              {open === false ? (
+                <AiFillEyeInvisible className="svggg" onClick={toggle} />
+              ) : (
+                <AiFillEye className="svggg" onClick={toggle} />
+              )}
+            </div>
+            <div className="label_input mb-3">
+              <label htmlFor="validationCustom03">
+                PHONE NUMBER
+                <span
+                  style={{
+                    fontSize: "10px",
+                    fontFamily: "popreg",
+                    color: "#828282",
+                  }}
+                >
+                  <span className="star_red">*</span>
+                </span>
+              </label>
+              <span className="input-group-text login_field" id="basic-addon1">
+                +1
+              </span>
+              <input
+                placeholder="(###) ###-####"
+                type="tel"
+                // value={phoneValue}
+                inputMode="numeric"
+                autoComplete="cc-number"
+                name="cardNumber"
+                className="first form-control login_field login_fieldw"
+                id="cardNumber"
+                onChange={(event) => {
+                  const { value } = event.target;
+                  setPhonevalue(value);
+                  event.target.value = normalizeCardNumber(value);
+                }}
+              />
+              {errField.phoneErr.length > 10 && (
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11px",
+                    fontFamily: "popreg",
+                  }}
+                >
+                  {errField.phoneErr}
+                </span>
+              )}
+            </div>
+
+            <div className="mb-3 label_input">
+              <label htmlFor="validationCustom02">
+                ENTER EMAIL ADDRESS<span className="star_red">*</span>
+              </label>
+              <input
+                name="email"
+                value={user.email}
+                onChange={handleInput}
+                type="text"
+                placeholder="user@gmail.com"
+                className="form-control login_field"
+                id="validationCustom02"
+                required
+              />
+              {errField.emailErr.length > 0 && (
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11px",
+                    fontFamily: "popreg",
+                  }}
+                >
+                  {errField.emailErr}
+                </span>
+              )}
+            </div>
+
+            <div className="mb-3 label_input">
+              <label htmlFor="validationCustom01">
+                NAME OF THE CONTACT PERSON <span className="star_red">*</span>
+              </label>
+              <input
+                name="contact_person_name"
+                value={user.contact_person_name}
+                onChange={handleInput}
+                type="text"
+                placeholder="Create contact person name"
+                className="form-control login_field"
+                id="validationCustom01"
+                required
+              />
+              {errField.contact_person_nameErr.length > 0 && (
+                <span
+                  style={{
+                    color: "red",
+                    fontSize: "11px",
+                    fontFamily: "popreg",
+                  }}
+                >
+                  {errField.contact_person_nameErr}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="progress_div">
+          <div className="progress_card">
+            <div className="headind_pro">TOTAL NUMBER OF BEDS YOU HAVE</div>
+
+            <div className="progress1">
+              <div
+                type="number"
+                name="totalNumberOfBeds"
+                onChange={handleInput}
+                className="cricle_div"
+              >
+                {valuee}
+              </div>
+              <div className="calcu_btns">
+                <button className="plusbtn" onClick={increament}>
+                  +
+                </button>
+                <button className="plusbtn color_red" onClick={decreament}>
+                  -
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="progress_card">
+            <div className="headind_pro">TOTAL ALLOWED FOR RESERVATION</div>
+
+            <div className="progress1">
+              <div className="cricle_div color_gold">{incVal}</div>
+              <div className="calcu_btns">
+                <button className="plusbtn" onClick={valInc}>
+                  +
+                </button>
+                <button className="plusbtn color_red" onClick={valDec}>
+                  -
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="progress_card">
+            <div className="headind_pro">MAXIMUM TIME TO HOLD A BED</div>
+
+            <div className="progress1">
+              <div className="cricle_div bluplus">{hour} Hr</div>
+              <div className="calcu_btns">
+                <button
+                  className="plusbtn plusgreen bluplus"
+                  onClick={hourInc}
+                  disabled={incVal === 0}
+                >
+                  +
+                </button>
+                <button
+                  className="plusbtn color_red"
+                  onClick={hourDec}
+                  disabled={incVal === 0}
+                >
+                  -
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="container mt-4 background_contain">
+          <p className="following">
+            THE FOLLOWING ITEMS CAN ALSO BE ADDED LATER UNDER “EDIT PROFILE”
+          </p>
+          <div className="row">
+            <div className="col-lg-6">
+              <div classname="checkboxs">
+                <p style={{ fontWeight: "600" }} className="checks_labels">
+                  MEALS PROVIDED (check all that apply):
+                </p>
+                {foodTypes.map((item, index)=> {
+                  return (
+                    <div className="form-group form-check" key={index}>
+                      <input
+                        type="checkbox"
+                        name="breakfast"
+                        onChange={(e)=> FoodHandle(e.target.value)}
+                        className="form-check-input"
+                        id="exampleCheck1"
+                        value={item.name}
+                      />
+                      <label
+                        className="form-check-label checks_labels"
+                        htmlFor="exampleCheck1"
+                      >
+                        {item.showname}
+                      </label>
+                    </div>
+                  )
+                })}
+                
+              </div>
+            </div>
+            <div className=" col-lg-6 mobile_view">
+              <p
+                style={{
+                  fontSize: "16px",
+                  fontWeight: "600",
+                  letterSpacing: "1px",
+                }}
+                className="checks_labels"
+              >
+                SHELTER IS FOR:
+              </p>
+              <div className="radiobnts">
+                {shelterTypes.map((item, index)=> {
+                  return(
+                    <div className="form-check form-group" key={index}>
+                      <input
+                        className="form-check-input"
+                        type="radio"
+                        name="shelters"
+                        id={`shelters${index}`}
+                        onChange={()=> setShelterFor(item.name)}
+                      />
+                      <label
+                        className="form-check-label checks_labels"
+                        htmlFor={`shelters${index}`}
+                      >
+                        {item.showname}
+                      </label>
+                    </div>
+                  )
+                })}
+                
+              </div>
+            </div>
+          </div>
+          <div className="form-group row">
+            <label
               style={{
-                fontSize: "16px",
                 fontWeight: "600",
                 letterSpacing: "1px",
               }}
-              className="checks_labels"
+              htmlFor="inputEmail3"
+              className="col-sm-2 col-form-label"
             >
-              Shelter Is For:
+              HOURS OF INTAKE:
+            </label>
+            <div className="col-lg-4 pl-0">
+              <input type="number" className="form-control" id="" onChange={(e)=> setHoursIntake(e.target.value)}/>
+            </div>
+          </div>
+          <div style={{ marginTop: "20px" }} className="row">
+            <div className="col-lg-6">
+              <div style={{ marginBottom: "20px" }} classname="checkboxs">
+                <p style={{ fontWeight: "600" }} className="checks_labels">
+                  PETS ALLOWED (Check all that apply):
+                </p>
+                <div className="animals">
+                {petTypes.map((item, index)=> {
+                  return (
+                    <div className="form-group form-check" key={index}>
+                      <input
+                        type="checkbox"
+                        name="breakfast"
+                        onChange={(e)=> PetHandle(e.target.value)}
+                        className="form-check-input"
+                        id="exampleCheck1"
+                        value={item.name}
+                      />
+                      <label
+                        className="form-check-label checks_labels"
+                        htmlFor="exampleCheck1"
+                      >
+                        {item.showname}
+                      </label>
+                    </div>
+                    )
+                  })}
+                </div>
+              </div>
+              <div classname="checkboxs">
+                <p style={{ fontWeight: "600" }} className="checks_labels">
+                  STORAGE AVAILABLE:
+                </p>
+                <div className="storages">
+                <div className="form-check form-group">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="exampleRadios"
+                    id={`storages0`}
+                    defaultValue="option1"
+                    onChange={()=> setStorage('none')}
+                  />
+                  <label
+                    className="form-check-label checks_labels"
+                    htmlFor={`storages0`}
+                  >
+                    None
+                  </label>
+                </div>
+                <div className="form-group">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="exampleRadios"
+                    id={`storages1`}
+                    defaultValue="option1"
+                    onChange={()=> setStorage('yes')}
+                  />
+                  <label
+                    className="form-check-label checks_labels"
+                    htmlFor={`storages1`}
+                  >
+                    Yes
+                  </label>
+                  <br/>
+                  {storage === 'yes'?
+                    <input type="text" style={{marginLeft: '-20px'}} className="form-control" id="" placeholder="Description types of storages" onChange={(e)=> setStorageMessage(e.target.value)} />
+                  :null}
+                </div>
+                
+              
+                  
+                </div>
+              
+              </div>
+            </div>
+            <div className="col-lg-6">
+              <div classname="checkboxs">
+                <p style={{ fontWeight: "600" }} className="checks_labels">
+                  AMENITIES PROVIDED (check all that apply):
+                </p>
+                {ameniity_types.map((item, index)=> {
+                  return (
+                    <div className="form-group form-check" key={index}>
+                      <input
+                        type="checkbox"
+                        name="breakfast"
+                        onChange={(e)=> AmenityHandle(e.target.value)}
+                        className="form-check-input"
+                        id="exampleCheck1"
+                        value={item.name}
+                      />
+                      <label
+                        className="form-check-label checks_labels"
+                        htmlFor="exampleCheck1"
+                      >
+                        {item.showname}
+                      </label>
+                    </div>
+                    )
+                  })}
+              </div>
+            </div>
+          </div>
+
+          <div className="col-lg-12">
+            <div className="images section mt-4">
+            <p style={{ fontWeight: "600" }} className="checks_labels">
+            ADD IMAGES
             </p>
-            <div className="radiobnts">
-              {shelterTypes.map((item, index)=> {
-                return(
-                  <div className="form-check form-group" key={index}>
-                    <input
-                      className="form-check-input"
-                      type="radio"
-                      name="shelters"
-                      id={`shelters${index}`}
-                      onChange={()=> setShelterFor(item.name)}
-                    />
-                    <label
-                      className="form-check-label checks_labels"
-                      htmlFor={`shelters${index}`}
-                    >
-                      {item.showname}
-                    </label>
+
+            <input type="file" id="image" style={{display: 'none'}} onChange={selectImage} multiple/>
+
+            <div className="flex_images">
+              {fileList.map((item, index)=> {
+                return (
+                  <div className="text-center" key={index}>
+                    <img src={item} width="100px" height="100px" alt="image123"/>
+                    <br/>
+                    <span className="text-white bg-danger" style={{cursor: 'pointer', borderRadius: '50%', padding: '5px 10px'}} onClick={()=> deletePhoto(index)}>X</span>
                   </div>
                 )
               })}
-              
+              {fileList.length < 5?
+                <img src="/images/emptyimage.svg" width="100px" height="100px" alt='icon' onClick={chooseImage}/>
+              :null}
+            </div>
+          </div>
+          <div className="mobile_col row mt-5 mb-5">
+            <div className="col">
+              <p className="checks_labels">DESCRIPTION</p>
+              <textarea
+                className="checks_labels login_field1 with_input"
+                type="text" onChange={(e)=> setDescription(e.target.value)}
+              ></textarea>
+            </div>
+            <p></p>
+            <div className="col ">
+              <p className="checks_labels">RULES/REQUIREMENTS</p>
+              <textarea
+                className="checks_labels login_field1 with_input"
+                type="text" onChange={(e)=> setRules(e.target.value)}
+              ></textarea>
             </div>
           </div>
         </div>
-        <div className="form-group row">
-          <label
-            style={{
-              fontWeight: "600",
-              letterSpacing: "1px",
-            }}
-            htmlFor="inputEmail3"
-            className="col-sm-2 col-form-label"
-          >
-            HOURS OF INTAKE:
-          </label>
-          <div className="col-lg-4 pl-0">
-            <input type="number" className="form-control" id="" onChange={(e)=> setHoursIntake(e.target.value)}/>
-          </div>
         </div>
-        <div style={{ marginTop: "20px" }} className="row">
-          <div className="col-lg-6">
-            <div style={{ marginBottom: "20px" }} classname="checkboxs">
-              <p style={{ fontWeight: "600" }} className="checks_labels">
-                PETS ALLOWED (Check all that apply):
-              </p>
-              <div className="animals">
-              {petTypes.map((item, index)=> {
-                return (
-                  <div className="form-group form-check" key={index}>
-                    <input
-                      type="checkbox"
-                      name="breakfast"
-                      onChange={(e)=> PetHandle(e.target.value)}
-                      className="form-check-input"
-                      id="exampleCheck1"
-                      value={item.name}
-                    />
-                    <label
-                      className="form-check-label checks_labels"
-                      htmlFor="exampleCheck1"
-                    >
-                      {item.showname}
-                    </label>
-                  </div>
-                  )
-                })}
-              </div>
-            </div>
-            <div classname="checkboxs">
-              <p style={{ fontWeight: "600" }} className="checks_labels">
-                STORAGE AVAILABLE:
-              </p>
-              <div className="storages">
-              <div className="form-check form-group">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="exampleRadios"
-                  id={`storages0`}
-                  defaultValue="option1"
-                  onChange={()=> setStorage('none')}
-                />
-                <label
-                  className="form-check-label checks_labels"
-                  htmlFor={`storages0`}
-                >
-                  None
-                </label>
-              </div>
-              <div className="form-group">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="exampleRadios"
-                  id={`storages1`}
-                  defaultValue="option1"
-                  onChange={()=> setStorage('yes')}
-                />
-                <label
-                  className="form-check-label checks_labels"
-                  htmlFor={`storages1`}
-                >
-                  Yes
-                </label>
-                <br/>
-                {storage === 'yes'?
-                  <input type="text" style={{marginLeft: '-20px'}} className="form-control" id="" placeholder="Description types of storages" onChange={(e)=> setStorageMessage(e.target.value)} />
-                :null}
-              </div>
-              
-             
-                
-              </div>
-             
-            </div>
-          </div>
-          <div className="col-lg-6">
-            <div classname="checkboxs">
-              <p style={{ fontWeight: "600" }} className="checks_labels">
-                AMENITIES PROVIDED (check all that apply):
-              </p>
-              {ameniity_types.map((item, index)=> {
-                return (
-                  <div className="form-group form-check" key={index}>
-                    <input
-                      type="checkbox"
-                      name="breakfast"
-                      onChange={(e)=> AmenityHandle(e.target.value)}
-                      className="form-check-input"
-                      id="exampleCheck1"
-                      value={item.name}
-                    />
-                    <label
-                      className="form-check-label checks_labels"
-                      htmlFor="exampleCheck1"
-                    >
-                      {item.showname}
-                    </label>
-                  </div>
-                  )
-                })}
-            </div>
-          </div>
-        </div>
-
-        <div className="col-lg-12">
-          <div className="images section mt-4">
-          <p style={{ fontWeight: "600" }} className="checks_labels">
-          ADD IMAGES
-          </p>
-
-          <input type="file" id="image" style={{display: 'none'}} onChange={selectImage} multiple/>
-
-          <div className="flex_images">
-            {fileList.map((item, index)=> {
-              return (
-                <div className="text-center" key={index}>
-                  <img src={item} width="100px" height="100px" alt="image123"/>
-                  <br/>
-                  <span className="text-white bg-danger" style={{cursor: 'pointer', borderRadius: '50%', padding: '5px 10px'}} onClick={()=> deletePhoto(index)}>X</span>
-                </div>
-              )
-            })}
-            {fileList.length < 5?
-              <img src="/images/emptyimage.svg" width="100px" height="100px" alt='icon' onClick={chooseImage}/>
-            :null}
-          </div>
-        </div>
-        <div className="mobile_col row mt-5 mb-5">
-          <div className="col">
-            <p className="checks_labels">DESCRIPTION</p>
-            <textarea
-              className="checks_labels login_field1 with_input"
-              type="text" onChange={(e)=> setDescription(e.target.value)}
-            ></textarea>
-          </div>
-          <p></p>
-          <div className="col ">
-            <p className="checks_labels">RULES/REQUIREMENTS</p>
-            <textarea
-              className="checks_labels login_field1 with_input"
-              type="text" onChange={(e)=> setRules(e.target.value)}
-            ></textarea>
-          </div>
+        <div className="signup_footer">
+          <Link onClick={submit} className="" to="/sheltor-dashboard">
+            <button className="shel_up_btn w-100 px-5">SIGNUP & CONTINUE</button>
+          </Link>
+          <Link className="" to="/">
+            <p className="footer_sign_up">Cancel</p>
+          </Link>
         </div>
       </div>
-      </div>
-      <div className="signup_footer">
-        <Link onClick={submit} className="" to="/sheltor-dashboard">
-          <button className="shel_up_btn w-100 px-5">SIGNUP & CONTINUE</button>
-        </Link>
-        <p className="footer_sign_up">Cancel</p>
-      </div>
-    </div>
+    </Wrapper>
   );
 }
 

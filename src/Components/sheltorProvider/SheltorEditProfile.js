@@ -44,7 +44,7 @@ function ShelterEditProfile() {
   const [hour, setHour] = useState(u.maxTimeToHoldABed);  
   const [hours_intake, setHoursIntake] = useState(u.hours_intake);
   const [fileList, setFileList] = useState(u.image);
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState(u.image);
 
   const shelterTypes = [
     {showname:'Adults ( any gender )', name: 'adults'}, 

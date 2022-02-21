@@ -88,7 +88,7 @@ function Sheltordashboard() {
             </div>
             <div className="col-lg-3 col-md-6">
               <div className="indiv_cardd">
-                <img src="/images/bed_clinic.svg" alt="" />
+                <img src="/images/bed.svg" alt="" />
                 <div className="card_title">FIND BEDS IN OTHER SHELTERS</div>
               </div>
             </div>

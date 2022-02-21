@@ -7,8 +7,8 @@ const Home = () => {
     return (
         <Wrapper>
             <div className='account text-center'>
-                <p className="mb-0 create">CREATE AN ACCOUNT</p>
-                <p className="option">Please Choose an Option to continue</p>
+                <div className="header_title">CREATE AN ACCOUNT</div>
+                <div className="header_text">Please choose an option to continue</div>
                 <div className="create_section">
                     <Link className="create_card mb-3" to="/Individual-signup">
                     <div className="">

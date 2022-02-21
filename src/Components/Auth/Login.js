@@ -76,9 +76,9 @@ const Home = () => {
     return (
         <Wrapper>
             <ToastContainer />
-            <div className="account login_text">
-                <div className="log_title text-center">LOGIN</div>
-                <div className="log_title2 text-center">Please Login to continue</div>
+            <div className="account">
+                <h3 className="header_title text-center">LOGIN</h3>
+                <p className="header_text text-center">Please login to continue</p>
                 <div className="login_fields">
                 <div className="form-group col-md-4 login_inputs">
                     <label className="label_input1">USERNAME </label>

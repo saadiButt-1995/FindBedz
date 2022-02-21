@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom"
 import Landingpage from '../../Components/Auth/LandingPage'
 import Login from '../../Components/Auth/Login'
 import Register from '../../Components/Auth/Register'
-import MainNav from '../../Components/Auth/MainNav'
+import MainNav from '../../Components/Auth/Navs/MainNav'
 
 const Home = () => {
       

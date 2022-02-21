@@ -2,37 +2,39 @@ import React, { useState } from "react";
 import "../../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import { DropdownDate } from "react-dropdown-date";
+// import { DropdownDate } from "react-dropdown-date";
 import { Checkbox } from "antd";
 import {individualSignup} from '../../services/auth'
-import { results, states } from "../../services/states_counties";
+import { days, months, results, states, years } from "../../services/states_counties";
+import { Wrapper } from "../Auth/Auth.styled";
+import MainNav from '../Auth/Navs/MainNav'
 
 const Individual = () => {
   // const [open, setOpen] = useState(false);
-  const [day, setDay] = useState("");
-  const [month, setMonth] = useState("");
-  const [year, setYear] = useState("");
+  const [day, setDay] = useState(0);
+  const [month, setMonth] = useState(0);
+  const [year, setYear] = useState(0);
   const [counties, setCounties] = useState([]);
   const [terms, setTerms] = useState(false);
   const [phoneValue, setPhonevalue] = useState("");
-  const formatDate = (date) => {
-    // formats a JS date to 'yyyy-mm-dd'
-    var d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
+  
+  // const formatDate = (date) => {
+  //   // formats a JS date to 'yyyy-mm-dd'
+  //   var d = new Date(date),
+  //     month = "" + (d.getMonth() + 1),
+  //     day = "" + d.getDate(),
+  //     year = d.getFullYear();
 
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
-
-    return [year, month, day].join("-");
-  };
+  //   if (month.length < 2) month = "0" + month;
+  //   if (day.length < 2) day = "0" + day;
+  //   users.date_of_birth = [year, month, day].join('-')
+  //   return [year, month, day].join("-");
+  // };
   const onChange = (e)=> {
     setTerms(e.target.checked)
   }
 
   // const [date, setDate] = useState(null);
-  const [selectedDate, setSelectedDate] = useState("1999-01-1");
   const [users, setUser] = useState({
     userName: "",
     password: "",
@@ -85,7 +87,8 @@ const Individual = () => {
       return
     }
 
-    users.date_of_birth = year + " " + month + " " + day;
+    users.phone = phoneValue;
+    users.date_of_birth = `${year}-${month}-${day}`
     if (users.password === "" || users.password === undefined) {
       delete users.password;
     }
@@ -104,7 +107,7 @@ const Individual = () => {
     if (users.state === "" || users.state === undefined) {
       delete users.state;
     }
-    users.phone = phoneValue;
+    
     try{
       var response = await individualSignup(users)
       if (response.status === 200) {
@@ -164,23 +167,16 @@ const Individual = () => {
   };
 
   return (
-    <div>
+    <Wrapper>
+      <MainNav/>
       <ToastContainer />
 
-      <div className="indi_signup">
+      <div className="account">
         
-          <div style={{ paddingTop: "50px" }} className="logodiv login_log">
-          <Link to="/">
-            <img className="login_logo" src="/images/sheltorlogo.svg" alt="" />
-            </Link>
-          </div>
-        
-
-        <p style={{ marginBottom: "15px" }} className="indi_title">
-          I AM AN INDIVIDUAL SEEKING SERVICES
+        <p style={{ marginBottom: "15px" }} className="header_title">
+          CREATE AN ACCOUNT
         </p>
-        <div className="form-row indi_flex"></div>
-        <div>
+        <div className="mt-5">
           <form onSubmit={submit}>
             <div className="container">
               <div className="row justify-content-around">
@@ -357,11 +353,46 @@ const Individual = () => {
                       className="label_input"
                       for="exampleFormControlSelect1"
                     >
-                      AGE <span className="star_red">*</span>
+                      DATE OF BIRTH <span className="star_red">*</span>
                     </label>
                     <div className="">
+
+                    <div class="row">
+                      <div class="col-md-4  m-0 p-0 pr-3">
+                          <select onChange={(e)=> setMonth(e.target.value)} name="" id="" className="form-control login_field">
+                              <option value="" selected disabled>Select Month</option>
+                              {months.map((element) => {
+                                return (
+                                  <option className="login_field" value={element}>{element}</option>
+                                )
+                              })}
+                          </select>
+                      </div>
+                      <div class="col-md-4  m-0 p-0 pr-3">
+                          <select onChange={(e)=> setDay(e.target.value)} name="" id="" className="form-control login_field">
+                              <option value="" selected disabled>Select Day</option>
+                              {days.map((element )=> {
+                                return (
+                                  <option className="login_field" value={element}>{element}</option>
+                                )
+                              })}
+                          </select>
+                      </div>
+                      <div class="col-md-4 m-0 p-0 pr-3">
+                          <select onChange={(e)=> setYear(e.target.value)} name="" id="" className="form-control login_field">
+                              <option value="" selected disabled>Select Year</option>
+                              {years.map((element) => {
+                                return (
+                                  <option value={element}>{element}</option>
+                                )
+                              })}
+                          </select>
+                      </div>
+                  </div>
+                  </div>
                       {/* <Datepicker /> */}
-                      <DropdownDate
+                      {/* <DropdownDate
+                        
                         startDate={
                           // optional, if not provided 1900-01-01 is startDate
                           "1920-12-01" // 'yyyy-mm-dd' format only
@@ -372,27 +403,23 @@ const Individual = () => {
                         }
                         selectedDate={
                           // optional
-                          selectedDate
+                          users.date_of_birth
                           // this.state.selectedDate // 'yyyy-mm-dd' format only
                         }
                         onYearChange={(year) => {
                           // optional
                           setYear(year);
-                          console.log(year);
                         }}
                         onDayChange={(day) => {
                           // optional
                           setDay(day);
-                          console.log(day);
                         }}
                         onMonthChange={(month) => {
                           // optional
                           setMonth(month);
-                          console.log(month);
                         }}
                         onDateChange={(date) => {
                           // optional
-                          // console.log(date);
                           // setDate(date);
                           setSelectedDate(formatDate(date));
                           // this.setState({
@@ -401,7 +428,7 @@ const Individual = () => {
                           // });
                         }}
                       />
-                    </div>
+                    </div> */}
                   </div>
                   {/* <select className="select" multiple>
                     <option value="1">One</option>
@@ -459,21 +486,23 @@ const Individual = () => {
               </Checkbox>
             </div>
 
-            <div className="btn_center">
+            <div className="signup_footer">
               {/* <Link to="/login" onClick={submit}> */}
               <button
-                style={{ marginTop: "30px" }}
                 className="signupbtn"
                 type={"submit"}
               >
                 SIGNUP
               </button>
+              <Link className="" to="/">
+                <p className="footer_sign_up">Cancel</p>
+              </Link>
               {/* </Link> */}
             </div>
           </form>
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 

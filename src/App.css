@@ -371,6 +371,7 @@ a:hover {
   justify-content: center;
   align-items: baseline;
   padding-bottom: 20px;
+  letter-spacing: 1px !important;
 }
 .shel_up_btn {
   color: #fff;
@@ -462,7 +463,6 @@ a:hover {
   font-size: 14px;
   color: #808080;
   margin-bottom: 0 !important;
-  padding-right: 20px;
 }
 .btn_center {
   text-align: center;
@@ -541,7 +541,7 @@ textarea {
   color: #000;
 }
 .login_fields {
-  padding-top: 40px;
+  margin-top: 10px;
   padding-bottom: 25px;
 }
 
@@ -612,7 +612,6 @@ textarea {
   margin-right: auto;
 }
 .dashtittle {
-  text-align: center;
   color: #101b79;
   font-family: patua;
   padding-top: 10px;
@@ -862,6 +861,10 @@ textarea {
   transition: 1s;
   height: 210px;
   width: 100%;
+}
+.indiv_cardd img{
+  width: 63px;
+  height: 63px;
 }
 .login_fieldw {
   padding-left: 50px !important;

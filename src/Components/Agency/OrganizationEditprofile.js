@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { logout, setUsersData, updateUserDetails } from "../../services/auth";
+import { Wrapper } from "../Auth/Auth.styled";
 
 function OrganizationEditprofile() {
   const navigate = useNavigate()
@@ -10,6 +11,8 @@ function OrganizationEditprofile() {
   const token = `Bearer ${localStorage.getItem("token")}`
   const [users, setUser] = useState({
     userName: user.userName,
+    first_name: user.first_name,
+    last_name: user.last_name,
     password: user.password,
     phone: user.phone,
     email: user.email,
@@ -27,6 +30,8 @@ function OrganizationEditprofile() {
     phoneErr: "",
     emailErr: "",
     organizationErr: "",
+    FirstErr: "",
+    LastErr: "",
     addressErr: "",
     cityErr: "",
     stateErr: "",
@@ -143,6 +148,20 @@ function OrganizationEditprofile() {
         organizationErr: "Please Enter organization",
       }));
     }
+    if (user.first_name === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        FirstErr: "Please Enter First Name",
+      }));
+    }
+    if (user.last_name === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        LastErr: "Please Enter Last Name",
+      }));
+    }
     if (users.address === "") {
       formIsValid = false;
       setErrField((prevState) => ({
@@ -195,7 +214,8 @@ function OrganizationEditprofile() {
   useEffect(()=> {
   }, [])
   return (
-    <div className="agency">
+    <Wrapper>
+    <div className="account">
       <div className="edit_header">
         <div className="edit_left_bts">
           <Link to="/">
@@ -229,17 +249,7 @@ function OrganizationEditprofile() {
           src="/images/edit_user.svg"
           alt=""
         />
-        <p
-          style={{
-            marginBottom: "0",
-            fontFamily: "popbold",
-            fontSize: "16px",
-            color: "#151515",
-            marginTop: '10px',
-          }}
-        >
-          EDIT PROFILE
-        </p>
+        <p className="header_title">EDIT PROFILE</p>
       </div>
    
       <div className="container">
@@ -274,31 +284,87 @@ function OrganizationEditprofile() {
               )} */}
             </div>
             <div className="mb-3 label_input">
-              <label htmlFor="validationCustom02">
-                FULL NAME OF ORGANIZATION <span className="star_red">*</span>
-              </label>
-              <input
-                name="organization"
-                value={users.organization}
-                onChange={handleInput}
-                type="text"
-                placeholder="Enter full name of organization"
-                className="form-control login_field"
-                id="validationCustom02"
-                required
-              />
-              {errField.organizationErr.length > 0 && (
-                <span
-                  style={{
-                    color: "red",
-                    fontSize: "11px",
-                    fontFamily: "popreg",
-                  }}
-                >
-                  {errField.organizationErr}
-                </span>
-              )}
-            </div>
+                <div className="row">
+                  <div className="col-md-6 m-0 p-0 pr-4">
+                    <label htmlFor="validationCustom02">
+                      FIRST NAME <span className="star_red">*</span>
+                    </label>
+                    <input
+                      name="first_name"
+                      value={users.first_name}
+                      onChange={handleInput}
+                      type="text"
+                      placeholder="Enter first name"
+                      className="form-control login_field"
+                      id="validationCustom02"
+                      required
+                    />
+                    {errField.FirstErr.length > 0 && (
+                      <span
+                        style={{
+                          color: "red",
+                          fontSize: "11px",
+                          fontFamily: "popreg",
+                        }}
+                      >
+                        {errField.FirstErr}
+                      </span>
+                    )}
+                  </div>
+                  <div className="col-md-6 m-0 p-0 pl-3">
+                    <label htmlFor="validationCustom02">
+                      LAST NAME <span className="star_red">*</span>
+                    </label>
+                    <input
+                      name="last_name"
+                      value={users.last_name}
+                      onChange={handleInput}
+                      type="text"
+                      placeholder="Enter last name"
+                      className="form-control login_field"
+                      id="validationCustom02"
+                      required
+                    />
+                    {errField.LastErr.length > 0 && (
+                      <span
+                        style={{
+                          color: "red",
+                          fontSize: "11px",
+                          fontFamily: "popreg",
+                        }}
+                      >
+                        {errField.LastErr}
+                      </span>
+                    )}
+                  </div>
+                </div>                
+              </div>
+              <div className="label_input mb-3">
+                <label htmlFor="validationCustom02">
+                    FULL NAME OF ORGANIZATION <span className="star_red">*</span>
+                  </label>
+                  <input
+                    name="organization"
+                    value={users.organization}
+                    onChange={handleInput}
+                    type="text"
+                    placeholder="Enter full name of organization"
+                    className="form-control login_field"
+                    id="validationCustom02"
+                    required
+                  />
+                  {errField.organizationErr.length > 0 && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "11px",
+                        fontFamily: "popreg",
+                      }}
+                    >
+                      {errField.organizationErr}
+                    </span>
+                  )}
+              </div>
             <div className="label_input mb-3">
               <label htmlFor="validationCustom03">
                 PHONE NUMBER
@@ -446,8 +512,8 @@ function OrganizationEditprofile() {
                 </span>
               )}
             </div>
-            <div className="row justify-content-md-between">
-              <div className="col-lg-3 px-0 ">
+            <div className="row">
+              <div className="col-lg-4 px-0  pr-3">
                 <div className="mb-3 label_input">
                   <label htmlFor="validationCustom02">CITY</label>
                   <input
@@ -462,7 +528,7 @@ function OrganizationEditprofile() {
                   />
                 </div>
               </div>
-              <div className="col-lg-3 px-0">
+              <div className="col-lg-4 px-0 pr-3">
                 <div className="mb-3 label_input">
                   <label htmlFor="validationCustom02">STATE</label>
                   <input
@@ -477,7 +543,7 @@ function OrganizationEditprofile() {
                   />
                 </div>
               </div>
-              <div className="col-lg-3 px-0">
+              <div className="col-lg-4 px-0">
                 <div className="mobile_p pr-0">
                   <div className="mb-3 label_input">
                     <label htmlFor="validationCustom02">ZIP CODE</label>
@@ -524,6 +590,7 @@ function OrganizationEditprofile() {
             </div>
       </div>
     </div>
+    </Wrapper>
   );
 }
 

@@ -2,17 +2,21 @@ import React, { useEffect, useState } from "react";
 import "../../index.css";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import { DropdownDate } from "react-dropdown-date";
+// import { DropdownDate } from "react-dropdown-date";
 import { Link } from "react-router-dom";
-import { results, states } from "../../services/states_counties";
-import { logout, setUsersData, updateUserDetails } from "../../services/auth";
+import { days, months, results, states, years } from "../../services/states_counties";
+import { setUsersData, updateUserDetails } from "../../services/auth";
+import DashboardNav from '../Auth/Navs/DashboardNav'
+import { Wrapper } from "./Individual.styled";
 
 const IndividualEditprofile = () => {
   const navigate = useNavigate()
   const user = JSON.parse(localStorage.getItem("user_data"));
   const user_id = localStorage.getItem("user")
   const token = `Bearer ${localStorage.getItem("token")}`
-  const [selectedDate, setSelectedDate] = useState("2022-02-02");
+  const [day, setDay] = useState(0);
+  const [month, setMonth] = useState(0);
+  const [year, setYear] = useState(0);
   
   const [counties, setCounties] = useState([]);
   const [users, setUser] = useState({
@@ -46,18 +50,18 @@ const IndividualEditprofile = () => {
   'OTHER ETHNIC GROUP - any other ethnic group',
   ];
 
-  const formatDate = (date) => {	// formats a JS date to 'yyyy-mm-dd'
-    var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
+  // const formatDate = (date) => {	// formats a JS date to 'yyyy-mm-dd'
+  //   var d = new Date(date),
+  //     month = '' + (d.getMonth() + 1),
+  //     day = '' + d.getDate(),
+  //     year = d.getFullYear();
   
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-    setSelectedDate([year, month, day].join('-'))
+  //   if (month.length < 2) month = '0' + month;
+  //   if (day.length < 2) day = '0' + day;
+  //   users.date_of_birth = [year, month, day].join('-') 
   
-    return [year, month, day].join('-');
-  }
+  //   return [year, month, day].join('-');
+  // }
  
 
   const [errField, setErrField] = useState({
@@ -68,31 +72,32 @@ const IndividualEditprofile = () => {
 
   let name, value;
 
-  const cancel = () => {
-    setUser({
-      // userName: "",
-      password: "",
-      phone: "",
-      nickName: "",
-      ethnicity: "",
-      role: "",
-      date_of_birth: "",
-      county: "",
-      state: "",
-      email: "",
-    });
-  };
+  // const cancel = () => {
+  //   setUser({
+  //     // userName: "",
+  //     password: "",
+  //     phone: "",
+  //     nickName: "",
+  //     ethnicity: "",
+  //     role: "",
+  //     date_of_birth: "",
+  //     county: "",
+  //     state: "",
+  //     email: "",
+  //   });
+  // };
   const handleInput = (event) => {
     name = event.target.name;
     value = event.target.value;
     setUser({ ...users, [name]: value });
   };
 
-  const signout = () => {
-    logout()
-    navigate('/')
-    
-  }
+  useEffect(()=> {
+    /* eslint-disable */
+    setDay(users.date_of_birth.split("-")[2])
+    setMonth(users.date_of_birth.split("-")[1])
+    setYear(users.date_of_birth.split("-")[0])
+  }, [])
 
   const submit = async (e) => {
     e.preventDefault();
@@ -100,7 +105,7 @@ const IndividualEditprofile = () => {
     console.log(validForm());
     console.log("====================================");
     // if (validForm()) {
-    users.date_of_birth = selectedDate
+      users.date_of_birth = `${year}-${month}-${day}`
     // if (users.password === "" || users.password === undefined) {
       // delete users.password;
     // }
@@ -205,35 +210,10 @@ const IndividualEditprofile = () => {
   }, []) // eslint-disable-next-line react-hooks/exhaustive-deps
 
   return (
-    <div>
+    <Wrapper>
       <ToastContainer />
-      <div className="indi_signup">
-        <div className="edit_header">
-          <div className="edit_left_bts">
-            <Link to="/">
-              <img
-                style={{ height: "29px", paddingRight: "10px" }}
-                src="images/dashhome.svg"
-                alt=""
-              />
-            </Link>
-            <Link to="/individual-landingpage">
-              <img style={{ height: "29px" }} src="/images/back.svg" alt="" />
-            </Link>
-          </div>
-          <div
-            style={{
-              fontFamily: "patua",
-              fontSize: "16px",
-              paddingLeft: "32px",
-            }}
-          >
-            FindBedz
-          </div>
-          <div style={{ cursor: 'pointer' }} onClick={signout}>
-            <img src="/images/logout.svg" alt=""></img>
-          </div>
-        </div>
+      <DashboardNav/>
+      <div className="account">
         <div className="popo">
           <img
             style={{ height: "50px" }}
@@ -440,14 +420,51 @@ const IndividualEditprofile = () => {
                   </div>
 
                   <div className="form-group">
-                    <label
+                  <label
+                      className="label_input"
+                      for="exampleFormControlSelect1"
+                    >
+                      DATE OF BIRTH <span className="star_red">*</span>
+                    </label>
+                  <div class="row">
+                      <div class="col-md-4  m-0 p-0 pr-3">
+                          <select onChange={(e)=> setMonth(e.target.value)} name="" id="" className="form-control login_field">
+                              <option value="" selected disabled>Select Month</option>
+                              {months.map((element) => {
+                                return (
+                                  <option selected={users.date_of_birth.split("-")[1] == element? true : false} className="login_field" value={element}>{element}</option>
+                                )
+                              })}
+                          </select>
+                      </div>
+                      <div class="col-md-4  m-0 p-0 pr-3">
+                          <select onChange={(e)=> setDay(e.target.value)} name="" id="" className="form-control login_field">
+                              <option value="" selected disabled>Select Day</option>
+                              {days.map((element )=> {
+                                return (
+                                  <option selected={users.date_of_birth.split("-")[2] == element? true : false} className="login_field" value={element}>{element}</option>
+                                )
+                              })}
+                          </select>
+                      </div>
+                      <div class="col-md-4 m-0 p-0 pr-3">
+                          <select onChange={(e)=> setYear(e.target.value)} name="" id="" className="form-control login_field">
+                              <option value="" selected disabled>Select Year</option>
+                              {years.map((element) => {
+                                return (
+                                  <option selected={users.date_of_birth.split("-")[0] == element? true : false} value={element}>{element}</option>
+                                )
+                              })}
+                          </select>
+                      </div>
+                  </div>
+                    {/* <label
                       className="label_input"
                       for="exampleFormControlSelect1"
                     >
                       DATE OF BIRTH
                     </label>
                     <div className="">
-                      {/* <Datepicker /> */}
                       <DropdownDate
                         startDate={                       // optional, if not provided 1900-01-01 is startDate
                           '1920-01-01'                    // 'yyyy-mm-dd' format only
@@ -456,7 +473,7 @@ const IndividualEditprofile = () => {
                           '2022-12-31'                    // 'yyyy-mm-dd' format only
                         }
                        
-                        selectedDate={selectedDate}
+                        selectedDate={users.date_of_birth}
                         onYearChange={(year) => {
                         }}
                         onDayChange={(day) => {
@@ -467,7 +484,7 @@ const IndividualEditprofile = () => {
                           setSelectedDate(formatDate(date));
                         }}
                       />
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="row">
@@ -530,29 +547,19 @@ const IndividualEditprofile = () => {
                   </div>
                 </div>
               </div>
-
-            <div className="btn_center">
+            
+            <div className="signup_footer">
               {/* <Link to="/login" onClick={submit}> */}
               <button
-                style={{ marginTop: "30px", letterSpacing: '2px' }}
                 className="signupbtn"
+                style={{ letterSpacing: '2px' }}
                 type={"submit"}
               >
                 SUBMIT CHANGES
               </button>
-              <button
-                style={{
-                  marginTop: "30px",
-                  color: "#101b79",
-                  background: "transparent",
-                  border: "none",
-                }}
-                className="signupbtn"
-                onClick={cancel}
-                type={"button"}
-              >
-                CANCEL
-              </button>
+              <Link className="" to="/">
+                <p className="footer_sign_up">Cancel</p>
+              </Link>
               {/* </Link> */}
             </div>
 
@@ -561,7 +568,7 @@ const IndividualEditprofile = () => {
           </form>
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 
