@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
 import { getShelterDetails, providerSignup } from "../../services/auth";
+import { Checkbox } from "antd";
 import { Wrapper } from "../Auth/Auth.styled";
 import MainNav from '../Auth/Navs/MainNav'
 import { states_with_nick } from "../../services/states_counties";
@@ -44,6 +45,8 @@ function Sheltorsignup() {
   const [hours_intake, setHoursIntake] = useState(0);
   const [fileList, setFileList] = useState([]);
   const [images, setImages] = useState([]);
+  const [terms, setTerms] = useState(false);
+  const [lat_lng, setLatLng] = useState("");
 
   const shelterTypes = [
     {showname:'Adults ( any gender )', name: 'adults'}, 
@@ -67,7 +70,6 @@ function Sheltorsignup() {
     {showname:'Dogs', name: 'dogs'}, 
     {showname:'Cats', name: 'cats'}, 
   ]
-  
 
   const navigate = useNavigate();
 
@@ -346,7 +348,7 @@ function Sheltorsignup() {
     if (user.food === "" || user.food === undefined) {
       delete user.food;
     }
-
+    
     user.phone = phoneValue;
     user.totalAllowedForReservation = incVal;
     user.totalNumberOfBeds = valuee;
@@ -364,7 +366,8 @@ function Sheltorsignup() {
     formdata.append("contact_person_name", user.contact_person_name);
     formdata.append("zipCode", user.zipCode);
     formdata.append( "totalAllowedForReservation", user.totalAllowedForReservation );
-    formdata.append("totalNumberOfBeds", user.totalNumberOfBeds);
+    console.log(lat_lng);
+    // formdata.append("coords", lat_lng);
     if(user.maxTimeToHoldABed !== '')
       formdata.append("maxTimeToHoldABed", user.maxTimeToHoldABed);
     if(rules !== '')
@@ -401,15 +404,19 @@ function Sheltorsignup() {
     }
     
     if (validForm()) {
+      if(!terms){
+        toast.error("Please allow this app to access your device's location!")
+        return
+      }
       try{
         var response = await providerSignup(formdata)
           if (response.status === 201) {
-            getShelterDetails(response.data.shelter._id)
+            await getShelterDetails(response.data.shelter._id)
             toast.success("Account Created Successfully!");
             setTimeout(() => {
               navigate("/login");
               toast.success("Please Login To Continue!");
-          }, 2500);
+          }, 1500);
           }else{
           toast.error("Something went wrong !");
           console.log(response);
@@ -430,6 +437,23 @@ function Sheltorsignup() {
       }
     }
   };
+
+  const onChange = (e)=> {
+    getMyLocation(e)
+  }
+
+  const getMyLocation = (e) => {
+    const location = window.navigator && window.navigator.geolocation
+    
+    if (location) {
+      location.getCurrentPosition((position) => {
+        setLatLng(`${position.coords.latitude},${position.coords.longitude}`)
+        setTerms(e.target.checked)
+      }, (error) => {
+        toast.error('Error in getting location!')
+      })
+    }
+  }
   return (
     <Wrapper>
         <ToastContainer />
@@ -1039,9 +1063,23 @@ function Sheltorsignup() {
               ></textarea>
             </div>
           </div>
+          
         </div>
+        <div className="row">
+            <div className="col-md-12">
+              <Checkbox
+                style={{ paddingLeft: "17px", paddingTop: "20px" }}
+                onChange={onChange}
+              >
+                <span className="label_input location ml-2">
+                  SYSTEM WILL USE YOUR DEVICE’S LOCATION SERVICES
+                  <span className="star_red">*</span>
+                </span>
+              </Checkbox>
+            </div>
+          </div>
         </div>
-        <div className="signup_footer">
+        <div className="signup_footer mt-2">
           <Link onClick={submit} className="" to="/sheltor-dashboard">
             <button className="shel_up_btn w-100 px-5">SIGNUP & CONTINUE</button>
           </Link>

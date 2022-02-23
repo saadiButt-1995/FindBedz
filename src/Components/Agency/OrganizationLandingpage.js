@@ -20,16 +20,20 @@ function OrganizationLandingpage() {
           </div>
           <div className="row mt-5">
             <div className="col-lg-4 col-md-6">
-              <div className="indiv_card">
-                <img src="/images/indibed.svg" alt="" />
-                <div className="card_title">FIND A BED</div>
-              </div>
+              <Link to="/find-a-bed">
+                <div className="indiv_card">
+                  <img src="/images/indibed.svg" alt="" />
+                  <div className="card_title">FIND A BED</div>
+                </div>
+              </Link>
             </div>
             <div className="col-lg-4 col-md-6">
-              <div className="indiv_card">
-                <img src="/images/hath.svg" alt="" />
-                <div className="card_title">FIND SERVICES</div>
-              </div>
+              <Link to="/find-services">
+                <div className="indiv_card">
+                  <img src="/images/hath.svg" alt="" />
+                  <div className="card_title">FIND SERVICES</div>
+                </div>
+              </Link>
             </div>
             <div className="col-lg-4 col-md-6">
                 <div className="indiv_card">

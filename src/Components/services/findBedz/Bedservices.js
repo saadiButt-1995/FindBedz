@@ -1,10 +1,20 @@
 import React, {useState} from "react";
+import ReservationModal from "../../sheltorProvider/reservations/reservationModal";
 import { Wrapper } from "./findbedz.styled";
 
 export default function Bedservices() {
   const [user] = useState(JSON.parse(localStorage.getItem('user_data')))
+  const [modal, setModal] = useState(false)
+  
+  const openModal = () => {
+      setModal(true)
+  }
+  const closeModal = () => {
+      setModal(false)
+  }
   return (
     <Wrapper>
+      <ReservationModal  user={user} modal={modal} closeModal={closeModal}/>
       <div className="bedservices mt-2 mb-5">
         <div className="available_round">
           <div className="avail_beds">
@@ -53,7 +63,7 @@ export default function Bedservices() {
             {user.role !== 'user'?
               <div style={{ textAlign: "center", marginTop: '-25px' }} className="pr-3">
                 <div className="cricle_div23 golden">3</div>
-                <div className="avail_title font10" style={{marginTop: '-18px'}}><button className="reserve-btn">Reserve</button></div>
+                <div className="avail_title font10" style={{marginTop: '-18px'}}><button className="reserve-btn" onClick={openModal}>Reserve</button></div>
               </div> 
             :null}
                 

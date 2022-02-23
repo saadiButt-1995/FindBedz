@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { Checkbox } from "antd";
-import { organizationSignup } from "../../services/auth";
+import { login, organizationSignup, setLocalValues } from "../../services/auth";
 import { Wrapper } from "../Auth/Auth.styled";
 import MainNav from '../Auth/Navs/MainNav'
 import { states_with_nick } from "../../services/states_counties";
@@ -70,15 +70,19 @@ function Organization() {
       delete user.iam;
     }
     user.phone = phoneValue;
+    // delete user.coo
 
     if (validForm()) {
       var response = await organizationSignup(user)
         if (response.status === 200) {
           toast.success("Account Created Successfully!");
-          setTimeout(() => {
-            navigate("/login");
-            toast.success("Please Login To Continue!");
-        }, 1500);
+          setTimeout(async() => {
+            var result = await login({userName: user.userName, password: user.password}) 
+            await setLocalValues(result.data)
+            navigate("/OrganizationLandingpage");
+            // navigate("/login");
+            // toast.success("Please Login To Continue!");
+        }, 500);
         }else{
         toast.error("Something went wrong !");
         console.log(response);

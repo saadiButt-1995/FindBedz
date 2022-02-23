@@ -3,12 +3,13 @@ import "../../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { Checkbox } from "antd";
-import {individualSignup} from '../../services/auth'
+import {individualSignup, login, setLocalValues } from '../../services/auth'
 import { days, months, results, states, years } from "../../services/states_counties";
 import { Wrapper } from "../Auth/Auth.styled";
 import MainNav from '../Auth/Navs/MainNav'
 
 const Individual = () => {
+  const navigate = useNavigate()
   // const [open, setOpen] = useState(false);
   const [day, setDay] = useState(0);
   const [month, setMonth] = useState(0);
@@ -18,9 +19,22 @@ const Individual = () => {
   const [phoneValue, setPhonevalue] = useState("");
   
   const onChange = (e)=> {
-    setTerms(e.target.checked)
+    getMyLocation(e)
   }
 
+  const getMyLocation = (e) => {
+    const location = window.navigator && window.navigator.geolocation
+    
+    if (location) {
+      location.getCurrentPosition((position) => {
+        users.coords = `${position.coords.latitude},${position.coords.longitude}`
+        setUser(users)
+        setTerms(e.target.checked)
+      }, (error) => {
+        toast.error('Error in getting location!')
+      })
+    }
+  }
   const [users, setUser] = useState({
     userName: "",
     password: "",
@@ -32,8 +46,8 @@ const Individual = () => {
     county: "",
     state: "",
     email: "texxt@gmail.com",
+    coords: "",
   });
-  const navigate = useNavigate();
 
   const [errField, setErrField] = useState({
     userNameErr: "",
@@ -93,15 +107,19 @@ const Individual = () => {
     if (users.state === "" || users.state === undefined) {
       delete users.state;
     }
+    delete users.coords
     
     try{
       var response = await individualSignup(users)
       if (response.status === 200) {
         toast.success("Account Created Successfully!");
-        setTimeout(() => {
-          navigate("/login");
-          toast.success("Please Login To Continue!");
-        }, 1500);
+        setTimeout(async() => {
+          var result = await login({userName: users.userName, password: users.password}) 
+          await setLocalValues(result.data)
+          navigate("/individual-landingpage");
+          // navigate("/login");
+          // toast.success("Please Login To Continue!");
+        }, 500);
       }else{
         toast.error("Something went wrong !");
         console.log(response);
