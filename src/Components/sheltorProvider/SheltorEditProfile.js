@@ -31,18 +31,18 @@ function ShelterEditProfile() {
     shelterIsFor: "family",
   });
 
-  const [description, setDescription] = useState(u.description);
-  const [rules, setRules] = useState(u.rules);
-  const [storage, setStorage] = useState(u.storage);
-  const [storage_message, setStorageMessage] = useState(u.storage_available_desc);
+  const [description, setDescription] = useState(u.description?u.description:"");
+  const [rules, setRules] = useState(u.rules?u.rules:"");
+  const [storage, setStorage] = useState(u.storage?"none":u.storage);
+  const [storage_message, setStorageMessage] = useState(u.storage_available_desc?u.storage_available_desc:"");
   const [amenities, setAmenities] = useState(u.amenities);
   const [foods, setFoods] = useState(u.food);
   const [pets, setPets] = useState(u.pets_allowed);
   const [shelter_For, setShelterFor] = useState('')
-  const [valuee, setValuee] = useState(u.totalNumberOfBeds);
-  const [incVal, setIncVal] = useState(u.totalAllowedForReservation);
-  const [hour, setHour] = useState(u.maxTimeToHoldABed);  
-  const [hours_intake, setHoursIntake] = useState(u.hours_intake);
+  const [valuee, setValuee] = useState(u.totalNumberOfBeds?u.totalNumberOfBeds:0);
+  const [incVal, setIncVal] = useState(u.totalAllowedForReservation?u.totalAllowedForReservation:0);
+  const [hour, setHour] = useState(u.maxTimeToHoldABed?u.maxTimeToHoldABed:0);  
+  const [hours_intake, setHoursIntake] = useState(u.hours_intake?u.hours_intake:0);
   const [fileList, setFileList] = useState(u.image);
   const [images, setImages] = useState(u.image);
 
@@ -82,8 +82,13 @@ function ShelterEditProfile() {
 
   const setValues = () => {
     u.food.forEach(x=> {
+      console.log('******************************');
+      console.log(x);
       foodTypes.forEach((item, index)=> {
+        console.log('inner');
+        console.log(item);
         if(x === item.name){
+          console.log('#food'+index);
           foodTypes[index].checked = true
           $('#food'+index).prop('checked', true);
           console.log('checked');
