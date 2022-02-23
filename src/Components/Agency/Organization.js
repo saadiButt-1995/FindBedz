@@ -6,6 +6,7 @@ import { Checkbox } from "antd";
 import { organizationSignup } from "../../services/auth";
 import { Wrapper } from "../Auth/Auth.styled";
 import MainNav from '../Auth/Navs/MainNav'
+import { states_with_nick } from "../../services/states_counties";
 
 function Organization() {
   const [user, setUser] = useState({
@@ -479,7 +480,17 @@ function Organization() {
                 <div className="col-lg-4 px-0 pr-3">
                   <div className="mb-3 label_input">
                     <label htmlFor="validationCustom02">STATE <span className="star_red">*</span></label>
-                    <input
+                    <select className="form-control login_field" name="state" id="state"
+                        onChange={handleInput}
+                        >
+                          <option className="login_field" selected disabled>Select State</option>
+                          {states_with_nick.map((item, index)=> {
+                            return (
+                              <option className="login_field" key={index} value={item.name}>{item.name}</option>
+                            )
+                          })}
+                      </select>
+                    {/* <input
                       value={user.state}
                       onChange={handleInput}
                       type="text"
@@ -488,7 +499,7 @@ function Organization() {
                       className="form-control login_field"
                       id="validationCustom02"
                       required
-                    />
+                    /> */}
                   </div>
                 </div>
                 <div className="col-lg-4 px-0">

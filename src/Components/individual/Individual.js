@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "../../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-// import { DropdownDate } from "react-dropdown-date";
 import { Checkbox } from "antd";
 import {individualSignup} from '../../services/auth'
 import { days, months, results, states, years } from "../../services/states_counties";
@@ -18,23 +17,10 @@ const Individual = () => {
   const [terms, setTerms] = useState(false);
   const [phoneValue, setPhonevalue] = useState("");
   
-  // const formatDate = (date) => {
-  //   // formats a JS date to 'yyyy-mm-dd'
-  //   var d = new Date(date),
-  //     month = "" + (d.getMonth() + 1),
-  //     day = "" + d.getDate(),
-  //     year = d.getFullYear();
-
-  //   if (month.length < 2) month = "0" + month;
-  //   if (day.length < 2) day = "0" + day;
-  //   users.date_of_birth = [year, month, day].join('-')
-  //   return [year, month, day].join("-");
-  // };
   const onChange = (e)=> {
     setTerms(e.target.checked)
   }
 
-  // const [date, setDate] = useState(null);
   const [users, setUser] = useState({
     userName: "",
     password: "",
@@ -383,7 +369,7 @@ const Individual = () => {
                               <option value="" selected disabled>Select Year</option>
                               {years.map((element) => {
                                 return (
-                                  <option value={element}>{element}</option>
+                                  <option className="login_field" value={element}>{element}</option>
                                 )
                               })}
                           </select>

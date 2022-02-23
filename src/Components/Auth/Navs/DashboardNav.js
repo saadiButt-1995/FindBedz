@@ -1,10 +1,16 @@
-import React from 'react'
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from 'react'
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from '../../../services/auth';
 import Container from '../../container/Container'
 
 const Home = () => {
     const navigate = useNavigate()
+    const location = useLocation()
+    const [show] = useState((location.pathname === '/sheltor-dashboard' || 
+                            location.pathname === '/individual-landingpage' || 
+                            location.pathname === '/OrganizationLandingpage') 
+                            ? true : false
+                    )
     const signout = () => {
         logout()
         navigate('/')
@@ -14,15 +20,17 @@ const Home = () => {
         <Container dflex={true} center={true}>
             <div className='row text-center'>
                 <div className='col-md-4 col-md-sm-4'>
-                    <div className="back-home">
-                        <Link to="/">
-                        <img
-                            src="images/dashhome.svg"
-                            alt=""
-                        />
-                        </Link>
-                        <img onClick={()=> navigate(-1)} className='back-button' src="/images/back.svg" alt="" />
-                    </div>
+                    {!show?
+                        <div className="back-home">
+                            <Link to="/">
+                            <img
+                                src="images/dashhome.svg"
+                                alt=""
+                            />
+                            </Link>
+                            <img onClick={()=> navigate(-1)} className='back-button' src="/images/back.svg" alt="" />
+                        </div>
+                    :null}
                 </div>
                 <div className='col-md-4 col-md-sm-4 dashtittle'>
                     FindBedz

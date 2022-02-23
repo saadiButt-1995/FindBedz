@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import { logout, setUsersData, updateUserDetails } from "../../services/auth";
-import { Wrapper } from "../Auth/Auth.styled";
+import { setUsersData, updateUserDetails } from "../../services/auth";
+import { Wrapper } from "./organization.styled";
+import DashboardNav from '../Auth/Navs/DashboardNav'
+import { states_with_nick } from "../../services/states_counties";
 
 function OrganizationEditprofile() {
   const navigate = useNavigate()
@@ -54,12 +56,6 @@ function OrganizationEditprofile() {
     setUser({ ...users, [name]: value });
   };
 
-  const signout = () => {
-    logout()
-    navigate('/')
-    
-  }
-
   const submit = async (e) => {
     e.preventDefault();
     if (users.city === "" || users.city === undefined) {
@@ -93,8 +89,18 @@ function OrganizationEditprofile() {
             console.log(response);
           }
       }catch(e){
+        var error = ''
         console.log('ERROR*************');
-        toast.error(e.response.data.message);
+        if(e.message){
+          error = e.message
+          if(e.message.data){
+            error = e.message.data
+            if(e.message.data.message){
+              error = e.message.data.message
+            }
+          }
+        }
+        toast.error(error);
       }
     }
   };
@@ -107,6 +113,8 @@ function OrganizationEditprofile() {
       phoneErr: "",
       emailErr: "",
       organizationErr: "",
+      FirstErr: "",
+      LastErr: "",
       addressErr: "",
       cityErr: "",
       stateErr: "",
@@ -197,62 +205,21 @@ function OrganizationEditprofile() {
     return maskedText;
   };
   
-  const cancel = () => {
-    setUser({
-      // userName: "",
-      password: "",
-      phone: "",
-      nickName: "",
-      ethnicity: "",
-      role: "",
-      date_of_birth: "",
-      county: "",
-      state: "",
-      email: "",
-    });
-  };
   useEffect(()=> {
   }, [])
   return (
     <Wrapper>
+    <DashboardNav/>  
     <div className="account">
-      <div className="edit_header">
-        <div className="edit_left_bts">
-          <Link to="/">
-            <img
-              style={{ height: "29px", paddingRight: "10px" }}
-              src="images/dashhome.svg"
-              alt=""
-            />
-          </Link>
-          <Link to="/OrganizationLandingpage">
-            <img style={{ height: "29px" }} src="/images/back.svg" alt="" />
-          </Link>
-        </div>
-        <div
-          style={{
-            fontFamily: "patua",
-            fontSize: "16px",
-            paddingLeft: "32px",
-          }}
-        >
-          FindBedz
-        </div>
-        <div style={{ cursor: 'pointer' }} onClick={signout}>
-          <img src="/images/logout.svg" alt=""></img>
-        </div>
-      </div>
-      <div className="popo">
-        <img
-          style={{ height: "50px" }}
-          className=""
-          src="/images/edit_user.svg"
-          alt=""
-        />
-        <p className="header_title">EDIT PROFILE</p>
-      </div>
+      
+      <img
+        className="dashboard_image"
+        src="/images/edit_user.svg"
+        alt=""
+      />
+      <p className="header_title">EDIT PROFILE</p>
    
-      <div className="container">
+      <div className="container mt-5">
         <div className="row justify-content-around">
           <div className="col-lg-6">
             <ToastContainer />
@@ -410,7 +377,7 @@ function OrganizationEditprofile() {
             </div>
             <div class="form-group" style={{marginTop: '-5px'}}>
               <label className="label_input" for="exampleFormControlSelect1">
-                MY POSITION
+                MY POSITION <span className="star_red">*</span>
               </label>
 
               <select
@@ -443,11 +410,7 @@ function OrganizationEditprofile() {
                 placeholder="************"
                 disabled
               />
-              {/* {open === false ? (
-                <AiFillEyeInvisible className="svggg" onClick={toggle} />
-              ) : (
-                <AiFillEye className="svggg" onClick={toggle} />
-              )} */}
+             
               {errField.passwordErr.length > 0 && (
                 <span
                   style={{
@@ -515,7 +478,9 @@ function OrganizationEditprofile() {
             <div className="row">
               <div className="col-lg-4 px-0  pr-3">
                 <div className="mb-3 label_input">
-                  <label htmlFor="validationCustom02">CITY</label>
+                  <label htmlFor="validationCustom02">
+                    CITY <span className="star_red">*</span>
+                  </label>
                   <input
                     value={users.city}
                     onChange={handleInput}
@@ -530,8 +495,20 @@ function OrganizationEditprofile() {
               </div>
               <div className="col-lg-4 px-0 pr-3">
                 <div className="mb-3 label_input">
-                  <label htmlFor="validationCustom02">STATE</label>
-                  <input
+                  <label htmlFor="validationCustom02">
+                    STATE <span className="star_red">*</span>
+                    </label>
+                    <select className="form-control login_field" name="state" id="state"
+                      onChange={handleInput}
+                      >
+                        <option className="login_field" selected disabled>Select State</option>
+                        {states_with_nick.map((item, index)=> {
+                          return (
+                            <option className="login_field" key={index} value={item.name} selected={item.name === users.state?true:false}>{item.name}</option>
+                          )
+                        })}
+                    </select>
+                  {/* <input
                     value={users.state}
                     onChange={handleInput}
                     type="text"
@@ -540,13 +517,15 @@ function OrganizationEditprofile() {
                     className="form-control login_field"
                     id="validationCustom02"
                     required
-                  />
+                  /> */}
                 </div>
               </div>
               <div className="col-lg-4 px-0">
                 <div className="mobile_p pr-0">
                   <div className="mb-3 label_input">
-                    <label htmlFor="validationCustom02">ZIP CODE</label>
+                    <label htmlFor="validationCustom02"> 
+                    ZIP CODE <span className="star_red">*</span>
+                    </label>
                     <input
                       value={users.zip_code}
                       onChange={handleInput}
@@ -563,31 +542,21 @@ function OrganizationEditprofile() {
             </div>
           </div>
         </div>
-        <div className="btn_center">
-              {/* <Link to="/login" onClick={submit}> */}
-              <button
-                style={{ marginTop: "30px", letterSpacing: '2px' }}
-                className="signupbtn"
-                type={"button"}
-                onClick={submit}
-              >
-                SUBMIT CHANGES
-              </button>
-              <button
-                style={{
-                  marginTop: "30px",
-                  color: "#101b79",
-                  background: "transparent",
-                  border: "none",
-                }}
-                className="signupbtn"
-                onClick={cancel}
-                type={"button"}
-              >
-                CANCEL
-              </button>
-              {/* </Link> */}
-            </div>
+        <div className="signup_footer">
+          {/* <Link to="/login" onClick={submit}> */}
+          <button
+            className="signupbtn"
+            style={{ letterSpacing: '2px' }}
+            type={"button"}
+            onClick={submit}
+          >
+            SUBMIT CHANGES
+          </button>
+          <Link className="" to="/">
+            <p className="footer_sign_up">Cancel</p>
+          </Link>
+          {/* </Link> */}
+        </div>
       </div>
     </div>
     </Wrapper>

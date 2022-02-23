@@ -26,7 +26,9 @@ a:hover {
   font-family: popmd;
   src: url("/src/fonts/Poppins-Medium.ttf");
 }
-
+.font-primary{
+  color: #101b79; 
+}
 .landingpage {
   text-align: center;
 }
@@ -62,7 +64,7 @@ a:hover {
   margin-bottom: 45px !important;
 }
 .custom-switch {
-  margin-left: 14px;
+  /* margin-left: 14px; */
 }
 .centrebtn {
   margin-left: auto;
@@ -157,7 +159,7 @@ a:hover {
   background-color: #008e00;
 }
 .cricle_div2 {
-  width: 65px;
+  /* width: 65px;
   height: 64px;
   border-radius: 50%;
   text-align: center;
@@ -168,7 +170,7 @@ a:hover {
   color: #fff;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 20px;
+  margin-bottom: 20px; */
 }
 .avail_title {
   font-family: popreg;
@@ -346,6 +348,12 @@ a:hover {
   height: 200px;
   border-radius: 9px;
   text-align: center;
+}
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-indent: 1px;
+  text-overflow: '';
 }
 .frst_flex {
   display: flex;
@@ -638,24 +646,24 @@ textarea {
   margin-bottom: 10px;
 }
 .filters {
-  width: 28%;
+  /* width: 28%;
   background: #ffffff;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
   height: 123vh;
-  padding-left: 20px;
+  padding-left: 20px; */
 }
 .filter_title {
-  color: #101b79;
+  /* color: #101b79;
   font-size: 20px;
   font-weight: bold;
   text-align: center;
   padding-bottom: 27px;
-  padding-top: 14px;
+  padding-top: 14px; */
 }
 .total_avail {
-  display: flex;
-  justify-content: space-evenly;
+  /* display: flex;
+  justify-content: space-evenly; */
 }
 .total_beds {
   text-align: center;
@@ -665,11 +673,11 @@ textarea {
   letter-spacing: 1px;
 }
 .avail_beds {
-  text-align: center !important;
+  /* text-align: center !important;
   color: #000;
   font-family: popbold !important;
   font-size: 20px;
-  letter-spacing: 1px;
+  letter-spacing: 1px; */
 }
 .bed_services {
   width: 85%;
@@ -693,8 +701,7 @@ textarea {
 }
 .find_services {
   display: flex;
-  padding-right: 20px;
-  padding-left: 20px;
+  padding: 20px;
 }
 .logtext {
   font-family: popreg;

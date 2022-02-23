@@ -32,7 +32,8 @@ const setLocalValues = async(data) => {
     localStorage.setItem('status', status)
     localStorage.setItem('role', role)
 
-    setUsersData(user)
+    await setUsersData(user)
+    return true
 }
 
 const setUsersData = async(user)=> {
@@ -51,6 +52,7 @@ const getShelterDetails = async(user_query) => {
     localStorage.setItem('status', true)
     localStorage.setItem('role', "shelter")
     localStorage.setItem("user_data", JSON.stringify(result.data.shelter))
+    return true
 }
 
 

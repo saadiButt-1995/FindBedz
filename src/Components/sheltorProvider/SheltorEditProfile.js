@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { ToastContainer, toast } from "react-toastify";
 import { getShelterDetails, logout, updateShelterDetails } from "../../services/auth";
 import $ from 'jquery'
+import { states_with_nick } from "../../services/states_counties";
 function ShelterEditProfile() {
   const navigate = useNavigate()
   const u = JSON.parse(localStorage.getItem("user_data"));
@@ -12,7 +12,7 @@ function ShelterEditProfile() {
 
   const [user, setUser] = useState({
     userName: u.userName,
-    password: u.password,
+    password: "",
     shelterName: u.shelterName,
     phone: u.phone,
     email: u.email,
@@ -231,13 +231,6 @@ function ShelterEditProfile() {
 
     return formIsValid;
   };
-  const [open, setOpen] = useState(false);
-
-  const toggle = () => {
-    setOpen(!open);
-  };
-  
- 
 
   const hourInc = () => {
     if (hour < 4) {
@@ -352,12 +345,13 @@ function ShelterEditProfile() {
   const selectImage = (event)=> {
     var imagefile = document.querySelector('#image');
     if (event.target.files && event.target.files[0]) {
-      const files = Array.from(imagefile.files);
-      setImages(images.concat(files[0]))
+      
         let img = event.target.files[0];
 
         // check resolutions
         if (isImage(img.name)) {
+          const files = Array.from(imagefile.files);
+          setImages(images.concat(files[0]))
           let reader = new FileReader();
           reader.readAsDataURL(img);
           reader.onload = async() =>{                
@@ -395,6 +389,7 @@ function ShelterEditProfile() {
 
   const submit = async (e) => {
     e.preventDefault();
+    delete user.password
     if (user.food === "" || user.food === undefined) {
       delete user.food;
     }
@@ -520,7 +515,7 @@ function ShelterEditProfile() {
               placeholder="Create a username"
               className="form-control login_field"
               id="validationCustom01"
-              required
+              disabled
             />
             {errField.userNameErr.length > 0 && (
               <span
@@ -620,7 +615,17 @@ function ShelterEditProfile() {
                 <label htmlFor="validationCustom02">
                   STATE<span className="star_red">*</span>
                 </label>
-                <input
+                <select className="form-control login_field" name="state" id="state"
+                  onChange={handleInput}
+                  >
+                    <option className="login_field" selected disabled>Select State</option>
+                    {states_with_nick.map((item, index)=> {
+                      return (
+                        <option className="login_field" key={index} value={item.name} selected={item.name === user.state?true:false}>{item.name}</option>
+                      )
+                    })}
+                </select>
+                {/* <input
                   name="state"
                   onChange={handleInput}
                   value={user.state}
@@ -629,7 +634,7 @@ function ShelterEditProfile() {
                   id="validationCustom02"
                   placeholder="Enter State"
                   required
-                />
+                /> */}
                 {errField.stateErr.length > 0 && (
                   <span
                     style={{
@@ -678,17 +683,16 @@ function ShelterEditProfile() {
         <div className="col-lg-5">
           <div className="label_input mb-4">
             <label htmlFor="validationCustom03">
-              CREATE PASSWORD<span className="star_red">*</span>
+              PASSWORD<span className="star_red">*</span>
             </label>
             <input
               name="password"
               onChange={handleInput}
               value={user.password}
               placeholder="************"
-              type={open === false ? "password" : "text"}
               className="form-control login_field"
               id="validationCustom03"
-              required
+              disabled
             />
             {errField.passwordErr.length > 0 && (
               <span
@@ -700,11 +704,6 @@ function ShelterEditProfile() {
               >
                 {errField.passwordErr}
               </span>
-            )}
-            {open === false ? (
-              <AiFillEyeInvisible className="svggg" onClick={toggle} />
-            ) : (
-              <AiFillEye className="svggg" onClick={toggle} />
             )}
           </div>
           <div className="label_input mb-3">
@@ -1104,7 +1103,7 @@ function ShelterEditProfile() {
       </div>
       <div className="signup_footer">
         <Link onClick={submit} className="" to="/sheltor-dashboard">
-          <button className="shel_up_btn w-100 px-5">SIGNUP & CONTINUE</button>
+          <button className="shel_up_btn w-100 px-5">SUBMIT CHANGES</button>
         </Link>
         <p className="footer_sign_up">Cancel</p>
       </div>

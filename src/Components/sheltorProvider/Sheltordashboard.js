@@ -1,45 +1,15 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { logout } from "../../services/auth";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Wrapper } from "../container/Container.styled";
+import DashboardNav from '../Auth/Navs/DashboardNav'
 
 function Sheltordashboard() {
-  const navigate = useNavigate()
-
-  const user = JSON.parse(localStorage.getItem('user_data'))
+  const [user] = useState(JSON.parse(localStorage.getItem('user_data')))
   
-  const signout = () => {
-    logout()
-    navigate('/')
-  }
   return (
     <>
-      <div className="edit_header">
-        <div className="edit_left_bts">
-          <Link to="/">
-            <img
-              style={{ height: "29px", paddingRight: "10px" }}
-              src="images/dashhome.svg"
-              alt=""
-            />
-          </Link>
-          <Link to="/sheltor-signup">
-            <img style={{ height: "29px" }} src="/images/back.svg" alt="" />
-          </Link>
-        </div>
-        <div
-          style={{
-            fontFamily: "patua",
-            fontSize: "16px",
-            paddingLeft: "32px",
-            paddingBottom: "10px",
-          }}
-        >
-          FindBedz
-        </div>
-        <div style={{cursor: 'pointer'}} onClick={signout}>
-          <img src="/images/logout.svg" alt=""></img>
-        </div>
-      </div>
+      <Wrapper>
+      <DashboardNav/>
       <div className="popo">
         <img
           style={{ height: "50px" }}
@@ -75,22 +45,28 @@ function Sheltordashboard() {
           </div>
           <div className="row mt-5">
             <div className="col-lg-3 col-md-6">
-              <div className="indiv_cardd">
-                <img src="/images/mange.svg" alt="" />
-                <div className="card_title">MANAGE RESERVATIONS</div>
-              </div>
+              <Link to="/reservations">
+                <div className="indiv_cardd">
+                  <img src="/images/mange.svg" alt="" />
+                  <div className="card_title">MANAGE RESERVATIONS</div>
+                </div>
+              </Link>
             </div>
             <div className="col-lg-3 col-md-6">
-              <div className="indiv_cardd">
-                <img src="/images/services.svg" alt="" />
-                <div className="card_title">FIND OTHER SERVICES</div>
-              </div>
+              <Link to="/find-services">
+                <div className="indiv_cardd">
+                  <img src="/images/services.svg" alt="" />
+                  <div className="card_title">FIND OTHER SERVICES</div>
+                </div>
+              </Link>
             </div>
             <div className="col-lg-3 col-md-6">
-              <div className="indiv_cardd">
-                <img src="/images/bed.svg" alt="" />
-                <div className="card_title">FIND BEDS IN OTHER SHELTERS</div>
-              </div>
+              <Link to="/find-a-bed">
+                <div className="indiv_cardd">
+                  <img src="/images/bed.svg" alt="" />
+                  <div className="card_title">FIND BEDS IN OTHER SHELTERS</div>
+                </div>
+              </Link>
             </div>
             <div className="col-lg-3 col-md-6">
               <Link to="/shelter-editprofile">
@@ -103,6 +79,7 @@ function Sheltordashboard() {
           </div>
         </div>
       </div>
+      </Wrapper>
     </>
   );
 }

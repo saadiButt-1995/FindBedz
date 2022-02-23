@@ -28,20 +28,19 @@ const Home = () => {
         if (validForm()) {
           try {
             var response = await login(user)
-            let role = response.data.role;
             if (response.status === 200) {
               toast.success("Login Successfully!");
-              setTimeout(() => {
-                if (role === "shelter") {
-                  getShelterDetails(response.data.user)
+              setTimeout(async() => {
+                if (response.data.role === "shelter") {
+                  await getShelterDetails(response.data.user)
                   setTimeout(() => {
                     navigate("/sheltor-dashboard");
                   }, 1000);
-                } else if (role === "user") {
-                  setLocalValues(response.data)
+                } else if (response.data.role === "user") {
+                  await setLocalValues(response.data)
                   navigate("/individual-landingpage");
-                } else if (role === "sheriff") {
-                  setLocalValues(response.data)
+                } else if (response.data.role === "sheriff") {
+                  await setLocalValues(response.data)
                   navigate("/OrganizationLandingpage");
                 } 
               }, 1000);
@@ -49,8 +48,18 @@ const Home = () => {
               toast.error("error!");
             }
           } catch (e) {
+            var error = ''
             console.log('ERROR*************');
-            toast.error(e.response.data.message);
+            if(e.message){
+              error = e.message
+              if(e.message.data){
+                error = e.message.data
+                if(e.message.data.message){
+                  error = e.message.data.message
+                }
+              }
+            }
+            toast.error(error);
           }
         }
       };
@@ -80,7 +89,7 @@ const Home = () => {
                 <h3 className="header_title text-center">LOGIN</h3>
                 <p className="header_text text-center">Please login to continue</p>
                 <div className="login_fields">
-                <div className="form-group col-md-4 login_inputs">
+                <div className="form-group col-md-3 login_inputs">
                     <label className="label_input1">USERNAME </label>
                     <input
                     name="userName"
@@ -99,7 +108,7 @@ const Home = () => {
                     </span>
                     )}
                 </div>
-                <div className="form-group col-md-4 login_inputs">
+                <div className="form-group col-md-3 login_inputs">
                     <label className="label_input1">
                     PASSWORD <span style={{ color: "#828282" }}></span>
                     </label>
@@ -112,7 +121,7 @@ const Home = () => {
                     className="form-control login_field"
                     id="inputPassword4"
                     />
-                    <Link to="/forget-password">
+                    <Link to="/forgot-password">
                     <p
                         style={{
                         fontFamily: "popreg",
@@ -122,13 +131,13 @@ const Home = () => {
                         textDecoration:"underline"
                         }}
                     >
-                        Forget Password
+                        Forgot Password
                     </p>
                     </Link>
                 </div>
                 </div>
                 <div className="text-center">
-                <button className="loginbutton col-md-6" onClick={submit}>
+                <button className="loginbutton col-md-3" onClick={submit}>
                     LOGIN
                 </button>
                 <p className="footer_link">

@@ -4,19 +4,26 @@ import PublicRoute from "./routers/PublicRoute";
 
 // import Landingpage from "./Landingpage";
 import Dashboard from "./Dashboard";
+
 ////individual/////
 import Individual from "./Components/individual/Individual";
 import IndividualLanding from "./Components/individual/IndividualLanding";
+
 /////shelter-provider/////
 import Sheltordashboard from "./Components/sheltorProvider/Sheltordashboard";
 import Sheltorsignup from "./Components/sheltorProvider/Sheltorsignup";
 import SheltorEditProfile from "./Components/sheltorProvider/SheltorEditProfile";
-/////Organization/////
+  // reservations
+  import Reservations from "./Components/sheltorProvider/reservations";
+
+  /////Organization/////
 import Organization from "./Components/Agency/Organization";
 import OrganizationLandingpage from "./Components/Agency/OrganizationLandingpage";
 import OrganizationEditprofile from "./Components/Agency/OrganizationEditprofile";
 import Editprofile from "./Components/individual/IndividualEditprofile";
-import FindAbed from "./Components/individual/individualbedservices/FindAbed";
+import FindAbed from "./Components/services/findBedz";
+import FindService from "./Components/services/findServices";
+
 ////////////forget-password///////
 import Newpassword from "./Newpassword";
 import Forget from "./Forget";
@@ -73,12 +80,19 @@ export default function routes() {
         <Route path="/organization-edit-profile" element={<PrivateRoute component={OrganizationEditprofile} exact />} />
         
         
-        <Route path="/forget-password" element={<PrivateRoute component={Forget}  exact />} />
+        <Route path="/forgot-password" element={<PublicRoute component={Forget}  exact />} />
         <Route path="/newpassword" element={<PrivateRoute component={Newpassword}  exact />} />
         <Route path="/enterpin" element={<PrivateRoute component={Enterpin}  exact />} />
 
-
+        {/* Beds */}
         <Route path="/find-a-bed" element={<PrivateRoute component={FindAbed}  exact />} />
+        
+        {/* Find Services */}
+        <Route path="/find-services" element={<PrivateRoute component={FindService}  exact />} />
+
+
+        {/* RESERVATIONS */}
+        <Route path="/reservations" element={<PrivateRoute component={Reservations}  exact />} />
       </Routes>
   );
 }

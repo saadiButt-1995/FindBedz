@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "../../index.css";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-// import { DropdownDate } from "react-dropdown-date";
 import { Link } from "react-router-dom";
 import { days, months, results, states, years } from "../../services/states_counties";
 import { setUsersData, updateUserDetails } from "../../services/auth";

@@ -5,6 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { getShelterDetails, providerSignup } from "../../services/auth";
 import { Wrapper } from "../Auth/Auth.styled";
 import MainNav from '../Auth/Navs/MainNav'
+import { states_with_nick } from "../../services/states_counties";
 
 function Sheltorsignup() {
   const [user, setUser] = useState({
@@ -414,8 +415,18 @@ function Sheltorsignup() {
           console.log(response);
         }
       }catch(e){
+        var error = ''
         console.log('ERROR*************');
-        toast.error(e.response.data.message);
+        if(e.message){
+          error = e.message
+          if(e.message.data){
+            error = e.message.data
+            if(e.message.data.message){
+              error = e.message.data.message
+            }
+          }
+        }
+        toast.error(error);
       }
     }
   };
@@ -540,7 +551,17 @@ function Sheltorsignup() {
                   <label htmlFor="validationCustom02">
                     STATE<span className="star_red">*</span>
                   </label>
-                  <input
+                  <select className="form-control login_field" name="state" id="state"
+                      onChange={handleInput}
+                      >
+                        <option className="login_field" selected disabled>Select State</option>
+                        {states_with_nick.map((item, index)=> {
+                          return (
+                            <option className="login_field" key={index} value={item.name} >{item.name}</option>
+                          )
+                        })}
+                    </select>
+                  {/* <input
                     name="state"
                     onChange={handleInput}
                     value={user.state}
@@ -549,7 +570,7 @@ function Sheltorsignup() {
                     id="validationCustom02"
                     placeholder="Enter State"
                     required
-                  />
+                  /> */}
                   {errField.stateErr.length > 0 && (
                     <span
                       style={{

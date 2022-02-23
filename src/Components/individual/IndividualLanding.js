@@ -32,10 +32,12 @@ function IndividualLanding() {
               </div>
               
               <div className="col-lg-4 col-md-6">
-                <div className="indiv_card">
-                  <img src="/images/hath.svg" alt="" />
-                  <div className="card_title">FIND SERVICES</div>
-                </div>
+                <Link to="/find-services">
+                  <div className="indiv_card">
+                    <img src="/images/hath.svg" alt="" />
+                    <div className="card_title">FIND SERVICES</div>
+                  </div>
+                </Link>
               </div>
 
               <div className="col-lg-4 col-md-6">
