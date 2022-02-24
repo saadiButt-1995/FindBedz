@@ -31,19 +31,19 @@ function Sheltordashboard() {
       </div>
       <div>
         <div className="container">
-          <div className="row">
+          <div className="row mt-5">
             <div className="col-lg-12 col-md-6">
               <div className="d-flex align-items-center justify-content-between">
                 <div className="">
-                  <p className="dashname">Dashboard</p>
+                  <p className="dashname">{user.shelterName}</p>
                 </div>
                 <div className="">
-                  <p className="dashname">{user.shelterName}</p>
+                  <p className="dashname">{user.userName}</p>
                 </div>
               </div>
             </div>
           </div>
-          <div className="row mt-5">
+          <div className="row">
             <div className="col-lg-3 col-md-6">
               <Link to="/reservations">
                 <div className="indiv_cardd">

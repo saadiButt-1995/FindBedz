@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import { Wrapper } from "./organization.styled";
 import DashboardNav from '../Auth/Navs/DashboardNav'
 
 function OrganizationLandingpage() {
+  const [user] = useState(JSON.parse(localStorage.getItem('user_data')))
 
   return (
     <Wrapper>
@@ -18,7 +19,19 @@ function OrganizationLandingpage() {
               <p className="header_title">Dashboard</p>
             </div>
           </div>
-          <div className="row mt-5">
+          <div className="row pl-2 pr-5 mt-5">
+            <div className="col-lg-12 col-md-6">
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="">
+                  <p className="dashname">{user.organization}</p>
+                </div>
+                <div className="">
+                  <p className="dashname">{user.userName}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row ">
             <div className="col-lg-4 col-md-6">
               <Link to="/find-a-bed">
                 <div className="indiv_card">

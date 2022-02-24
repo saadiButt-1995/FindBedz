@@ -17,7 +17,7 @@ const FindAbed = () => {
         <div class="row">
           <div class="col-md-3">
             <div className="filters">
-              <Filters />
+              <Filters service={true}/>
             </div>
           </div>
           <div class="col-md-8 m-0">

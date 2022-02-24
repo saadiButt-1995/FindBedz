@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
 import { Wrapper } from "./Individual.styled";
 import DashboardNav from '../Auth/Navs/DashboardNav'
 function IndividualLanding() {
 
+  const [user] = useState(JSON.parse(localStorage.getItem('user_data')))
   
 
   return (
@@ -16,11 +17,24 @@ function IndividualLanding() {
             <img className="dashboard_image" src="/images/dashhome.svg" alt=""/>
           </Link>
           <div className="container mt-2">
+          
             <div className="row">
               <div className="col-lg-12 col-md-12">
                 <p className="header_title">DASHBOARD</p>
               </div>
             </div>
+            <div className="row pl-2 pr-5">
+            <div className="col-lg-12 col-md-6">
+              <div className="d-flex align-items-center justify-content-between">
+                <div className="">
+                  <p className="dashname">Dashboard</p>
+                </div>
+                <div className="">
+                  <p className="dashname">{user.userName}</p>
+                </div>
+              </div>
+            </div>
+          </div>
             <div className="row mt-3">
               <div className="col-lg-4 col-md-6">
               <Link to="/find-a-bed">

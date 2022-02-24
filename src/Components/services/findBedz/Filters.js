@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { results, states_with_nick } from "../../../services/states_counties";
 import { Wrapper } from "./findbedz.styled";
 
-const Filters = () => {
+const Filters = ({service}) => {
 
   const [counties, setCounties] = useState([]);
   const [state, setState] = useState("")
@@ -201,25 +201,27 @@ const Filters = () => {
             </select>
           </div>
         </div>
-        <div className="form-check my-4">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            name="show_available_bed"
-            id="show_available_bed"
-            defaultValue="option1"
-            defaultChecked
-          />
-          <div
-            className=""
-            style={{ fontFamily: "popreg", fontWeight: "bold" }}
-          >
-            ONLY SHOW AVAILABLE BEDS
+        {!service?
+          <div className="form-check my-4">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              name="show_available_bed"
+              id="show_available_bed"
+              defaultValue="option1"
+              defaultChecked
+            />
+            <div
+              className=""
+              style={{ fontFamily: "popreg", fontWeight: "bold" }}
+            >
+              ONLY SHOW AVAILABLE BEDS
+            </div>
           </div>
-        </div>
+          :null}
 
 
-        <div className="type_shelter">
+        <div className="type_shelter mt-2">
           <div
             className="mb-1"
             style={{ fontFamily: "popreg", fontWeight: "bold" }}
