@@ -129,11 +129,11 @@ function Sheltorsignup() {
         passwordErr: "Please Enter Password",
       }));
     }
-    if (user.phone === "") {
+    if (user.phone === "" || user.phone.length < 15) {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
-        phoneErr: "Please Enter phone",
+        phoneErr: "Invalid Phone Number",
       }));
     }
     if (user.email === "") {
@@ -391,16 +391,22 @@ function Sheltorsignup() {
       foods.forEach((item)=> {
         formdata.append("food", item);
       })
+    }else{
+      formdata.append("food", []);
     }
     if(amenities.length > 0){
       amenities.forEach((item)=> {
         formdata.append("amenities", item);
       })
+    }else{
+      formdata.append("amenities", []);
     }
     if(pets.length > 0){
       pets.forEach((item)=> {
         formdata.append("pets_allowed", item);
       })
+    }else{
+      formdata.append("pets_allowed", []);
     }
     
     if (validForm()) {
@@ -412,7 +418,7 @@ function Sheltorsignup() {
         var response = await providerSignup(formdata)
           if (response.status === 201) {
             await getShelterDetails(response.data.shelter._id)
-            toast.success("Account Created Successfully!");
+            toast.success("Account has been created successfully!");
             setTimeout(() => {
               navigate("/login");
               toast.success("Please Login To Continue!");
@@ -423,13 +429,16 @@ function Sheltorsignup() {
         }
       }catch(e){
         var error = ''
-        console.log('ERROR*************');
-        if(e.message){
-          error = e.message
-          if(e.message.data){
-            error = e.message.data
-            if(e.message.data.message){
-              error = e.message.data.message
+        console.log('ERRORChoose a password*');
+        if(e.response){
+          console.log(e.response);
+          error = e.response
+          if(e.response.data){
+            console.log(e.response.data);
+            error = e.response.data
+            if(e.response.data.message){
+              console.log(e.response.data.message);
+              error = e.response.data.message
             }
           }
         }
@@ -439,20 +448,22 @@ function Sheltorsignup() {
   };
 
   const onChange = (e)=> {
+    setTerms(e.target.checked)
     getMyLocation(e)
+    setLatLng('')
   }
 
   const getMyLocation = (e) => {
-    const location = window.navigator && window.navigator.geolocation
+    // const location = window.navigator && window.navigator.geolocation
     
-    if (location) {
-      location.getCurrentPosition((position) => {
-        setLatLng(`${position.coords.latitude},${position.coords.longitude}`)
-        setTerms(e.target.checked)
-      }, (error) => {
-        toast.error('Error in getting location!')
-      })
-    }
+    // if (location) {
+    //   location.getCurrentPosition((position) => {
+    //     setLatLng(`${position.coords.latitude},${position.coords.longitude}`)
+    //     setTerms(e.target.checked)
+    //   }, (error) => {
+    //     toast.error('Error in getting location!')
+    //   })
+    // }
   }
   return (
     <Wrapper>
@@ -643,13 +654,13 @@ function Sheltorsignup() {
           <div className="col-lg-5">
             <div className="label_input mb-4">
               <label htmlFor="validationCustom03">
-                CREATE PASSWORD<span className="star_red">*</span>
+                PASSWORD <span className="star_red">*</span>
               </label>
               <input
                 name="password"
                 onChange={handleInput}
                 value={user.password}
-                placeholder="************"
+                placeholder="Choose a password"
                 type={open === false ? "password" : "text"}
                 className="form-control login_field"
                 id="validationCustom03"
@@ -693,10 +704,9 @@ function Sheltorsignup() {
                 type="tel"
                 // value={phoneValue}
                 inputMode="numeric"
-                autoComplete="cc-number"
-                name="cardNumber"
+                name="text"
                 className="first form-control login_field login_fieldw"
-                id="cardNumber"
+                id="text"
                 onChange={(event) => {
                   const { value } = event.target;
                   setPhonevalue(value);
@@ -725,7 +735,7 @@ function Sheltorsignup() {
                 value={user.email}
                 onChange={handleInput}
                 type="text"
-                placeholder="user@gmail.com"
+                placeholder="user@example.com"
                 className="form-control login_field"
                 id="validationCustom02"
                 required
@@ -955,14 +965,13 @@ function Sheltorsignup() {
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="exampleRadios"
-                    id={`storages0`}
-                    defaultValue="option1"
+                    name="storages"
+                    id={`storages`}
                     onChange={()=> setStorage('none')}
                   />
                   <label
                     className="form-check-label checks_labels"
-                    htmlFor={`storages0`}
+                    htmlFor={`storages`}
                   >
                     None
                   </label>
@@ -971,14 +980,13 @@ function Sheltorsignup() {
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="exampleRadios"
-                    id={`storages1`}
-                    defaultValue="option1"
+                    name="storages"
+                    id={`storages`}
                     onChange={()=> setStorage('yes')}
                   />
                   <label
                     className="form-check-label checks_labels"
-                    htmlFor={`storages1`}
+                    htmlFor={`storages`}
                   >
                     Yes
                   </label>

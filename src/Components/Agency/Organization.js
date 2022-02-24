@@ -49,44 +49,52 @@ function Organization() {
   const handleInput = (event) => {
     name = event.target.name;
     value = event.target.value;
+    if(name === 'zip_code'){
+      if(value.length > 5){
+        return
+      }
+    }
     setUser({ ...user, [name]: value });
   };
   const submit = async (e) => {
     e.preventDefault();
+    
+    // if (user.city === "" || user.city === undefined) {
+    //   delete user.city;
+    // }
+    // if (user.state === "" || user.state === undefined) {
+    //   delete user.state;
+    // }
+    // if (user.zip_code === "" || user.zip_code === undefined) {
+    //   delete user.zip_code;
+    // }
+    // if (user.iam === "" || user.iam === undefined) {
+    //   delete user.iam;
+    // }
+    user.phone = phoneValue;
+    // delete user.coo
+
+    if(!validForm()){
+      toast.error('Validation Error!')
+      return
+    }
     if(!terms){
       toast.error("Please allow this app to access your device's location")
       return
     }
-    if (user.city === "" || user.city === undefined) {
-      delete user.city;
-    }
-    if (user.state === "" || user.state === undefined) {
-      delete user.state;
-    }
-    if (user.zip_code === "" || user.zip_code === undefined) {
-      delete user.zip_code;
-    }
-    if (user.iam === "" || user.iam === undefined) {
-      delete user.iam;
-    }
-    user.phone = phoneValue;
-    // delete user.coo
-
-    if (validForm()) {
-      var response = await organizationSignup(user)
-        if (response.status === 200) {
-          toast.success("Account Created Successfully!");
-          setTimeout(async() => {
-            var result = await login({userName: user.userName, password: user.password}) 
-            await setLocalValues(result.data)
-            navigate("/OrganizationLandingpage");
-            // navigate("/login");
-            // toast.success("Please Login To Continue!");
-        }, 500);
-        }else{
-        toast.error("Something went wrong !");
-        console.log(response);
-      }
+    var response = await organizationSignup(user)
+      if (response.status === 200) {
+        toast.success("Account has been created successfully!");
+        setTimeout(async() => {
+          var result = await login({userName: user.userName, password: user.password}) 
+          await setLocalValues(result.data)
+          navigate("/OrganizationLandingpage");
+          // navigate("/login");
+          // toast.success("Please Login To Continue!");
+      }, 500);
+      }else{
+      toast.error("Something went wrong !");
+      console.log(response);
     }
   };
 
@@ -120,11 +128,11 @@ function Organization() {
         passwordErr: "Please Enter Password",
       }));
     }
-    if (user.phone === "") {
+    if (user.phone === "" || user.phone.length < 15) {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
-        phoneErr: "Please Enter phone",
+        phoneErr: "Invalid Phone Number",
       }));
     }
     if (user.email === "") {
@@ -169,12 +177,27 @@ function Organization() {
         cityErr: "Please Enter City",
       }));
     }
-   
-    if (user.zip_code === "") {
+    if (user.state === "") {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
-        zipcodeErr: "Please Enter zipCode",
+        stateErr: "Please Enter State",
+      }));
+    }
+   
+    if (user.iam === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        iamErr: "Please Enter Position",
+      }));
+    }
+
+    if (user.zip_code === "" || user.zip_code.length < 5) {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        zipcodeErr: "Invalid Zip Code",
       }));
     }
   
@@ -340,10 +363,9 @@ function Organization() {
                   type="tel"
                   // value={phoneValue}
                   inputMode="numeric"
-                  autoComplete="cc-number"
-                  name="cardNumber"
+                  name="text"
                   className="first form-control login_field login_fieldw"
-                  id="cardNumber"
+                  id="text"
                   onChange={(event) => {
                     const { value } = event.target;
                     setPhonevalue(value);
@@ -379,12 +401,23 @@ function Organization() {
                   <option>Law enforcement</option>
                   <option>Services provider</option>
                 </select>
+                {errField.iamErr.length > 0 && (
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "11px",
+                      fontFamily: "popreg",
+                    }}
+                  >
+                    {errField.iamErr}
+                  </span>
+                )}
               </div>
             </div>
             <div className="col-lg-6">
               <div className="label_input mb-3">
                 <label htmlFor="validationCustom03">
-                  CHOOSE PASSWORD <span className="star_red">*</span>
+                  PASSWORD <span className="star_red">*</span>
                 </label>
                 <input
                   name="password"
@@ -393,7 +426,7 @@ function Organization() {
                   type={open === false ? "password" : "text"}
                   className="form-control login_field"
                   id="validationCustom03"
-                  placeholder="************"
+                  placeholder="Choose a password"
                   required
                 />
                 {open === false ? (
@@ -422,7 +455,7 @@ function Organization() {
                   value={user.email}
                   onChange={handleInput}
                   type="email"
-                  placeholder="user@gmail.com"
+                  placeholder="user@example.com"
                   className="form-control login_field"
                   id="validationCustom02"
                   required
@@ -479,6 +512,17 @@ function Organization() {
                       id="validationCustom02"
                       required
                     />
+                    {errField.cityErr.length > 0 && (
+                      <span
+                        style={{
+                          color: "red",
+                          fontSize: "11px",
+                          fontFamily: "popreg",
+                        }}
+                      >
+                        {errField.cityErr}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="col-lg-4 px-0 pr-3">
@@ -494,6 +538,17 @@ function Organization() {
                             )
                           })}
                       </select>
+                      {errField.stateErr.length > 0 && (
+                        <span
+                          style={{
+                            color: "red",
+                            fontSize: "11px",
+                            fontFamily: "popreg",
+                          }}
+                        >
+                          {errField.stateErr}
+                        </span>
+                      )}
                     {/* <input
                       value={user.state}
                       onChange={handleInput}
@@ -520,6 +575,17 @@ function Organization() {
                         id="validationCustom02"
                         required
                       />
+                      {errField.zipcodeErr.length > 0 && (
+                        <span
+                          style={{
+                            color: "red",
+                            fontSize: "11px",
+                            fontFamily: "popreg",
+                          }}
+                        >
+                          {errField.zipcodeErr}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>

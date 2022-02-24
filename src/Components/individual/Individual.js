@@ -3,7 +3,7 @@ import "../../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { Checkbox } from "antd";
-import {individualSignup, login, setLocalValues } from '../../services/auth'
+import { individualSignup, login, setLocalValues } from '../../services/auth'
 import { days, months, results, states, years } from "../../services/states_counties";
 import { Wrapper } from "../Auth/Auth.styled";
 import MainNav from '../Auth/Navs/MainNav'
@@ -19,21 +19,22 @@ const Individual = () => {
   const [phoneValue, setPhonevalue] = useState("");
   
   const onChange = (e)=> {
+    setTerms(e.target.checked)
     getMyLocation(e)
   }
 
   const getMyLocation = (e) => {
-    const location = window.navigator && window.navigator.geolocation
+    // const location = window.navigator && window.navigator.geolocation
     
-    if (location) {
-      location.getCurrentPosition((position) => {
-        users.coords = `${position.coords.latitude},${position.coords.longitude}`
-        setUser(users)
-        setTerms(e.target.checked)
-      }, (error) => {
-        toast.error('Error in getting location!')
-      })
-    }
+    // if (location) {
+    //   location.getCurrentPosition((position) => {
+    //     users.coords = `${position.coords.latitude},${position.coords.longitude}`
+    //     setUser(users)
+    //     setTerms(e.target.checked)
+    //   }, (error) => {
+    //     toast.error('Error in getting location!')
+    //   })
+    // }
   }
   const [users, setUser] = useState({
     userName: "",
@@ -82,6 +83,15 @@ const Individual = () => {
     console.log("====================================");
     console.log(validForm());
     console.log("====================================");
+    
+    if(!validForm()){
+      toast.error('Validation Error!')
+      return
+    }
+    if(!year){
+      toast.error('Please Select Year!')
+      return
+    }
     if(!terms){
       toast.error("Please allow this app to access your device's location!")
       return
@@ -112,7 +122,7 @@ const Individual = () => {
     try{
       var response = await individualSignup(users)
       if (response.status === 200) {
-        toast.success("Account Created Successfully!");
+        toast.success("Account has been created successfully!");
         setTimeout(async() => {
           var result = await login({userName: users.userName, password: users.password}) 
           await setLocalValues(result.data)
@@ -125,7 +135,7 @@ const Individual = () => {
         console.log(response);
       }
     }catch(e){
-      console.log('ERROR*************');
+      console.log('ERRORChoose a password*');
       toast.error(e.response.data.message);
     }
   };
@@ -145,20 +155,20 @@ const Individual = () => {
       }));
     }
 
-    if (phoneValue === "") {
+    if (phoneValue === "" || phoneValue.length < 15) {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
-        phoneErr: "Phone Number is Required",
+        phoneErr: "Invalid Phone Number!",
       }));
     }
-      // if (users.nickName === "") {
-      //   formIsValid = false;
-      //   setErrField((prevState) => ({
-      //     ...prevState,
-      //     nickName: "NickName is Required",
-      //   }));
-      // }
+    if (users.nickName === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        nickName: "NickName is Required",
+      }));
+    }
 
     return formIsValid;
   };
@@ -251,26 +261,24 @@ const Individual = () => {
                       id="exampleFormControlSelect1"
                     >
                       <option className="login_field">Enter Ethnicity</option>
-                      <option>WHITE-BRITISH</option>
-                      <option>WHITE-Irish</option>
-                      <option>WHITE-Any other white backgroud</option>
-                      <option>ASIAN OR ASIAN BRITISH - Indian</option>
-                      <option>ASIAN OR ASIAN BRITISH - Pakistan</option>
-                      <option>ASIAN OR ASIAN BRITISH - Bangladeshi</option>
-                      <option> ASIAN OR ASIAN BRITISH - Any other Asian background</option>
-                      <option>BLACK OR BLACK BRITISH - Caribbean</option>
-                      <option>BLACK OR BLACK BRITISH - African</option>
-                      <option> BLACK OR BLACK BRITISH - Any other black background</option>
-                      <option>MIXED - White & Black Caribbean</option>
-                      <option>MIXED - White & Black African</option>
-                      <option>MIXED - White & Asian</option>
-                      <option>MIXED - any other mixed background</option>
-                      <option>OTHER ETHNIC GROUP - Chinese</option>
-                      <option>OTHER ETHNIC GROUP - any other ethnic group</option>
+                      <option>MIXED RACE</option>
+                      <option>ARCTIC ( SIBERIAN, ESKIMO )</option>
+                      <option>CAUCASIAN ( EUROPEAN )</option>
+                      <option>CAUCASIAN ( INDIAN )</option>
+                      <option>CAUCASIAN ( MIDDLE EAST )</option>
+                      <option>CAUCASIAN ( NORTH AFRICAN, OTHER )</option>
+                      <option>INDIGENOUS AUSTRALIAN</option>
+                      <option>NATIVE AMERICAN</option>
+                      <option>NORTH EAST ASIAN  ( MONGOL, TIBETAN, KOREAN JAPANESE, ETC )</option>
+                      <option>PACIFIC (POLYNESIAN , MICRONESIAN, ETC)</option>
+                      <option>SOUTH EAST ASIAN (CHINESE,THAI, MALAY, FILIPINO, ETC)</option>
+                      <option>WEST AFRICAN, BUSHMEN, ETHIOPIAN</option>
+                      <option>OTHER RACE</option>
+                    /
                     </select>
                   </div>
 
-                  <div className="form-group">
+                  <div className="form-group" style={{marginTop: '-5px'}}>
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
@@ -307,7 +315,7 @@ const Individual = () => {
                     </label>
                     <input
                       name="password"
-                      placeholder="************"
+                      placeholder="Choose a password"
                       onChange={handleInput}
                       value={users.password}
                       type="text"
@@ -329,10 +337,9 @@ const Individual = () => {
                       type="tel"
                       // value={phoneValue}
                       inputMode="numeric"
-                      autoComplete="cc-number"
-                      name="cardNumber"
+                      name="text"
                       className="first form-control login_field login_fieldw"
-                      id="cardNumber"
+                      id="text"
                       onChange={(event) => {
                         const { value } = event.target;
                         setPhonevalue(value);
@@ -372,7 +379,7 @@ const Individual = () => {
                               })}
                           </select>
                       </div>
-                      <div class="col-md-4  m-0 p-0 pr-3">
+                      <div class="col-md-4 m-0 p-0 pr-3">
                           <select onChange={(e)=> setDay(e.target.value)} name="" id="" className="form-control login_field">
                               <option value="" selected disabled>Select Day</option>
                               {days.map((element )=> {
@@ -382,7 +389,7 @@ const Individual = () => {
                               })}
                           </select>
                       </div>
-                      <div class="col-md-4 m-0 p-0 pr-3">
+                      <div class="col-md-4 m-0 p-0 pr-0">
                           <select onChange={(e)=> setYear(e.target.value)} name="" id="" className="form-control login_field">
                               <option value="" selected disabled>Select Year</option>
                               {years.map((element) => {
@@ -458,7 +465,6 @@ const Individual = () => {
                             )
                           })}
                         </select>
-                       
                       </div>
                     </div>
                     <div className="col-lg-6 pr-0 respon">
@@ -467,7 +473,9 @@ const Individual = () => {
                         <select className="form-control login_field" name="counties" id="counties"
                         onChange={changeCounty}
                         >
-                          <option className="login_field" selected disabled>Select County</option>
+                          {!users.state?
+                            <option className="login_field" selected disabled>Select County</option>
+                          :null}
                           {counties.map((item, index)=> {
                             return (
                               <option className="login_field" key={index} value={item.countyName}>{item.countyName}</option>

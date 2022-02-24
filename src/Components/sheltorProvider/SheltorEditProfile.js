@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import { getShelterDetails, logout, updateShelterDetails } from "../../services/auth";
+import { getShelterDetails, updateShelterDetails } from "../../services/auth";
 import $ from 'jquery'
 import { states_with_nick } from "../../services/states_counties";
+import DashboardNav from '../Auth/Navs/DashboardNav'
+
 function ShelterEditProfile() {
   const navigate = useNavigate()
   const u = JSON.parse(localStorage.getItem("user_data"));
@@ -12,7 +14,7 @@ function ShelterEditProfile() {
 
   const [user, setUser] = useState({
     userName: u.userName,
-    password: "",
+    password: u.password,
     shelterName: u.shelterName,
     phone: u.phone,
     email: u.email,
@@ -27,13 +29,14 @@ function ShelterEditProfile() {
     description: u.description,
     rules: u.rules,
     maxTimeToHoldABed: u.maxTimeToHoldABed,
-    food: u.foods,
+    food: u.food,
     shelterIsFor: "family",
+    hours_of_intake: u.hours_of_intake?u.hours_of_intake:0
   });
 
   const [description, setDescription] = useState(u.description?u.description:"");
   const [rules, setRules] = useState(u.rules?u.rules:"");
-  const [storage, setStorage] = useState(u.storage?"none":u.storage);
+  const [storage, setStorage] = useState(u.storage==="yes"?"yes":"none");
   const [storage_message, setStorageMessage] = useState(u.storage_available_desc?u.storage_available_desc:"");
   const [amenities, setAmenities] = useState(u.amenities);
   const [foods, setFoods] = useState(u.food);
@@ -42,7 +45,7 @@ function ShelterEditProfile() {
   const [valuee, setValuee] = useState(u.totalNumberOfBeds?u.totalNumberOfBeds:0);
   const [incVal, setIncVal] = useState(u.totalAllowedForReservation?u.totalAllowedForReservation:0);
   const [hour, setHour] = useState(u.maxTimeToHoldABed?u.maxTimeToHoldABed:0);  
-  const [hours_intake, setHoursIntake] = useState(u.hours_intake?u.hours_intake:0);
+  // const [hours_intake, setHoursIntake] = useState(u.hours_intake?u.hours_intake:0);
   const [fileList, setFileList] = useState(u.image);
   const [images, setImages] = useState(u.image);
 
@@ -69,11 +72,6 @@ function ShelterEditProfile() {
     {showname:'Cats', name: 'cats'}, 
   ]
 
-  const signout = () => {
-    logout()
-    navigate('/')
-    
-  }
   
   useEffect(()=> {
     /* eslint-disable */
@@ -82,7 +80,7 @@ function ShelterEditProfile() {
 
   const setValues = () => {
     u.food.forEach(x=> {
-      console.log('******************************');
+      console.log('Choose a passwordChoose a password******');
       console.log(x);
       foodTypes.forEach((item, index)=> {
         console.log('inner');
@@ -111,15 +109,15 @@ function ShelterEditProfile() {
         }
       })
     })
-    u.shelterIsFor.forEach(x=> {
+    // u.shelterIsFor.forEach(x=> {
       shelterTypes.forEach((item, index)=> {
-        if(x === item.name){
+        if(u.shelterIsFor === item.name){
           shelterTypes[index].checked = true
           $('#shelters'+index).prop("checked", true);
           console.log('checked');
       }
       })
-    })
+    // })
 
     if(u.storage === 'none'){
       $('#storages1').prop("checked", true);
@@ -184,11 +182,11 @@ function ShelterEditProfile() {
         passwordErr: "Please Enter Password",
       }));
     }
-    if (user.phone === "") {
+    if (user.phone === "" || user.phone.length < 15) {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
-        phoneErr: "Please Enter phone",
+        phoneErr: "Invalid Phone Number",
       }));
     }
     if (user.email === "") {
@@ -226,11 +224,11 @@ function ShelterEditProfile() {
         stateErr: "Please Enter State",
       }));
     }
-    if (user.zipCode === "") {
+    if (user.zipCode === "" || user.zip_code.length < 5) {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
-        zipCodeErr: "Please Enter zipCode",
+        zipCodeErr: "Invalid Zip Code",
       }));
     }
 
@@ -296,13 +294,14 @@ function ShelterEditProfile() {
       }
     })
     if(!exists){
-      foods.push(value)
+      setFoods(foods.concat(value))
+      // foods.push(value)
     }else{
       foods.splice(index, 1)
     }
-    setTimeout(() => {
-      setFoods(foods)
-    }, 200);
+    // setTimeout(() => {
+    //   setFoods(foods)
+    // }, 200);
   }
 
   const AmenityHandle = (value)=> {
@@ -386,8 +385,15 @@ function ShelterEditProfile() {
   const deletePhoto = (index) => {
     if (window.confirm('Sure to delete this photo?')){
       fileList.splice(index, 1)
+      images.splice(index, 1)
       setTimeout(() => {
+        setImages(images)
         setFileList(fileList)
+        var des = description
+        setDescription('')
+        setTimeout(() => {
+          setDescription(des)
+        }, 1000);
       }, 500);
     }
   }
@@ -426,8 +432,8 @@ function ShelterEditProfile() {
       formdata.append("storage_available_desc", storage_message);
     if(shelter_For)
       formdata.append("shelterIsFor", shelter_For);
-    if(hours_intake)
-      formdata.append("hours_of_intake", hours_intake);
+    if(u.hours_of_intake)
+      formdata.append("hours_of_intake", u.hours_of_intake);
     if(images.length > 0){
       images.forEach((image)=> {
         formdata.append("image", image);
@@ -437,66 +443,91 @@ function ShelterEditProfile() {
       foods.forEach((item)=> {
         formdata.append("food", item);
       })
+    }else{
+      formdata.append("food", []);
     }
     if(amenities.length > 0){
       amenities.forEach((item)=> {
         formdata.append("amenities", item);
       })
+    }else{
+      formdata.append("amenities", []);
     }
     if(pets.length > 0){
       pets.forEach((item)=> {
         formdata.append("pets_allowed", item);
       })
+    }else{
+      formdata.append("pets_allowed", []);
     }
-    
-    if (validForm()) {
-      try{
-        var response = await updateShelterDetails(formdata, user_id, token)
-        if(response.status === 200){
-          toast.success("Updated Successfully!");
-          getShelterDetails(response.data.shelter.id)
-            setTimeout(() => {
-              navigate("/");
-            }, 1500);
-          }else{
-            toast.error("Fields Cannot be empty");
-            console.log(response);
-          }
-      }catch(e){
-        console.log('ERROR*************');
-        toast.error(e.response.data.message);
+    // var obj = {
+    //   role: user.role,
+    //   address: user.address,
+    //   shelterName: user.shelterName,
+    //   phone: user.phone,
+    //   email: user.email,
+    //   city: user.city,
+    //   state: user.state,
+    //   zipCode: user.zipCode,
+    //   contact_person_name: user.contact_person_name,
+    //   totalAllowedForReservation: user.totalAllowedForReservation,
+    //   citytotalNumberOfBeds: user.totalNumberOfBeds,
+    // }
+    // if(user.maxTimeToHoldABed !== '')
+    //   obj.maxTimeToHoldABed = user.maxTimeToHoldABed
+    //   // formdata.append("maxTimeToHoldABed", user.maxTimeToHoldABed);
+    // if(rules !== '')
+    //   obj.rules = rules
+    // if(description !== '')
+    //   obj.description = description
+    // if(storage !== '')
+    //   obj.description = description
+    // if(storage_message !== '')
+    //   obj.storage_available_desc = storage_message
+    // if(shelter_For)
+    //   obj.shelterIsFor = shelter_For
+    // if(hours_intake)
+    //   obj.hours_of_intake = hours_intake
+    // if(images.length > 0){
+    //   obj.image = images
+    // }
+    // if(foods.length > 0){
+    //   obj.food = foods 
+    // }
+    // if(amenities.length > 0){
+    //   obj.amenities = amenities 
+    // }
+    // if(pets.length > 0){
+    //   obj.pets_allowed = pets
+    // }
+    setTimeout(async() => {
+      if (!validForm()) {
+        toast.error('Validation Error!')
+        return
       }
-    }
+        try{
+          var response = await updateShelterDetails(formdata, user_id, token)
+          if(response.status === 200){
+            toast.success("Updated Successfully!");
+            getShelterDetails(response.data.shelter.id)
+              setTimeout(() => {
+                navigate("/");
+              }, 1500);
+            }else{
+              toast.error("Fields Cannot be empty");
+              console.log(response);
+            }
+        }catch(e){
+          console.log('ERRORChoose a password*');
+          toast.error(e.response.data.message);
+        }
+    }, 500);
+
   };
   return (
     <div className="Sheltorsignup">
      <ToastContainer />
-      <div className="edit_header">
-          <div className="edit_left_bts">
-            <Link to="/">
-              <img
-                style={{ height: "29px", paddingRight: "10px" }}
-                src="images/dashhome.svg"
-                alt=""
-              />
-            </Link>
-            <Link to="/individual-landingpage">
-              <img style={{ height: "29px" }} src="/images/back.svg" alt="" />
-            </Link>
-          </div>
-          <div
-            style={{
-              fontFamily: "patua",
-              fontSize: "16px",
-              paddingLeft: "32px",
-            }}
-          >
-            FindBedz
-          </div>
-          <div style={{ cursor: 'pointer' }} onClick={signout}>
-            <img src="/images/logout.svg" alt=""></img>
-          </div>
-        </div>
+     <DashboardNav/>
         <div className="popo">
           <img
             className=""
@@ -693,8 +724,9 @@ function ShelterEditProfile() {
             <input
               name="password"
               onChange={handleInput}
+              type="password"
               value={user.password}
-              placeholder="************"
+              placeholder="Choose a password"
               className="form-control login_field"
               id="validationCustom03"
               disabled
@@ -731,10 +763,9 @@ function ShelterEditProfile() {
               placeholder="(###) ###-####"
               type="tel"
               inputMode="numeric"
-              autoComplete="cc-number"
-              name="cardNumber"
+              name="text"
               className="first form-control login_field login_fieldw"
-              id="cardNumber"
+              id="text"
               defaultValue={user.phone}
               onChange={(event) => {
                 const { value } = event.target;
@@ -764,7 +795,7 @@ function ShelterEditProfile() {
               value={user.email}
               onChange={handleInput}
               type="text"
-              placeholder="user@gmail.com"
+              placeholder="user@example.com"
               className="form-control login_field"
               id="validationCustom02"
               required
@@ -924,13 +955,13 @@ function ShelterEditProfile() {
                     <input
                       className="form-check-input"
                       type="radio"
-                      name={`shelters${index}`}
+                      name={`shelterisFor`}
                       id={`shelters${index}`}
                       onChange={()=> setShelterFor(item.name)}
                     />
                     <label
                       className="form-check-label checks_labels"
-                      htmlFor={`shelters${index}`}
+                      htmlFor={`shelters`}
                     >
                       {item.showname}
                     </label>
@@ -953,7 +984,7 @@ function ShelterEditProfile() {
             HOURS OF INTAKE:
           </label>
           <div className="col-lg-4 pl-0">
-            <input type="number" className="form-control" id="" onChange={(e)=> setHoursIntake(e.target.value)}/>
+            <input name="hours_of_intake" value={u.hours_of_intake} type="number" className="form-control" id="" onChange={handleInput}/>
           </div>
         </div>
         <div style={{ marginTop: "20px" }} className="row">
@@ -994,14 +1025,14 @@ function ShelterEditProfile() {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name={`storages0`}
-                  id={`storages0`}
+                  name={`storages`}
+                  id={`storages_none`}
                   defaultValue="option1"
                   onChange={()=> setStorage('none')}
                   />
                 <label
                   className="form-check-label checks_labels"
-                  htmlFor={`storages0`}
+                  htmlFor={`storages`}
                 >
                   None
                 </label>
@@ -1010,14 +1041,14 @@ function ShelterEditProfile() {
                 <input
                   className="form-check-input"
                   type="radio"
-                  name="exampleRadios"
-                  id={`storages1`}
+                  name="storages"
+                  id={`storages_yes`}
                   defaultValue="option1"
                   onChange={()=> setStorage('yes')}
                 />
                 <label
                   className="form-check-label checks_labels"
-                  htmlFor={`storages1`}
+                  htmlFor={`storages`}
                 >
                   Yes
                 </label>

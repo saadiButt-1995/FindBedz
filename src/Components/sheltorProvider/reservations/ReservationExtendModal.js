@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 import Modal from 'react-modal';
 import { Wrapper } from "./reservations.styled";
+import ReservationConfirmExtendModal from "./ReservationConfirmExtendModal";
 
 const ReservationExtendModal = ({user, modal, closeModal}) => {
 
     const [hour, setHour] = useState(0);  
-    // const [incVal, setIncVal] = useState(0);
+    const [confirm, setConfirm] = useState(false);  
 
+    const openConfirmModal = () => {
+        closeModal()
+        setConfirm(true)
+    }
+    const closeConfirmModal = () => {
+        setConfirm(false)
+    }
     const hourInc = () => {
         if (hour < 4) {
           setHour(hour + 0.5);
@@ -34,15 +42,31 @@ const ReservationExtendModal = ({user, modal, closeModal}) => {
           marginRight: '-50%',
           transform: 'translate(-50%, -50%)',
         },
-        progress1: {
-            
+        input_labels: {
+            fontFamily: `'Poppins', sans-serif`,
+            fontWeight: 700,
+        },
+        username_input_div: {
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '20px'
+        },
+        username_btn: {
+            fontFamily: `'Poppins', sans-serif`,
+            fontWeight: 700,
+            background: '#008E00',
+            textAlign: 'center',
+            color: 'black',
+            width: '300px',
+            height: '50px',
+            border: 'none',
         }
     };
 
-     
 
     return (
         <Wrapper>
+        <ReservationConfirmExtendModal user={user} modal={confirm} closeModal={closeConfirmModal} />
         <Modal
             isOpen={modal}
             onRequestClose={closeModal}
@@ -53,17 +77,17 @@ const ReservationExtendModal = ({user, modal, closeModal}) => {
             <div class="container">
                 <div class="row">
                     <div class="col-md-12 text-center mb-3">
-                        <h3 className="reserve_modal_title">EXTEND RESERVATION</h3>
+                        <h3 className="" style={customStyles.input_labels}>EXTEND RESERVATION</h3>
                     </div>
                     <div class="col-md-12">
-                        <div className="form-group login_inputs">
-                            <button className="username-btn" onClick={closeModal} disabled> USERNAME </button>
+                        <div className="form-group" style={customStyles.username_input_div}>
+                            <button className="username-btn" style={customStyles.username_btn} onClick={closeModal} disabled> USERNAME </button>
                         </div>
                     </div>
                     <div class="col-md-12 text-center">
                         <div className="progress_card mt-4">
                             <h4 className="">ADD THE FOLLOWING TIME</h4>
-                            <div className="progress1" style={{marginTop: '-10px'}}>
+                            <div className="progress1" style={{marginTop: '-40px'}}>
                                 <div className="cricle_div bluplus">{hour} Hr</div>
                                 <div className="calcu_btns">
                                     <button
@@ -89,7 +113,7 @@ const ReservationExtendModal = ({user, modal, closeModal}) => {
                             <button
                                 className="signupbtn"
                                 type={"button"}
-                                onClick={closeModal}
+                                onClick={openConfirmModal}
                             >
                                 SUBMIT
                             </button>

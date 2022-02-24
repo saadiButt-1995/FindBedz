@@ -75,33 +75,38 @@ function OrganizationEditprofile() {
     delete users.password;
     delete users.organization;
 
-    if (validForm()) {
-      try{
-        var response = await updateUserDetails(users, user_id, token)
-        if(response.status === 200){
-          toast.success("Updated Successfully!");
-          setUsersData(user._id)
-            setTimeout(() => {
-              navigate("/OrganizationLandingpage");
-            }, 1500);
-          }else{
-            toast.error("Fields Cannot be empty");
-            console.log(response);
-          }
-      }catch(e){
-        var error = ''
-        console.log('ERROR*************');
-        if(e.message){
-          error = e.message
-          if(e.message.data){
-            error = e.message.data
-            if(e.message.data.message){
-              error = e.message.data.message
-            }
+    if (!validForm()) {
+      toast.error('Validation Error!')
+      return
+    }
+    try{
+      var response = await updateUserDetails(users, user_id, token)
+      if(response.status === 200){
+        toast.success("Updated Successfully!");
+        setUsersData(user._id)
+          setTimeout(() => {
+            navigate("/OrganizationLandingpage");
+          }, 1500);
+        }else{
+          toast.error("Fields Cannot be empty");
+          console.log(response);
+        }
+    }catch(e){
+      var error = ''
+      console.log('ERRORChoose a password*');
+      if(e.response){
+        console.log(e.response);
+        error = e.response
+        if(e.response.data){
+          console.log(e.response.data);
+          error = e.response.data
+          if(e.response.data.message){
+            console.log(e.response.data.message);
+            error = e.response.data.message
           }
         }
-        toast.error(error);
       }
+      toast.error(error);
     }
   };
 
@@ -135,11 +140,11 @@ function OrganizationEditprofile() {
         passwordErr: "Please Enter Password",
       }));
     }
-    if (users.phone === "") {
+    if (users.phone === "" || users.phone.length < 15) {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
-        phoneErr: "Please Enter phone",
+        phoneErr: "Invalid Phone Number",
       }));
     }
     if (users.email === "") {
@@ -185,11 +190,11 @@ function OrganizationEditprofile() {
       }));
     }
 
-    if (users.zip_code === "") {
+    if (users.zip_code === "" || user.zip_code.length < 5) {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
-        zipcodeErr: "Please Enter zipCode",
+        zipcodeErr: "Invalid Zip Code",
       }));
     }
 
@@ -352,10 +357,9 @@ function OrganizationEditprofile() {
                 placeholder="(###) ###-####"
                 type="tel"
                 inputMode="numeric"
-                autoComplete="cc-number"
-                name="cardNumber"
+                name="text"
                 className="first form-control login_field login_fieldw"
-                id="cardNumber"
+                id="text"
                 defaultValue={normalizeCardNumber(users.phone)}
                 onChange={(event) => {
                   const { value } = event.target;
@@ -407,7 +411,7 @@ function OrganizationEditprofile() {
                 onChange={handleInput}
                 className="form-control login_field"
                 id="validationCustom03"
-                placeholder="************"
+                placeholder="Choose a password"
                 disabled
               />
              
@@ -432,7 +436,7 @@ function OrganizationEditprofile() {
                 value={users.email}
                 onChange={handleInput}
                 type="email"
-                placeholder="user@gmail.com"
+                placeholder="user@example.com"
                 className="form-control login_field"
                 id="validationCustom02"
                 required

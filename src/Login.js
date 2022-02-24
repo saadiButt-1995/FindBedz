@@ -49,7 +49,7 @@ function Login() {
           toast.error("error!");
         }
       } catch (e) {
-        console.log('ERROR*************');
+        console.log('ERRORChoose a password*');
         toast.error(e.response.data.message);
       }
     }
@@ -117,7 +117,7 @@ function Login() {
               value={user.password}
               onChange={handleInput}
               type="password"
-              placeholder="************"
+              placeholder="Choose a password"
               className="form-control login_field"
               id="inputPassword4"
             />

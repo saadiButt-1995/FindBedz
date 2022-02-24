@@ -12,23 +12,23 @@ function Abc() {
         </p>
         <div className="">
           <div className="abc_personal">
-            <div className="title_shelter">ABC SHELTER</div>
+            <div className="title_shelterr mt-5">SAINT FRANCIS SHELTER</div>
             {/* <div className="adress_title">
               <img className="m-1" src="/images/location.svg" alt="" />
               12 Miles Away
             </div> */}
             <div className="adress_title mt-1">
               <img className="m-1" src="/images/location.svg" alt="" />
-              <span className="ml-2">17 Billingsgate Avenue MALIBU,</span>
+              <span className="ml-2">99 Main Street <br/><span className="p-rn">Santa Monica, CA 90403</span></span>
             </div>
-            <div className="adress_title">
+            <div className="adress_title mb-2">
               <img className="m-1" src="/images/phone.svg" alt="" />
-              <span className="ml-2">### ###-####</span>
+              <span className="ml-2">(310) 555-9999</span>
             </div>
 
             <div className="available_round">
               <div className="avail_beds">
-                <div className="round green">2</div>
+                <div className="round green">7</div>
                 <img
                   className="available_image"
                   src="/images/sleepbed.svg"
@@ -39,7 +39,7 @@ function Abc() {
             </div>
             <div className="available_round">
               <div className="avail_beds">
-                <div className="round golden">14</div>
+                <div className="round golden">3</div>
                 <img
                   className="available_image"
                   src="/images/sleepbed.svg"
@@ -87,12 +87,10 @@ function Abc() {
               <div className="meals_section">
                 <img src="/images/shelter_type.svg" alt="" />
                 <span className="meals_title" >
-                  MEALS OFFERED
+                 TYPE OF SHELTER
                 </span>
                 <div className="mt-2 faciliites_list">
-                  <span className="">BREAKFAST</span>
-                  <span className="">LUNCH</span>
-                  <span className="">DINNER</span>
+                  <span className="">FAMILY FRIENDLY</span>
                 </div>
               </div>
             </div>
@@ -102,10 +100,7 @@ function Abc() {
               DESCRIPTION
             </span>
             <p className="meals_description text-secondary" style={{fontSize: '12px'}}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. A, amet
-              risus sodales fames ut felis. Nunc, urna massa, cursus in ultrices
-              dictumst. Nibh orci vitae ut sagittis tellus feugiat vulputate
-              mauris tempus. Volutpat maecenas tempor etiam egestas. Habitant.
+            Saint Francis Shelter believes no one should have to live on the street or in a violent household. Our staff, volunteers and those we serve work together to address the effects of homelessness, poverty, mental and physical illness, abuse and addiction. 
             </p>
           </div>
 
@@ -115,15 +110,15 @@ function Abc() {
             </span>
             <div className="rules mt-1" style={{ color: 'grey'  }}>
               <div className="selected_icon mr-2 mt-1" style={{width: '15px',height: '15px', background: '#101B79',borderRadius: '50%', float: 'left'}}></div>
-              <label className="form-check-label" htmlFor="1"> No Smoking </label>
+              <label className="form-check-label" htmlFor="1">No Smoking (Except Cigars)</label>
             </div>
             <div className="rules mt-1" style={{ color: 'grey'  }}>
               <div className="selected_icon mr-2 mt-1" style={{width: '15px',height: '15px', background: '#101B79',borderRadius: '50%', float: 'left'}}></div>
-              <label className="form-check-label" htmlFor="2" > Curfew ( 9:00 pm ) </label>
+              <label className="form-check-label" htmlFor="2" >CURFEW: 9:00 PM</label>
             </div>
             <div className="rules mt-1" style={{ color: 'grey'  }}>
               <div className="selected_icon mr-2 mt-1" style={{width: '15px',height: '15px', background: '#101B79',borderRadius: '50%', float: 'left'}}></div>
-              <label className="form-check-label" htmlFor="3"> Hours Of Intake </label>
+              <label className="form-check-label" htmlFor="3">Hours of intake: 6:00 PM to 10:00 PM</label>
             </div>
         </div>
       </div>

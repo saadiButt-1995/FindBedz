@@ -3,10 +3,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import { Wrapper } from './Auth.styled'
 import { getShelterDetails, login, setLocalValues } from "../../services/auth";
+// import Spinner from '../Loaders/buttonTailSpinner';
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 const Home = () => {
     const navigate = useNavigate();
-      
+    const [loading, setLoading] = useState(false)
+    const [open, setOpen] = useState(false);
+
     const [user, setUser] = useState({
         userName: "",
         // password: "",
@@ -23,8 +27,18 @@ const Home = () => {
     
         setUser({ ...user, [name]: value });
       };
+
+      const toggle = () => {
+        setOpen(!open);
+      };
+      
       const submit = async (e) => {
         e.preventDefault();
+        console.log(loading);
+        if(user.password === ""){
+          delete user.password
+        }
+        setLoading(true)
         if (validForm()) {
           try {
             var response = await login(user)
@@ -43,19 +57,25 @@ const Home = () => {
                   await setLocalValues(response.data)
                   navigate("/OrganizationLandingpage");
                 } 
+                setLoading(false)
               }, 1000);
             }else{
+              setLoading(false)
               toast.error("error!");
             }
           } catch (e) {
+            setLoading(false)
             var error = ''
-            console.log('ERROR*************');
-            if(e.message){
-              error = e.message
-              if(e.message.data){
-                error = e.message.data
-                if(e.message.data.message){
-                  error = e.message.data.message
+            console.log('ERROR');
+            if(e.response){
+              console.log(e.response);
+              error = e.response
+              if(e.response.data){
+                console.log(e.response.data);
+                error = e.response.data
+                if(e.response.data.message){
+                  console.log(e.response.data.message);
+                  error = e.response.data.message
                 }
               }
             }
@@ -116,11 +136,16 @@ const Home = () => {
                     name="password"
                     value={user.password}
                     onChange={handleInput}
-                    type="password"
-                    placeholder="************"
+                    type={open === false ? "password" : "text"}
+                    placeholder="Enter password"
                     className="form-control login_field"
                     id="inputPassword4"
                     />
+                    {open === false ? (
+                      <AiFillEyeInvisible className="svggg" onClick={toggle} />
+                    ) : (
+                      <AiFillEye className="svggg" onClick={toggle} />
+                    )}
                     <Link to="/forgot-password">
                     <p
                         style={{
@@ -137,15 +162,21 @@ const Home = () => {
                 </div>
                 </div>
                 <div className="text-center">
-                <button className="loginbutton col-md-3" onClick={submit}>
-                    LOGIN
-                </button>
-                <p className="footer_link">
-                    No Account? Create one
-                    <Link to="/register">
-                    <span>here</span>
-                    </Link>
-                </p>
+                  {/* {!loading?
+                    <button className="loginbutton col-md-2">
+                      <Spinner/>
+                    </button>
+                  : */}
+                    <button className="loginbutton col-md-2" onClick={submit}>
+                        LOGIN
+                    </button>
+                  {/* } */}
+                  <p className="footer_link">
+                      No Account? Create one
+                      <Link to="/register">
+                      <span>here</span>
+                      </Link>
+                  </p>
                 </div>
             </div>
         </Wrapper>

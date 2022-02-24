@@ -2,13 +2,15 @@ import React, { useState } from "react";
 // import { Link } from "react-router-dom";
 import { Wrapper } from "./reservations.styled";
 import DashboardNav from '../../Auth/Navs/DashboardNav'
-import ReservationModal from "./reservationModal";
+import ReservationModal from "./ReservationModal";
 import ReservationExtendModal from "./ReservationExtendModal";
+import ReservationDeleteModal from './ReservationDeleteModal'
 
 function Sheltordashboard() {
   const [user] = useState(JSON.parse(localStorage.getItem('user_data')))
   const [modal, setModal] = useState(false)
   const [modal_extend, setModalExtend] = useState(false)
+  const [modal_delete, setModalDelete] = useState(false)
 //   const [modal, setModal] = useState(false)
   
     const openModal = () => {
@@ -23,13 +25,20 @@ function Sheltordashboard() {
     const closeModalExtend = () => {
         setModalExtend(false)
     }
+    const openModalDelete = () => {
+        setModalDelete(true)
+    }
+    const closeModalDelete = () => {
+        setModalDelete(false)
+    }
 
   return (
     <>
       <Wrapper>
       <DashboardNav/>
-      <ReservationModal  user={user} modal={modal} closeModal={closeModal}/>
+      <ReservationModal  user={user} modal={modal} closeModal={closeModal} make={false} />
       <ReservationExtendModal  user={user} modal={modal_extend} closeModal={closeModalExtend}/>
+      <ReservationDeleteModal  user={user} modal={modal_delete} closeModal={closeModalDelete}/>
       <div className="account">
         <img
           className="dashboard_image"
@@ -79,7 +88,7 @@ function Sheltordashboard() {
                                         <td>
                                             <div className="reserve-action-btns">
                                                 <button className="text-primary" onClick={openModalExtend}>EXTEND</button>
-                                                <button className="text-danger">CANCEL</button>
+                                                <button className="text-danger" onClick={openModalDelete}>CANCEL</button>
                                                 <button className="text-success">CHECK IN</button>
                                             </div>
                                         </td>

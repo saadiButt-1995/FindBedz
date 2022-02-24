@@ -29,14 +29,14 @@ const Filters = () => {
           <input
             className="form-check-input"
             type="radio"
-            name="distanceRadio"
-            id="distanceRadio"
+            name="searchby"
+            id="searchby_distance"
             defaultValue="option1"
             defaultChecked
           />
           <label
             className="form-check-label"
-            htmlFor="distanceRadio"
+            htmlFor="searchby_distance"
           >
             SEARCH BY DISTANCE
           </label>
@@ -62,7 +62,7 @@ const Filters = () => {
             {/* <label htmlFor="inputEmail4">Email</label> */}
             <input
               type="email"
-              placeholder="Email"
+              placeholder="Type your address"
               className="form-control login_field"
               id="inputEmail4"
             />
@@ -140,14 +140,14 @@ const Filters = () => {
           <input
             className="form-check-input"
             type="radio"
-            name="exampleRadios"
-            id="exampleRadios1"
+            name="searchby"
+            id="searchby_city"
             defaultValue="option1"
             defaultChecked
           />
           <label
             className="form-check-label"
-            htmlFor="exampleRadios1"
+            htmlFor="searchby_city"
           >
             SEARCH BY CITY
           </label>
@@ -166,20 +166,20 @@ const Filters = () => {
           <input
             className="form-check-input"
             type="radio"
-            name="exampleRadios"
-            id="exampleRadios1"
+            name="searchby"
+            id="searchby_county"
             defaultValue="option1"
             defaultChecked
           />
           <label
             className="form-check-label"
-            htmlFor="exampleRadios1"
+            htmlFor="searchby_county"
           >
             SEARCH BY COUNTY
           </label>
         </div>
         <div className="sub">
-          <div className="form-inline row pl-0 pr-0">
+          <div className="form-inline row justify-content-between pl-0 pr-0">
             <select className="form-control col-lg-3 login_field" style={{fontWeight: 'bold'}} name="state" id="state" onChange={changeState} >
                 {/* <option className="login_field" selected disabled>Select State</option> */}
                 {states_with_nick.map((item, index)=> {
@@ -189,7 +189,7 @@ const Filters = () => {
                 })}
             </select>
             
-            <select className="form-control col-md-9 login_field" value={county} onChange={changeCounty}>
+            <select className="form-control col-md-8 login_field" value={county} onChange={changeCounty}>
               {!state?
                 <option className="login_field" value="" selected disabled>Select County</option>
               :null}
@@ -201,18 +201,21 @@ const Filters = () => {
             </select>
           </div>
         </div>
-        <div className="form-check">
+        <div className="form-check my-4">
           <input
             className="form-check-input"
-            type="radio"
-            name="exampleRadios"
-            id="exampleRadios1"
+            type="checkbox"
+            name="show_available_bed"
+            id="show_available_bed"
             defaultValue="option1"
             defaultChecked
           />
-          <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: '14px', fontWeight: '400' }}>
-            Only Show Available Beds
-          </p>
+          <div
+            className=""
+            style={{ fontFamily: "popreg", fontWeight: "bold" }}
+          >
+            ONLY SHOW AVAILABLE BEDS
+          </div>
         </div>
 
 
@@ -224,7 +227,7 @@ const Filters = () => {
             TYPE OF SHELTER
           </div>
           
-          <div className="sub">
+          <div className="sub ml-rndm">
 
             <div className="form-check">
               <input

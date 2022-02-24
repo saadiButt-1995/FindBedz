@@ -31,22 +31,18 @@ const IndividualEditprofile = () => {
     email: user.email,
   });
   const ethnicities = [
-  'WHITE-BRITISH',
-  'WHITE-Irish',
-  'WHITE-Any other white backgroud',
-  'ASIAN OR ASIAN BRITISH - Indian',
-  'ASIAN OR ASIAN BRITISH - Pakistan',
-  'ASIAN OR ASIAN BRITISH - Bangladeshi',
-  'ASIAN OR ASIAN BRITISH - Any other Asian background',
-  'BLACK OR BLACK BRITISH - Caribbean',
-  'BLACK OR BLACK BRITISH - African',
-  'BLACK OR BLACK BRITISH - Any other black background',
-  'MIXED - White & Black Caribbean',
-  'MIXED - White & Black African',
-  'MIXED - White & Asian',
-  'MIXED - any other mixed background',
-  'OTHER ETHNIC GROUP - Chinese',
-  'OTHER ETHNIC GROUP - any other ethnic group',
+    'MIXED RACE',
+    'ARCTIC ( SIBERIAN, ESKIMO )',
+    'CAUCASIAN ( INDIAN )',
+    'CAUCASIAN ( MIDDLE EAST )',
+    'CAUCASIAN ( NORTH AFRICAN, OTHER )',
+    'INDIGENOUS AUSTRALIAN',
+    'NATIVE AMERICAN',
+    'NORTH EAST ASIAN  ( MONGOL, TIBETAN, KOREAN JAPANESE, ETC )',
+    'PACIFIC (POLYNESIAN , MICRONESIAN, ETC)',
+    'SOUTH EAST ASIAN (CHINESE,THAI, MALAY, FILIPINO, ETC)',
+    'WEST AFRICAN, BUSHMEN, ETHIOPIAN',
+    'OTHER RACE',
   ];
 
   // const formatDate = (date) => {	// formats a JS date to 'yyyy-mm-dd'
@@ -103,7 +99,14 @@ const IndividualEditprofile = () => {
     console.log("====================================");
     console.log(validForm());
     console.log("====================================");
-    // if (validForm()) {
+    if(!validForm()){
+      toast.error('Validation Error!')
+      return
+    }
+    if(!year){
+      toast.error('Please Select Year!')
+      return
+    }
       users.date_of_birth = `${year}-${month}-${day}`
     // if (users.password === "" || users.password === undefined) {
       // delete users.password;
@@ -159,11 +162,11 @@ const IndividualEditprofile = () => {
     //   }));
     // }
 
-    if (users.phone === "") {
+    if (users.phone === "" || users.phone.length < 15) {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
-        phoneErr: "Phone Number is Required",
+        phoneErr: "Invalid Phone Number",
       }));
     }
     if (users.nickName === "") {
@@ -394,10 +397,9 @@ const IndividualEditprofile = () => {
                       placeholder="(###) ###-####"
                       type="tel"
                       inputMode="numeric"
-                      autoComplete="cc-number"
-                      name="cardNumber"
+                      name="text"
                       className="first form-control login_field login_fieldw"
-                      id="cardNumber"
+                      id="text"
                       defaultValue={normalizeCardNumber(users.phone)}
                       onChange={(event) => {
                         const { value } = event.target;
@@ -446,7 +448,7 @@ const IndividualEditprofile = () => {
                               })}
                           </select>
                       </div>
-                      <div class="col-md-4 m-0 p-0 pr-3">
+                      <div class="col-md-4 m-0 p-0 pr-0">
                           <select onChange={(e)=> setYear(e.target.value)} name="" id="" className="form-control login_field">
                               <option value="" selected disabled>Select Year</option>
                               {years.map((element) => {
