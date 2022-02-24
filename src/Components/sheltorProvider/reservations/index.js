@@ -36,9 +36,9 @@ function Sheltordashboard() {
     <>
       <Wrapper>
       <DashboardNav/>
-      <ReservationModal  user={user} modal={modal} closeModal={closeModal} make={false} />
-      <ReservationExtendModal  user={user} modal={modal_extend} closeModal={closeModalExtend}/>
-      <ReservationDeleteModal  user={user} modal={modal_delete} closeModal={closeModalDelete}/>
+      <ReservationModal user={user} modal={modal} closeModal={closeModal} make={false} />
+      <ReservationExtendModal  user={user} modal={modal_extend} closeModal={closeModalExtend} />
+      <ReservationDeleteModal  user={user} modal={modal_delete} closeModal={closeModalDelete} />
       <div className="account">
         <img
           className="dashboard_image"
