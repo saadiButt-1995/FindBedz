@@ -14,7 +14,7 @@ import Sheltordashboard from "./Components/sheltorProvider/Sheltordashboard";
 import Sheltorsignup from "./Components/sheltorProvider/Sheltorsignup";
 import SheltorEditProfile from "./Components/sheltorProvider/SheltorEditProfile";
   // reservations
-  import Reservations from "./Components/sheltorProvider/reservations";
+  import Reservations from "./Components/sheltorProvider/reservations/index";
 
   /////Organization/////
 import Organization from "./Components/Agency/Organization";
