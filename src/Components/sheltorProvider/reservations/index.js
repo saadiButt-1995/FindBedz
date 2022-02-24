@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 // import { Link } from "react-router-dom";
-import { Wrapper } from "./reservations.styled";
+import { Wrapper } from "./reservations.styled"
 import DashboardNav from '../../Auth/Navs/DashboardNav'
-import ReservationModal from "./ReservationModal";
-import ReservationExtendModal from "./ReservationExtendModal";
-import ReservationDeleteModal from './ReservationDeleteModal'
+import ReservationModal from "../reservations/ReservationModal"
+import ReservationExtendModal from "../reservations/ReservationExtendModal"
+import ReservationDeleteModal from '../reservations/ReservationDeleteModal'
 
 function Sheltordashboard() {
   const [user] = useState(JSON.parse(localStorage.getItem('user_data')))
