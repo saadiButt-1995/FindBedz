@@ -224,7 +224,7 @@ function ShelterEditProfile() {
         stateErr: "Please Enter State",
       }));
     }
-    if (user.zipCode === "" || user.zip_code.length < 5) {
+    if (user.zipCode === "" || user.zipCode.length < 5) {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
@@ -404,7 +404,6 @@ function ShelterEditProfile() {
     if (user.food === "" || user.food === undefined) {
       delete user.food;
     }
-
     user.totalAllowedForReservation = incVal;
     user.totalNumberOfBeds = valuee;
     user.maxTimeToHoldABed = hour;

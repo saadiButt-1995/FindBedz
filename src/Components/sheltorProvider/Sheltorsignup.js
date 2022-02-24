@@ -392,21 +392,21 @@ function Sheltorsignup() {
         formdata.append("food", item);
       })
     }else{
-      formdata.append("food", []);
+      // formdata.append("food", []);
     }
     if(amenities.length > 0){
       amenities.forEach((item)=> {
         formdata.append("amenities", item);
       })
     }else{
-      formdata.append("amenities", []);
+      // formdata.append("amenities", []);
     }
     if(pets.length > 0){
       pets.forEach((item)=> {
         formdata.append("pets_allowed", item);
       })
     }else{
-      formdata.append("pets_allowed", []);
+      // formdata.append("pets_allowed", []);
     }
     
     if (validForm()) {
