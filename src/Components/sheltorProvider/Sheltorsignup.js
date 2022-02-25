@@ -376,6 +376,7 @@ function Sheltorsignup() {
     formdata.append("contact_person_name", user.contact_person_name);
     formdata.append("zipCode", user.zipCode);
     formdata.append( "totalAllowedForReservation", user.totalAllowedForReservation );
+    formdata.append("totalNumberOfBeds", user.totalNumberOfBeds);
     console.log(lat_lng);
     // formdata.append("coords", lat_lng);
     if(user.maxTimeToHoldABed !== '')
@@ -942,7 +943,7 @@ function Sheltorsignup() {
               HOURS OF INTAKE:
             </label>
             <div className="col-lg-4 pl-0">
-              <input type="text" name="hours_of_intake" className="form-control" id="hours_of_intake" onChange={handleInput}/>
+              <input type="text" name="hours_intake" className="form-control" id="hours_intake" onChange={handleInput}/>
             </div>
           </div>
           <div style={{ marginTop: "20px" }} className="row">
