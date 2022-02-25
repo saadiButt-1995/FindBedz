@@ -66,7 +66,7 @@ function Abc() {
                     <>
                       <br />
                       click{" "}
-                      <button className="reserve-btn" onClick={openModal}>
+                      <button style={{border:"none"}} className="reserve-btn" onClick={openModal}>
                         Reserve
                       </button>{" "}
                       to hold a bed

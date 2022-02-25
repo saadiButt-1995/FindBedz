@@ -63,9 +63,7 @@ a:hover {
 .indi_agancy {
   margin-bottom: 45px !important;
 }
-.custom-switch {
-  /* margin-left: 14px; */
-}
+
 .centrebtn {
   margin-left: auto;
   margin-right: auto;
@@ -170,20 +168,7 @@ a:hover {
   color: #fff;
   background-color: #008e00;
 }
-.cricle_div2 {
-  /* width: 65px;
-  height: 64px;
-  border-radius: 50%;
-  text-align: center;
-  font-family: popmd;
-  font-size: 17px;
-  padding-top: 20px;
-  margin-top: 20px;
-  color: #fff;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 20px; */
-}
+
 .avail_title {
   font-family: popreg;
   font-size: 13px;
@@ -660,26 +645,9 @@ textarea {
   width: 100%;
   margin-bottom: 10px;
 }
-.filters {
-  /* width: 28%;
-  background: #ffffff;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
-  border-radius: 20px;
-  height: 123vh;
-  padding-left: 20px; */
-}
-.filter_title {
-  /* color: #101b79;
-  font-size: 20px;
-  font-weight: bold;
-  text-align: center;
-  padding-bottom: 27px;
-  padding-top: 14px; */
-}
-.total_avail {
-  /* display: flex;
-  justify-content: space-evenly; */
-}
+
+
+
 .total_beds {
   text-align: center;
   color: #000;
@@ -687,13 +655,7 @@ textarea {
   font-size: 20px;
   letter-spacing: 1px;
 }
-.avail_beds {
-  /* text-align: center !important;
-  color: #000;
-  font-family: popbold !important;
-  font-size: 20px;
-  letter-spacing: 1px; */
-}
+
 .bed_services {
   width: 85%;
 }
