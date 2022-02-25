@@ -7,7 +7,7 @@ const Filters = ({service}) => {
   const [counties, setCounties] = useState([]);
   const [state, setState] = useState("")
   const [county, setCounty] = useState("")
-
+  console.log(state);
   const changeState = (e)=> {
     setState(e.target.value)
     getCountiesOfState(e.target.value)
