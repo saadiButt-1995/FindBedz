@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const height = window.innerHeight
+// const height = window.innerHeight
 export const Wrapper = styled.div`
     .account::-webkit-scrollbar {
         display: none;
@@ -46,7 +46,7 @@ export const Wrapper = styled.div`
         }
         .beds {
             overflow-y: scroll;
-            height: ${height - 220}px;
+            height: 75%;
         }
         .beds::-webkit-scrollbar {
             display: none;

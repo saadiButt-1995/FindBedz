@@ -223,7 +223,7 @@ function Sheltorsignup() {
   };
   const increament = () => {
     if (valuee < 100) {
-      setValuee(valuee + 1);
+      setValuee(valuee + 1);     
     } else {
       setValuee(100);
     }
@@ -231,6 +231,9 @@ function Sheltorsignup() {
   const decreament = () => {
     if (valuee > 0) {
       setValuee(valuee - 1);
+      if(incVal > valuee - 1){
+        setIncVal(valuee - 1)
+      }
     } else {
       setValuee(0);
     }
@@ -322,7 +325,9 @@ function Sheltorsignup() {
             console.log("Error: ", error);
           };
         }else { 
-          toast.error('Invalid image format..')
+          toast.error('Invalid image format..',{
+            position: toast.POSITION.BOTTOM_CENTER
+          })
           return false
         }
     }
@@ -416,7 +421,9 @@ function Sheltorsignup() {
     
     if (validForm()) {
       if(!terms){
-        toast.error("Please allow this app to access your device's location!")
+        toast.error("Please allow this app to access your device's location!",{
+          position: toast.POSITION.BOTTOM_CENTER
+        })
         return
       }
       try{
@@ -426,10 +433,14 @@ function Sheltorsignup() {
             toast.success("Account has been created successfully!");
             setTimeout(() => {
               navigate("/login");
-              toast.success("Please Login To Continue!");
+              toast.success("Please Login To Continue!",{
+                position: toast.POSITION.BOTTOM_CENTER
+              });
           }, 1500);
           }else{
-          toast.error("Something went wrong !");
+          toast.error("Something went wrong !",{
+            position: toast.POSITION.BOTTOM_CENTER
+          });
           console.log(response);
         }
       }catch(e){
@@ -447,7 +458,9 @@ function Sheltorsignup() {
             }
           }
         }
-        toast.error(error);
+        toast.error(error,{
+          position: toast.POSITION.BOTTOM_CENTER
+        });
       }
     }
   };

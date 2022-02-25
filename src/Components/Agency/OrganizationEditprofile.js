@@ -5,12 +5,14 @@ import { setUsersData, updateUserDetails } from "../../services/auth";
 import { Wrapper } from "./organization.styled";
 import DashboardNav from '../Auth/Navs/DashboardNav'
 import { states_with_nick } from "../../services/states_counties";
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 function OrganizationEditprofile() {
   const navigate = useNavigate()
   const user = JSON.parse(localStorage.getItem("user_data"))
   const user_id = localStorage.getItem("user")
   const token = `Bearer ${localStorage.getItem("token")}`
+  const [open, setOpen] = useState(false);
   const [users, setUser] = useState({
     userName: user.userName,
     firstName: user.firstName,
@@ -47,7 +49,9 @@ function OrganizationEditprofile() {
     'Law enforcement',
     'Services provider'
   ]
-  
+  const toggle = () => {
+    setOpen(!open);
+  };
 
   let name, value;
   const handleInput = (event) => {
@@ -415,10 +419,16 @@ function OrganizationEditprofile() {
                 value={users.password}
                 onChange={handleInput}
                 className="form-control login_field"
+                type={open === false ? "password" : "text"}
                 id="validationCustom03"
                 placeholder="Choose a password"
                 disabled
               />
+              {open === false ? (
+                <AiFillEyeInvisible className="svggg" onClick={toggle} />
+              ) : (
+                <AiFillEye className="svggg" onClick={toggle} />
+              )}
              
               {errField.passwordErr.length > 0 && (
                 <span

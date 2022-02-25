@@ -7,6 +7,7 @@ import { days, months, results, states, years } from "../../services/states_coun
 import { setUsersData, updateUserDetails } from "../../services/auth";
 import DashboardNav from '../Auth/Navs/DashboardNav'
 import { Wrapper } from "./Individual.styled";
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 const IndividualEditprofile = () => {
   const navigate = useNavigate()
@@ -16,6 +17,7 @@ const IndividualEditprofile = () => {
   const [day, setDay] = useState(0);
   const [month, setMonth] = useState(0);
   const [year, setYear] = useState(0);
+  const [open, setOpen] = useState(false);
   
   const [counties, setCounties] = useState([]);
   const [users, setUser] = useState({
@@ -45,6 +47,9 @@ const IndividualEditprofile = () => {
     'OTHER RACE',
   ];
 
+  const toggle = () => {
+    setOpen(!open);
+  };
   // const formatDate = (date) => {	// formats a JS date to 'yyyy-mm-dd'
   //   var d = new Date(date),
   //     month = '' + (d.getMonth() + 1),
@@ -105,14 +110,18 @@ const IndividualEditprofile = () => {
     console.log(validForm());
     console.log("====================================");
     if(!validForm()){
-      toast.error('Validation Error!')
+      toast.error('Validation Error!',{
+        position: toast.POSITION.TOP_CENTER
+      })
       return
     }
     if(!year){
-      toast.error('Please Select Year!')
+      toast.error('Please Select Year!',{
+        position: toast.POSITION.TOP_CENTER
+      })
       return
     }
-      users.date_of_birth = `${year}-${month}-${day}`
+    users.date_of_birth = `${year}-${month}-${day}`
     // if (users.password === "" || users.password === undefined) {
       // delete users.password;
     // }
@@ -137,18 +146,24 @@ const IndividualEditprofile = () => {
     try{
       var response = await updateUserDetails(users, user_id, token)
       if(response.status === 200){
-        toast.success("Updated Successfully!");
+        toast.success("Updated Successfully!",{
+          position: toast.POSITION.TOP_CENTER
+        });
         setUsersData(user._id)
           setTimeout(() => {
             navigate("/individual-landingpage");
           }, 1500);
         }else{
-          toast.error("Fields Cannot be empty");
+          toast.error("Fields Cannot be empty",{
+            position: toast.POSITION.TOP_CENTER
+          });
           console.log(response);
         }
     }catch(e){
       console.log('ERROR*************');
-      toast.error(e.response.data.message);
+      toast.error(e.response.data.message,{
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   };
 
@@ -374,10 +389,16 @@ const IndividualEditprofile = () => {
                       name="password"
                       placeholder=""
                       onChange={handleInput}
+                      type={open === false ? "password" : "text"}
                       value={users.password}
-                      type="number"
+                      disabled
                       className="first form-control login_field"
                     />
+                    {open === false ? (
+                      <AiFillEyeInvisible className="svggg" onClick={toggle} />
+                    ) : (
+                      <AiFillEye className="svggg" onClick={toggle} />
+                    )}
                   </div>
                   <div className="label_input mb-3">
                     <label htmlFor="validationCustom03">

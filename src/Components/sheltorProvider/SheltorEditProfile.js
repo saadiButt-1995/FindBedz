@@ -5,12 +5,14 @@ import { getShelterDetails, updateShelterDetails } from "../../services/auth";
 import $ from 'jquery'
 import { states_with_nick } from "../../services/states_counties";
 import DashboardNav from '../Auth/Navs/DashboardNav'
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 function ShelterEditProfile() {
   const navigate = useNavigate()
   const u = JSON.parse(localStorage.getItem("user_data"));
   const user_id = localStorage.getItem("user")
   const token = `Bearer ${localStorage.getItem("token")}`
+  const [open, setOpen] = useState(false);
 
   const [user, setUser] = useState({
     userName: u.userName,
@@ -77,6 +79,10 @@ function ShelterEditProfile() {
     /* eslint-disable */
     setValues()
   }, [])
+
+  const toggle = () => {
+    setOpen(!open);
+  };
 
   const setValues = () => {
     u.food.forEach(x=> {
@@ -277,6 +283,9 @@ function ShelterEditProfile() {
   const decreament = () => {
     if (valuee > 0) {
       setValuee(valuee - 1);
+      if(incVal > valuee - 1){
+        setIncVal(valuee - 1)
+      }
     } else {
       setValuee(0);
     }
@@ -370,7 +379,9 @@ function ShelterEditProfile() {
             console.log("Error: ", error);
           };
         }else { 
-          toast.error('Invalid image format..')
+          toast.error('Invalid image format..',{
+            position: toast.POSITION.BOTTOM_CENTER
+          })
           return false
         }
     }
@@ -506,24 +517,32 @@ function ShelterEditProfile() {
     // }
     setTimeout(async() => {
       if (!validForm()) {
-        toast.error('Validation Error!')
+        toast.error('Validation Error!',{
+          position: toast.POSITION.BOTTOM_CENTER
+        })
         return
       }
         try{
           var response = await updateShelterDetails(formdata, user_id, token)
           if(response.status === 200){
-            toast.success("Updated Successfully!");
+            toast.success("Updated Successfully!",{
+              position: toast.POSITION.BOTTOM_CENTER
+            });
             getShelterDetails(response.data.shelter.id)
               setTimeout(() => {
                 navigate("/");
               }, 1500);
             }else{
-              toast.error("Fields Cannot be empty");
+              toast.error("Fields Cannot be empty",{
+                position: toast.POSITION.BOTTOM_CENTER
+              });
               console.log(response);
             }
         }catch(e){
           console.log('ERRORChoose a password*');
-          toast.error(e.response.data.message);
+          toast.error(e.response.data.message,{
+            position: toast.POSITION.BOTTOM_CENTER
+          });
         }
     }, 500);
 
@@ -728,13 +747,18 @@ function ShelterEditProfile() {
             <input
               name="password"
               onChange={handleInput}
-              type="password"
+              type={open === false ? "password" : "text"}
               value={user.password}
               placeholder="Choose a password"
               className="form-control login_field"
               id="validationCustom03"
               disabled
             />
+            {open === false ? (
+                <AiFillEyeInvisible className="svggg" onClick={toggle} />
+              ) : (
+                <AiFillEye className="svggg" onClick={toggle} />
+              )}
             {errField.passwordErr.length > 0 && (
               <span
                 style={{

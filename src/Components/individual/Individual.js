@@ -90,15 +90,21 @@ const Individual = () => {
     console.log("====================================");
     
     if(!validForm()){
-      toast.error('Validation Error!')
+      toast.error('Validation Error!',{
+        position: toast.POSITION.TOP_CENTER
+      })
       return
     }
     if(!year){
-      toast.error('Please Select Year!')
+      toast.error('Please Select Year!',{
+        position: toast.POSITION.TOP_CENTER
+      })
       return
     }
     if(!terms){
-      toast.error("Please allow this app to access your device's location!")
+      toast.error("Please allow this app to access your device's location!",{
+        position: toast.POSITION.TOP_CENTER
+      })
       return
     }
 
@@ -136,12 +142,16 @@ const Individual = () => {
           // toast.success("Please Login To Continue!");
         }, 500);
       }else{
-        toast.error("Something went wrong !");
+        toast.error("Something went wrong !",{
+          position: toast.POSITION.TOP_CENTER
+        });
         console.log(response);
       }
     }catch(e){
       console.log('ERRORChoose a password*');
-      toast.error(e.response.data.message);
+      toast.error(e.response.data.message,{
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   };
 
