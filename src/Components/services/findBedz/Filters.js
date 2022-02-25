@@ -47,6 +47,7 @@ const Filters = ({service}) => {
               type="checkbox"
               className="custom-control-input"
               id="customSwitch1"
+              defaultChecked
             />
             <label
               className="custom-control-label"
@@ -76,7 +77,6 @@ const Filters = ({service}) => {
                 name="uptoRadio"
                 id="uptoRadio1"
                 defaultValue="option1"
-                defaultChecked
               />
               <label
                 className="form-check-label"
@@ -92,7 +92,6 @@ const Filters = ({service}) => {
                 name="uptoRadio"
                 id="uptoRadio2"
                 defaultValue="option1"
-                defaultChecked
               />
               <label
                 className="form-check-label"
@@ -108,7 +107,6 @@ const Filters = ({service}) => {
                 name="uptoRadio"
                 id="uptoRadio3"
                 defaultValue="option1"
-                defaultChecked
               />
               <label
                 className="form-check-label"
@@ -124,7 +122,6 @@ const Filters = ({service}) => {
                 name="uptoRadio"
                 id="uptoRadio4"
                 defaultValue="option1"
-                defaultChecked
               />
               <label
                 className="form-check-label"
@@ -229,72 +226,73 @@ const Filters = ({service}) => {
             TYPE OF SHELTER
           </div>
           
-          <div className="sub ml-rndm">
+          <div className="sub">
+            <div className="sub">
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="exampleRadios"
+                  id="exampleRadios1"
+                  defaultValue="option1"
+                  defaultChecked
+                />
+                <label
+                  className="form-check-label mb-1"
+                  htmlFor="exampleRadios1"
+                >
+                  Adults (any gender)
+                </label>
+              </div>
 
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="exampleRadios"
-                id="exampleRadios1"
-                defaultValue="option1"
-                defaultChecked
-              />
-              <label
-                className="form-check-label mb-1"
-                htmlFor="exampleRadios1"
-              >
-                Adults (any gender)
-              </label>
-            </div>
-
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="exampleRadios"
-                id="exampleRadios1"
-                defaultValue="option1"
-                defaultChecked
-              />
-              <label
-                className="form-check-label mb-1"
-                htmlFor="exampleRadios1"
-              >
-                Male Only
-              </label>
-            </div>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="exampleRadios"
-                id="exampleRadios1"
-                defaultValue="option1"
-                defaultChecked
-              />
-              <label
-                className="form-check-label mb-1"
-                htmlFor="exampleRadios1"
-              >
-                Female Only
-              </label>
-            </div>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="exampleRadios"
-                id="exampleRadios1"
-                defaultValue="option1"
-                defaultChecked
-              />
-              <label
-                className="form-check-label"
-                htmlFor="exampleRadios1"
-              >
-                Family Friendly
-              </label>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="exampleRadios"
+                  id="exampleRadios1"
+                  defaultValue="option1"
+                  defaultChecked
+                />
+                <label
+                  className="form-check-label mb-1"
+                  htmlFor="exampleRadios1"
+                >
+                  Male Only
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="exampleRadios"
+                  id="exampleRadios1"
+                  defaultValue="option1"
+                  defaultChecked
+                />
+                <label
+                  className="form-check-label mb-1"
+                  htmlFor="exampleRadios1"
+                >
+                  Female Only
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="exampleRadios"
+                  id="exampleRadios1"
+                  defaultValue="option1"
+                  defaultChecked
+                />
+                <label
+                  className="form-check-label"
+                  htmlFor="exampleRadios1"
+                >
+                  Family Friendly
+                </label>
+              </div>
             </div>
           </div>
         </div>

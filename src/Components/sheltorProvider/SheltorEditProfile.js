@@ -31,7 +31,7 @@ function ShelterEditProfile() {
     maxTimeToHoldABed: u.maxTimeToHoldABed,
     food: u.food,
     shelterIsFor: "family",
-    hours_of_intake: u.hours_of_intake?u.hours_of_intake:0
+    hours_of_intake: u.hours_of_intake?u.hours_of_intake:""
   });
 
   const [description, setDescription] = useState(u.description?u.description:"");
@@ -436,8 +436,8 @@ function ShelterEditProfile() {
       formdata.append("storage_available_desc", storage_message);
     if(shelter_For)
       formdata.append("shelterIsFor", shelter_For);
-    if(u.hours_of_intake)
-      formdata.append("hours_of_intake", u.hours_of_intake);
+    if(user.hours_of_intake != 0)
+      formdata.append("hours_of_intake", user.hours_of_intake);
     if(images.length > 0){
       images.forEach((image)=> {
         formdata.append("image", image);
@@ -988,7 +988,7 @@ function ShelterEditProfile() {
             HOURS OF INTAKE:
           </label>
           <div className="col-lg-4 pl-0">
-            <input name="hours_of_intake" value={u.hours_of_intake} type="number" className="form-control" id="" onChange={handleInput}/>
+            <input name="hours_of_intake" value={user.hours_of_intake} type="text" className="form-control" id="" onChange={handleInput}/>
           </div>
         </div>
         <div style={{ marginTop: "20px" }} className="row">

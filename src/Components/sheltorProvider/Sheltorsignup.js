@@ -28,6 +28,7 @@ function Sheltorsignup() {
     maxTimeToHoldABed: "",
     food: "",
     shelterIsFor: "family",
+    hours_of_intake: "",
   });
 
   const [phoneValue, setPhonevalue] = useState("");
@@ -385,8 +386,8 @@ function Sheltorsignup() {
       formdata.append("storage_available_desc", storage_message);
     if(shelter_For)
       formdata.append("shelterIsFor", shelter_For);
-    if(hours_intake)
-      formdata.append("hours_of_intake", hours_intake);
+    if(user.hours_intake)
+      formdata.append("hours_of_intake", user.hours_intake);
     if(images.length > 0){
       images.forEach((image)=> {
         formdata.append("image", image);
@@ -929,7 +930,7 @@ function Sheltorsignup() {
               HOURS OF INTAKE:
             </label>
             <div className="col-lg-4 pl-0">
-              <input type="number" className="form-control" id="" onChange={(e)=> setHoursIntake(e.target.value)}/>
+              <input type="text" name="hours_of_intake" className="form-control" id="hours_of_intake" onChange={handleInput}/>
             </div>
           </div>
           <div style={{ marginTop: "20px" }} className="row">
