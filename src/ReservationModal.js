@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { Wrapper } from "./Components/sheltorProvider/reservations/reservations.styled";
 import ReservationConfirmModal from "./Components/sheltorProvider/reservations/ReservationConfirmModal";
 
-const ReservationModal = ({user, modal, closeModal, make}) => {
+const ReservationModal = ({user, modal, closeModal, make, from_reservation}) => {
 
     const [bed_holder, setBedHolder] = useState("")
     const [requester, setRequester] = useState("")
@@ -86,21 +86,27 @@ const ReservationModal = ({user, modal, closeModal, make}) => {
                     </div>
                     <div class="col-md-6">
                         <div className="form-group login_inputs">
-                            <label className="reserve_modal_input_label" style={input_labels}> BED WILL BE HELD FOR </label>
+                            <label className="reserve_modal_input_label" style={input_labels}> 
+                            {from_reservation?
+                            `BED WILL BE HELD FOR` 
+                            :
+                            `WHO ARE WE HOLDING A BED FOR`
+                            }
+                            </label>
                             <input name="text" value={bed_holder} onChange={(e)=> setBedHolder(e.target.value)} 
-                            type="text" placeholder="Name of bed holder" className="form-control login_field" />
+                            type="text" placeholder={from_reservation?`Name of bed holder`:`NAME`} className="form-control login_field" />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div className="form-group login_inputs">
                             <label className="reserve_modal_input_label" style={input_labels}> REQUESTED BY </label>
                             <input name="text" value={requester} onChange={(e)=> setRequester(e.target.value)} 
-                            type="text" placeholder="Name of requester" className="form-control login_field" />
+                            type="text" placeholder={from_reservation?`Name of requester`:`PRE POPULATED SHERRIF NAME`} className="form-control login_field" />
                         </div>
                     </div>
                     <div class="col-md-12 text-center">
                         <div className="progress_card mt-4">
-                            <h4 className="">ADD THE FOLLOWING TIME</h4>
+                            <h5 className="">{from_reservation?`ADD THE FOLLOWING TIME`:`HOW LONG SHOULD WE HOLD THE BED`}</h5>
                             <div className="progress1" style={{marginTop: '-40px'}}>
                                 <div className="cricle_div bluplus">{hour} Hr</div>
                                 <div className="calcu_btns">

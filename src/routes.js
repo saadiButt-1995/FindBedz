@@ -34,7 +34,6 @@ import Enterpin from "./Enterpin";
 
 
 
-
 // New Routes
 import Auth from './Containers/Auth/Index'
 
@@ -93,6 +92,11 @@ export default function routes() {
 
         {/* RESERVATIONS */}
         <Route path="/reservations" element={<PrivateRoute component={Reservations}  exact />} />
+
+
+
+
+
       </Routes>
   );
 }

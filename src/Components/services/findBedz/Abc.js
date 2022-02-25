@@ -1,11 +1,21 @@
 import React, {useState} from "react";
 import { Wrapper } from "./findbedz.styled";
+import ReservationModal from "../../../ReservationModal";
 
 function Abc() {
 
   const [user] = useState(JSON.parse(localStorage.getItem('user_data')))
+  const [modal, setModal] = useState(false)
+
+  const openModal = () => {
+    setModal(true)
+  }
+  const closeModal = () => {
+      setModal(false)
+  }
   return (
     <Wrapper>
+    <ReservationModal user={user} modal={modal} closeModal={closeModal} make={true} />
       <div className="company-page">
         <p className="update-time">
           LAST UPDATED 10 MINUTES AGO
@@ -51,7 +61,7 @@ function Abc() {
                   
                   <>
                     <br/>
-                    click <button className="reserve-btn">Reserve</button> to hold a bed  
+                    click <button className="reserve-btn" onClick={openModal}>Reserve</button> to hold a bed  
                   </>
                 </p>
               </div>

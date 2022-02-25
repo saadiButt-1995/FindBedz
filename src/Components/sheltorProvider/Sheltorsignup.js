@@ -43,7 +43,6 @@ function Sheltorsignup() {
   const [valuee, setValuee] = useState(0);
   const [incVal, setIncVal] = useState(0);
   const [hour, setHour] = useState(0);  
-  const [hours_intake, setHoursIntake] = useState(0);
   const [fileList, setFileList] = useState([]);
   const [images, setImages] = useState([]);
   const [terms, setTerms] = useState(false);

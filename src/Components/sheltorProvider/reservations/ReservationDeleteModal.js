@@ -45,7 +45,7 @@ const ReservationModal = ({user, modal, closeModal}) => {
                 <div class="row">
                     <div class="col-md-12 text-center mb-3">
                         <h5 className="" style={customStyles.header_title}>
-                        Do you really want to delete this reservation ? 
+                            Do you really want to cancel this reservation ?
                         </h5>
                     </div>
                     <div class="col-md-12 m-0 p-0">

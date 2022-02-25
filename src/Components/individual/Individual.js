@@ -298,9 +298,10 @@ const Individual = () => {
                       className="form-control login_field"
                       id="exampleFormControlSelect1"
                     >
-                      <option className="login_field">Male</option>
-                      <option>Female</option>
-                      <option>Other</option>
+                      <option className="login_field" selected disabled>SELECT GENDER</option>
+                      <option className="login_field">MALE</option>
+                      <option className="login_field">FEMALE</option>
+                      <option className="login_field">OTHER</option>
                     </select>
                   </div>
                 </div>

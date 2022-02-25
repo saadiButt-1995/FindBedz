@@ -372,7 +372,7 @@ const IndividualEditprofile = () => {
                     </label>
                     <input
                       name="password"
-                      placeholder="************"
+                      placeholder=""
                       onChange={handleInput}
                       value={users.password}
                       type="number"

@@ -50,7 +50,7 @@ export default function Bedservices() {
         </div>
         <div className="contactdiv">
           <div className="phonecall">
-            <div style={{ textAlign: "center" }} className="pr-3">
+            <div style={{ textAlign: "center" }} className="pr-3 mt-1">
               <img className="m-2" src="/images/phone.svg" alt="" />
               <div className="avail_title font10">CALL</div>
             </div>
@@ -91,7 +91,7 @@ export default function Bedservices() {
         </div>
         <div className="contactdiv">
           <div className="phonecall">
-            <div style={{ textAlign: "center" }} className="pr-3">
+            <div style={{ textAlign: "center" }} className="pr-3 mt-1">
               <img className="m-2" src="/images/phone.svg" alt="" />
               <div className="avail_title font10">CALL</div>
             </div>
@@ -130,7 +130,7 @@ export default function Bedservices() {
         </div>
         <div className="contactdiv">
           <div className="phonecall">
-            <div style={{ textAlign: "center" }} className="pr-3">
+            <div style={{ textAlign: "center" }} className="pr-3 mt-1">
               <img className="m-2" src="/images/phone.svg" alt="" />
               <div className="avail_title font10">CALL</div>
             </div>
@@ -168,7 +168,7 @@ export default function Bedservices() {
         </div>
         <div className="contactdiv">
           <div className="phonecall">
-            <div style={{ textAlign: "center" }} className="pr-3">
+            <div style={{ textAlign: "center" }} className="pr-3 mt-1">
               <img className="m-2" src="/images/phone.svg" alt="" />
               <div className="avail_title font10">CALL</div>
             </div>
@@ -206,7 +206,7 @@ export default function Bedservices() {
         </div>
         <div className="contactdiv">
           <div className="phonecall">
-            <div style={{ textAlign: "center" }} className="pr-3">
+            <div style={{ textAlign: "center" }} className="pr-3 mt-1">
               <img className="m-2" src="/images/phone.svg" alt="" />
               <div className="avail_title font10">CALL</div>
             </div>
@@ -244,7 +244,7 @@ export default function Bedservices() {
         </div>
         <div className="contactdiv">
           <div className="phonecall">
-            <div style={{ textAlign: "center" }} className="pr-3">
+            <div style={{ textAlign: "center" }} className="pr-3 mt-1">
               <img className="m-2" src="/images/phone.svg" alt="" />
               <div className="avail_title font10">CALL</div>
             </div>

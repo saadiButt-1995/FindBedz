@@ -6,7 +6,6 @@ function IndividualLanding() {
 
   const [user] = useState(JSON.parse(localStorage.getItem('user_data')))
   
-
   return (
     <>
       <Wrapper>
