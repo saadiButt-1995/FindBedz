@@ -187,9 +187,9 @@ const Filters = ({service}) => {
             </select>
             
             <select className="form-control col-md-8 login_field" value={county} onChange={changeCounty}>
-              {!state?
+              {/* {!state? */}
                 <option className="login_field" value="" selected disabled>Select County</option>
-              :null}
+              {/* :null} */}
               {counties.map((item)=> {
                 return (
                   <option className="login_field" value={item.countyName}>{item.countyName}</option>

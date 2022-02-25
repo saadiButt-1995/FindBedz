@@ -489,9 +489,9 @@ const Individual = () => {
                         <select className="form-control login_field" name="counties" id="counties"
                         onChange={changeCounty}
                         >
-                          {!users.state?
+                          {/* {!users.state? */}
                             <option className="login_field" selected disabled>Select County</option>
-                          :null}
+                          {/* :null} */}
                           {counties.map((item, index)=> {
                             return (
                               <option className="login_field" key={index} value={item.countyName}>{item.countyName}</option>
