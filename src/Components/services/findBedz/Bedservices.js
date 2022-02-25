@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import ReservationModal from "../../sheltorProvider/reservations/ReservationModal";
+import ReservationModal from "../../../ReservationModal";
 import { Wrapper } from "./findbedz.styled";
 
 export default function Bedservices() {

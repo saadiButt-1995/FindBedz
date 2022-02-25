@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from 'react-modal';
-import { Wrapper } from "./reservations.styled";
-import ReservationConfirmModal from "./ReservationConfirmModal";
+import { Wrapper } from "./Components/sheltorProvider/reservations/reservations.styled";
+import ReservationConfirmModal from "./Components/sheltorProvider/reservations/ReservationConfirmModal";
 
 const ReservationModal = ({user, modal, closeModal, make}) => {
 
