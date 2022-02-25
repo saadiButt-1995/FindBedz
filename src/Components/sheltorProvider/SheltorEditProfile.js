@@ -640,7 +640,7 @@ function ShelterEditProfile() {
               </span>
             )}
           </div>
-          <div className="row justify-content-md-between">
+          <div className="row justify-content-md-between mt-4">
             <div className="col-lg-3 px-0 ">
               <div className="mb-3 label_input">
                 <label htmlFor="validationCustom02">
