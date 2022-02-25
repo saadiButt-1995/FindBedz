@@ -84,6 +84,11 @@ const IndividualEditprofile = () => {
   const handleInput = (event) => {
     name = event.target.name;
     value = event.target.value;
+    if(name === 'zip_code'){
+      if(value.length > 5){
+        return
+      }
+    }
     setUser({ ...users, [name]: value });
   };
 
@@ -334,7 +339,6 @@ const IndividualEditprofile = () => {
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
-                      value={users.date_of_birth}
                       onChange={handleInput}
                     >
                       GENDER
@@ -345,9 +349,10 @@ const IndividualEditprofile = () => {
                       className="form-control login_field"
                       id="exampleFormControlSelect1"
                     >
-                      <option className="login_field">Male</option>
-                      <option>Female</option>
-                      <option>Other</option>
+                      <option className="login_field" selected disabled>Select Gender</option>
+                      <option className="login_field" value={"Male"}>Male</option>
+                      <option className="login_field" value={"Female"}>Female</option>
+                      <option className="login_field" value={"Other"}>Other</option>
                     </select>
                   </div>
                 </div>

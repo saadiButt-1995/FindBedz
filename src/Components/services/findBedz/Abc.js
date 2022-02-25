@@ -37,6 +37,7 @@ function Abc() {
                 <p className="available_title">AVAILABLE BEDS</p>
               </div>
             </div>
+            {user.role !== 'user'?
             <div className="available_round">
               <div className="avail_beds">
                 <div className="round golden">3</div>
@@ -47,15 +48,15 @@ function Abc() {
                 />
                 <p className="available_title">
                   AVAILABLE FOR RESERVATION
-                  {user.role !== 'user'?
+                  
                   <>
                     <br/>
                     click <button className="reserve-btn">Reserve</button> to hold a bed  
                   </>
-                  :null}
                 </p>
               </div>
             </div>
+            :null}
             
             <div className="company_images">
               <img

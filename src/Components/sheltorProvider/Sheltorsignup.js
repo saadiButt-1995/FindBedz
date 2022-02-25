@@ -91,6 +91,11 @@ function Sheltorsignup() {
   const handleInput = (event) => {
     name = event.target.name;
     value = event.target.value;
+    if(name === 'zipCode'){
+      if(value.length > 5){
+        return
+      }
+    }
     setUser({ ...user, [name]: value });
   };
 
@@ -862,12 +867,12 @@ function Sheltorsignup() {
                         name="breakfast"
                         onChange={(e)=> FoodHandle(e.target.value)}
                         className="form-check-input"
-                        id="exampleCheck1"
+                        id={`foods${index}`}
                         value={item.name}
                       />
                       <label
                         className="form-check-label checks_labels"
-                        htmlFor="exampleCheck1"
+                        htmlFor={`foods${index}`}
                       >
                         {item.showname}
                       </label>
@@ -942,12 +947,12 @@ function Sheltorsignup() {
                         name="breakfast"
                         onChange={(e)=> PetHandle(e.target.value)}
                         className="form-check-input"
-                        id="exampleCheck1"
+                        id={`pets${index}`}
                         value={item.name}
                       />
                       <label
                         className="form-check-label checks_labels"
-                        htmlFor="exampleCheck1"
+                        htmlFor={`pets${index}`}
                       >
                         {item.showname}
                       </label>
@@ -966,12 +971,12 @@ function Sheltorsignup() {
                     className="form-check-input"
                     type="radio"
                     name="storages"
-                    id={`storages`}
+                    id={`storages0`}
                     onChange={()=> setStorage('none')}
                   />
                   <label
                     className="form-check-label checks_labels"
-                    htmlFor={`storages`}
+                    htmlFor={`storages0`}
                   >
                     None
                   </label>
@@ -981,12 +986,12 @@ function Sheltorsignup() {
                     className="form-check-input"
                     type="radio"
                     name="storages"
-                    id={`storages`}
+                    id={`storages1`}
                     onChange={()=> setStorage('yes')}
                   />
                   <label
                     className="form-check-label checks_labels"
-                    htmlFor={`storages`}
+                    htmlFor={`storages1`}
                   >
                     Yes
                   </label>
@@ -1015,12 +1020,12 @@ function Sheltorsignup() {
                         name="breakfast"
                         onChange={(e)=> AmenityHandle(e.target.value)}
                         className="form-check-input"
-                        id="exampleCheck1"
+                        id={`amenities${index}`}
                         value={item.name}
                       />
                       <label
                         className="form-check-label checks_labels"
-                        htmlFor="exampleCheck1"
+                        htmlFor={`amenities${index}`}
                       >
                         {item.showname}
                       </label>

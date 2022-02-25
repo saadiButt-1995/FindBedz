@@ -5,7 +5,7 @@ import DashboardNav from "../../Auth/Navs/DashboardNav"
 // import ReservationModal from "./ReservationModal"
 import ReservationExtendModal from "./ReservationExtendModal"
 import ReservationDeleteModal from "./ReservationDeleteModal"
-// import ReservationModal from "./ReservationModal";
+import ReservationModal from "../reservations/ReservationModal";
 
 function Sheltordashboard() {
   const [user] = useState(JSON.parse(localStorage.getItem('user_data')))
@@ -13,13 +13,13 @@ function Sheltordashboard() {
   const [modal_extend, setModalExtend] = useState(false)
   const [modal_delete, setModalDelete] = useState(false)
 //   const [modal, setModal] = useState(false)
-  console.log(modal);
+//   console.log(modal);
     const openModal = () => {
         setModal(true)
     }
-    // const closeModal = () => {
-    //     setModal(false)
-    // }
+    const closeModal = () => {
+        setModal(false)
+    }
     const openModalExtend = () => {
         setModalExtend(true)
     }
@@ -37,7 +37,7 @@ function Sheltordashboard() {
     <>
       <Wrapper>
       <DashboardNav/>
-      {/* <ReservationModal user={user} modal={modal} closeModal={closeModal} make={false} /> */}
+      <ReservationModal user={user} modal={modal} closeModal={closeModal} make={false} />
       <ReservationExtendModal  user={user} modal={modal_extend} closeModal={closeModalExtend} />
       <ReservationDeleteModal  user={user} modal={modal_delete} closeModal={closeModalDelete} />
       <div className="account">

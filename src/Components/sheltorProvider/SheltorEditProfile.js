@@ -144,6 +144,11 @@ function ShelterEditProfile() {
   const handleInput = (event) => {
     name = event.target.name;
     value = event.target.value;
+    if(name === 'zipCode'){
+      if(value.length > 5){
+        return
+      }
+    }
     setUser({ ...user, [name]: value });
   };
 
@@ -1027,6 +1032,7 @@ function ShelterEditProfile() {
                   name={`storages`}
                   id={`storages_none`}
                   defaultValue="option1"
+                  checked={storage=='none'?true:false}
                   onChange={()=> setStorage('none')}
                   />
                 <label
@@ -1042,6 +1048,7 @@ function ShelterEditProfile() {
                   type="radio"
                   name="storages"
                   id={`storages_yes`}
+                  checked={storage=='yes'?true:false}
                   defaultValue="option1"
                   onChange={()=> setStorage('yes')}
                 />
@@ -1053,7 +1060,7 @@ function ShelterEditProfile() {
                 </label>
                 <br/>
                 {storage === 'yes'?
-                  <input type="text" style={{marginLeft: '-20px'}} className="form-control" id="" placeholder="Description types of storages" onChange={(e)=> setStorageMessage(e.target.value)} />
+                  <input type="text" style={{marginLeft: '-20px'}} className="form-control" id="" placeholder="Description types of storages" onChange={(e)=> setStorageMessage(e.target.value)} value={storage_message} />
                 :null}
               </div>
               

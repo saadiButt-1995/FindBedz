@@ -27,7 +27,7 @@ function IndividualLanding() {
             <div className="col-lg-12 col-md-6">
               <div className="d-flex align-items-center justify-content-between">
                 <div className="">
-                  <p className="dashname">Dashboard</p>
+                  <p className="dashname"></p>
                 </div>
                 <div className="">
                   <p className="dashname">{user.userName}</p>

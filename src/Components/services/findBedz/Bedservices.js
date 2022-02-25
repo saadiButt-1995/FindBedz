@@ -1,20 +1,19 @@
 import React, {useState} from "react";
-// import ReservationModal from "../../sheltorProvider/reservations/ReservationModal";
+import ReservationModal from "../../sheltorProvider/reservations/ReservationModal";
 import { Wrapper } from "./findbedz.styled";
 
 export default function Bedservices() {
   const [user] = useState(JSON.parse(localStorage.getItem('user_data')))
   const [modal, setModal] = useState(false)
-  console.log(modal);
   const openModal = () => {
       setModal(true)
   }
-  // const closeModal = () => {
-  //     setModal(false)
-  // }
+  const closeModal = () => {
+      setModal(false)
+  }
   return (
     <Wrapper>
-      {/* <ReservationModal  user={user} modal={modal} closeModal={closeModal} make={true} /> */}
+      <ReservationModal  user={user} modal={modal} closeModal={closeModal} make={true} />
       <div className="bedservices mt-2 mb-5">
         <div className="available_round">
           <div className="avail_beds">

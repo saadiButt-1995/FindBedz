@@ -53,6 +53,11 @@ function OrganizationEditprofile() {
   const handleInput = (event) => {
     name = event.target.name;
     value = event.target.value;
+    if(name === 'zip_code'){
+      if(value.length > 5){
+        return
+      }
+    }
     setUser({ ...users, [name]: value });
   };
 
