@@ -43,7 +43,9 @@ const Home = () => {
           try {
             var response = await login(user)
             if (response.status === 200) {
-              toast.success("Login Successfully!");
+              toast.success("Login Successfully!",{
+                position: toast.POSITION.TOP_CENTER
+              });
               setTimeout(async() => {
                 if (response.data.role === "shelter") {
                   await getShelterDetails(response.data.user)
@@ -61,7 +63,9 @@ const Home = () => {
               }, 1000);
             }else{
               setLoading(false)
-              toast.error("error!");
+              toast.error("error!",{
+                position: toast.POSITION.TOP_CENTER
+              });
             }
           } catch (e) {
             setLoading(false)
@@ -79,7 +83,9 @@ const Home = () => {
                 }
               }
             }
-            toast.error(error);
+            toast.error(error,{
+              position: toast.POSITION.TOP_CENTER
+            });
           }
         }
       };

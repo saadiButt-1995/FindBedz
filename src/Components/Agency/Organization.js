@@ -75,16 +75,22 @@ function Organization() {
     // delete user.coo
 
     if(!validForm()){
-      toast.error('Validation Error!')
+      toast.error('Validation Error!',{
+        position: toast.POSITION.TOP_CENTER
+      })
       return
     }
     if(!terms){
-      toast.error("Please allow this app to access your device's location")
+      toast.error("Please allow this app to access your device's location",{
+        position: toast.POSITION.TOP_CENTER
+      })
       return
     }
     var response = await organizationSignup(user)
       if (response.status === 200) {
-        toast.success("Account has been created successfully!");
+        toast.success("Account has been created successfully!",{
+          position: toast.POSITION.TOP_CENTER
+        });
         setTimeout(async() => {
           var result = await login({userName: user.userName, password: user.password}) 
           await setLocalValues(result.data)
@@ -93,7 +99,9 @@ function Organization() {
           // toast.success("Please Login To Continue!");
       }, 500);
       }else{
-      toast.error("Something went wrong !");
+      toast.error("Something went wrong !",{
+        position: toast.POSITION.TOP_CENTER
+      });
       console.log(response);
     }
   };

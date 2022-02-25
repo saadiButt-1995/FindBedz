@@ -85,19 +85,25 @@ function OrganizationEditprofile() {
     delete users.organization;
 
     if (!validForm()) {
-      toast.error('Validation Error!')
+      toast.error('Validation Error!',{
+        position: toast.POSITION.TOP_CENTER
+      })
       return
     }
     try{
       var response = await updateUserDetails(users, user_id, token)
       if(response.status === 200){
-        toast.success("Updated Successfully!");
+        toast.success("Updated Successfully!",{
+          position: toast.POSITION.TOP_CENTER
+        });
         setUsersData(user._id)
           setTimeout(() => {
             navigate("/OrganizationLandingpage");
           }, 1500);
         }else{
-          toast.error("Fields Cannot be empty");
+          toast.error("Fields Cannot be empty",{
+            position: toast.POSITION.TOP_CENTER
+          });
           console.log(response);
         }
     }catch(e){
@@ -115,7 +121,9 @@ function OrganizationEditprofile() {
           }
         }
       }
-      toast.error(error);
+      toast.error(error,{
+        position: toast.POSITION.TOP_CENTER
+      });
     }
   };
 

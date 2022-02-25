@@ -35,14 +35,18 @@ function Forget() {
 
         console.log(response);
         if (response.status === 200) {
-          toast.success("Login Successfully!");
+          toast.success("Login Successfully!",{
+            position: toast.POSITION.TOP_CENTER
+          });
           setTimeout(() => {
             navigate("/individual-landingpage");
           }, 1000);
         }
       } catch (e) {
         console.log(e);
-        toast.error("Something went wrong !");
+        toast.error("Something went wrong !",{
+          position: toast.POSITION.TOP_CENTER
+        });
       }
     }
   };

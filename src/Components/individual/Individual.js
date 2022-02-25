@@ -133,7 +133,9 @@ const Individual = () => {
     try{
       var response = await individualSignup(users)
       if (response.status === 200) {
-        toast.success("Account has been created successfully!");
+        toast.success("Account has been created successfully!",{
+          position: toast.POSITION.TOP_CENTER
+        });
         setTimeout(async() => {
           var result = await login({userName: users.userName, password: users.password}) 
           await setLocalValues(result.data)

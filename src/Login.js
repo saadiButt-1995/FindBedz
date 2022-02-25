@@ -30,7 +30,9 @@ function Login() {
         var response = await login(user)
         let role = response.data.role;
         if (response.status === 200) {
-          toast.success("Login Successfully!");
+          toast.success("Login Successfully!",{
+            position: toast.POSITION.TOP_CENTER
+          });
           setTimeout(() => {
             if (role === "shelter") {
               getShelterDetails(response.data.user)
@@ -46,11 +48,15 @@ function Login() {
             } 
           }, 1000);
         }else{
-          toast.error("error!");
+          toast.error("error!",{
+            position: toast.POSITION.TOP_CENTER
+          });
         }
       } catch (e) {
         console.log('ERRORChoose a password*');
-        toast.error(e.response.data.message);
+        toast.error(e.response.data.message,{
+          position: toast.POSITION.TOP_CENTER
+        });
       }
     }
   };
