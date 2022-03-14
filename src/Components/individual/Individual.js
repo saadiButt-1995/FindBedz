@@ -7,6 +7,7 @@ import { individualSignup, login, setLocalValues } from '../../services/auth'
 import { days, months, results, states, years } from "../../services/states_counties";
 import { Wrapper } from "../Auth/Auth.styled";
 import MainNav from '../Auth/Navs/MainNav'
+import Spinner from '../Loaders/buttonTailSpinner';
 
 const Individual = () => {
   const navigate = useNavigate()
@@ -17,24 +18,25 @@ const Individual = () => {
   const [counties, setCounties] = useState([]);
   const [terms, setTerms] = useState(false);
   const [phoneValue, setPhonevalue] = useState("");
+  const [loading, setLoading] = useState(false)
   
   const onChange = (e)=> {
-    setTerms(e.target.checked)
+    // setTerms(e.target.checked)
     getMyLocation(e)
   }
 
   const getMyLocation = (e) => {
-    // const location = window.navigator && window.navigator.geolocation
+    const location = window.navigator && window.navigator.geolocation
     
-    // if (location) {
-    //   location.getCurrentPosition((position) => {
-    //     users.coords = `${position.coords.latitude},${position.coords.longitude}`
-    //     setUser(users)
-    //     setTerms(e.target.checked)
-    //   }, (error) => {
-    //     toast.error('Error in getting location!')
-    //   })
-    // }
+    if (location) {
+      location.getCurrentPosition((position) => {
+        users.coords = `${position.coords.latitude},${position.coords.longitude}`
+        setUser(users)
+        setTerms(e.target.checked)
+      }, (error) => {
+        toast.error('Error in getting location!')
+      })
+    }
   }
   const [users, setUser] = useState({
     userName: "",
@@ -83,25 +85,30 @@ const Individual = () => {
     const data = results.filter(x => x.state === state)
     setCounties(data)
   }
+
   const submit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     console.log("====================================");
     console.log(validForm());
     console.log("====================================");
     
     if(!validForm()){
+      setLoading(false)
       toast.error('Validation Error!',{
         position: toast.POSITION.TOP_CENTER
       })
       return
     }
     if(!year){
+      setLoading(false)
       toast.error('Please Select Year!',{
         position: toast.POSITION.TOP_CENTER
       })
       return
     }
     if(!terms){
+      setLoading(false)
       toast.error("Please allow this app to access your device's location!",{
         position: toast.POSITION.TOP_CENTER
       })
@@ -138,18 +145,21 @@ const Individual = () => {
         });
         setTimeout(async() => {
           var result = await login({userName: users.userName, password: users.password}) 
+          setLoading(false)
           await setLocalValues(result.data)
           navigate("/individual-landingpage");
           // navigate("/login");
           // toast.success("Please Login To Continue!");
         }, 500);
       }else{
+        setLoading(false)
         toast.error("Something went wrong !",{
           position: toast.POSITION.TOP_CENTER
         });
         console.log(response);
       }
     }catch(e){
+      setLoading(false)
       console.log('ERRORChoose a password*');
       toast.error(e.response.data.message,{
         position: toast.POSITION.TOP_CENTER
@@ -186,7 +196,6 @@ const Individual = () => {
         nickName: "NickName is Required",
       }));
     }
-
     return formIsValid;
   };
   const normalizeCardNumber = (value) => {
@@ -491,9 +500,7 @@ const Individual = () => {
                         <select className="form-control login_field" name="counties" id="counties"
                         onChange={changeCounty}
                         >
-                          {/* {!users.state? */}
-                            <option className="login_field" selected disabled>Select County</option>
-                          {/* :null} */}
+                          <option className="login_field" selected disabled>Select County</option>
                           {counties.map((item, index)=> {
                             return (
                               <option className="login_field" key={index} value={item.countyName}>{item.countyName}</option>
@@ -518,15 +525,19 @@ const Individual = () => {
 
             <div className="signup_footer">
               {/* <Link to="/login" onClick={submit}> */}
-              <button
-                className="signupbtn"
-                type={"submit"}
-              >
-                SIGNUP
-              </button>
-              <Link className="" to="/">
-                <p className="footer_sign_up">Cancel</p>
-              </Link>
+              {loading?
+                <Spinner/>
+              :
+              <>
+                <button className={`signupbtn ${!terms?'btn-secondary': ''}`} disabled={!terms?'disabled':''} type={"submit"}>
+                  SIGNUP
+                </button>
+                <Link className="" to="/">
+                  <p className="footer_sign_up">Cancel</p>
+                </Link>
+              </>
+              }
+              
               {/* </Link> */}
             </div>
           </form>

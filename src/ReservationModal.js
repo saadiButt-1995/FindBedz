@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from 'react-modal';
 import { Wrapper } from "./Components/sheltorProvider/reservations/reservations.styled";
 import ReservationConfirmModal from "./Components/sheltorProvider/reservations/ReservationConfirmModal";
 
-const ReservationModal = ({user, modal, closeModal, make, from_reservation}) => {
+const ReservationModal = ({user, modal, closeModal, make, from_reservation, bedReserved}) => {
 
     const [bed_holder, setBedHolder] = useState("")
     const [requester, setRequester] = useState("")
     const [hour, setHour] = useState(0);  
     const [confirm, setConfirm] = useState(false);  
+    const [data, setData] = useState({
+        howLong: hour,
+        numberOfBedz: 1,
+        requestedBy: requester,
+        bedHeldFor: bed_holder
+    })
     // const [incVal, setIncVal] = useState(0);
 
     const openConfirmModal = () => {
@@ -34,6 +40,15 @@ const ReservationModal = ({user, modal, closeModal, make, from_reservation}) => 
           setHour(0);
         }
     };
+
+    useEffect(()=> {
+        setData({
+            howLong: hour,
+            numberOfBedz: 1,
+            requestedBy: requester,
+            bedHeldFor: bed_holder
+        })
+    }, [hour, requester, bed_holder])
 
     const customStyles = {
         content: {
@@ -66,9 +81,11 @@ const ReservationModal = ({user, modal, closeModal, make, from_reservation}) => 
         cursor: 'pointer',
     }
 
+
+
     return (
         <Wrapper>
-        <ReservationConfirmModal user={user} modal={confirm} closeModal={closeConfirmModal} make={make} />
+        <ReservationConfirmModal user={user} modal={confirm} closeModal={closeConfirmModal} make={make} data={data} bedReserved={bedReserved}/>
         <Modal
             isOpen={modal}
             onRequestClose={closeModal}

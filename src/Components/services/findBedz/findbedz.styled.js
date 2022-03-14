@@ -2,6 +2,11 @@ import styled from "styled-components";
 
 // const height = window.innerHeight
 export const Wrapper = styled.div`
+    .rules p {
+        margin: 0px;
+        padding: 0px;
+        font-size: 12px;
+    }
     .account::-webkit-scrollbar {
         display: none;
     }
@@ -46,7 +51,7 @@ export const Wrapper = styled.div`
         }
         .beds {
             overflow-y: scroll;
-            height: 75%;
+            height: 45%;
         }
         .beds::-webkit-scrollbar {
             display: none;
@@ -87,7 +92,7 @@ export const Wrapper = styled.div`
                 color: red;
                 font-family: popreg;
                 font--weight: 700;
-                margin: 10px 0px;
+                margin: 5px 0px;
             }
 
             .custom-switch {
@@ -159,14 +164,14 @@ export const Wrapper = styled.div`
 
         .update-time {
             font-weight: 500;
-            font-size: 11px;
+            font-size: 8px;
             letter-spacing: 1px;
             float: right;
-            margin: 10px;
+            margin: 0px;
 
         }
         .title_shelter {
-            margin: 20px 0px 10px;
+            margin: 10px 0px 10px;
             font-weight: 700;
             font-size: 20px;
             letter-spacing: 1px;
@@ -189,14 +194,14 @@ export const Wrapper = styled.div`
                 letter-spacing: 1px;
             }
             .round {
-                width: 30px;
-                height: 30px;
+                width: 22px;
+                height: 22px;
                 border-radius: 50%;
                 text-align: center;
                 font-family: popmd;
-                font-size: 12px;
-                padding-top: 7px;
-                margin-top: 7px;
+                font-size: 9px;
+                padding-top: 6px;
+                margin-top: 6px;
                 color: #fff;
                 margin-left: auto;
                 margin-right: auto;
@@ -216,7 +221,7 @@ export const Wrapper = styled.div`
             }
             .available_image {
                 float: left;
-                width: 33px;
+                width: 26px;
                 height: 25px;
                 verticle-align: middle;
                 line-height: 2;
@@ -226,7 +231,7 @@ export const Wrapper = styled.div`
                 float: left;
                 font-weight: 500;
                 font-family: 'Poppins', sans-serif;
-                font-size: 13px;
+                font-size: 10px;
                 letter-spacing: 1px;
                 verticle-align: middle;
                 line-height: 2;
@@ -262,14 +267,14 @@ export const Wrapper = styled.div`
                     letter-spacing: 1px;
                     font-weight: 700;
                     font-family: 'Poppins', sans-serif;
-                    font-size: 14px;
+                    font-size: 10px;
                 }
 
                 .meals_description {
                     color: grey;
                     font-weight: 300;
                     font-family: 'Poppins', sans-serif;
-                    font-size: 10px;
+                    font-size: 8px;
                 }
 
                 .faciliites_list {
@@ -278,7 +283,7 @@ export const Wrapper = styled.div`
                         color: grey;
                         font-weight: 300;
                         font-family: 'Poppins', sans-serif;
-                        font-size: 12px;
+                        font-size: 11px;
                         letter-spacing: 1px;
                     }
                 }

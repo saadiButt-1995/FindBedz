@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import ServiceHeader from "./ServiceHeader";
 import ServicesTable from "./ServicesTable";
 import ServicesList from "./ServicesList";
@@ -7,6 +7,23 @@ import { Wrapper } from "./findServices.styled";
 import DashboardNav from '../../Auth/Navs/DashboardNav'
 
 const FindAbed = () => {
+  const [filters, setFilters] = useState({
+    searchBy: '',
+    address: '',
+    currentLocation: true,
+    upto: '',
+    state: '',
+    city: '',
+    county: '',
+    shelterIsFor: 'adults',
+    limit: 100,
+    page: 1,
+  })
+
+  const updateFilters = (filters) => {
+    console.log(filters);
+    setFilters(filters)
+  }
   return (
     <>
     <Wrapper>
@@ -17,7 +34,7 @@ const FindAbed = () => {
         <div class="row">
           <div class="col-md-3">
             <div className="filters">
-              <Filters service={true}/>
+              <Filters service={true} filters={filters} updateFilters={updateFilters} />
             </div>
           </div>
           <div class="col-md-8 m-0">

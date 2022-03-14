@@ -6,6 +6,7 @@ import { Wrapper } from "./organization.styled";
 import DashboardNav from '../Auth/Navs/DashboardNav'
 import { states_with_nick } from "../../services/states_counties";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import Spinner from '../Loaders/buttonTailSpinner';
 
 function OrganizationEditprofile() {
   const navigate = useNavigate()
@@ -13,6 +14,7 @@ function OrganizationEditprofile() {
   const user_id = localStorage.getItem("user")
   const token = `Bearer ${localStorage.getItem("token")}`
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false)
   const [users, setUser] = useState({
     userName: user.userName,
     firstName: user.firstName,
@@ -67,6 +69,7 @@ function OrganizationEditprofile() {
 
   const submit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     if (users.city === "" || users.city === undefined) {
       delete users.city;
     }
@@ -85,6 +88,7 @@ function OrganizationEditprofile() {
     delete users.organization;
 
     if (!validForm()) {
+      setLoading(false)
       toast.error('Validation Error!',{
         position: toast.POSITION.TOP_CENTER
       })
@@ -93,6 +97,7 @@ function OrganizationEditprofile() {
     try{
       var response = await updateUserDetails(users, user_id, token)
       if(response.status === 200){
+        setLoading(false)
         toast.success("Updated Successfully!",{
           position: toast.POSITION.TOP_CENTER
         });
@@ -101,12 +106,14 @@ function OrganizationEditprofile() {
             navigate("/OrganizationLandingpage");
           }, 1500);
         }else{
+          setLoading(false)
           toast.error("Fields Cannot be empty",{
             position: toast.POSITION.TOP_CENTER
           });
           console.log(response);
         }
     }catch(e){
+      setLoading(false)
       var error = ''
       console.log('ERRORChoose a password*');
       if(e.response){
@@ -571,17 +578,23 @@ function OrganizationEditprofile() {
         </div>
         <div className="signup_footer">
           {/* <Link to="/login" onClick={submit}> */}
-          <button
-            className="signupbtn"
-            style={{ letterSpacing: '2px' }}
-            type={"button"}
-            onClick={submit}
-          >
-            SUBMIT CHANGES
-          </button>
-          <Link className="" to="/">
-            <p className="footer_sign_up">Cancel</p>
-          </Link>
+            {loading?
+              <Spinner/>
+            :
+            <>
+              <button
+                className="signupbtn"
+                style={{ letterSpacing: '2px' }}
+                type={"button"}
+                onClick={submit}
+              >
+                SUBMIT CHANGES
+              </button>
+              <Link className="" to="/">
+                <p className="footer_sign_up">Cancel</p>
+              </Link>
+            </>
+            }
           {/* </Link> */}
         </div>
       </div>

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import { Wrapper } from './Auth.styled'
 import { getShelterDetails, login, setLocalValues } from "../../services/auth";
-// import Spinner from '../Loaders/buttonTailSpinner';
+import Spinner from '../Loaders/buttonTailSpinner';
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 
 const Home = () => {
@@ -34,7 +34,6 @@ const Home = () => {
       
       const submit = async (e) => {
         e.preventDefault();
-        console.log(loading);
         if(user.password === ""){
           delete user.password
         }
@@ -47,6 +46,7 @@ const Home = () => {
                 position: toast.POSITION.TOP_CENTER
               });
               setTimeout(async() => {
+                setLoading(false)
                 if (response.data.role === "shelter") {
                   await getShelterDetails(response.data.user)
                   setTimeout(() => {
@@ -59,7 +59,6 @@ const Home = () => {
                   await setLocalValues(response.data)
                   navigate("/OrganizationLandingpage");
                 } 
-                setLoading(false)
               }, 1000);
             }else{
               setLoading(false)
@@ -153,30 +152,23 @@ const Home = () => {
                       <AiFillEye className="svggg" onClick={toggle} />
                     )}
                     <Link to="/forgot-password">
-                    <p
-                        style={{
-                        fontFamily: "popreg",
-                        fontSize: "10px",
-                        float: "right",
-                        marginTop: "5px",
-                        textDecoration:"underline"
-                        }}
+                    <p  style={{ fontFamily: "popreg", fontSize: "10px", float: "right",
+                        marginTop: "5px", textDecoration:"underline"
+                      }}
                     >
-                        Forgot Password
+                      Forgot Password
                     </p>
                     </Link>
                 </div>
                 </div>
                 <div className="text-center">
-                  {/* {!loading?
-                    <button className="loginbutton col-md-2">
+                  {loading?
                       <Spinner/>
-                    </button>
-                  : */}
+                  :
                     <button className="loginbutton col-md-2" onClick={submit}>
                         LOGIN
                     </button>
-                  {/* } */}
+                  }
                   <p className="footer_link">
                       No Account? Create one
                       <Link to="/register">

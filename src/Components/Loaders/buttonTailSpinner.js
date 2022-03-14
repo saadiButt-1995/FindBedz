@@ -4,12 +4,14 @@ import { TailSpin } from  'react-loader-spinner'
 const Spinner = () => {
     return (
         <>
-        <TailSpin
-            heigth="30"
-            width="30"
-            color='#ffff'
-            ariaLabel='loading'
-        />
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+            <TailSpin
+                heigth="40"
+                width="40"
+                color='#151515'
+                ariaLabel='loading'
+            />
+        </div>
         </>
     )
 }

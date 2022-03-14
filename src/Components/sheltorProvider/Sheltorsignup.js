@@ -6,9 +6,11 @@ import { getShelterDetails, providerSignup } from "../../services/auth";
 import { Checkbox } from "antd";
 import { Wrapper } from "../Auth/Auth.styled";
 import MainNav from '../Auth/Navs/MainNav'
-import { states_with_nick } from "../../services/states_counties";
+import { results, states } from "../../services/states_counties";
+import Spinner from '../Loaders/buttonTailSpinner';
 
 function Sheltorsignup() {
+  const [loading, setLoading] = useState(false)
   const [user, setUser] = useState({
     userName: "",
     password: "",
@@ -47,6 +49,7 @@ function Sheltorsignup() {
   const [images, setImages] = useState([]);
   const [terms, setTerms] = useState(false);
   const [lat_lng, setLatLng] = useState("");
+  const [counties, setCounties] = useState([]);
 
   const shelterTypes = [
     {showname:'Adults ( any gender )', name: 'adults'}, 
@@ -82,6 +85,7 @@ function Sheltorsignup() {
     addressErr: "",
     cityErr: "",
     stateErr: "",
+    countyErr: "",
     zipCodeErr: "",
     contact_person_nameErr: "",
     role: "shelter",
@@ -110,6 +114,7 @@ function Sheltorsignup() {
       addressErr: "",
       cityErr: "",
       stateErr: "",
+      countyErr: "",
       zipCodeErr: "",
       contact_person_nameErr: "",
     });
@@ -174,6 +179,13 @@ function Sheltorsignup() {
       setErrField((prevState) => ({
         ...prevState,
         stateErr: "Please Enter State",
+      }));
+    }
+    if (user.county === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        countyErr: "Please Enter County",
       }));
     }
     if (user.zipCode === "") {
@@ -355,6 +367,7 @@ function Sheltorsignup() {
 
   const submit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     if (user.food === "" || user.food === undefined) {
       delete user.food;
     }
@@ -373,6 +386,7 @@ function Sheltorsignup() {
     formdata.append("password", user.password);
     formdata.append("city", user.city);
     formdata.append("state", user.state);
+    formdata.append("county", user.county);
     formdata.append("contact_person_name", user.contact_person_name);
     formdata.append("zipCode", user.zipCode);
     formdata.append( "totalAllowedForReservation", user.totalAllowedForReservation );
@@ -420,8 +434,15 @@ function Sheltorsignup() {
       // formdata.append("pets_allowed", []);
     }
     
-    if (validForm()) {
+    if (!validForm()) {
+      setLoading(false)
+      toast.error("Validation Error!",{
+        position: toast.POSITION.BOTTOM_CENTER
+      })
+      return
+    }
       if(!terms){
+        setLoading(false)
         toast.error("Please allow this app to access your device's location!",{
           position: toast.POSITION.BOTTOM_CENTER
         })
@@ -429,22 +450,25 @@ function Sheltorsignup() {
       }
       try{
         var response = await providerSignup(formdata)
-          if (response.status === 201) {
-            await getShelterDetails(response.data.shelter._id)
-            toast.success("Account has been created successfully!");
-            setTimeout(() => {
-              navigate("/login");
-              toast.success("Please Login To Continue!",{
-                position: toast.POSITION.BOTTOM_CENTER
-              });
-          }, 1500);
-          }else{
+        if (response.status === 201) {
+          await getShelterDetails(response.data.shelter._id)
+          setLoading(false)
+          toast.success("Account has been created successfully!");
+          setTimeout(() => {
+            navigate("/login");
+            toast.success("Please Login To Continue!",{
+              position: toast.POSITION.BOTTOM_CENTER
+            });
+        }, 1500);
+        }else{
+          setLoading(false)
           toast.error("Something went wrong !",{
             position: toast.POSITION.BOTTOM_CENTER
           });
           console.log(response);
         }
       }catch(e){
+        setLoading(false)
         var error = ''
         console.log('ERRORChoose a password*');
         if(e.response){
@@ -462,27 +486,42 @@ function Sheltorsignup() {
         toast.error(error,{
           position: toast.POSITION.BOTTOM_CENTER
         });
-      }
-    }
+      }    
   };
 
   const onChange = (e)=> {
-    setTerms(e.target.checked)
+    // setTerms(e.target.checked)
     getMyLocation(e)
-    setLatLng('')
+    // setLatLng('')
   }
 
   const getMyLocation = (e) => {
-    // const location = window.navigator && window.navigator.geolocation
+    const location = window.navigator && window.navigator.geolocation
     
-    // if (location) {
-    //   location.getCurrentPosition((position) => {
-    //     setLatLng(`${position.coords.latitude},${position.coords.longitude}`)
-    //     setTerms(e.target.checked)
-    //   }, (error) => {
-    //     toast.error('Error in getting location!')
-    //   })
-    // }
+    if (location) {
+      location.getCurrentPosition((position) => {
+        setLatLng(`${position.coords.latitude},${position.coords.longitude}`)
+        setTerms(e.target.checked)
+      }, (error) => {
+        toast.error('Error in getting location!')
+      })
+    }
+  }
+
+  const changeState = (e)=> {
+    const state = e.target.value
+    setUser({...user, state: state})
+    getCountiesOfState(state)
+  }
+
+  const changeCounty = (e)=> {
+    const county = e.target.value
+    setUser({...user, county: county})
+  }
+
+  const getCountiesOfState = (state)=> {
+    const data = results.filter(x => x.state === state)
+    setCounties(data)
   }
   return (
     <Wrapper>
@@ -600,31 +639,22 @@ function Sheltorsignup() {
                   )}
                 </div>
               </div>
-              <div className="col-lg-3 px-0">
+              <div className="col-lg-3 px-0 pl-1">
                 <div className="mb-3 label_input">
                   <label htmlFor="validationCustom02">
                     STATE<span className="star_red">*</span>
                   </label>
-                  <select className="form-control login_field" name="state" id="state"
-                      onChange={handleInput}
-                      >
-                        <option className="login_field" selected disabled>Select State</option>
-                        {states_with_nick.map((item, index)=> {
-                          return (
-                            <option className="login_field" key={index} value={item.name} >{item.name}</option>
-                          )
-                        })}
-                    </select>
-                  {/* <input
-                    name="state"
-                    onChange={handleInput}
-                    value={user.state}
-                    type="text"
-                    className="form-control login_field"
-                    id="validationCustom02"
-                    placeholder="Enter State"
-                    required
-                  /> */}
+                  <select className="form-control login_field" name="states" id="states"
+                    onChange={changeState}
+                    >
+                    <option className="login_field" selected disabled>Select State</option>
+                    {states.map((item, index)=> {
+                      return (
+                        <option className="login_field" key={index} value={item}>{item}</option>
+                      )
+                    })}
+                  </select>
+                 
                   {errField.stateErr.length > 0 && (
                     <span
                       style={{
@@ -638,7 +668,36 @@ function Sheltorsignup() {
                   )}
                 </div>
               </div>
-              <div className="col-lg-3 px-0">
+
+              <div className="col-lg-3 px-0 pl-1">
+                <div className="mb-3 label_input">
+                <label htmlFor="validationCustom02">COUNTY<span className="star_red">*</span></label>
+                  <select className="form-control login_field" name="counties" id="counties"
+                  onChange={changeCounty}
+                  >
+                    <option className="login_field" selected disabled>Select County</option>
+                    {counties.map((item, index)=> {
+                      return (
+                        <option className="login_field" key={index} value={item.countyName}>{item.countyName}</option>
+                      )
+                    })}
+                  </select>
+                 
+                  {errField.countyErr.length > 0 && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "11px",
+                        fontFamily: "popreg",
+                      }}
+                    >
+                      {errField.countyErr}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className="col-lg-3 px-0 pl-1">
                 <div className="mobile_p pr-0">
                   <div className="mb-3 label_input">
                     <label htmlFor="validationCustom02">
@@ -1107,12 +1166,22 @@ function Sheltorsignup() {
           </div>
         </div>
         <div className="signup_footer mt-2">
-          <Link onClick={submit} className="" to="/sheltor-dashboard">
-            <button className="shel_up_btn w-100 px-5">SIGNUP & CONTINUE</button>
-          </Link>
-          <Link className="" to="/">
-            <p className="footer_sign_up">Cancel</p>
-          </Link>
+          {loading?
+            <Spinner/>
+          :
+          <>
+            <button 
+              onClick={submit} 
+              className={`signupbtn ${!terms?'btn-secondary': ''}`} 
+              disabled={!terms?'disabled':''}>
+            SIGNUP & CONTINUE
+            </button>
+            <Link className="" to="/">
+              <p className="footer_sign_up">Cancel</p>
+            </Link>
+          </>
+          }
+          
         </div>
       </div>
     </Wrapper>

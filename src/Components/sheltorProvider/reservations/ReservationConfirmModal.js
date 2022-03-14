@@ -1,9 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import Modal from 'react-modal';
+import { toast, ToastContainer } from "react-toastify";
+import { reserveBed } from "../../../services/beds";
+import Spinner from "../../Loaders/buttonTailSpinner";
 import { Wrapper } from "./reservations.styled";
 
-const ReservationConfirmModal = ({user, modal, closeModal, make}) => {
+const ReservationConfirmModal = ({user, modal, data, closeModal, make, bedReserved}) => {
 
+    const [loading, setLoading] = useState(false)
     const customStyles = {
         content: {
           top: '35%',
@@ -32,8 +36,27 @@ const ReservationConfirmModal = ({user, modal, closeModal, make}) => {
         }
     };
 
+    const reserve = async() => {
+        setLoading(true)
+        try {
+            var result = await reserveBed(user.id, data)
+            console.log(result.data);
+            closeModal()
+            setLoading(false)
+            toast.success(result.data.message,{
+                position: toast.POSITION.TOP_CENTER
+            });
+        }catch(e){
+            setLoading(false)
+            toast.error(e.response.data.message,{
+                position: toast.POSITION.TOP_CENTER
+            });
+        }
+    }
+
     return (
         <Wrapper>
+        <ToastContainer />
         <Modal
             isOpen={modal}
             onRequestClose={closeModal}
@@ -50,10 +73,14 @@ const ReservationConfirmModal = ({user, modal, closeModal, make}) => {
                     </div>
                     <div class="col-md-12 m-0 p-0">
                         <div className="text-center">
+                        {loading?
+                            <Spinner/>
+                        :
+                        <>
                             <button
                                 className="signupbtn"
                                 type={"button"}
-                                onClick={closeModal}
+                                onClick={reserve}
                                 style={customStyles.confirm_btn}
                             >
                                 YES
@@ -64,6 +91,8 @@ const ReservationConfirmModal = ({user, modal, closeModal, make}) => {
                             >
                                 NO
                             </button>
+                        </>
+                        }
                         </div>
                     </div>
                 </div>

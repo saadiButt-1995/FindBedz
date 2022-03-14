@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { results, states_with_nick } from "../../../services/states_counties";
 import { Wrapper } from "./findbedz.styled";
 
-const Filters = ({service}) => {
+const Filters = ({service, filters, updateFilters}) => {
 
   const [counties, setCounties] = useState([]);
   const [state, setState] = useState("")
@@ -11,16 +11,52 @@ const Filters = ({service}) => {
   const changeState = (e)=> {
     setState(e.target.value)
     getCountiesOfState(e.target.value)
+    filters.state = e.target.value
+    updateFilters(filters)
   }
 
   const changeCounty = (e)=> {
     setCounty(e.target.value)
+    filters.county = e.target.value
+    updateFilters(filters)
   }
 
   const getCountiesOfState = (state)=> {
     const data = results.filter(x => x.state === state)
     setCounties(data)
   }
+  const changeSearchBy = (e) => {
+    filters.searchBy = e.target.value
+    updateFilters(filters)
+  }
+  const changeUpto = (e) => {
+    filters.upto = e.target.value
+    updateFilters(filters)
+  }
+  const changeAddress = (e) => {
+    filters.address = e.target.value
+    updateFilters(filters)
+  }
+  const changeCity = (e) => {
+    filters.city = e.target.value
+    updateFilters(filters)
+  }
+  const changeShelterIsFor = (e) => {
+    filters.shelterIsFor = e.target.value
+    updateFilters(filters)
+  }
+  const toggleLocation = (e) => {
+    console.log(e.target.value);
+    if(e.target.value === 'true'){
+      filters.currentLocation = false
+    }else{
+      filters.currentLocation = true
+    }
+    updateFilters(filters)
+  }
+  
+  
+
   return (
     <Wrapper>
       <div className="main_filter">
@@ -31,12 +67,15 @@ const Filters = ({service}) => {
             type="radio"
             name="searchby"
             id="searchby_distance"
-            defaultValue="option1"
+            value="distance"
+            defaultValue={filters.searchBy}
             defaultChecked
+            onClick={changeSearchBy}
           />
           <label
             className="form-check-label"
             htmlFor="searchby_distance"
+            style={{fontSize: '14px'}}
           >
             SEARCH BY DISTANCE
           </label>
@@ -47,7 +86,8 @@ const Filters = ({service}) => {
               type="checkbox"
               className="custom-control-input"
               id="customSwitch1"
-              defaultChecked
+              value={filters.currentLocation}
+              onChange={toggleLocation}
             />
             <label
               className="custom-control-label"
@@ -66,51 +106,61 @@ const Filters = ({service}) => {
               placeholder="Type your address"
               className="form-control login_field"
               id="inputEmail4"
+              onChange={changeAddress}
             />
           </div>
 
           <div className="sub">
-            <div className="form-check mb-2">
+            <div className="form-check mb-1">
               <input
                 className="form-check-input"
                 type="radio"
                 name="uptoRadio"
+                value="2"
                 id="uptoRadio1"
-                defaultValue="option1"
+                defaultValue={filters.upto}
+                onClick={changeUpto}
               />
               <label
                 className="form-check-label"
                 htmlFor="uptoRadio1"
+                style={{fontSize: '12px'}}
               >
                 Upto 2 Miles
               </label>
             </div>
-            <div className="form-check mb-2">
+            <div className="form-check mb-1">
               <input
                 className="form-check-input"
                 type="radio"
                 name="uptoRadio"
+                value="4"
                 id="uptoRadio2"
-                defaultValue="option1"
+                defaultValue={filters.upto}
+                onClick={changeUpto}
               />
               <label
                 className="form-check-label"
                 htmlFor="uptoRadio2"
+                style={{fontSize: '12px'}}
               >
                 Upto 4 Miles
               </label>
             </div>
-            <div className="form-check mb-2">
+            <div className="form-check mb-1">
               <input
                 className="form-check-input"
                 type="radio"
                 name="uptoRadio"
+                value="10"
                 id="uptoRadio3"
-                defaultValue="option1"
+                defaultValue={filters.upto}
+                onClick={changeUpto}
               />
               <label
                 className="form-check-label"
                 htmlFor="uptoRadio3"
+                style={{fontSize: '12px'}}
               >
                 Upto 10 Miles
               </label>
@@ -120,12 +170,15 @@ const Filters = ({service}) => {
                 className="form-check-input"
                 type="radio"
                 name="uptoRadio"
+                value="20"
                 id="uptoRadio4"
-                defaultValue="option1"
+                defaultValue={filters.upto}
+                onClick={changeUpto}
               />
               <label
                 className="form-check-label"
                 htmlFor="uptoRadio4"
+                style={{fontSize: '12px'}}
               >
                 Upto 20 Miles
               </label>
@@ -139,12 +192,15 @@ const Filters = ({service}) => {
             type="radio"
             name="searchby"
             id="searchby_city"
-            defaultValue="option1"
+            value="city"
+            defaultValue={filters.searchBy}
             defaultChecked
+            onClick={changeSearchBy}
           />
           <label
             className="form-check-label"
             htmlFor="searchby_city"
+            style={{fontSize: '14px'}}
           >
             SEARCH BY CITY
           </label>
@@ -156,6 +212,8 @@ const Filters = ({service}) => {
               placeholder="Type city name"
               className="form-control label_input login_field"
               id="inputEmail4"
+              value={filters.city}
+              onChange={changeCity}
               />
           </div>
         </div>
@@ -165,19 +223,23 @@ const Filters = ({service}) => {
             type="radio"
             name="searchby"
             id="searchby_county"
-            defaultValue="option1"
+            value="county"
+            defaultValue={filters.searchBy}
             defaultChecked
+            onClick={changeSearchBy}
           />
           <label
             className="form-check-label"
             htmlFor="searchby_county"
+            style={{fontSize: '14px'}}
           >
             SEARCH BY COUNTY
           </label>
         </div>
         <div className="sub">
           <div className="form-inline row justify-content-between pl-0 pr-0">
-            <select className="form-control col-lg-3 login_field" style={{fontWeight: 'bold'}} name="state" id="state" onChange={changeState} >
+            <select className="form-control col-lg-3 login_field" 
+                style={{fontWeight: 'bold'}} name="state" id="state" onChange={changeState} >
                 {/* <option className="login_field" selected disabled>Select State</option> */}
                 {states_with_nick.map((item, index)=> {
                   return (
@@ -210,7 +272,7 @@ const Filters = ({service}) => {
             />
             <div
               className=""
-              style={{ fontFamily: "popreg", fontWeight: "bold" }}
+              style={{ fontFamily: "popreg", fontWeight: "bold", fontSize: '14px' }}
             >
               ONLY SHOW AVAILABLE BEDS
             </div>
@@ -221,7 +283,7 @@ const Filters = ({service}) => {
         <div className="type_shelter mt-2">
           <div
             className="mb-1"
-            style={{ fontFamily: "popreg", fontWeight: "bold" }}
+            style={{ fontFamily: "popreg", fontWeight: "bold", fontSize: '14px' }}
           >
             TYPE OF SHELTER
           </div>
@@ -234,8 +296,10 @@ const Filters = ({service}) => {
                   type="radio"
                   name="exampleRadios"
                   id="exampleRadios1"
-                  defaultValue="option1"
+                  value="adults"
+                  defaultValue={filters.shelterIsFor}
                   defaultChecked
+                  onClick={changeShelterIsFor}
                 />
                 <label
                   className="form-check-label mb-1"
@@ -251,8 +315,10 @@ const Filters = ({service}) => {
                   type="radio"
                   name="exampleRadios"
                   id="exampleRadios1"
-                  defaultValue="option1"
+                  value="male"
+                  defaultValue={filters.shelterIsFor}
                   defaultChecked
+                  onClick={changeShelterIsFor}
                 />
                 <label
                   className="form-check-label mb-1"
@@ -267,8 +333,10 @@ const Filters = ({service}) => {
                   type="radio"
                   name="exampleRadios"
                   id="exampleRadios1"
-                  defaultValue="option1"
+                  value="female"
+                  defaultValue={filters.shelterIsFor}
                   defaultChecked
+                  onClick={changeShelterIsFor}
                 />
                 <label
                   className="form-check-label mb-1"
@@ -283,8 +351,10 @@ const Filters = ({service}) => {
                   type="radio"
                   name="exampleRadios"
                   id="exampleRadios1"
-                  defaultValue="option1"
+                  value="family"
+                  defaultValue={filters.shelterIsFor}
                   defaultChecked
+                  onClick={changeShelterIsFor}
                 />
                 <label
                   className="form-check-label"

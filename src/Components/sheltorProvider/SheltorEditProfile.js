@@ -3,12 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { getShelterDetails, updateShelterDetails } from "../../services/auth";
 import $ from 'jquery'
-import { states_with_nick } from "../../services/states_counties";
+import { results, states } from "../../services/states_counties";
 import DashboardNav from '../Auth/Navs/DashboardNav'
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import Spinner from '../Loaders/buttonTailSpinner';
 
 function ShelterEditProfile() {
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
   const u = JSON.parse(localStorage.getItem("user_data"));
   const user_id = localStorage.getItem("user")
   const token = `Bearer ${localStorage.getItem("token")}`
@@ -23,6 +25,7 @@ function ShelterEditProfile() {
     address: u.address,
     city: u.city,
     state: u.state,
+    county: u.county,
     contact_person_name: u.contact_person_name,
     zipCode: u.zipCode,
     role: "shelter",
@@ -50,6 +53,7 @@ function ShelterEditProfile() {
   // const [hours_intake, setHoursIntake] = useState(u.hours_intake?u.hours_intake:0);
   const [fileList, setFileList] = useState(u.image);
   const [images, setImages] = useState(u.image);
+  const [counties, setCounties] = useState([]);
 
   const shelterTypes = [
     {showname:'Adults ( any gender )', name: 'adults'}, 
@@ -141,6 +145,7 @@ function ShelterEditProfile() {
     addressErr: "",
     cityErr: "",
     stateErr: "",
+    countyErr: "",
     zipCodeErr: "",
     contact_person_nameErr: "",
     role: "shelter",
@@ -169,6 +174,7 @@ function ShelterEditProfile() {
       addressErr: "",
       cityErr: "",
       stateErr: "",
+      countyErr: "",
       zipCodeErr: "",
       contact_person_nameErr: "",
     });
@@ -233,6 +239,13 @@ function ShelterEditProfile() {
       setErrField((prevState) => ({
         ...prevState,
         stateErr: "Please Enter State",
+      }));
+    }
+    if (user.county === "") {
+      formIsValid = false;
+      setErrField((prevState) => ({
+        ...prevState,
+        countyErr: "Please Enter County",
       }));
     }
     if (user.zipCode === "" || user.zipCode.length < 5) {
@@ -416,6 +429,7 @@ function ShelterEditProfile() {
 
   const submit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     delete user.password
     if (user.food === "" || user.food === undefined) {
       delete user.food;
@@ -431,6 +445,7 @@ function ShelterEditProfile() {
     formdata.append("email", user.email);
     formdata.append("city", user.city);
     formdata.append("state", user.state);
+    formdata.append("county", user.county);
     formdata.append("contact_person_name", user.contact_person_name);
     formdata.append("zipCode", user.zipCode);
     formdata.append( "totalAllowedForReservation", user.totalAllowedForReservation );
@@ -517,6 +532,7 @@ function ShelterEditProfile() {
     // }
     setTimeout(async() => {
       if (!validForm()) {
+        setLoading(false)
         toast.error('Validation Error!',{
           position: toast.POSITION.BOTTOM_CENTER
         })
@@ -528,17 +544,19 @@ function ShelterEditProfile() {
             toast.success("Updated Successfully!",{
               position: toast.POSITION.BOTTOM_CENTER
             });
-            getShelterDetails(response.data.shelter.id)
-              setTimeout(() => {
-                navigate("/");
-              }, 1500);
-            }else{
-              toast.error("Fields Cannot be empty",{
-                position: toast.POSITION.BOTTOM_CENTER
-              });
-              console.log(response);
-            }
+            await getShelterDetails(response.data.shelter.id)
+            setLoading(false)
+            setTimeout(() => {
+              navigate("/");
+            }, 1500);
+          }else{
+            toast.error("Fields Cannot be empty",{
+              position: toast.POSITION.BOTTOM_CENTER
+            });
+            console.log(response);
+          }
         }catch(e){
+          setLoading(false)
           console.log('ERRORChoose a password*');
           toast.error(e.response.data.message,{
             position: toast.POSITION.BOTTOM_CENTER
@@ -547,6 +565,31 @@ function ShelterEditProfile() {
     }, 500);
 
   };
+
+  const changeState = (e)=> {
+    const state = e.target.value
+    setUser({...user, state: state})
+    getCountiesOfState(state)
+  }
+
+  const changeCounty = (e)=> {
+    const county = e.target.value
+    setUser({...user, county: county})
+  }
+
+  const getCountiesOfState = (state)=> {
+    const data = results.filter(x => x.state === state)
+    setCounties(data)
+  }
+
+  useEffect(()=> {
+    setTimeout(() => {
+      /* eslint-disable */
+      getCountiesOfState(user.state);
+      // changeState(users.state)
+    }, 1000);
+  }, [])
+
   return (
     <div className="Sheltorsignup">
      <ToastContainer />
@@ -669,31 +712,22 @@ function ShelterEditProfile() {
                 )}
               </div>
             </div>
-            <div className="col-lg-3 px-0">
+            <div className="col-lg-3 px-0 pl-1">
               <div className="mb-3 label_input">
                 <label htmlFor="validationCustom02">
                   STATE<span className="star_red">*</span>
                 </label>
                 <select className="form-control login_field" name="state" id="state"
-                  onChange={handleInput}
+                  onChange={changeState}
                   >
                     <option className="login_field" selected disabled>Select State</option>
-                    {states_with_nick.map((item, index)=> {
+                    {states.map((item, index)=> {
                       return (
-                        <option className="login_field" key={index} value={item.name} selected={item.name === user.state?true:false}>{item.name}</option>
+                        <option className="login_field" key={index} value={item} selected={item === user.state?true:false}>{item}</option>
                       )
                     })}
                 </select>
-                {/* <input
-                  name="state"
-                  onChange={handleInput}
-                  value={user.state}
-                  type="text"
-                  className="form-control login_field"
-                  id="validationCustom02"
-                  placeholder="Enter State"
-                  required
-                /> */}
+                
                 {errField.stateErr.length > 0 && (
                   <span
                     style={{
@@ -707,7 +741,44 @@ function ShelterEditProfile() {
                 )}
               </div>
             </div>
-            <div className="col-lg-3 px-0">
+
+            <div className="col-lg-3 px-0 pl-1">
+                <div className="mb-3 label_input">
+                <label htmlFor="validationCustom02">COUNTY<span className="star_red">*</span></label>
+                  <select className="form-control login_field" name="counties" id="counties"
+                  onChange={changeCounty}
+                  >
+                    <option className="login_field" selected disabled>Select County</option>
+                    {counties.map((item, index)=> {
+                      return (
+                        <option 
+                          className="login_field" 
+                          key={index} 
+                          value={item.countyName} 
+                          selected={item.countyName===user.county?true:false}
+                        >
+                        {item.countyName}
+                        </option>
+                      )
+                    })}
+                  </select>
+                 
+                  {errField.countyErr.length > 0 && (
+                    <span
+                      style={{
+                        color: "red",
+                        fontSize: "11px",
+                        fontFamily: "popreg",
+                      }}
+                    >
+                      {errField.countyErr}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+
+            <div className="col-lg-3 px-0 pl-1">
               <div className="mobile_p pr-0">
                 <div className="mb-3 label_input">
                   <label htmlFor="validationCustom02">
@@ -1168,10 +1239,19 @@ function ShelterEditProfile() {
       </div>
       </div>
       <div className="signup_footer">
-        <Link onClick={submit} className="" to="/sheltor-dashboard">
-          <button className="shel_up_btn w-100 px-5">SUBMIT CHANGES</button>
-        </Link>
-        <p className="footer_sign_up">Cancel</p>
+        {loading?
+          <Spinner/>
+        :
+        <>
+          <Link onClick={submit} className="" to=""> 
+            <button className="shel_up_btn w-100 px-5">SUBMIT CHANGES</button>
+          </Link>
+          <Link className="" to="/">
+            <p className="footer_sign_up">Cancel</p>
+          </Link>
+        </>
+        }
+        
       </div>
     </div>
   );

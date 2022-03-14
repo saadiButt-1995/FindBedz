@@ -7,6 +7,7 @@ import { login, organizationSignup, setLocalValues } from "../../services/auth";
 import { Wrapper } from "../Auth/Auth.styled";
 import MainNav from '../Auth/Navs/MainNav'
 import { states_with_nick } from "../../services/states_counties";
+import Spinner from '../Loaders/buttonTailSpinner';
 
 function Organization() {
   const [user, setUser] = useState({
@@ -28,6 +29,7 @@ function Organization() {
   const navigate = useNavigate();
   const [phoneValue, setPhonevalue] = useState("");
   const [terms, setTerms] = useState(false);
+  const [loading, setLoading] = useState(false)
 
   const [errField, setErrField] = useState({
     userNameErr: "",
@@ -58,6 +60,7 @@ function Organization() {
   };
   const submit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     
     // if (user.city === "" || user.city === undefined) {
     //   delete user.city;
@@ -75,34 +78,58 @@ function Organization() {
     // delete user.coo
 
     if(!validForm()){
+      setLoading(false)
       toast.error('Validation Error!',{
         position: toast.POSITION.TOP_CENTER
       })
       return
     }
     if(!terms){
+      setLoading(false)
       toast.error("Please allow this app to access your device's location",{
         position: toast.POSITION.TOP_CENTER
       })
       return
     }
-    var response = await organizationSignup(user)
+    try{
+      var response = await organizationSignup(user)
       if (response.status === 200) {
         toast.success("Account has been created successfully!",{
           position: toast.POSITION.TOP_CENTER
         });
         setTimeout(async() => {
           var result = await login({userName: user.userName, password: user.password}) 
+          setLoading(false)
           await setLocalValues(result.data)
           navigate("/OrganizationLandingpage");
           // navigate("/login");
           // toast.success("Please Login To Continue!");
       }, 500);
       }else{
-      toast.error("Something went wrong !",{
+        setLoading(false)
+        toast.error("Something went wrong !",{
+          position: toast.POSITION.TOP_CENTER
+        });
+        console.log(response);
+      }
+    }catch(e){
+      setLoading(false)
+      var error = ''
+      if(e.response){
+        console.log(e.response);
+        error = e.response
+        if(e.response.data){
+          console.log(e.response.data);
+          error = e.response.data
+          if(e.response.data.message){
+            console.log(e.response.data.message);
+            error = e.response.data.message
+          }
+        }
+      }
+      toast.error(error,{
         position: toast.POSITION.TOP_CENTER
       });
-      console.log(response);
     }
   };
 
@@ -207,9 +234,7 @@ function Organization() {
         ...prevState,
         zipcodeErr: "Invalid Zip Code",
       }));
-    }
-  
-
+    }  
     return formIsValid;
   };
   const [open, setOpen] = useState(false);
@@ -219,8 +244,23 @@ function Organization() {
     setOpen(!open);
   };
   const onChange = (e)=> {
-    setTerms(e.target.checked)
+    getMyLocation(e)
+    // setTerms(e.target.checked)
   }
+  const getMyLocation = (e) => {
+    const location = window.navigator && window.navigator.geolocation
+    
+    if (location) {
+      location.getCurrentPosition((position) => {
+        user.coords = `${position.coords.latitude},${position.coords.longitude}`
+        setUser(user)
+        setTerms(e.target.checked)
+      }, (error) => {
+        toast.error('Error in getting location!')
+      })
+    }
+  }
+
   const normalizeCardNumber = (value) => {
     let x = value.replace(/\D/g, "").match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
     let maskedText = !x[2]
@@ -660,7 +700,7 @@ function Organization() {
             style={{ paddingLeft: "17px", paddingTop: "20px" }}
             onChange={onChange}
           >
-            <span className="label_input location ml-2 " style={{}}>
+            <span className="label_input location ml-2">
             SYSTEM WILL USE YOUR DEVICE’S LOCATION SERVICES
               <span className="star_red">*</span>
             </span>
@@ -679,12 +719,18 @@ function Organization() {
             </label>
           </div> */}
           <div className="signup_footer">
-            <Link onClick={submit} className="" to="">
-              <button className="shel_up_btn w-100 px-5">SIGNUP</button>
-            </Link>
-            <Link className="" to="/">
-              <p className="footer_sign_up">Cancel</p>
-            </Link>
+            {loading?
+                <Spinner/>
+            :
+            <>
+                <button onClick={submit} className={`signupbtn ${!terms?'btn-secondary': ''}`} disabled={!terms?'disabled':''}>SIGNUP</button>
+              <Link className="" to="/">
+                <p className="footer_sign_up">Cancel</p>
+              </Link>
+            </>
+            }
+            
+            
           </div>
         </div>
       </div>

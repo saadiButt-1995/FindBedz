@@ -27,6 +27,7 @@ const IndividualEditprofile = () => {
     nickName: user.nickName,
     ethnicity: user.ethnicity,
     role: user.role,
+    gender: user.gender,
     date_of_birth: user.date_of_birth,
     county: user.county,
     state: user.state,
@@ -110,12 +111,14 @@ const IndividualEditprofile = () => {
     console.log(validForm());
     console.log("====================================");
     if(!validForm()){
+      setLoading(false)
       toast.error('Validation Error!',{
         position: toast.POSITION.TOP_CENTER
       })
       return
     }
     if(!year){
+      setLoading(false)
       toast.error('Please Select Year!',{
         position: toast.POSITION.TOP_CENTER
       })
@@ -365,9 +368,9 @@ const IndividualEditprofile = () => {
                       id="exampleFormControlSelect1"
                     >
                       <option className="login_field" selected disabled>Select Gender</option>
-                      <option className="login_field" value={"Male"}>Male</option>
-                      <option className="login_field" value={"Female"}>Female</option>
-                      <option className="login_field" value={"Other"}>Other</option>
+                      <option className="login_field" value={"Male"} selected={users.gender === 'MALE'? true: false}>Male</option>
+                      <option className="login_field" value={"Female"} selected={users.gender === 'Female'? true: false}>Female</option>
+                      <option className="login_field" value={"Other"} selected={users.gender === 'Other'? true: false}>Other</option>
                     </select>
                   </div>
                 </div>
