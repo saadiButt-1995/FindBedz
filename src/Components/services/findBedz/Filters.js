@@ -7,6 +7,7 @@ const Filters = ({service, filters, updateFilters}) => {
   const [counties, setCounties] = useState([]);
   const [state, setState] = useState("")
   const [county, setCounty] = useState("")
+
   console.log(state);
   const changeState = (e)=> {
     setState(e.target.value)
@@ -212,7 +213,6 @@ const Filters = ({service, filters, updateFilters}) => {
               placeholder="Type city name"
               className="form-control label_input login_field"
               id="inputEmail4"
-              value={filters.city}
               onChange={changeCity}
               />
           </div>
@@ -240,10 +240,10 @@ const Filters = ({service, filters, updateFilters}) => {
           <div className="form-inline row justify-content-between pl-0 pr-0">
             <select className="form-control col-lg-3 login_field" 
                 style={{fontWeight: 'bold'}} name="state" id="state" onChange={changeState} >
-                {/* <option className="login_field" selected disabled>Select State</option> */}
+                <option className="login_field" value="" selected disabled>Select State</option>
                 {states_with_nick.map((item, index)=> {
                   return (
-                    <option className="login_field" key={index} value={item.name} selected>{item.abbreviation}</option>
+                    <option className="login_field" key={index} value={item.name}>{item.abbreviation}</option>
                   )
                 })}
             </select>

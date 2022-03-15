@@ -13,9 +13,41 @@ const getBeds = async(data) => {
     }
 }
 
+const getAllReservations = async(shelterId, data) => {
+    var query = `shelter/getReservations?shelterId=${shelterId}`
+    var response = await axios.get(`${query}`, data)
+    if (response.status === 200) {
+        return response
+    }
+}
+
+const getReservationDetail = async(reservationId) => {
+    var query = `shelter/getReservation?reservationId=${reservationId}`
+    var response = await axios.get(`shelter/query?${query}`)
+    if (response.status === 200) {
+        return response
+    }
+}
+
 const reserveBed = async(shelterId, data) => {
     var query = `shelter/reservation?shelterId=${shelterId}`
     var response = await axios.post(query, data)
+    if (response.status === 201) {
+        return response
+    }
+}
+
+const extendReservation = async(reservationId, data) => {
+    var query = `shelter/extendReservation?reservationId=${reservationId}`
+    var response = await axios.post(query, data)
+    if (response.status === 201) {
+        return response
+    }
+}
+
+const cancelReservation = async(reservationId) => {
+    var query = `shelter/cancelReservation?reservationId=${reservationId}`
+    var response = await axios.post(query)
     if (response.status === 201) {
         return response
     }
@@ -25,4 +57,8 @@ const reserveBed = async(shelterId, data) => {
 export {
     getBeds,
     reserveBed,
+    extendReservation,
+    getAllReservations,
+    getReservationDetail,
+    cancelReservation
 }

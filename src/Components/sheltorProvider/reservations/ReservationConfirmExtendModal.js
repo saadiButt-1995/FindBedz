@@ -2,7 +2,7 @@ import React from "react";
 import Modal from 'react-modal';
 import { Wrapper } from "./reservations.styled";
 
-const ReservationConfirmExtendModal = ({user, modal, closeModal}) => {
+const ReservationConfirmExtendModal = ({user, modal, closeModal, extendReserve}) => {
 
     const customStyles = {
         content: {
@@ -32,6 +32,11 @@ const ReservationConfirmExtendModal = ({user, modal, closeModal}) => {
         }
     };
 
+    const confirmExtend = () => {
+        closeModal()
+        extendReserve()
+    }
+
     return (
         <Wrapper>
         <Modal
@@ -53,7 +58,7 @@ const ReservationConfirmExtendModal = ({user, modal, closeModal}) => {
                             <button
                                 className="signupbtn"
                                 type={"button"}
-                                onClick={closeModal}
+                                onClick={confirmExtend}
                                 style={customStyles.confirm_btn}
                             >
                                 YES

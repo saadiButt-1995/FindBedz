@@ -2,7 +2,7 @@ import React from "react";
 import Modal from 'react-modal';
 import { Wrapper } from "./reservations.styled";
 
-const ReservationModal = ({user, modal, closeModal}) => {
+const ReservationModal = ({user, modal, closeModal, cancelReserve}) => {
 
     const customStyles = {
         content: {
@@ -32,6 +32,11 @@ const ReservationModal = ({user, modal, closeModal}) => {
         }
     };
 
+    const cancelReserveParent = () => {
+        closeModal()
+        cancelReserve()
+    }
+
     return (
         <Wrapper>
         <Modal
@@ -53,7 +58,7 @@ const ReservationModal = ({user, modal, closeModal}) => {
                             <button
                                 className="signupbtn"
                                 type={"button"}
-                                onClick={closeModal}
+                                onClick={cancelReserveParent}
                                 style={customStyles.confirm_btn}
                             >
                                 YES

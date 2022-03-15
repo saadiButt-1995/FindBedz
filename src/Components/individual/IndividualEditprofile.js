@@ -8,6 +8,7 @@ import { setUsersData, updateUserDetails } from "../../services/auth";
 import DashboardNav from '../Auth/Navs/DashboardNav'
 import { Wrapper } from "./Individual.styled";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
+import Spinner from "../Loaders/buttonTailSpinner";
 
 const IndividualEditprofile = () => {
   const navigate = useNavigate()
@@ -18,6 +19,7 @@ const IndividualEditprofile = () => {
   const [month, setMonth] = useState(0);
   const [year, setYear] = useState(0);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   
   const [counties, setCounties] = useState([]);
   const [users, setUser] = useState({
@@ -51,19 +53,6 @@ const IndividualEditprofile = () => {
   const toggle = () => {
     setOpen(!open);
   };
-  // const formatDate = (date) => {	// formats a JS date to 'yyyy-mm-dd'
-  //   var d = new Date(date),
-  //     month = '' + (d.getMonth() + 1),
-  //     day = '' + d.getDate(),
-  //     year = d.getFullYear();
-  
-  //   if (month.length < 2) month = '0' + month;
-  //   if (day.length < 2) day = '0' + day;
-  //   users.date_of_birth = [year, month, day].join('-') 
-  
-  //   return [year, month, day].join('-');
-  // }
- 
 
   const [errField, setErrField] = useState({
     // userNameErr: "",
@@ -73,20 +62,6 @@ const IndividualEditprofile = () => {
 
   let name, value;
 
-  // const cancel = () => {
-  //   setUser({
-  //     // userName: "",
-  //     password: "",
-  //     phone: "",
-  //     nickName: "",
-  //     ethnicity: "",
-  //     role: "",
-  //     date_of_birth: "",
-  //     county: "",
-  //     state: "",
-  //     email: "",
-  //   });
-  // };
   const handleInput = (event) => {
     name = event.target.name;
     value = event.target.value;
@@ -106,10 +81,9 @@ const IndividualEditprofile = () => {
   }, [])
 
   const submit = async (e) => {
+
     e.preventDefault();
-    console.log("====================================");
-    console.log(validForm());
-    console.log("====================================");
+    setLoading(true) 
     if(!validForm()){
       setLoading(false)
       toast.error('Validation Error!',{
@@ -149,6 +123,7 @@ const IndividualEditprofile = () => {
     try{
       var response = await updateUserDetails(users, user_id, token)
       if(response.status === 200){
+        setLoading(false)
         toast.success("Updated Successfully!",{
           position: toast.POSITION.TOP_CENTER
         });
@@ -157,12 +132,14 @@ const IndividualEditprofile = () => {
             navigate("/individual-landingpage");
           }, 1500);
         }else{
+          setLoading(false)
           toast.error("Fields Cannot be empty",{
             position: toast.POSITION.TOP_CENTER
           });
           console.log(response);
         }
     }catch(e){
+      setLoading(false)
       console.log('ERROR*************');
       toast.error(e.response.data.message,{
         position: toast.POSITION.TOP_CENTER
@@ -368,7 +345,7 @@ const IndividualEditprofile = () => {
                       id="exampleFormControlSelect1"
                     >
                       <option className="login_field" selected disabled>Select Gender</option>
-                      <option className="login_field" value={"Male"} selected={users.gender === 'MALE'? true: false}>Male</option>
+                      <option className="login_field" value={"Male"} selected={users.gender === 'Male'? true: false}>Male</option>
                       <option className="login_field" value={"Female"} selected={users.gender === 'Female'? true: false}>Female</option>
                       <option className="login_field" value={"Other"} selected={users.gender === 'Other'? true: false}>Other</option>
                     </select>
@@ -580,17 +557,22 @@ const IndividualEditprofile = () => {
             
             <div className="signup_footer">
               {/* <Link to="/login" onClick={submit}> */}
-              <button
-                className="signupbtn"
-                style={{ letterSpacing: '2px' }}
-                type={"submit"}
-              >
-                SUBMIT CHANGES
-              </button>
-              <Link className="" to="/">
-                <p className="footer_sign_up">Cancel</p>
-              </Link>
-              {/* </Link> */}
+              {loading?
+                <Spinner/>
+              :
+              <>
+                <button
+                  className="signupbtn"
+                  style={{ letterSpacing: '2px' }}
+                  type={"submit"}
+                >
+                  SUBMIT CHANGES
+                </button>
+                <Link className="" to="/">
+                  <p className="footer_sign_up">Cancel</p>
+                </Link>
+              </>
+              }
             </div>
 
             </div>

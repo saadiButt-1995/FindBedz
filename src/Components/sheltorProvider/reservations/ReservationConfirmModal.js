@@ -46,6 +46,7 @@ const ReservationConfirmModal = ({user, modal, data, closeModal, make, bedReserv
             toast.success(result.data.message,{
                 position: toast.POSITION.TOP_CENTER
             });
+            bedReserved()
         }catch(e){
             setLoading(false)
             toast.error(e.response.data.message,{

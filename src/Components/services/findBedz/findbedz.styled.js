@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 // const height = window.innerHeight
 export const Wrapper = styled.div`
+    .abc_details {
+        cursor: pointer;
+    } 
     .rules p {
         margin: 0px;
         padding: 0px;

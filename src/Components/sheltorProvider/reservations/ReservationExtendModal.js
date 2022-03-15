@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { Wrapper } from "./reservations.styled";
 import ReservationConfirmExtendModal from "./ReservationConfirmExtendModal";
 
-const ReservationExtendModal = ({user, modal, closeModal}) => {
+const ReservationExtendModal = ({user, modal, closeModal, held_for, extendReserve}) => {
 
     const [hour, setHour] = useState(0);  
     const [confirm, setConfirm] = useState(false);  
@@ -63,10 +63,13 @@ const ReservationExtendModal = ({user, modal, closeModal}) => {
         }
     };
 
+    const extendReserveParent = () => {
+        extendReserve(hour)
+    }
 
     return (
         <Wrapper>
-        <ReservationConfirmExtendModal user={user} modal={confirm} closeModal={closeConfirmModal} />
+        <ReservationConfirmExtendModal user={user} modal={confirm} closeModal={closeConfirmModal} extendReserve={extendReserveParent}/>
         <Modal
             isOpen={modal}
             onRequestClose={closeModal}
@@ -81,7 +84,7 @@ const ReservationExtendModal = ({user, modal, closeModal}) => {
                     </div>
                     <div class="col-md-12">
                         <div className="form-group" style={customStyles.username_input_div}>
-                            <button className="username-btn" style={customStyles.username_btn} onClick={closeModal} disabled> USERNAME </button>
+                            <button className="username-btn" style={customStyles.username_btn} onClick={closeModal} disabled> {held_for} </button>
                         </div>
                     </div>
                     <div class="col-md-12 text-center">

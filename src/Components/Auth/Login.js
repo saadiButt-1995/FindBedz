@@ -121,7 +121,7 @@ const Home = () => {
                     value={user.userName}
                     onChange={handleInput}
                     type="text"
-                    placeholder="Create a username"
+                    placeholder="Enter Username"
                     className="form-control login_field"
                     id="inputuserName4"
                     />

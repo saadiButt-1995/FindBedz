@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { Link } from "react-router-dom";
 import { Wrapper } from "./reservations.styled"
 import DashboardNav from "../../Auth/Navs/DashboardNav"
@@ -6,12 +6,22 @@ import DashboardNav from "../../Auth/Navs/DashboardNav"
 import ReservationExtendModal from "./ReservationExtendModal"
 import ReservationDeleteModal from "./ReservationDeleteModal"
 import ReservationModal from "../../../ReservationModal";
+import { cancelReservation, extendReservation, getAllReservations } from "../../../services/beds";
+import moment from "moment";
+import { toast } from "react-toastify";
+import Spinner from "../../Loaders/buttonTailSpinner";
 
 function Sheltordashboard() {
   const [user] = useState(JSON.parse(localStorage.getItem('user_data')))
   const [modal, setModal] = useState(false)
   const [modal_extend, setModalExtend] = useState(false)
   const [modal_delete, setModalDelete] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [reservation, setReservation] = useState('');
+  const [held_for, setHeldFor] = useState('');
+
+  const [reservations, setReservations] = useState([])
+
 //   const [modal, setModal] = useState(false)
 //   console.log(modal);
     const openModal = () => {
@@ -20,30 +30,86 @@ function Sheltordashboard() {
     const closeModal = () => {
         setModal(false)
     }
-    const openModalExtend = () => {
+    const openModalExtend = (item) => {
         setModalExtend(true)
+        setReservation(item)
+        setHeldFor(item.bedHeldFor)
     }
     const closeModalExtend = () => {
         setModalExtend(false)
     }
-    const openModalDelete = () => {
+    const openModalDelete = (item) => {
         setModalDelete(true)
+        setReservation(item)
     }
     const closeModalDelete = () => {
         setModalDelete(false)
     }
 
-    const bedReserved = () => {
-
+    const bedReserved = async() => {
+        alert(1)
+        getAllReserves()
     }
+
+    const getAllReserves = async() => {
+        setLoading(true)
+        try{
+            var response = await getAllReservations(user.id)
+            setLoading(false)
+            setReservations(response.data)
+          }
+          catch(e){
+            setLoading(false)
+            console.log(e);
+          }
+    }
+
+    const cancelReserve = async() => {
+        setLoading(true)
+        try{
+            await cancelReservation(reservation.id)
+            setLoading(false)
+            getAllReserves()
+          }
+        catch(e){
+            setLoading(false)
+            toast.error(e.response.data,{
+                position: toast.POSITION.TOP_CENTER
+            })
+        }
+    }
+
+    const extendReserve = async(hour) => {
+        setLoading(true)
+        try{
+            await extendReservation(reservation.id, {howLong: parseFloat(hour) + parseFloat(reservation.howLong)})
+            setLoading(false)
+            getAllReserves()
+            toast.success('Reservation Extended!',{
+                position: toast.POSITION.TOP_CENTER
+            })          
+        }
+        catch(e){
+            setLoading(false)
+            toast.error(e.response.data,{
+                position: toast.POSITION.TOP_CENTER
+            })
+            console.log(e.response.data);
+        }
+    }
+
+    useEffect(() =>{
+        /* eslint-disable */
+        getAllReserves()
+    }, [])
 
   return (
     <>
       <Wrapper>
       <DashboardNav/>
       <ReservationModal user={user} modal={modal} closeModal={closeModal} make={false} bedReserved={bedReserved}/>
-      <ReservationExtendModal user={user} modal={modal_extend} closeModal={closeModalExtend} />
-      <ReservationDeleteModal user={user} modal={modal_delete} closeModal={closeModalDelete} />
+      <ReservationExtendModal user={user} modal={modal_extend} held_for={held_for} closeModal={closeModalExtend} extendReserve={extendReserve}/>
+      <ReservationDeleteModal user={user} modal={modal_delete} closeModal={closeModalDelete} cancelReserve={cancelReserve}/>
 
       <div className="account">
         <img
@@ -85,34 +151,43 @@ function Sheltordashboard() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>George</td>
-                                        <td>Sheriff Joe</td>
-                                        <td>7:30 PM </td>
-                                        <td>2 hours</td>
-                                        <td>1 hour 20 minutes</td>
-                                        <td>
-                                            <div className="reserve-action-btns">
-                                                <button className="text-primary" onClick={openModalExtend}>EXTEND</button>
-                                                <button className="text-danger" onClick={openModalDelete}>CANCEL</button>
-                                                <button className="text-success">CHECK IN</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>George</td>
-                                        <td>Sheriff Joe</td>
-                                        <td>7:30 PM </td>
-                                        <td>2 hours</td>
-                                        <td>1 hour 20 minutes</td>
-                                        <td>
-                                            <div className="reserve-action-btns">
-                                                <button className="text-primary">EXTEND</button>
-                                                <button className="text-danger">CANCEL</button>
-                                                <button className="text-success">CHECK IN</button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                {loading?
+                                <tr className="text-center">
+                                    <td colSpan={6}>
+                                        <Spinner width="60" height="60"  />
+                                        <p>Loading...</p>
+                                    </td>
+                                </tr>
+                                :
+                                <>
+                                    {reservations.map((item)=> {
+                                        return (
+                                            <tr>
+                                                <td>{item.bedHeldFor}</td>
+                                                <td>{item.requestedBy}</td>
+                                                <td>{moment(item.reservedAt).format('ll')} </td>
+                                                <td>{item.howLong}</td>
+                                                <td>1 hour 20 minutes</td>
+                                                <td>
+                                                    <div className="reserve-action-btns">
+                                                        <button className="text-primary" onClick={()=> openModalExtend(item)}>EXTEND</button>
+                                                        <button className="text-danger" onClick={()=> openModalDelete(item)}>CANCEL</button>
+                                                        <button className="text-success">CHECK IN</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
+                                    {reservations.length < 1?
+                                        <tr className="text-center">
+                                            <td colSpan={6}>
+                                                <p>No Data Found!</p>
+                                            </td>
+                                        </tr>
+                                    :null}
+                                </>
+                                }
+                                    
                                 </tbody>
                             </table>          
                         </div>

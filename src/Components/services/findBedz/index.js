@@ -11,6 +11,7 @@ import GoogleMapModal from "./GoogleMap";
 const FindAbed = () => {
   const [user] = useState(JSON.parse(localStorage.getItem('user_data')))
   const [map_modal, setMapModal] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState([])
   const [shelter, setShelter] = useState({
     "food": [], "shelterIsFor": "",
@@ -35,24 +36,27 @@ const FindAbed = () => {
   const updateFilters = (filters) => {
     console.log(filters);
     setFilters(filters)
-    findBeds()
+    if(!loading){
+      findBeds()
+    }
   }
 
   const updateShelter = (data) => {
-    console.log(data);
     setShelter(data)
   }
 
   const findBeds = async()=> {    
+    setLoading(true)
     try{
       var response = await getBeds(filters)
-      console.log(response.data.results);     
+      setLoading(false)
       setData(response.data.results)
       if(response.data.results.length > 0){
         setShelter(response.data.results[0])
       }
     }
     catch(e){
+      setLoading(false)
       console.log(e);
     }
   }
@@ -108,7 +112,7 @@ const FindAbed = () => {
         </div>
         <div class="col-md-3 m-0 pl-0 pr-2">
           <div class="company">
-            <Abc shelter={shelter}/>
+            <Abc shelter={shelter} user={user}/>
           </div>
         </div>
     </div>
