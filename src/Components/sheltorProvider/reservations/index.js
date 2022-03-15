@@ -100,7 +100,10 @@ function Sheltordashboard() {
     const remaingTime = (reserveDate, hours) => {
         const newDate = new Date(reserveDate);
         newDate.setHours(newDate.getHours() + hours);
-        return newDate;
+        // const remaingTime = (Math.abs(new Date(newDate) - new Date(reserveDate)))
+        const remaingTime = ((Math.abs(new Date(newDate) - new Date(reserveDate)))/(1000*60*60)).toFixed(2)
+        console.log(remaingTime);
+        return remaingTime;
     }
 
     useEffect(() =>{
@@ -172,7 +175,8 @@ function Sheltordashboard() {
                                                 <td>{item.requestedBy}</td>
                                                 <td>{moment(item.reservedAt).format('D MMMM H:m A')} </td>
                                                 <td>{item.howLong} Hours</td>
-                                                <td>{moment(remaingTime(item.reservedAt, item.howLong)).format('D MMMM H:m A')}</td>
+                                                {/* <td>{moment.duration(remaingTime(item.reservedAt, item.howLong).asHours())} Hours Left</td> */}
+                                                <td>{remaingTime(item.reservedAt, item.howLong)} Hours Left</td>
                                                 <td>
                                                     <div className="reserve-action-btns">
                                                         <button className="text-primary" onClick={()=> openModalExtend(item)}>EXTEND</button>

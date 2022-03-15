@@ -227,8 +227,8 @@ export const Wrapper = styled.div`
             }
             .available_image {
                 float: left;
-                width: 26px;
-                height: 25px;
+                width: 30px;
+                height: 28px;
                 verticle-align: middle;
                 line-height: 2;
                 margin-left: 15px;

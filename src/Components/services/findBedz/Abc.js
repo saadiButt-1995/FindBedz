@@ -123,35 +123,40 @@ function Abc({shelter, user}) {
                 </div>
               </div>
             </div>
-            <div className="meals_section">
-              <span className="meals_title" style={{fontSize: '12px', }}>DESCRIPTION</span>
-              <p
-                className="meals_description text-secondary"
-                style={{ fontSize: "9px" }}
-              >
-                {shelter.description}
-              </p>
-            </div>
+            {shelter.description?
 
-            <div className="meals_section" style={{ marginTop: "-10px" }}>
-              <span className="meals_title" style={{fontSize: '12px', }}>RULES / REQUIREMENTS</span>
-              <div className="rules mt-1" style={{ color: "grey" }}>
-                <div
-                  className="selected_icon mr-2 mt-1"
-                  style={{
-                    width: "10px",
-                    height: "10px",
-                    background: "#101B79",
-                    borderRadius: "50%",
-                    float: "left",
-                  }}
-                ></div>
-                <p className="" htmlFor="1" style={{fontSize: '10px'}}>
-                  {shelter.rules}
+              <div className="meals_section">
+                <span className="meals_title" style={{fontSize: '12px', }}>DESCRIPTION</span>
+                <p
+                  className="meals_description text-secondary"
+                  style={{ fontSize: "9px" }}
+                >
+                  {shelter.description}
                 </p>
               </div>
-              
-            </div>
+            :null}
+            
+            {shelter.rules?
+              <div className="meals_section" style={{ marginTop: "-10px" }}>
+                <span className="meals_title" style={{fontSize: '12px', }}>RULES / REQUIREMENTS</span>
+                <div className="rules mt-1" style={{ color: "grey" }}>
+                  <div
+                    className="selected_icon mr-2 mt-1"
+                    style={{
+                      width: "10px",
+                      height: "10px",
+                      background: "#101B79",
+                      borderRadius: "50%",
+                      float: "left",
+                    }}
+                  ></div>
+                  <p className="" htmlFor="1" style={{fontSize: '10px'}}>
+                    {shelter.rules}
+                  </p>
+                </div>
+                
+              </div>
+              :null}
           </div>
         </div>
         </>

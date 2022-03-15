@@ -12,6 +12,8 @@ const FindAbed = () => {
   const [user] = useState(JSON.parse(localStorage.getItem('user_data')))
   const [map_modal, setMapModal] = useState(false)
   const [loading, setLoading] = useState(false);
+  const [total_beds, setTotalBeds] = useState(0);
+  const [avail_beds, setAvailableBeds] = useState(0);
   const [show_available_beds, setShowAvailableBed] = useState(false);
   const [data, setData] = useState([])
   const [shelter, setShelter] = useState({
@@ -54,9 +56,11 @@ const FindAbed = () => {
     try{
       var response = await getBeds(filters)
       setLoading(false)
-      setData(response.data.results)
-      if(response.data.results.length > 0){
-        setShelter(response.data.results[0])
+      setData(response.data.result.results)
+      setAvailableBeds(response.data.kpi[0].availableBeds)
+      setTotalBeds(response.data.kpi[0].totalBeds)
+      if(response.data.result.results.length > 0){
+        setShelter(response.data.result.results[0])
       }else{
         setShelter({
           "food": [], "shelterIsFor": "",
@@ -106,7 +110,7 @@ const FindAbed = () => {
         </div>
         <div class="col-md-6 m-0">
           <div class="beds">
-            <Bedservices user={user} data={data} updateShelter={updateShelter} activeId={shelter.id} openMapModal={openMapModal} bedReserved={bedReserved} loading={loading} show_available_beds={show_available_beds} filters={filters}/>
+            <Bedservices user={user} data={data} updateShelter={updateShelter} activeId={shelter.id} openMapModal={openMapModal} bedReserved={bedReserved} loading={loading} show_available_beds={show_available_beds} filters={filters} avail_beds={avail_beds} total_beds={total_beds}/>
           </div>
         </div>
         <div class="col-md-3 m-0 pl-0 pr-2">

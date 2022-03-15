@@ -3,7 +3,7 @@ import ReservationModal from "../../../ReservationModal";
 import Spinner from "../../Loaders/buttonTailSpinner";
 import { Wrapper } from "./findbedz.styled";
 
-export default function Bedservices({user, data, updateShelter, activeId, openMapModal, bedReserved, loading, show_available_beds, filters}) {
+export default function Bedservices({user, data, updateShelter, activeId, openMapModal, bedReserved, loading, show_available_beds, filters, total_beds, avail_beds}) {
   const [modal, setModal] = useState(false)
   const openModal = () => {
       setModal(true)
@@ -119,11 +119,11 @@ export default function Bedservices({user, data, updateShelter, activeId, openMa
       <div className="bedservices mt-2 mb-5">
         <div className="available_round">
           <div className="avail_beds">
-            <div className="round black">1500</div>
+            <div className="round black">{total_beds}</div>
             <div>Total Beds</div>
           </div>
           <div className="avail_beds">
-            <div className="round green">243</div>
+            <div className="round green">{avail_beds}</div>
             <div>Available Beds</div>
           </div>
         </div>
