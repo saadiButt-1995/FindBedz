@@ -4,6 +4,9 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
     .abc_details {
         cursor: pointer;
+    }
+    .abc_details:hover {
+        background: rgba(221, 235, 255, 1);
     } 
     .rules p {
         margin: 0px;
@@ -197,14 +200,14 @@ export const Wrapper = styled.div`
                 letter-spacing: 1px;
             }
             .round {
-                width: 22px;
-                height: 22px;
+                width: 32px;
+                height: 32px;
                 border-radius: 50%;
                 text-align: center;
                 font-family: popmd;
-                font-size: 9px;
-                padding-top: 6px;
-                margin-top: 6px;
+                font-size: 12px;
+                padding-top: 7px;
+                margin-top: 7px;
                 color: #fff;
                 margin-left: auto;
                 margin-right: auto;
@@ -228,7 +231,7 @@ export const Wrapper = styled.div`
                 height: 25px;
                 verticle-align: middle;
                 line-height: 2;
-                margin-left: 20px;
+                margin-left: 15px;
             }
             .available_title {
                 float: left;
@@ -238,7 +241,7 @@ export const Wrapper = styled.div`
                 letter-spacing: 1px;
                 verticle-align: middle;
                 line-height: 2;
-                margin-left: 20px
+                margin-left: 10px
             }
             .company_images {
                 .largepic {
@@ -310,8 +313,18 @@ export const Wrapper = styled.div`
                 
             }
         }
+        
     }
     
-
+    .no-shelter {
+        color: #101b79;
+        font-weight: 700;
+        font-family: 'Poppins', sans-serif;
+        font-size: 28px;
+        letter-spacing: 1px;
+        text-shadow: 1px 1px 1px green;
+        text-decoration: underline;
+        margin-top: 100px;
+    }
     
 `

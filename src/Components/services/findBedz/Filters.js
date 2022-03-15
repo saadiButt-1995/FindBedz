@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { results, states_with_nick } from "../../../services/states_counties";
 import { Wrapper } from "./findbedz.styled";
 
-const Filters = ({service, filters, updateFilters}) => {
+const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_available_beds}) => {
 
   const [counties, setCounties] = useState([]);
   const [state, setState] = useState("")
@@ -71,6 +71,7 @@ const Filters = ({service, filters, updateFilters}) => {
             value="distance"
             defaultValue={filters.searchBy}
             defaultChecked
+            checked={filters.searchBy === "distance"?true:false}
             onClick={changeSearchBy}
           />
           <label
@@ -89,6 +90,7 @@ const Filters = ({service, filters, updateFilters}) => {
               id="customSwitch1"
               value={filters.currentLocation}
               onChange={toggleLocation}
+              checked={filters.currentLocation}
             />
             <label
               className="custom-control-label"
@@ -120,6 +122,7 @@ const Filters = ({service, filters, updateFilters}) => {
                 value="2"
                 id="uptoRadio1"
                 defaultValue={filters.upto}
+                checked={filters.upto === "2"?true:false}
                 onClick={changeUpto}
               />
               <label
@@ -138,6 +141,7 @@ const Filters = ({service, filters, updateFilters}) => {
                 value="4"
                 id="uptoRadio2"
                 defaultValue={filters.upto}
+                checked={filters.upto === "4"?true:false}
                 onClick={changeUpto}
               />
               <label
@@ -156,6 +160,7 @@ const Filters = ({service, filters, updateFilters}) => {
                 value="10"
                 id="uptoRadio3"
                 defaultValue={filters.upto}
+                checked={filters.upto === "10"?true:false}
                 onClick={changeUpto}
               />
               <label
@@ -174,6 +179,7 @@ const Filters = ({service, filters, updateFilters}) => {
                 value="20"
                 id="uptoRadio4"
                 defaultValue={filters.upto}
+                checked={filters.upto === "20"?true:false}
                 onClick={changeUpto}
               />
               <label
@@ -240,7 +246,7 @@ const Filters = ({service, filters, updateFilters}) => {
           <div className="form-inline row justify-content-between pl-0 pr-0">
             <select className="form-control col-lg-3 login_field" 
                 style={{fontWeight: 'bold'}} name="state" id="state" onChange={changeState} >
-                <option className="login_field" value="" selected disabled>Select State</option>
+                <option className="login_field" value="" selected>State</option>
                 {states_with_nick.map((item, index)=> {
                   return (
                     <option className="login_field" key={index} value={item.name}>{item.abbreviation}</option>
@@ -268,7 +274,8 @@ const Filters = ({service, filters, updateFilters}) => {
               name="show_available_bed"
               id="show_available_bed"
               defaultValue="option1"
-              defaultChecked
+              onChange={toggleAvailableBeds}
+              checked={show_available_beds}
             />
             <div
               className=""
@@ -295,7 +302,7 @@ const Filters = ({service, filters, updateFilters}) => {
                   className="form-check-input"
                   type="radio"
                   name="exampleRadios"
-                  id="exampleRadios1"
+                  id="adults"
                   value="adults"
                   defaultValue={filters.shelterIsFor}
                   defaultChecked
@@ -314,7 +321,7 @@ const Filters = ({service, filters, updateFilters}) => {
                   className="form-check-input"
                   type="radio"
                   name="exampleRadios"
-                  id="exampleRadios1"
+                  id="male"
                   value="male"
                   defaultValue={filters.shelterIsFor}
                   defaultChecked
@@ -332,7 +339,7 @@ const Filters = ({service, filters, updateFilters}) => {
                   className="form-check-input"
                   type="radio"
                   name="exampleRadios"
-                  id="exampleRadios1"
+                  id="female"
                   value="female"
                   defaultValue={filters.shelterIsFor}
                   defaultChecked
@@ -350,7 +357,7 @@ const Filters = ({service, filters, updateFilters}) => {
                   className="form-check-input"
                   type="radio"
                   name="exampleRadios"
-                  id="exampleRadios1"
+                  id="family"
                   value="family"
                   defaultValue={filters.shelterIsFor}
                   defaultChecked

@@ -46,7 +46,7 @@ class GoogleMapModal extends Component{
             <Wrapper>
             <Modal
                 isOpen={this.props.map_modal}
-                onRequestClose={this.props.closeModal}
+                onRequestClose={this.props.closeMapModal}
                 style={customStyles}
                 contentLabel="Reservation Modal"
                 ariaHideApp={false}
@@ -71,7 +71,7 @@ class GoogleMapModal extends Component{
                                 <button
                                     className="signupbtn"
                                     type={"button"}
-                                    onClick={this.props.closeModal}
+                                    onClick={this.props.closeMapModal}
                                 >
                                     Close
                                 </button>

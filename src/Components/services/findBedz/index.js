@@ -12,6 +12,7 @@ const FindAbed = () => {
   const [user] = useState(JSON.parse(localStorage.getItem('user_data')))
   const [map_modal, setMapModal] = useState(false)
   const [loading, setLoading] = useState(false);
+  const [show_available_beds, setShowAvailableBed] = useState(false);
   const [data, setData] = useState([])
   const [shelter, setShelter] = useState({
     "food": [], "shelterIsFor": "",
@@ -21,10 +22,10 @@ const FindAbed = () => {
     "totalNumberOfBeds": 0, "description": "", "rules": "", "maxTimeToHoldABed": 0, "id": ""
   })
   const [filters, setFilters] = useState({
-    searchBy: '',
+    searchBy: 'distance',
     address: '',
     currentLocation: true,
-    upto: '',
+    upto: '2',
     state: '',
     city: '',
     county: '',
@@ -34,11 +35,14 @@ const FindAbed = () => {
   })
 
   const updateFilters = (filters) => {
-    console.log(filters);
     setFilters(filters)
     if(!loading){
       findBeds()
     }
+  }
+
+  const toggleAvailableBeds = () => {
+    setShowAvailableBed(!show_available_beds)
   }
 
   const updateShelter = (data) => {
@@ -53,6 +57,14 @@ const FindAbed = () => {
       setData(response.data.results)
       if(response.data.results.length > 0){
         setShelter(response.data.results[0])
+      }else{
+        setShelter({
+          "food": [], "shelterIsFor": "",
+          "amenities": [], "pets_allowed": [], "storage": "", "image": [], "isblock": false, 
+          "role": "", "userName": "", "address": "", "shelterName": "", "phone": "", "email": "", 
+          "password": "", "city": "", "state": "", "contact_person_name": "", "zipCode": "", "totalAllowedForReservation": 0,
+          "totalNumberOfBeds": 0, "description": "", "rules": "", "maxTimeToHoldABed": 0, "id": ""
+        })
       }
     }
     catch(e){
@@ -60,6 +72,10 @@ const FindAbed = () => {
       console.log(e);
     }
   }
+
+  const bedReserved = () => {
+    findBeds()
+  }  
 
   const closeMapModal = () => {
     setMapModal(false)
@@ -77,23 +93,6 @@ const FindAbed = () => {
     <>
     <Wrapper>
 
-
-      {/* <BedsHeader />
-      <div class="account">
-        <div className="find_services">
-          <div className="filters">
-            <Filters />
-          </div>
-          <div className="bed_services">
-            <Bedservices />
-          </div>
-          <div className="abc_section">
-            <Abc />
-          </div>
-        </div>
-      </div> */}
-
-
     <DashboardNav/>
     <BedsHeader />
     <GoogleMapModal user={user} map_modal={map_modal} closeMapModal={closeMapModal}/> 
@@ -102,12 +101,12 @@ const FindAbed = () => {
       <div class="row">
         <div class="col-md-3">
           <div className="filters">
-            <Filters service={false} filters={filters} updateFilters={updateFilters} />
+            <Filters service={false} filters={filters} updateFilters={updateFilters} toggleAvailableBeds={toggleAvailableBeds} show_available_beds={show_available_beds}/>
           </div>
         </div>
         <div class="col-md-6 m-0">
           <div class="beds">
-            <Bedservices user={user} data={data} updateShelter={updateShelter} activeId={shelter.id} openMapModal={openMapModal}/>
+            <Bedservices user={user} data={data} updateShelter={updateShelter} activeId={shelter.id} openMapModal={openMapModal} bedReserved={bedReserved} loading={loading} show_available_beds={show_available_beds} filters={filters}/>
           </div>
         </div>
         <div class="col-md-3 m-0 pl-0 pr-2">

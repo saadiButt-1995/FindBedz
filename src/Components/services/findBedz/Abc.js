@@ -78,7 +78,7 @@ function Abc({shelter, user}) {
 
               {shelter.image.length > 0?
                 <div className="company_images">
-                  <img className="largepic" src={shelter.image[0]} alt="" width={"100%"} height="150px" />
+                  <img className="largepic" src={shelter.image[0]} alt="" style={{minHeight: '150px', width: '100%'}} />
                   {shelter.image.length > 1?  
                     <>
                     <div className="mt-1">
