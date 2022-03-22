@@ -38,9 +38,9 @@ const ReservationConfirmModal = ({user, modal, data, closeModal, make, bedReserv
 
     const reserve = async() => {
         setLoading(true)
+        
         try {
             var result = await reserveBed(user.id, data)
-            console.log(result.data);
             closeModal()
             setLoading(false)
             toast.success(result.data.message,{

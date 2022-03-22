@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from 'react-modal';
 import { Wrapper } from "./Components/sheltorProvider/reservations/reservations.styled";
 import ReservationConfirmModal from "./Components/sheltorProvider/reservations/ReservationConfirmModal";
+import { toast } from "react-toastify";
 
 const ReservationModal = ({user, modal, closeModal, make, from_reservation, bedReserved}) => {
 
@@ -11,13 +12,18 @@ const ReservationModal = ({user, modal, closeModal, make, from_reservation, bedR
     const [confirm, setConfirm] = useState(false);  
     const [data, setData] = useState({
         howLong: hour,
-        numberOfBedz: 1,
         requestedBy: requester,
         bedHeldFor: bed_holder
     })
     // const [incVal, setIncVal] = useState(0);
 
     const openConfirmModal = () => {
+        if(hour === 0){
+            toast.error('Bed Holding Time Cannot Be Empty!',{
+                position: toast.POSITION.TOP_CENTER
+            });
+            return 
+        }
         closeModal()
         setConfirm(true)
     }
@@ -44,7 +50,6 @@ const ReservationModal = ({user, modal, closeModal, make, from_reservation, bedR
     useEffect(()=> {
         setData({
             howLong: hour,
-            numberOfBedz: 1,
             requestedBy: requester,
             bedHeldFor: bed_holder
         })

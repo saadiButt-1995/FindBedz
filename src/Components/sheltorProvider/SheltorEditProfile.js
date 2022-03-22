@@ -538,6 +538,29 @@ function ShelterEditProfile() {
         })
         return
       }
+
+      if(user.totalAllowedForReservation === "" || user.totalAllowedForReservation === 0){
+        toast.error("Total Allowed For Reservation Cannot Be Empty!",{
+          position: toast.POSITION.BOTTOM_CENTER
+        })
+        setLoading(false)
+        return
+      }
+      if(user.totalNumberOfBeds === "" || user.totalNumberOfBeds === 0){
+        toast.error("Please Enter Total Number Of Beds!",{
+          position: toast.POSITION.BOTTOM_CENTER
+        })
+        setLoading(false)
+        return
+      }
+      if(user.maxTimeToHoldABed === "" || user.maxTimeToHoldABed === 0){
+        toast.error("Maximum Time To Holding Bed Cannot Be Empty!",{
+          position: toast.POSITION.BOTTOM_CENTER
+        })
+        setLoading(false)
+        return
+      }
+
         try{
           var response = await updateShelterDetails(formdata, user_id, token)
           if(response.status === 200){

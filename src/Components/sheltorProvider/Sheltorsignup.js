@@ -195,7 +195,6 @@ function Sheltorsignup() {
         zipCodeErr: "Please Enter zipCode",
       }));
     }
-
     return formIsValid;
   };
   const [open, setOpen] = useState(false);
@@ -441,52 +440,74 @@ function Sheltorsignup() {
       })
       return
     }
-      if(!terms){
+    if(!terms){
+      setLoading(false)
+      toast.error("Please allow this app to access your device's location!",{
+        position: toast.POSITION.BOTTOM_CENTER
+      })
+      return
+    }
+
+    if(user.totalAllowedForReservation === "" || user.totalAllowedForReservation === 0){
+      toast.error("Total Allowed For Reservation Cannot Be Empty!",{
+        position: toast.POSITION.BOTTOM_CENTER
+      })
+      setLoading(false)
+      return
+    }
+    if(user.totalNumberOfBeds === "" || user.totalNumberOfBeds === 0){
+      toast.error("Please Enter Total Number Of Beds!",{
+        position: toast.POSITION.BOTTOM_CENTER
+      })
+      setLoading(false)
+      return
+    }
+    if(user.maxTimeToHoldABed === "" || user.maxTimeToHoldABed === 0){
+      toast.error("Maximum Time To Holding Bed Cannot Be Empty!",{
+        position: toast.POSITION.BOTTOM_CENTER
+      })
+      setLoading(false)
+      return
+    }
+    try{
+      var response = await providerSignup(formdata)
+      if (response.status === 201) {
+        await getShelterDetails(response.data.shelter._id)
         setLoading(false)
-        toast.error("Please allow this app to access your device's location!",{
-          position: toast.POSITION.BOTTOM_CENTER
-        })
-        return
-      }
-      try{
-        var response = await providerSignup(formdata)
-        if (response.status === 201) {
-          await getShelterDetails(response.data.shelter._id)
-          setLoading(false)
-          toast.success("Account has been created successfully!");
-          setTimeout(() => {
-            navigate("/login");
-            toast.success("Please Login To Continue!",{
-              position: toast.POSITION.BOTTOM_CENTER
-            });
-        }, 1500);
-        }else{
-          setLoading(false)
-          toast.error("Something went wrong !",{
+        toast.success("Account has been created successfully!");
+        setTimeout(() => {
+          navigate("/login");
+          toast.success("Please Login To Continue!",{
             position: toast.POSITION.BOTTOM_CENTER
           });
-          console.log(response);
-        }
-      }catch(e){
+      }, 1500);
+      }else{
         setLoading(false)
-        var error = ''
-        console.log('ERRORChoose a password*');
-        if(e.response){
-          console.log(e.response);
-          error = e.response
-          if(e.response.data){
-            console.log(e.response.data);
-            error = e.response.data
-            if(e.response.data.message){
-              console.log(e.response.data.message);
-              error = e.response.data.message
-            }
-          }
-        }
-        toast.error(error,{
+        toast.error("Something went wrong !",{
           position: toast.POSITION.BOTTOM_CENTER
         });
-      }    
+        console.log(response);
+      }
+    }catch(e){
+      setLoading(false)
+      var error = ''
+      console.log('ERRORChoose a password*');
+      if(e.response){
+        console.log(e.response);
+        error = e.response
+        if(e.response.data){
+          console.log(e.response.data);
+          error = e.response.data
+          if(e.response.data.message){
+            console.log(e.response.data.message);
+            error = e.response.data.message
+          }
+        }
+      }
+      toast.error(error,{
+        position: toast.POSITION.BOTTOM_CENTER
+      });
+    }    
   };
 
   const onChange = (e)=> {

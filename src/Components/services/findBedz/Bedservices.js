@@ -142,7 +142,7 @@ export default function Bedservices({user, data, updateShelter, activeId, openMa
 
         {data.length < 1?
           <div className="text-center mt-5">
-              <h1 className="no-shelter">No Available Shelter!</h1>
+              <h1 className="no-shelter">No Shelter Available!</h1>
           </div>
         :null}
       </>

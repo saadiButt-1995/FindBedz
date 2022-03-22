@@ -345,7 +345,7 @@ const IndividualEditprofile = () => {
                       id="exampleFormControlSelect1"
                     >
                       <option className="login_field" selected disabled>Select Gender</option>
-                      <option className="login_field" value={"Male"} selected={users.gender === 'Male'? true: false}>Male</option>
+                      <option className="login_field" value={"MALE"} selected={users.gender === 'MALE'? true: false}>Male</option>
                       <option className="login_field" value={"Female"} selected={users.gender === 'Female'? true: false}>Female</option>
                       <option className="login_field" value={"Other"} selected={users.gender === 'Other'? true: false}>Other</option>
                     </select>

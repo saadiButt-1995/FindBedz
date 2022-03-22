@@ -80,6 +80,13 @@ function Sheltordashboard() {
 
     const extendReserve = async(hour) => {
         setLoading(true)
+        if(hour === 0){
+            toast.error('Bed Holding Time Cannot Be Empty!',{
+                position: toast.POSITION.TOP_CENTER
+            });
+            setLoading(false)
+            return 
+        }
         try{
             await extendReservation(reservation.id, {howLong: parseFloat(hour) + parseFloat(reservation.howLong)})
             setLoading(false)
