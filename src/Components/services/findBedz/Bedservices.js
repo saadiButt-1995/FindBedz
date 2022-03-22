@@ -74,7 +74,7 @@ export default function Bedservices({user, data, updateShelter, activeId, openMa
                   <div className="avail_title font10">CALL</div>
                 </a>
               </div>
-              <div style={{ textAlign: "center" }} className="pr-3" onClick={openMapModal}>
+              <div style={{ textAlign: "center" }} className="pr-3" onClick={()=> openMapModal(item.coords)}>
                 <img className="m-2" src="/images/location.svg" alt="" />
                 <div className="avail_title font10">DIRECTIONS</div>
               </div>

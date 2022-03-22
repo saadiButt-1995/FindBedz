@@ -15,6 +15,7 @@ const FindAbed = () => {
   const [total_beds, setTotalBeds] = useState(0);
   const [avail_beds, setAvailableBeds] = useState(0);
   const [show_available_beds, setShowAvailableBed] = useState(false);
+  const [coords, setCoords] = useState('-34.397,150.644');
   const [data, setData] = useState([])
   const [shelter, setShelter] = useState({
     "food": [], "shelterIsFor": "",
@@ -85,7 +86,8 @@ const FindAbed = () => {
     setMapModal(false)
   }
 
-  const openMapModal = () => {
+  const openMapModal = (coords) => {
+    setCoords(coords)
     setMapModal(true)
   }
   useEffect(()=> {
@@ -99,7 +101,7 @@ const FindAbed = () => {
 
     <DashboardNav/>
     <BedsHeader />
-    <GoogleMapModal user={user} map_modal={map_modal} closeMapModal={closeMapModal}/> 
+    <GoogleMapModal user={user} map_modal={map_modal} closeMapModal={closeMapModal} coords={coords}/> 
    
     <div class="account">
       <div class="row">

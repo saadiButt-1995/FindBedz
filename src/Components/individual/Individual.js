@@ -135,7 +135,6 @@ const Individual = () => {
     if (users.state === "" || users.state === undefined) {
       delete users.state;
     }
-    delete users.coords
     
     try{
       var response = await individualSignup(users)

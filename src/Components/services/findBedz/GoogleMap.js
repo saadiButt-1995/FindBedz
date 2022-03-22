@@ -27,6 +27,13 @@ const customStyles = {
 
 class GoogleMapModal extends Component{
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            latlng: { lat: props.coords.split(',')[0], lng: props.coords.split(',')[1] }
+        }
+    }
+
     static defaultProps = {
         googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyC_LWPOTamnTLKR0IVa5pX_w2Zxo9hE0Sw&v=3.exp&libraries=geometry,drawing,places",
     }
@@ -34,7 +41,7 @@ class GoogleMapModal extends Component{
     CMap = withScriptjs(withGoogleMap(props =>
         <GoogleMap
           defaultZoom={15}
-          defaultCenter={{ lat: -34.397, lng: 150.644 }}
+          defaultCenter={this.state.latlng}
         >
             {props.children}
         </GoogleMap>
@@ -62,7 +69,7 @@ class GoogleMapModal extends Component{
                             center= {{ lat: 25.03, lng: 121.6 }} 
                         >
                             <Marker
-                                position={{ lat: -34.397, lng: 150.644 }}
+                                position={this.state.latlng}
                             />
                         </this.CMap>
                         </div>

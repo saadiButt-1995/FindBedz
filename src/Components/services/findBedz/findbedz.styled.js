@@ -57,7 +57,7 @@ export const Wrapper = styled.div`
         }
         .beds {
             overflow-y: scroll;
-            height: 45%;
+            height: 600px;
         }
         .beds::-webkit-scrollbar {
             display: none;
