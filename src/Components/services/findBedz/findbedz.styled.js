@@ -174,6 +174,7 @@ export const Wrapper = styled.div`
             letter-spacing: 1px;
             float: right;
             margin: 0px;
+            text-transform: uppercase;
 
         }
         .title_shelter {

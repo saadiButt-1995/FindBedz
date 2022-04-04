@@ -19,7 +19,7 @@ const ReservationModal = ({user, modal, closeModal, make, from_reservation, bedR
 
     const openConfirmModal = () => {
         if(hour === 0){
-            toast.error('Bed Holding Time Cannot Be Empty!',{
+            toast.error('Please enter the time to hold a bed!',{
                 position: toast.POSITION.TOP_CENTER
             });
             return 

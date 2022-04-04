@@ -1,12 +1,18 @@
 import React, {useState} from "react";
 import { results, states_with_nick } from "../../../services/states_counties";
 import { Wrapper } from "./findbedz.styled";
+// import PlacesAutocomplete, {
+//   geocodeByAddress, 
+//   getLatLng, 
+// } from "react-places-autocomplete";
+// import { MapKey } from "../../../config";
 
 const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_available_beds}) => {
 
   const [counties, setCounties] = useState([]);
   const [state, setState] = useState("")
   const [county, setCounty] = useState("")
+  // const [address, setAddress] = useState("")
 
   console.log(state);
   const changeState = (e)=> {
@@ -47,15 +53,57 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
     updateFilters(filters)
   }
   const toggleLocation = (e) => {
-    console.log(e.target.value);
-    if(e.target.value === 'true'){
+    if(e.target.value === 'true' || e.target.value === true){
+      console.log(true);
       filters.currentLocation = false
-    }else{
+    }else if(e.target.value === 'false' || e.target.value === false){
+      console.log(false);
       filters.currentLocation = true
     }
-    updateFilters(filters)
+    setTimeout(() => {
+      updateFilters(filters)
+    }, 100);
   }
   
+  // const handleChange = (address) => {
+  //   setAddress(address)
+  // };
+
+  // const handleSelect = (address) => {
+  //   setAddress(address)
+  //   geocodeByAddress(address)
+  //     .then((results) => {
+  //       // console.log(results[0]);
+  //       getLatLng(results[0])
+  //       getPlaceInfo(results[0].place_id)
+  //     })
+  //     .then((latLng) => {
+  //       console.log("Success", latLng);
+        
+
+  //       // update center state
+  //       // this.setState({
+  //       //   stores: [],
+  //       //   mapCenter: { lat: latLng.lat, lng: latLng.lng },
+  //       // });
+  //       // this.setState({
+  //       //   stores: [...this.state.stores, { lat: latLng.lat, lng: latLng.lng }],
+  //       // });
+  //     })
+  //     .catch((error) => console.error("Error", error));
+  // };
+
+  // const getPlaceInfo = (place_id)=> {
+  //   fetch(
+  //     "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?place_id="+place_id +
+  //       "&radius=5000&key="+MapKey
+  //   )
+  //     .then((response) => response.json())
+  //     .then((responseJson) => {
+  //       console.log(responseJson.result);
+  //     })
+  //     .catch((error) => console.log(error));
+  // }
   
 
   return (
@@ -70,8 +118,7 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
             id="searchby_distance"
             value="distance"
             defaultValue={filters.searchBy}
-            defaultChecked
-            checked={filters.searchBy === "distance"?true:false}
+            checked={filters.searchBy==='distance'?true:false}
             onClick={changeSearchBy}
           />
           <label
@@ -90,7 +137,7 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
               id="customSwitch1"
               value={filters.currentLocation}
               onChange={toggleLocation}
-              checked={filters.currentLocation}
+              checked={filters.currentLocation?true:false}
             />
             <label
               className="custom-control-label"
@@ -104,13 +151,73 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
           </div>
           <div className="form-group col-lg-12 pl-0 pr-0">
             {/* <label htmlFor="inputEmail4">Email</label> */}
+
             <input
-              type="email"
+              type="text"
               placeholder="Type your address"
               className="form-control login_field"
-              id="inputEmail4"
               onChange={changeAddress}
             />
+
+            {/* <PlacesAutocomplete
+            id="auto_search"
+            value={address}
+            onChange={handleChange}
+            onSelect={handleSelect}
+
+          >
+            {({
+              getInputProps,
+              suggestions,
+              getSuggestionItemProps,
+              loading,
+            }) => (
+              <>
+                <div className="col-md-1 sidebar_icons">
+                </div>
+                <div className="col-md-10">
+                  <input                   
+                    onClick={()=> null}
+                    className="form-control"
+                    {...getInputProps({
+                      placeholder: "Search Places ...",
+                      className: "location-search-input",
+                    })}
+                  />
+                  </div>
+                  <div className="col-md-1 sidebar_icons">
+                  </div>
+
+                <div className="col-md-12">
+                  <div className="autocomplete-dropdown-container">
+                    {loading && <div>Loading...</div>}
+                    {suggestions.map((suggestion) => {
+                      const className = suggestion.active
+                        ? "suggestion-item--active"
+                        : "suggestion-item";
+                      // inline style for demonstration purpose
+                      const style = suggestion.active
+                        ? { backgroundColor: "#fafafa", cursor: "pointer" }
+                        : { backgroundColor: "#ffffff", cursor: "pointer" };
+                      return (
+                        <div
+                          {...getSuggestionItemProps(suggestion, {
+                            className,
+                            style,
+                          })}
+                        >
+                          <span>{suggestion.description}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </>
+            )}
+          </PlacesAutocomplete> */}
+
+
+
           </div>
 
           <div className="sub">
@@ -122,7 +229,7 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
                 value="2"
                 id="uptoRadio1"
                 defaultValue={filters.upto}
-                checked={filters.upto === "2"?true:false}
+                // checked={filters.upto === "2"?true:false}
                 onClick={changeUpto}
               />
               <label
@@ -141,7 +248,7 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
                 value="4"
                 id="uptoRadio2"
                 defaultValue={filters.upto}
-                checked={filters.upto === "4"?true:false}
+                // checked={filters.upto === "4"?true:false}
                 onClick={changeUpto}
               />
               <label
@@ -160,7 +267,7 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
                 value="10"
                 id="uptoRadio3"
                 defaultValue={filters.upto}
-                checked={filters.upto === "10"?true:false}
+                // checked={filters.upto === "10"?true:false}
                 onClick={changeUpto}
               />
               <label
@@ -179,7 +286,7 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
                 value="20"
                 id="uptoRadio4"
                 defaultValue={filters.upto}
-                checked={filters.upto === "20"?true:false}
+                // checked={filters.upto === "20"?true:false}
                 onClick={changeUpto}
               />
               <label
@@ -201,7 +308,6 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
             id="searchby_city"
             value="city"
             defaultValue={filters.searchBy}
-            defaultChecked
             onClick={changeSearchBy}
           />
           <label
@@ -231,7 +337,6 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
             id="searchby_county"
             value="county"
             defaultValue={filters.searchBy}
-            defaultChecked
             onClick={changeSearchBy}
           />
           <label
@@ -304,8 +409,8 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
                   name="exampleRadios"
                   id="adults"
                   value="adults"
-                  defaultValue={filters.shelterIsFor}
                   defaultChecked
+                  defaultValue={filters.shelterIsFor}
                   onClick={changeShelterIsFor}
                 />
                 <label
@@ -324,7 +429,6 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
                   id="male"
                   value="male"
                   defaultValue={filters.shelterIsFor}
-                  defaultChecked
                   onClick={changeShelterIsFor}
                 />
                 <label
@@ -342,7 +446,6 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
                   id="female"
                   value="female"
                   defaultValue={filters.shelterIsFor}
-                  defaultChecked
                   onClick={changeShelterIsFor}
                 />
                 <label
@@ -360,7 +463,6 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
                   id="family"
                   value="family"
                   defaultValue={filters.shelterIsFor}
-                  defaultChecked
                   onClick={changeShelterIsFor}
                 />
                 <label
@@ -378,4 +480,4 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
   );
 };
 
-export default Filters;
+export default Filters

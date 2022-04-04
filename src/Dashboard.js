@@ -7,6 +7,9 @@ const Dashboard = () => {
   const role = localStorage.getItem('role')
     useEffect(()=> {
       if(isLogin()){
+        if(role === 'admin'){
+            navigate('/admin')
+        }
         if(role === 'user'){
           navigate('/individual-landingpage')
         }else if(role === 'sheriff'){

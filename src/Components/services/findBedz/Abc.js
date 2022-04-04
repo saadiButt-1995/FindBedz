@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Wrapper } from "./findbedz.styled";
 import ReservationModal from "../../../ReservationModal";
+import moment from "moment";
 
-function Abc({shelter, user}) {
+function Abc({shelter, user, date}) {
   const [modal, setModal] = useState(false);
 
   const openModal = () => {
@@ -24,7 +25,7 @@ function Abc({shelter, user}) {
         <>
       <div className="company-page">
         
-          <p className="update-time">LAST UPDATED 10 MINUTES AGO</p>
+          <p className="update-time">LAST UPDATED { moment(date).fromNow() }</p>
           <div className="">
             <div className="abc_personal">
               <div className="title_shelterr mt-2">{shelter.shelterName}</div>
@@ -55,7 +56,7 @@ function Abc({shelter, user}) {
               {user.role !== "user" ? (
                 <div className="available_round">
                   <div className="avail_beds">
-                    <div className="round golden">{shelter.totalAllowedForReservation}</div>
+                    <div className="round golden">{shelter.availableReservationBeds}</div>
                     <img
                       className="available_image"
                       src="/images/sleepbed.svg"

@@ -2,9 +2,12 @@ import React, {useState} from "react";
 import ReservationModal from "../../../ReservationModal";
 import Spinner from "../../Loaders/buttonTailSpinner";
 import { Wrapper } from "./findbedz.styled";
+import GoogleMapModal from "./GoogleMap";
 
-export default function Bedservices({user, data, updateShelter, activeId, openMapModal, bedReserved, loading, show_available_beds, filters, total_beds, avail_beds}) {
+export default function Bedservices({user, data, updateShelter, activeId, bedReserved, loading, show_available_beds, filters, total_beds, avail_beds}) {
   const [modal, setModal] = useState(false)
+  const [map_modal, setMapModal] = useState(false)
+  const [coords, setCoords] = useState('-34.397,150.644');
   const openModal = () => {
       setModal(true)
   }
@@ -17,7 +20,7 @@ export default function Bedservices({user, data, updateShelter, activeId, openMa
       var show = false
 
       if(show_available_beds){
-        if(item.totalAllowedForReservation){
+        if(item.availableReservationBeds){
           show = true
         }else{
           show = false
@@ -33,9 +36,9 @@ export default function Bedservices({user, data, updateShelter, activeId, openMa
       if(show){
         return (
         <div key={index} className="abc_details ml-1 mr-3 pl-3 pr-3 mb-2" style={{background: item.id === activeId?'rgba(221, 235, 255, 1)':''}} onClick={()=> updateShelter(item)}>
-          {item.totalAllowedForReservation > 0?
+          {item.availableReservationBeds > 0?
             <div className="avail">
-              <div className="cricle_div23 green">{item.totalAllowedForReservation}</div>
+              <div className="cricle_div23 green">{item.availableReservationBeds}</div>
               <img
                 className="ml-3"
                 style={{ height: "30px" }}
@@ -46,7 +49,7 @@ export default function Bedservices({user, data, updateShelter, activeId, openMa
             </div>
             :
             <div className="avail">
-              <div className="cricle_div23 red">{item.totalAllowedForReservation}</div>
+              <div className="cricle_div23 red">{item.availableReservationBeds}</div>
               <img
                 className="ml-3"
                 style={{ height: "30px" }}
@@ -109,11 +112,20 @@ export default function Bedservices({user, data, updateShelter, activeId, openMa
     })
   }
   
+  const closeMapModal = () => {
+    setMapModal(false)
+  }
 
+  const openMapModal = (coords) => {
+    console.log(coords);
+    setCoords(coords)
+    setMapModal(true)
+  }
 
   return (
     <Wrapper>
 
+    <GoogleMapModal user={user} map_modal={map_modal} closeMapModal={closeMapModal} coords={coords}/> 
       
       <ReservationModal user={user} modal={modal} closeModal={closeModal} make={true} bedReserved={bedReserved} />
       <div className="bedservices mt-2 mb-5">
@@ -130,14 +142,14 @@ export default function Bedservices({user, data, updateShelter, activeId, openMa
         <div className="abc_flex_sheltor"></div>
       </div>
 
-      {loading?
+    {loading?
       <div className="text-center">
 
         <Spinner width="60" height="60"  />
         <p>Loading...</p>
       </div>
-      :
-      <>
+    :
+    <>
         {renderBeds()}
 
         {data.length < 1?
@@ -145,8 +157,8 @@ export default function Bedservices({user, data, updateShelter, activeId, openMa
               <h1 className="no-shelter">No Shelter Available!</h1>
           </div>
         :null}
-      </>
-      }
+    </>
+    }
 
     </Wrapper>
   );

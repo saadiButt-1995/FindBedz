@@ -6,7 +6,7 @@ import DashboardNav from "../../Auth/Navs/DashboardNav"
 import ReservationExtendModal from "./ReservationExtendModal"
 import ReservationDeleteModal from "./ReservationDeleteModal"
 import ReservationModal from "../../../ReservationModal";
-import { cancelReservation, extendReservation, getAllReservations } from "../../../services/beds";
+import { cancelReservation, checkIn, checkOut, extendReservation, getAllReservations } from "../../../services/beds";
 import moment from "moment";
 import { toast } from "react-toastify";
 import Spinner from "../../Loaders/buttonTailSpinner";
@@ -78,10 +78,40 @@ function Sheltordashboard() {
         }
     }
 
+    const checkInn = async(reservation) => {
+        setLoading(true)
+        try{
+            await checkIn(reservation.id)
+            setLoading(false)
+            getAllReserves()
+          }
+        catch(e){
+            setLoading(false)
+            toast.error(e.response.data,{
+                position: toast.POSITION.TOP_CENTER
+            })
+        }
+    }
+
+    const checkOutt = async(reservation) => {
+        setLoading(true)
+        try{
+            await checkOut(reservation.id)
+            setLoading(false)
+            getAllReserves()
+          }
+        catch(e){
+            setLoading(false)
+            toast.error(e.response.data,{
+                position: toast.POSITION.TOP_CENTER
+            })
+        }
+    }
+
     const extendReserve = async(hour) => {
         setLoading(true)
         if(hour === 0){
-            toast.error('Bed Holding Time Cannot Be Empty!',{
+            toast.error('Please enter time to hold a bed!',{
                 position: toast.POSITION.TOP_CENTER
             });
             setLoading(false)
@@ -188,7 +218,11 @@ function Sheltordashboard() {
                                                     <div className="reserve-action-btns">
                                                         <button className="text-primary" onClick={()=> openModalExtend(item)}>EXTEND</button>
                                                         <button className="text-danger" onClick={()=> openModalDelete(item)}>CANCEL</button>
-                                                        <button className="text-success">CHECK IN</button>
+                                                        {item.checkin?
+                                                            <button className="text-secondary" onClick={()=> checkOutt(item)}>CHECK OUT</button>
+                                                        :
+                                                            <button className="text-success" onClick={()=> checkInn(item)}>CHECK IN</button>
+                                                        }
                                                     </div>
                                                 </td>
                                             </tr>

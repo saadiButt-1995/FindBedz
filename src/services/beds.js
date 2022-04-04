@@ -1,10 +1,23 @@
 import {axios} from '../config'
 
 const getBeds = async(data) => {
+    console.log(data);
     var query = ''
-    query += data.city?'city='+data.city+'&':'' 
-    query += data.state?'state='+data.state+'&':'' 
-    query += data.county?'county='+data.county+'&':'' 
+    if(data.searchBy === 'city')
+        query += data.city?'city='+data.city+'&':'' 
+
+    if(data.searchBy === 'county'){
+        query += data.state?'state='+data.state+'&':'' 
+        query += data.county?'county='+data.county+'&':'' 
+    
+    }
+    if(data.searchBy === 'distance'){
+        query += data.upto?'distance='+data.upto+'&':''
+        query += data.coords?'coords='+data.coords+'&':''
+    }
+    if(data.userId !== ''){
+        query += data.userId?'userId='+data.userId+'&':''
+    }
     query += data.shelterIsFor?'shelterIsFor='+data.shelterIsFor+'&':'' 
     // query += data.city?'city='+data.city:'' 
     var response = await axios.get(`shelter/query?${query}`, data)
@@ -53,6 +66,22 @@ const cancelReservation = async(reservationId) => {
     }
 }
 
+const checkIn = async (reservationId) => {
+    var query = `shelter/checkin?reservationId=${reservationId}`
+    var response = await axios.post(query)
+    // if (response.status === 201) {
+    return response
+    // }
+}
+
+const checkOut = async (reservationId) => {
+    var query = `shelter/checkout?reservationId=${reservationId}`
+    var response = await axios.post(query)
+    // if (response.status === 201) {
+    return response
+    // }
+}
+
 
 export {
     getBeds,
@@ -60,5 +89,7 @@ export {
     extendReservation,
     getAllReservations,
     getReservationDetail,
-    cancelReservation
+    cancelReservation,
+    checkIn,
+    checkOut,
 }

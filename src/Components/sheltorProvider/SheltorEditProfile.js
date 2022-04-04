@@ -7,6 +7,7 @@ import { results, states } from "../../services/states_counties";
 import DashboardNav from '../Auth/Navs/DashboardNav'
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import Spinner from '../Loaders/buttonTailSpinner';
+import { axios } from "../../config";
 
 function ShelterEditProfile() {
   const navigate = useNavigate()
@@ -386,7 +387,7 @@ function ShelterEditProfile() {
           let reader = new FileReader();
           reader.readAsDataURL(img);
           reader.onload = async() =>{                
-              setFileList(fileList.concat(reader.result))
+            setFileList(fileList.concat(reader.result))
           };
           reader.onerror = function (error) {
             console.log("Error: ", error);
@@ -411,8 +412,15 @@ function ShelterEditProfile() {
     return parts[parts.length - 1];
   }
 
-  const deletePhoto = (index) => {
+  const deletePhoto = (item, index) => {
+    
     if (window.confirm('Sure to delete this photo?')){
+      if(item.includes("https://")){
+        axios.put("shelter/removeimage?shelterId="+u.id, {imagePath: item}).then((result)=> {
+          console.log('deleted');
+          console.log(result);
+        })
+      }
       fileList.splice(index, 1)
       images.splice(index, 1)
       setTimeout(() => {
@@ -422,7 +430,7 @@ function ShelterEditProfile() {
         setDescription('')
         setTimeout(() => {
           setDescription(des)
-        }, 1000);
+        }, 500);
       }, 500);
     }
   }
@@ -1231,7 +1239,7 @@ function ShelterEditProfile() {
                 <div className="text-center" key={index}>
                   <img src={item} width="100px" height="100px" alt="image123"/>
                   <br/>
-                  <span className="text-white bg-danger" style={{cursor: 'pointer', borderRadius: '50%', padding: '5px 10px'}} onClick={()=> deletePhoto(index)}>X</span>
+                  <span className="text-white bg-danger" style={{cursor: 'pointer', borderRadius: '50%', padding: '5px 10px'}} onClick={()=> deletePhoto(item, index)}>X</span>
                 </div>
               )
             })}

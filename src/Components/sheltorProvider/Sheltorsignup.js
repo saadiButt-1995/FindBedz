@@ -391,7 +391,7 @@ function Sheltorsignup() {
     formdata.append( "totalAllowedForReservation", user.totalAllowedForReservation );
     formdata.append("totalNumberOfBeds", user.totalNumberOfBeds);
     console.log(lat_lng);
-    // formdata.append("coords", lat_lng);
+    formdata.append("coords", lat_lng);
     if(user.maxTimeToHoldABed !== '')
       formdata.append("maxTimeToHoldABed", user.maxTimeToHoldABed);
     if(rules !== '')
