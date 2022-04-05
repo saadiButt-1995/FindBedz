@@ -1,11 +1,7 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { results, states_with_nick } from "../../../services/states_counties";
+import AutoCompleteInput from "../../../Test";
 import { Wrapper } from "./findbedz.styled";
-// import PlacesAutocomplete, {
-//   geocodeByAddress, 
-//   getLatLng, 
-// } from "react-places-autocomplete";
-// import { MapKey } from "../../../config";
 
 const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_available_beds}) => {
 
@@ -40,10 +36,10 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
     filters.upto = e.target.value
     updateFilters(filters)
   }
-  const changeAddress = (e) => {
-    filters.address = e.target.value
-    updateFilters(filters)
-  }
+  // const changeAddress = (e) => {
+  //   filters.address = e.target.value
+  //   updateFilters(filters)
+  // }
   const changeCity = (e) => {
     filters.city = e.target.value
     updateFilters(filters)
@@ -65,46 +61,23 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
     }, 100);
   }
   
-  // const handleChange = (address) => {
-  //   setAddress(address)
-  // };
+  const getCoords = (coords) => {
+    filters.coords = coords
+    setTimeout(() => {
+      updateFilters(filters)
+    }, 100);
+  }
 
-  // const handleSelect = (address) => {
-  //   setAddress(address)
-  //   geocodeByAddress(address)
-  //     .then((results) => {
-  //       // console.log(results[0]);
-  //       getLatLng(results[0])
-  //       getPlaceInfo(results[0].place_id)
-  //     })
-  //     .then((latLng) => {
-  //       console.log("Success", latLng);
-        
+  const myLatLng = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      getCoords(`${position.coords.latitude},${position.coords.longitude}`)
+    });
+  };
 
-  //       // update center state
-  //       // this.setState({
-  //       //   stores: [],
-  //       //   mapCenter: { lat: latLng.lat, lng: latLng.lng },
-  //       // });
-  //       // this.setState({
-  //       //   stores: [...this.state.stores, { lat: latLng.lat, lng: latLng.lng }],
-  //       // });
-  //     })
-  //     .catch((error) => console.error("Error", error));
-  // };
-
-  // const getPlaceInfo = (place_id)=> {
-  //   fetch(
-  //     "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?place_id="+place_id +
-  //       "&radius=5000&key="+MapKey
-  //   )
-  //     .then((response) => response.json())
-  //     .then((responseJson) => {
-  //       console.log(responseJson.result);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }
-  
+  useEffect(()=> {
+    /* eslint-disable */
+    myLatLng()
+  }, [])
 
   return (
     <Wrapper>
@@ -152,70 +125,14 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
           <div className="form-group col-lg-12 pl-0 pr-0">
             {/* <label htmlFor="inputEmail4">Email</label> */}
 
-            <input
+            {/* <input
               type="text"
               placeholder="Type your address"
               className="form-control login_field"
               onChange={changeAddress}
-            />
+            /> */}
 
-            {/* <PlacesAutocomplete
-            id="auto_search"
-            value={address}
-            onChange={handleChange}
-            onSelect={handleSelect}
-
-          >
-            {({
-              getInputProps,
-              suggestions,
-              getSuggestionItemProps,
-              loading,
-            }) => (
-              <>
-                <div className="col-md-1 sidebar_icons">
-                </div>
-                <div className="col-md-10">
-                  <input                   
-                    onClick={()=> null}
-                    className="form-control"
-                    {...getInputProps({
-                      placeholder: "Search Places ...",
-                      className: "location-search-input",
-                    })}
-                  />
-                  </div>
-                  <div className="col-md-1 sidebar_icons">
-                  </div>
-
-                <div className="col-md-12">
-                  <div className="autocomplete-dropdown-container">
-                    {loading && <div>Loading...</div>}
-                    {suggestions.map((suggestion) => {
-                      const className = suggestion.active
-                        ? "suggestion-item--active"
-                        : "suggestion-item";
-                      // inline style for demonstration purpose
-                      const style = suggestion.active
-                        ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                        : { backgroundColor: "#ffffff", cursor: "pointer" };
-                      return (
-                        <div
-                          {...getSuggestionItemProps(suggestion, {
-                            className,
-                            style,
-                          })}
-                        >
-                          <span>{suggestion.description}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </>
-            )}
-          </PlacesAutocomplete> */}
-
+            <AutoCompleteInput getCoords={getCoords} disable={filters.searchBy==='distance'?false:true}/>
 
 
           </div>

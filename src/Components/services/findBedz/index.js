@@ -6,36 +6,19 @@ import Filters from "./Filters";
 import { Wrapper } from "./findbedz.styled";
 import DashboardNav from '../../Auth/Navs/DashboardNav';
 import { getBeds } from "../../../services/beds";
-// import GoogleMapModal from "./GoogleMap";
 import { SocketPath } from "../../../config";
-
-// import httpServer from 'http'
 import io from 'socket.io-client'
-// io(httpServer, {
-//   cors: {
-//     origin: "https://find-bedz.herokuapp.com/socket.io/?EIO=4&transport=polling&t=N_oxGzd",
-//     methods: ["GET", "POST"]
-//   }
-// })
-// const io = require("socket.io-client")(httpServer, {
-//   cors: {
-//     origin: "https://find-bedz.herokuapp.com",
-//     methods: ["GET", "POST"]
-//   }
-// });
+
 
 const FindAbed = () => {
   const [user] = useState(JSON.parse(localStorage.getItem('user_data')))
-  // const [map_modal, setMapModal] = useState(false)
   const [loading, setLoading] = useState(false);
   const [total_beds, setTotalBeds] = useState(0);
   const [avail_beds, setAvailableBeds] = useState(0);
   const [show_available_beds, setShowAvailableBed] = useState(false);
-  // const [coords, setCoords] = useState('-34.397,150.644');
   const [data, setData] = useState([])
   const [date, setDate] = useState(new Date())
 
-  // const [socket, setSocket] = useState(socketio.connect(SocketPath))
   const [shelter, setShelter] = useState({
     "food": [], "shelterIsFor": "",
     "amenities": [], "pets_allowed": [], "storage": "", "image": [], "isblock": false, 
@@ -54,24 +37,13 @@ const FindAbed = () => {
     shelterIsFor: 'adults',
     limit: 100,
     page: 1,
-    distance: '',
-    userId: user.id,
+    userId: user._id,
     coords: '',
   })
 
   useEffect(()=> {
     /* eslint-disable */
-    // var socket = new WebSocket(SocketPath)
-
-    // socket.addEventListener('open', function (event) {
-    //   socket.send('Hello Server!');
-    // });
-    
-    // // Listen for messages
-    // socket.addEventListener('message', function (event) {
-    //     console.log('Message from server ', event.data);
-    // });
-    // console.log(socket);
+ 
     const socket = io(SocketPath);
     console.log(socket);
 
@@ -150,18 +122,7 @@ const FindAbed = () => {
     findBeds()
   }  
 
-  // const closeMapModal = () => {
-  //   setMapModal(false)
-  // }
-
-  // const openMapModal = (coords) => {
-    // console.log(coords);
-    // setCoords(coords)
-    // setMapModal(true)
-  // }
-
   useEffect(()=> {
-       
 
   }, [])
 

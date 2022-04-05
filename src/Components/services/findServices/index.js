@@ -7,17 +7,20 @@ import { Wrapper } from "./findServices.styled";
 import DashboardNav from '../../Auth/Navs/DashboardNav'
 
 const FindAbed = () => {
+  const [user] = useState(JSON.parse(localStorage.getItem('user_data')))
   const [filters, setFilters] = useState({
-    searchBy: '',
+    searchBy: 'distance',
     address: '',
     currentLocation: true,
-    upto: '',
+    upto: '2',
     state: '',
     city: '',
     county: '',
     shelterIsFor: 'adults',
     limit: 100,
     page: 1,
+    userId: user._id,
+    coords: '',
   })
 
   const updateFilters = (filters) => {
