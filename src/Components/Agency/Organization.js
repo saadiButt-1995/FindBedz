@@ -597,16 +597,7 @@ function Organization() {
                           {errField.stateErr}
                         </span>
                       )}
-                    {/* <input
-                      value={user.state}
-                      onChange={handleInput}
-                      type="text"
-                      name="state"
-                      placeholder="Enter State"
-                      className="form-control login_field"
-                      id="validationCustom02"
-                      required
-                    /> */}
+                   
                   </div>
                 </div>
                 <div className="col-lg-4 px-0">
@@ -638,62 +629,7 @@ function Organization() {
                   </div>
                 </div>
               </div>
-              {/* <div className="row">
-                <div className="col-lg-6 pl-0">
-                  <div className="mb-3 label_input">
-                    <label htmlFor="validationCustom02">
-                      STATE <span className="star_red">*</span>
-                    </label>
-                    <input
-                      name="state"
-                      value={user.state}
-                      onChange={handleInput}
-                      type="text"
-                      className="form-control login_field"
-                      id="validationCustom02"
-                      required
-                    />
-                    {errField.stateErr.length > 0 && (
-                      <span
-                        style={{
-                          color: "red",
-                          fontSize: "11px",
-                          fontFamily: "popreg",
-                        }}
-                      >
-                        {errField.stateErr}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="col-lg-6 pr-0">
-                  <div className="mb-3 label_input">
-                    <label htmlFor="validationCustom02">
-                      ZIP CODE <span className="star_red">*</span>
-                    </label>
-                    <input
-                      name="zip_code"
-                      value={user.zip_code}
-                      onChange={handleInput}
-                      type="text"
-                      className="form-control login_field"
-                      id="validationCustom02"
-                      required
-                    />
-                    {errField.zipcodeErr.length > 0 && (
-                      <span
-                        style={{
-                          color: "red",
-                          fontSize: "11px",
-                          fontFamily: "popreg",
-                        }}
-                      >
-                        {errField.zipcodeErr}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </div> */}
+            
             </div>
           </div>
           <Checkbox
@@ -723,7 +659,7 @@ function Organization() {
                 <Spinner/>
             :
             <>
-                <button onClick={submit} className={`signupbtn ${!terms?'btn-secondary': ''}`} disabled={!terms?'disabled':''}>SIGNUP</button>
+                <button onClick={submit} className={`signupbtn1 ${!terms?'btn-secondary': ''}`} disabled={!terms?'disabled':''}>SIGNUP</button>
               <Link className="" to="/">
                 <p className="footer_sign_up">Cancel</p>
               </Link>

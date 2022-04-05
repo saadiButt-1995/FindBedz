@@ -8,6 +8,8 @@ import { Wrapper } from "../Auth/Auth.styled";
 import MainNav from '../Auth/Navs/MainNav'
 import { results, states } from "../../services/states_counties";
 import Spinner from '../Loaders/buttonTailSpinner';
+import { TimePicker } from 'antd';
+import moment from 'moment'
 
 function Sheltorsignup() {
   const [loading, setLoading] = useState(false)
@@ -390,7 +392,6 @@ function Sheltorsignup() {
     formdata.append("zipCode", user.zipCode);
     formdata.append( "totalAllowedForReservation", user.totalAllowedForReservation );
     formdata.append("totalNumberOfBeds", user.totalNumberOfBeds);
-    console.log(lat_lng);
     formdata.append("coords", lat_lng);
     if(user.maxTimeToHoldABed !== '')
       formdata.append("maxTimeToHoldABed", user.maxTimeToHoldABed);
@@ -404,8 +405,8 @@ function Sheltorsignup() {
       formdata.append("storage_available_desc", storage_message);
     if(shelter_For)
       formdata.append("shelterIsFor", shelter_For);
-    if(user.hours_intake)
-      formdata.append("hours_of_intake", user.hours_intake);
+    if(user.hours_of_intake)
+      formdata.append("hours_of_intake", user.hours_of_intake);
     if(images.length > 0){
       images.forEach((image)=> {
         formdata.append("image", image);
@@ -1023,7 +1024,11 @@ function Sheltorsignup() {
               HOURS OF INTAKE:
             </label>
             <div className="col-lg-4 pl-0">
-              <input type="text" name="hours_intake" className="form-control" id="hours_intake" onChange={handleInput}/>
+              <TimePicker.RangePicker 
+                  showTime={{ format: "HH:mm" }}
+                  onChange={(e)=> setUser({...user, hours_of_intake: `${moment(e[0]._d).format('YYYY-M-d HH:mm:ss')} --  ${moment(e[1]._d).format('YYYY-M-d HH:mm:ss')}`})}
+              />
+              {/* <input type="text" name="hours_intake" className="form-control" id="hours_intake" onChange={handleInput}/> */}
             </div>
           </div>
           <div style={{ marginTop: "20px" }} className="row">
@@ -1193,7 +1198,7 @@ function Sheltorsignup() {
           <>
             <button 
               onClick={submit} 
-              className={`signupbtn ${!terms?'btn-secondary': ''}`} 
+              className={`signupbtn1 ${!terms?'btn-secondary': ''}`} 
               disabled={!terms?'disabled':''}>
             SIGNUP & CONTINUE
             </button>

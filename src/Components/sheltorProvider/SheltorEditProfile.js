@@ -8,6 +8,8 @@ import DashboardNav from '../Auth/Navs/DashboardNav'
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import Spinner from '../Loaders/buttonTailSpinner';
 import { axios } from "../../config";
+import { TimePicker } from "antd";
+import moment from 'moment'
 
 function ShelterEditProfile() {
   const navigate = useNavigate()
@@ -37,7 +39,7 @@ function ShelterEditProfile() {
     maxTimeToHoldABed: u.maxTimeToHoldABed,
     food: u.food,
     shelterIsFor: "family",
-    hours_of_intake: u.hours_of_intake?u.hours_of_intake:""
+    hours_of_intake: [ moment(u.hours_of_intake.split(' -- ')[0]), moment(u.hours_of_intake.split(' -- ')[1]) ]
   });
 
   const [description, setDescription] = useState(u.description?u.description:"");
@@ -55,7 +57,6 @@ function ShelterEditProfile() {
   const [fileList, setFileList] = useState(u.image);
   const [images, setImages] = useState(u.image);
   const [counties, setCounties] = useState([]);
-
   const shelterTypes = [
     {showname:'Adults ( any gender )', name: 'adults'}, 
     {showname:'Female Only', name: 'female'}, 
@@ -1114,7 +1115,12 @@ function ShelterEditProfile() {
             HOURS OF INTAKE:
           </label>
           <div className="col-lg-4 pl-0">
-            <input name="hours_of_intake" value={user.hours_of_intake} type="text" className="form-control" id="" onChange={handleInput}/>
+              <TimePicker.RangePicker 
+                  showTime={{ format: "HH:mm" }}
+                  defaultValue={user.hours_of_intake}
+                  // value={user.hours_of_intake}
+                  onChange={(e)=> setUser({...user, hours_of_intake: `${moment(e[0]._d).format('YYYY-M-d HH:mm:ss')} --  ${moment(e[1]._d).format('YYYY-M-d HH:mm:ss')}`})}/>
+            {/* <input name="hours_of_intake" value={user.hours_of_intake} type="text" className="form-control" id="" onChange={handleInput}/> */}
           </div>
         </div>
         <div style={{ marginTop: "20px" }} className="row">

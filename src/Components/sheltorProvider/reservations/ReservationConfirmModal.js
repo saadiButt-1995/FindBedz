@@ -5,7 +5,7 @@ import { reserveBed } from "../../../services/beds";
 import Spinner from "../../Loaders/buttonTailSpinner";
 import { Wrapper } from "./reservations.styled";
 
-const ReservationConfirmModal = ({user, modal, data, closeModal, make, bedReserved}) => {
+const ReservationConfirmModal = ({shelter, user, modal, data, closeModal, make, bedReserved}) => {
 
     const [loading, setLoading] = useState(false)
     const customStyles = {
@@ -40,7 +40,7 @@ const ReservationConfirmModal = ({user, modal, data, closeModal, make, bedReserv
         setLoading(true)
         
         try {
-            var result = await reserveBed(user.id, data)
+            var result = await reserveBed(shelter, data)
             closeModal()
             setLoading(false)
             toast.success(result.data.message,{

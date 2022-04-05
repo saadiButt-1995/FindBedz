@@ -85,7 +85,6 @@ function OrganizationEditprofile() {
     delete users.userName
     delete users.role;
     delete users.password;
-    delete users.organization;
 
     if (!validForm()) {
       setLoading(false)

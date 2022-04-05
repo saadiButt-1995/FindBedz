@@ -6,7 +6,7 @@ import moment from "moment";
 function Abc({shelter, user, date}) {
   const [modal, setModal] = useState(false);
 
-  const openModal = () => {
+  const openModal = (id) => {
     setModal(true);
   };
   const closeModal = () => {
@@ -20,7 +20,7 @@ function Abc({shelter, user, date}) {
   }
   return (
     <Wrapper>
-      <ReservationModal user={user} modal={modal} closeModal={closeModal} make={true} />
+      <ReservationModal shelter={shelter.id} user={user} modal={modal} closeModal={closeModal} make={true} />
       {shelter.id !== ''?
         <>
       <div className="company-page">
@@ -44,7 +44,7 @@ function Abc({shelter, user, date}) {
 
               <div className="available_round">
                 <div className="avail_beds">
-                  <div className="round green">{shelter.totalNumberOfBeds}</div>
+                  <div className="round green">{shelter.availableBeds}</div>
                   <img
                     className="available_image"
                     src="/images/sleepbed.svg"

@@ -111,6 +111,7 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
               value={filters.currentLocation}
               onChange={toggleLocation}
               checked={filters.currentLocation?true:false}
+              disabled={filters.searchBy==='distance'?false:true}
             />
             <label
               className="custom-control-label"
@@ -148,6 +149,7 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
                 defaultValue={filters.upto}
                 // checked={filters.upto === "2"?true:false}
                 onClick={changeUpto}
+                disabled={filters.searchBy==='distance'?false:true}
               />
               <label
                 className="form-check-label"
@@ -167,6 +169,7 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
                 defaultValue={filters.upto}
                 // checked={filters.upto === "4"?true:false}
                 onClick={changeUpto}
+                disabled={filters.searchBy==='distance'?false:true}
               />
               <label
                 className="form-check-label"
@@ -186,6 +189,7 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
                 defaultValue={filters.upto}
                 // checked={filters.upto === "10"?true:false}
                 onClick={changeUpto}
+                disabled={filters.searchBy==='distance'?false:true}
               />
               <label
                 className="form-check-label"
@@ -205,6 +209,7 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
                 defaultValue={filters.upto}
                 // checked={filters.upto === "20"?true:false}
                 onClick={changeUpto}
+                disabled={filters.searchBy==='distance'?false:true}
               />
               <label
                 className="form-check-label"
@@ -243,6 +248,7 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
               className="form-control label_input login_field"
               id="inputEmail4"
               onChange={changeCity}
+              disabled={filters.searchBy==='city'?false:true}
               />
           </div>
         </div>
@@ -267,6 +273,7 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
         <div className="sub">
           <div className="form-inline row justify-content-between pl-0 pr-0">
             <select className="form-control col-lg-3 login_field" 
+                disabled={filters.searchBy==='county'?false:true}
                 style={{fontWeight: 'bold'}} name="state" id="state" onChange={changeState} >
                 <option className="login_field" value="" selected>State</option>
                 {states_with_nick.map((item, index)=> {
@@ -276,7 +283,11 @@ const Filters = ({service, filters, updateFilters, toggleAvailableBeds, show_ava
                 })}
             </select>
             
-            <select className="form-control col-md-8 login_field" value={county} onChange={changeCounty}>
+            <select className="form-control col-md-8 login_field" 
+                value={county} 
+                onChange={changeCounty}
+                disabled={filters.searchBy==='county'?false:true}
+              >
               {/* {!state? */}
                 <option className="login_field" value="" selected disabled>Select County</option>
               {/* :null} */}

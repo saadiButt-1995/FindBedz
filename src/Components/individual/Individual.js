@@ -427,56 +427,9 @@ const Individual = () => {
                       </div>
                   </div>
                   </div>
-                      {/* <Datepicker /> */}
-                      {/* <DropdownDate
-                        
-                        startDate={
-                          // optional, if not provided 1900-01-01 is startDate
-                          "1920-12-01" // 'yyyy-mm-dd' format only
-                        }
-                        endDate={
-                          // optional, if not provided current date is endDate
-                          "2022-11-01" // 'yyyy-mm-dd' format only
-                        }
-                        selectedDate={
-                          // optional
-                          users.date_of_birth
-                          // this.state.selectedDate // 'yyyy-mm-dd' format only
-                        }
-                        onYearChange={(year) => {
-                          // optional
-                          setYear(year);
-                        }}
-                        onDayChange={(day) => {
-                          // optional
-                          setDay(day);
-                        }}
-                        onMonthChange={(month) => {
-                          // optional
-                          setMonth(month);
-                        }}
-                        onDateChange={(date) => {
-                          // optional
-                          // setDate(date);
-                          setSelectedDate(formatDate(date));
-                          // this.setState({
-                          //   date: date,
-                          //   selectedDate: formatDate(date),
-                          // });
-                        }}
-                      />
-                    </div> */}
+                      
                   </div>
-                  {/* <select className="select" multiple>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                    <option value="4">Four</option>
-                    <option value="5">Five</option>
-                    <option value="6">Six</option>
-                    <option value="7">Seven</option>
-                    <option value="8">Eight</option>
-                  </select> */}
+                 
                   <div className="row">
                     <div className="col-lg-6 pl-0 respon2">
                       <div className="mb-3 label_input">
@@ -528,7 +481,7 @@ const Individual = () => {
                 <Spinner/>
               :
               <>
-                <button className={`signupbtn ${!terms?'btn-secondary': ''}`} disabled={!terms?'disabled':''} type={"submit"}>
+                <button className={`signupbtn1 ${!terms?'btn-secondary': ''}`} disabled={!terms?'disabled':''} type={"submit"}>
                   SIGNUP
                 </button>
                 <Link className="" to="/">

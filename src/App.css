@@ -428,6 +428,18 @@ a:hover {
   border-radius: 5px;
   font-size: 15px;
 }
+.loginbtn1 {
+  background-color: #101b79;
+  color: #fff;
+  font-family: popreg;
+  font-weight: 700;
+  outline: none;
+  border: none;
+  width: 130px;
+  height: 38px;
+  border-radius: 5px;
+  font-size: 15px;
+}
 .logout_div img {
   height: 20px;
 }
@@ -487,6 +499,17 @@ textarea {
   display: flex;
 }
 .signupbtn {
+  height: 38px;
+  color: #fff;
+  background-color: #101b79;
+  border: 1.5px solid #101b79;
+  border-radius: 4px;
+  width: 27%;
+  margin-top: 15px;
+  font-family: popmd;
+  font-size: 14px;
+}
+.signupbtn1 {
   height: 38px;
   color: #fff;
   background-color: #101b79;

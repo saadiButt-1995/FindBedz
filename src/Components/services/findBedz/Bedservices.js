@@ -7,9 +7,11 @@ import GoogleMapModal from "./GoogleMap";
 export default function Bedservices({user, data, updateShelter, activeId, bedReserved, loading, show_available_beds, filters, total_beds, avail_beds}) {
   const [modal, setModal] = useState(false)
   const [map_modal, setMapModal] = useState(false)
+  const [shelter, setShelter] = useState('')
   const [coords, setCoords] = useState('-34.397,150.644');
-  const openModal = () => {
+  const openModal = (id) => {
       setModal(true)
+      setShelter(id)
   }
   const closeModal = () => {
       setModal(false)
@@ -28,17 +30,13 @@ export default function Bedservices({user, data, updateShelter, activeId, bedRes
       }else{
         show = true
       }
-      // if(filters.shelterIsFor === item.shelterIsFor){
-      //   show = true
-      // }else{
-      //   show = false
-      // }
+    
       if(show){
         return (
         <div key={index} className="abc_details ml-1 mr-3 pl-3 pr-3 mb-2" style={{background: item.id === activeId?'rgba(221, 235, 255, 1)':''}} onClick={()=> updateShelter(item)}>
           {item.availableReservationBeds > 0?
             <div className="avail">
-              <div className="cricle_div23 green">{item.availableReservationBeds}</div>
+              <div className="cricle_div23 green">{item.availableBeds}</div>
               <img
                 className="ml-3"
                 style={{ height: "30px" }}
@@ -49,7 +47,7 @@ export default function Bedservices({user, data, updateShelter, activeId, bedRes
             </div>
             :
             <div className="avail">
-              <div className="cricle_div23 red">{item.availableReservationBeds}</div>
+              <div className="cricle_div23 red">{item.availableBeds}</div>
               <img
                 className="ml-3"
                 style={{ height: "30px" }}
@@ -87,7 +85,7 @@ export default function Bedservices({user, data, updateShelter, activeId, bedRes
                   style={{ textAlign: "center", marginTop: "-25px" }}
                   className="pr-3"
                 >
-                  <div className="cricle_div23 golden">3</div>
+                  <div className="cricle_div23 golden">{item.availableReservationBeds}</div>
                   <div
                     className="avail_title font10"
                     style={{ marginTop: "-18px" }}
@@ -95,7 +93,7 @@ export default function Bedservices({user, data, updateShelter, activeId, bedRes
                     <button
                       style={{ border: "none" }}
                       className="reserve-btn"
-                      onClick={openModal}
+                      onClick={()=> openModal(item.id)}
                     >
                       Reserve
                     </button>
@@ -127,7 +125,7 @@ export default function Bedservices({user, data, updateShelter, activeId, bedRes
 
     <GoogleMapModal user={user} map_modal={map_modal} closeMapModal={closeMapModal} coords={coords}/> 
       
-      <ReservationModal user={user} modal={modal} closeModal={closeModal} make={true} bedReserved={bedReserved} />
+      <ReservationModal shelter={shelter} user={user} modal={modal} closeModal={closeModal} make={true} bedReserved={bedReserved} />
       <div className="bedservices mt-2 mb-5">
         <div className="available_round">
           <div className="avail_beds">

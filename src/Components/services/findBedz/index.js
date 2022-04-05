@@ -79,9 +79,9 @@ const FindAbed = () => {
 
   const updateFilters = (filters) => {
     setFilters(filters)
-    if(!loading){
+    // if(!loading){
       findBeds()
-    }
+    // }
   }
 
   const toggleAvailableBeds = () => {
@@ -97,11 +97,12 @@ const FindAbed = () => {
     try{
       var response = await getBeds(filters)
       setLoading(false)
-      setData(response.data.result.results)
+      const shelters = response.data.shelters?response.data.shelters.results:response.data.shelters
+      setData(shelters)
       setAvailableBeds(response.data.kpi[0].availableBeds)
       setTotalBeds(response.data.kpi[0].totalBeds)
-      if(response.data.result.results.length > 0){
-      setShelter(response.data.result.results[0])
+      if(shelters.length > 0){
+      setShelter(shelters[0])
     }else{
         setShelter({
           "food": [], "shelterIsFor": "",
