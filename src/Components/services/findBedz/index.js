@@ -50,13 +50,13 @@ const FindAbed = () => {
     // client-side
     socket.on("connect", () => {
       console.log(socket.id); // x8WIv7-mJelg7on_ALbx
-      findBeds()
+      findBeds(true)
       console.log('Connected');
       socket.emit('socketShelter')
     });
 
     socket.on('socketShelter', (data)=> {
-      findBeds()
+      findBeds(false)
       setDate(new Date())
     })
 
@@ -92,7 +92,7 @@ const FindAbed = () => {
     setShelter(data)
   }
 
-  const findBeds = async()=> {    
+  const findBeds = async(first)=> {    
     setLoading(true)
     try{
       var response = await getBeds(filters)
@@ -101,16 +101,18 @@ const FindAbed = () => {
       setData(shelters)
       setAvailableBeds(response.data.kpi[0].availableBeds)
       setTotalBeds(response.data.kpi[0].totalBeds)
-      if(shelters.length > 0){
-      setShelter(shelters[0])
-    }else{
-        setShelter({
-          "food": [], "shelterIsFor": "",
-          "amenities": [], "pets_allowed": [], "storage": "", "image": [], "isblock": false, 
-          "role": "", "userName": "", "address": "", "shelterName": "", "phone": "", "email": "", 
-          "password": "", "city": "", "state": "", "contact_person_name": "", "zipCode": "", "totalAllowedForReservation": 0,
-          "totalNumberOfBeds": 0, "description": "", "rules": "", "maxTimeToHoldABed": 0, "id": ""
-        })
+      if(first){
+        if(shelters.length > 0){
+          setShelter(shelters[0])
+        }else{
+          setShelter({
+            "food": [], "shelterIsFor": "",
+            "amenities": [], "pets_allowed": [], "storage": "", "image": [], "isblock": false, 
+            "role": "", "userName": "", "address": "", "shelterName": "", "phone": "", "email": "", 
+            "password": "", "city": "", "state": "", "contact_person_name": "", "zipCode": "", "totalAllowedForReservation": 0,
+            "totalNumberOfBeds": 0, "description": "", "rules": "", "maxTimeToHoldABed": 0, "id": ""
+          })
+        }
       }
     }
     catch(e){
@@ -119,8 +121,9 @@ const FindAbed = () => {
     }
   }
 
+
   const bedReserved = () => {
-    findBeds()
+    // findBeds()
   }  
 
   useEffect(()=> {

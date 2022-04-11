@@ -45,9 +45,7 @@ const getReservationDetail = async(reservationId) => {
 const reserveBed = async(shelterId, data) => {
     var query = `shelter/reservation?shelterId=${shelterId}`
     var response = await axios.post(query, data)
-    if (response.status === 201) {
-        return response
-    }
+    return response
 }
 
 const extendReservation = async(reservationId, data) => {

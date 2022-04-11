@@ -152,7 +152,7 @@ function Sheltordashboard() {
     <>
       <Wrapper>
       <DashboardNav/>
-      <ReservationModal user={user} modal={modal} closeModal={closeModal} make={false} bedReserved={bedReserved}/>
+      <ReservationModal shelterId={user._id?user._id:user.id} user={user} modal={modal} closeModal={closeModal} make={false} bedReserved={bedReserved}/>
       <ReservationExtendModal user={user} modal={modal_extend} held_for={held_for} closeModal={closeModalExtend} extendReserve={extendReserve}/>
       <ReservationDeleteModal user={user} modal={modal_delete} closeModal={closeModalDelete} cancelReserve={cancelReserve}/>
 

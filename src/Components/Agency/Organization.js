@@ -636,7 +636,7 @@ function Organization() {
             style={{ paddingLeft: "17px", paddingTop: "20px" }}
             onChange={onChange}
           >
-            <span className="label_input location ml-2">
+            <span className="label_input ml-2">
             SYSTEM WILL USE YOUR DEVICE’S LOCATION SERVICES
               <span className="star_red">*</span>
             </span>

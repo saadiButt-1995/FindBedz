@@ -4,7 +4,7 @@ import { Wrapper } from "./Components/sheltorProvider/reservations/reservations.
 import ReservationConfirmModal from "./Components/sheltorProvider/reservations/ReservationConfirmModal";
 import { toast } from "react-toastify";
 
-const ReservationModal = ({shelter, user, modal, closeModal, make, from_reservation, bedReserved}) => {
+const ReservationModal = ({shelterId, user, modal, closeModal, make, from_reservation, bedReserved}) => {
 
     const [bed_holder, setBedHolder] = useState("")
     const [requester, setRequester] = useState("")
@@ -90,7 +90,7 @@ const ReservationModal = ({shelter, user, modal, closeModal, make, from_reservat
 
     return (
         <Wrapper>
-        <ReservationConfirmModal shelter={shelter} user={user} modal={confirm} closeModal={closeConfirmModal} make={make} data={data} bedReserved={bedReserved}/>
+        <ReservationConfirmModal shelterId={shelterId} user={user} modal={confirm} closeModal={closeConfirmModal} make={make} data={data} bedReserved={bedReserved}/>
         <Modal
             isOpen={modal}
             onRequestClose={closeModal}

@@ -47,7 +47,7 @@ const Home = () => {
               });
               setTimeout(async() => {
                 setLoading(false)
-                if (response.data.role === "shelter") {
+                if (response.data.role === "admin") {
                   await setLocalValues(response.data)
                   navigate("/admin");
                 }

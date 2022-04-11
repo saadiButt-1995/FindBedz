@@ -318,7 +318,7 @@ const Individual = () => {
                       className="form-control login_field"
                       id="exampleFormControlSelect1"
                     >
-                      <option className="login_field" selected disabled>SELECT GENDER</option>
+                      <option className="login_field" selected disabled>Select Gender</option>
                       <option className="login_field">MALE</option>
                       <option className="login_field">FEMALE</option>
                       <option className="login_field">OTHER</option>
@@ -468,7 +468,7 @@ const Individual = () => {
                 style={{ paddingLeft: "17px", paddingTop: "20px" }}
                 onChange={onChange}
               >
-                <span className="label_input location ml-2">
+                <span className="label_input ml-2 ">
                   SYSTEM WILL USE YOUR DEVICE’S LOCATION SERVICES
                   <span className="star_red">*</span>
                 </span>

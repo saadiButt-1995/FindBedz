@@ -125,7 +125,7 @@ export default function Bedservices({user, data, updateShelter, activeId, bedRes
 
     <GoogleMapModal user={user} map_modal={map_modal} closeMapModal={closeMapModal} coords={coords}/> 
       
-      <ReservationModal shelter={shelter} user={user} modal={modal} closeModal={closeModal} make={true} bedReserved={bedReserved} />
+      <ReservationModal shelterId={shelter} user={user} modal={modal} closeModal={closeModal} make={true} bedReserved={bedReserved} />
       <div className="bedservices mt-2 mb-5">
         <div className="available_round">
           <div className="avail_beds">

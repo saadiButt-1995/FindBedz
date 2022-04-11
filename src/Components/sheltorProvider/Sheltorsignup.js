@@ -361,7 +361,11 @@ function Sheltorsignup() {
     if (window.confirm('Sure to delete this photo?')){
       fileList.splice(index, 1)
       setTimeout(() => {
+        setLoading(true)
         setFileList(fileList)
+        setTimeout(() => {
+          setLoading(false)
+        }, 200);
       }, 500);
     }
   }
@@ -1183,7 +1187,7 @@ function Sheltorsignup() {
                 style={{ paddingLeft: "17px", paddingTop: "20px" }}
                 onChange={onChange}
               >
-                <span className="label_input location ml-2">
+                <span className="label_input ml-2">
                   SYSTEM WILL USE YOUR DEVICE’S LOCATION SERVICES
                   <span className="star_red">*</span>
                 </span>

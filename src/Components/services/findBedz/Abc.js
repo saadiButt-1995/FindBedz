@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Wrapper } from "./findbedz.styled";
 import ReservationModal from "../../../ReservationModal";
 import moment from "moment";
 
 function Abc({shelter, user, date}) {
   const [modal, setModal] = useState(false);
+  const [masterImage, setMasterImage] = useState('');
 
   const openModal = (id) => {
     setModal(true);
@@ -13,6 +14,16 @@ function Abc({shelter, user, date}) {
     setModal(false);
   };
 
+  useEffect(() => {
+    if(shelter.image.length > 0){
+      changeImage(shelter.image[0])
+    }
+  }, [shelter])
+
+  const changeImage = (image) => {
+    setMasterImage(image)
+  }
+
   const capitalize = (text)=> {
     const result = text.replace(/([A-Z])/g, " $1");
     const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
@@ -20,7 +31,7 @@ function Abc({shelter, user, date}) {
   }
   return (
     <Wrapper>
-      <ReservationModal shelter={shelter.id} user={user} modal={modal} closeModal={closeModal} make={true} />
+      <ReservationModal shelterId={shelter.id} user={user} modal={modal} closeModal={closeModal} make={true} />
       {shelter.id !== ''?
         <>
       <div className="company-page">
@@ -79,12 +90,12 @@ function Abc({shelter, user, date}) {
 
               {shelter.image.length > 0?
                 <div className="company_images">
-                  <img className="largepic" src={shelter.image[0]} alt="" style={{minHeight: '150px', width: '100%'}} />
+                  <img className="largepic" src={masterImage} alt="" style={{minHeight: '150px', width: '100%'}} />
                   {shelter.image.length > 1?  
                     <>
                     <div className="mt-1">
                       {shelter.image.map((image, index)=> {
-                        if(index === 0){
+                        // if(index !== 0){
                           return (
                             <img
                               className="mr-2 smallpic"
@@ -92,9 +103,10 @@ function Abc({shelter, user, date}) {
                               width="50px"
                               height="50px"
                               alt=""
+                              onClick={()=> changeImage(image)}
                             />
                           )
-                        }else{return(<></>)}
+                        // }else{return(<></>)}
                       })}
                     </div>
                     </>

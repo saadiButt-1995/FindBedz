@@ -5,7 +5,7 @@ import { reserveBed } from "../../../services/beds";
 import Spinner from "../../Loaders/buttonTailSpinner";
 import { Wrapper } from "./reservations.styled";
 
-const ReservationConfirmModal = ({shelter, user, modal, data, closeModal, make, bedReserved}) => {
+const ReservationConfirmModal = ({shelterId, user, modal, data, closeModal, make, bedReserved}) => {
 
     const [loading, setLoading] = useState(false)
     const customStyles = {
@@ -40,18 +40,24 @@ const ReservationConfirmModal = ({shelter, user, modal, data, closeModal, make, 
         setLoading(true)
         
         try {
-            var result = await reserveBed(shelter, data)
+            var result = await reserveBed(shelterId, data)
             closeModal()
             setLoading(false)
+            console.log(result);
             toast.success(result.data.message,{
                 position: toast.POSITION.TOP_CENTER
             });
             bedReserved()
         }catch(e){
-            setLoading(false)
-            toast.error(e.response.data.message,{
-                position: toast.POSITION.TOP_CENTER
-            });
+            try{
+                setLoading(false)
+                toast.error(e.response.data,{
+                    position: toast.POSITION.TOP_CENTER
+                });
+           
+            } catch(e){
+                window.location.reload('refresh')
+            }
         }
     }
 
