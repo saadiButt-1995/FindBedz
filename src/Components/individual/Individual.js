@@ -20,6 +20,20 @@ const Individual = () => {
   const [phoneValue, setPhonevalue] = useState("");
   const [loading, setLoading] = useState(false)
   
+  const ethnicities = [
+    'MIXED RACE',
+    'ARCTIC ( SIBERIAN, ESKIMO )',
+    'CAUCASIAN ( INDIAN )',
+    'CAUCASIAN ( MIDDLE EAST )',
+    'CAUCASIAN ( NORTH AFRICAN, OTHER )',
+    'INDIGENOUS AUSTRALIAN',
+    'NATIVE AMERICAN',
+    'NORTH EAST ASIAN  ( MONGOL, TIBETAN, KOREAN JAPANESE, ETC )',
+    'PACIFIC (POLYNESIAN , MICRONESIAN, ETC)',
+    'SOUTH EAST ASIAN (CHINESE,THAI, MALAY, FILIPINO, ETC)',
+    'WEST AFRICAN, BUSHMEN, ETHIOPIAN',
+    'OTHER RACE',
+  ];
   const onChange = (e)=> {
     // setTerms(e.target.checked)
     getMyLocation(e)
@@ -285,21 +299,35 @@ const Individual = () => {
                       className="form-control login_field"
                       id="exampleFormControlSelect1"
                     >
-                      <option className="login_field">Enter Ethnicity</option>
+                      <option className="login_field" selected disabled>
+                        Enter Ethnicity
+                      </option>
+                      {ethnicities.map((item, index) => {
+                        return (
+                          <option
+                            key={index}
+                            className="login_field"
+                            value={item}
+                            selected={item === users.ethnicity ? true : false}
+                          >
+                            {item}
+                          </option>
+                        );
+                      })}
+                      {/* <option className="login_field">Enter Ethnicity</option>
                       <option>MIXED RACE</option>
-                      <option>ARCTIC ( SIBERIAN, ESKIMO )</option>
-                      <option>CAUCASIAN ( EUROPEAN )</option>
-                      <option>CAUCASIAN ( INDIAN )</option>
-                      <option>CAUCASIAN ( MIDDLE EAST )</option>
-                      <option>CAUCASIAN ( NORTH AFRICAN, OTHER )</option>
-                      <option>INDIGENOUS AUSTRALIAN</option>
-                      <option>NATIVE AMERICAN</option>
-                      <option>NORTH EAST ASIAN  ( MONGOL, TIBETAN, KOREAN JAPANESE, ETC )</option>
-                      <option>PACIFIC (POLYNESIAN , MICRONESIAN, ETC)</option>
-                      <option>SOUTH EAST ASIAN (CHINESE,THAI, MALAY, FILIPINO, ETC)</option>
-                      <option>WEST AFRICAN, BUSHMEN, ETHIOPIAN</option>
-                      <option>OTHER RACE</option>
-                    /
+                      <option value="">ARCTIC ( SIBERIAN, ESKIMO )</option>
+                      <option value="">CAUCASIAN ( EUROPEAN )</option>
+                      <option value="">CAUCASIAN ( INDIAN )</option>
+                      <option value="">CAUCASIAN ( MIDDLE EAST )</option>
+                      <option value="">CAUCASIAN ( NORTH AFRICAN, OTHER )</option>
+                      <option value="">INDIGENOUS AUSTRALIAN</option>
+                      <option value="">NATIVE AMERICAN</option>
+                      <option value="">NORTH EAST ASIAN  ( MONGOL, TIBETAN, KOREAN JAPANESE, ETC )</option>
+                      <option value="">PACIFIC (POLYNESIAN , MICRONESIAN, ETC)</option>
+                      <option value="">SOUTH EAST ASIAN (CHINESE,THAI, MALAY, FILIPINO, ETC)</option>
+                      <option value="">WEST AFRICAN, BUSHMEN, ETHIOPIAN</option>
+                      <option value="">OTHER RACE</option> */}
                     </select>
                   </div>
 
