@@ -3,24 +3,30 @@ import "../../index.css";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { days, months, results, states, years } from "../../services/states_counties";
+import {
+  days,
+  months,
+  results,
+  states,
+  years,
+} from "../../services/states_counties";
 import { setUsersData, updateUserDetails } from "../../services/auth";
-import DashboardNav from '../Auth/Navs/DashboardNav'
+import DashboardNav from "../Auth/Navs/DashboardNav";
 import { Wrapper } from "./Individual.styled";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import Spinner from "../Loaders/buttonTailSpinner";
 
 const IndividualEditprofile = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user_data"));
-  const user_id = localStorage.getItem("user")
-  const token = `Bearer ${localStorage.getItem("token")}`
+  const user_id = localStorage.getItem("user");
+  const token = `Bearer ${localStorage.getItem("token")}`;
   const [day, setDay] = useState(0);
   const [month, setMonth] = useState(0);
   const [year, setYear] = useState(0);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+
   const [counties, setCounties] = useState([]);
   const [users, setUser] = useState({
     userName: user.userName,
@@ -36,18 +42,18 @@ const IndividualEditprofile = () => {
     email: user.email,
   });
   const ethnicities = [
-    'MIXED RACE',
-    'ARCTIC ( SIBERIAN, ESKIMO )',
-    'CAUCASIAN ( INDIAN )',
-    'CAUCASIAN ( MIDDLE EAST )',
-    'CAUCASIAN ( NORTH AFRICAN, OTHER )',
-    'INDIGENOUS AUSTRALIAN',
-    'NATIVE AMERICAN',
-    'NORTH EAST ASIAN  ( MONGOL, TIBETAN, KOREAN JAPANESE, ETC )',
-    'PACIFIC (POLYNESIAN , MICRONESIAN, ETC)',
-    'SOUTH EAST ASIAN (CHINESE,THAI, MALAY, FILIPINO, ETC)',
-    'WEST AFRICAN, BUSHMEN, ETHIOPIAN',
-    'OTHER RACE',
+    "MIXED RACE",
+    "ARCTIC ( SIBERIAN, ESKIMO )",
+    "CAUCASIAN ( INDIAN )",
+    "CAUCASIAN ( MIDDLE EAST )",
+    "CAUCASIAN ( NORTH AFRICAN, OTHER )",
+    "INDIGENOUS AUSTRALIAN",
+    "NATIVE AMERICAN",
+    "NORTH EAST ASIAN  ( MONGOL, TIBETAN, KOREAN JAPANESE, ETC )",
+    "PACIFIC (POLYNESIAN , MICRONESIAN, ETC)",
+    "SOUTH EAST ASIAN (CHINESE,THAI, MALAY, FILIPINO, ETC)",
+    "WEST AFRICAN, BUSHMEN, ETHIOPIAN",
+    "OTHER RACE",
   ];
 
   const toggle = () => {
@@ -65,46 +71,45 @@ const IndividualEditprofile = () => {
   const handleInput = (event) => {
     name = event.target.name;
     value = event.target.value;
-    if(name === 'zip_code'){
-      if(value.length > 5){
-        return
+    if (name === "zip_code") {
+      if (value.length > 5) {
+        return;
       }
     }
     setUser({ ...users, [name]: value });
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     /* eslint-disable */
-    setDay(users.date_of_birth.split("-")[2])
-    setMonth(users.date_of_birth.split("-")[1])
-    setYear(users.date_of_birth.split("-")[0])
-  }, [])
+    setDay(users.date_of_birth.split("-")[2]);
+    setMonth(users.date_of_birth.split("-")[1]);
+    setYear(users.date_of_birth.split("-")[0]);
+  }, []);
 
   const submit = async (e) => {
-
     e.preventDefault();
-    setLoading(true) 
-    if(!validForm()){
-      setLoading(false)
-      toast.error('Validation Error!',{
-        position: toast.POSITION.TOP_CENTER
-      })
-      return
+    setLoading(true);
+    if (!validForm()) {
+      setLoading(false);
+      toast.error("Validation Error!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
     }
-    if(!year){
-      setLoading(false)
-      toast.error('Please Select Year!',{
-        position: toast.POSITION.TOP_CENTER
-      })
-      return
+    if (!year) {
+      setLoading(false);
+      toast.error("Please Select Year!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
     }
-    users.date_of_birth = `${year}-${month}-${day}`
+    users.date_of_birth = `${year}-${month}-${day}`;
     // if (users.password === "" || users.password === undefined) {
-      // delete users.password;
+    // delete users.password;
     // }
     delete users.userName;
     delete users.role;
-    delete users.password;    
+    delete users.password;
     if (users.county === "" || users.county === undefined) {
       delete users.county;
     }
@@ -120,29 +125,29 @@ const IndividualEditprofile = () => {
     if (users.state === "" || users.state === undefined) {
       delete users.state;
     }
-    try{
-      var response = await updateUserDetails(users, user_id, token)
-      if(response.status === 200){
-        setLoading(false)
-        toast.success("Updated Successfully!",{
-          position: toast.POSITION.TOP_CENTER
+    try {
+      var response = await updateUserDetails(users, user_id, token);
+      if (response.status === 200) {
+        setLoading(false);
+        toast.success("Updated Successfully!", {
+          position: toast.POSITION.TOP_CENTER,
         });
-        setUsersData(user._id)
-          setTimeout(() => {
-            navigate("/individual-landingpage");
-          }, 1500);
-        }else{
-          setLoading(false)
-          toast.error("Fields Cannot be empty",{
-            position: toast.POSITION.TOP_CENTER
-          });
-          console.log(response);
-        }
-    }catch(e){
-      setLoading(false)
-      console.log('ERROR*************');
-      toast.error(e.response.data.message,{
-        position: toast.POSITION.TOP_CENTER
+        setUsersData(user._id);
+        setTimeout(() => {
+          navigate("/individual-landingpage");
+        }, 1500);
+      } else {
+        setLoading(false);
+        toast.error("Fields Cannot be empty", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+        console.log(response);
+      }
+    } catch (e) {
+      setLoading(false);
+      console.log("ERROR*************");
+      toast.error(e.response.data.message, {
+        position: toast.POSITION.TOP_CENTER,
       });
     }
   };
@@ -189,13 +194,13 @@ const IndividualEditprofile = () => {
 
   const changeState = (e) => {
     const state = e.target.value;
-    setUser({...users, state: state})
+    setUser({ ...users, state: state });
     getCountiesOfState(state);
   };
 
   const changeCounty = (e) => {
     const county = e.target.value;
-    setUser({...users, county: county})
+    setUser({ ...users, county: county });
   };
 
   const getCountiesOfState = (state) => {
@@ -203,18 +208,18 @@ const IndividualEditprofile = () => {
     setCounties(data);
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     setTimeout(() => {
       /* eslint-disable */
       getCountiesOfState(users.state);
       // changeState(users.state)
     }, 1000);
-  }, []) // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // eslint-disable-next-line react-hooks/exhaustive-deps
 
   return (
     <Wrapper>
       <ToastContainer />
-      <DashboardNav/>
+      <DashboardNav />
       <div className="account">
         <div className="popo">
           <img
@@ -229,8 +234,8 @@ const IndividualEditprofile = () => {
               fontFamily: "popbold",
               fontSize: "16px",
               color: "#151515",
-              marginTop: '10px',
-              letterSpacing: '2px'
+              marginTop: "10px",
+              letterSpacing: "2px",
             }}
           >
             EDIT PROFILE
@@ -275,7 +280,7 @@ const IndividualEditprofile = () => {
 
                   <div className="mb-3 label_input">
                     <label htmlFor="validationCustom02">
-                    SALUTATION (NICK NAME)<span className="star_red">*</span> 
+                      SALUTATION (NICK NAME)<span className="star_red">*</span>
                     </label>
                     <input
                       name="nickName"
@@ -330,7 +335,7 @@ const IndividualEditprofile = () => {
                     </select>
                   </div>
 
-                  <div className="form-group" style={{marginTop: '-5px'}}>
+                  <div className="form-group" style={{ marginTop: "-5px" }}>
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
@@ -344,10 +349,30 @@ const IndividualEditprofile = () => {
                       className="form-control login_field"
                       id="exampleFormControlSelect1"
                     >
-                      <option className="login_field" selected disabled>Select Gender</option>
-                      <option className="login_field" value={"MALE"} selected={users.gender === 'MALE'? true: false}>Male</option>
-                      <option className="login_field" value={"FEMALE"} selected={users.gender === 'FEMALE'? true: false}>Female</option>
-                      <option className="login_field" value={"OTHER"} selected={users.gender === 'OTHER'? true: false}>Other</option>
+                      <option className="login_field" selected disabled>
+                        Select Gender
+                      </option>
+                      <option
+                        className="login_field"
+                        value={"MALE"}
+                        selected={users.gender === "MALE" ? true : false}
+                      >
+                        Male
+                      </option>
+                      <option
+                        className="login_field"
+                        value={"FEMALE"}
+                        selected={users.gender === "FEMALE" ? true : false}
+                      >
+                        Female
+                      </option>
+                      <option
+                        className="login_field"
+                        value={"OTHER"}
+                        selected={users.gender === "OTHER" ? true : false}
+                      >
+                        Other
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -409,7 +434,7 @@ const IndividualEditprofile = () => {
                       defaultValue={normalizeCardNumber(users.phone)}
                       onChange={(event) => {
                         const { value } = event.target;
-                        users.phone = value
+                        users.phone = value;
                         event.target.value = normalizeCardNumber(value);
                       }}
                     />
@@ -427,44 +452,94 @@ const IndividualEditprofile = () => {
                   </div>
 
                   <div className="form-group">
-                  <label
+                    <label
                       className="label_input"
                       for="exampleFormControlSelect1"
                     >
                       DATE OF BIRTH <span className="star_red">*</span>
                     </label>
-                  <div class="row">
+                    <div class="row">
                       <div class="col-md-4  m-0 p-0 pr-3">
-                          <select onChange={(e)=> setMonth(e.target.value)} name="" id="" className="form-control login_field">
-                              <option value="" selected disabled>Select Month</option>
-                              {months.map((element) => {
-                                return (
-                                  <option selected={users.date_of_birth.split("-")[1] == element? true : false} className="login_field" value={element}>{element}</option>
-                                )
-                              })}
-                          </select>
+                        <select
+                          onChange={(e) => setMonth(e.target.value)}
+                          name=""
+                          id=""
+                          className="form-control login_field"
+                        >
+                          <option value="" selected disabled>
+                            Select Month
+                          </option>
+                          {months.map((element) => {
+                            return (
+                              <option
+                                selected={
+                                  users.date_of_birth.split("-")[1] == element
+                                    ? true
+                                    : false
+                                }
+                                className="login_field"
+                                value={element}
+                              >
+                                {element}
+                              </option>
+                            );
+                          })}
+                        </select>
                       </div>
                       <div class="col-md-4  m-0 p-0 pr-3">
-                          <select onChange={(e)=> setDay(e.target.value)} name="" id="" className="form-control login_field">
-                              <option value="" selected disabled>Select Day</option>
-                              {days.map((element )=> {
-                                return (
-                                  <option selected={users.date_of_birth.split("-")[2] == element? true : false} className="login_field" value={element}>{element}</option>
-                                )
-                              })}
-                          </select>
+                        <select
+                          onChange={(e) => setDay(e.target.value)}
+                          name=""
+                          id=""
+                          className="form-control login_field"
+                        >
+                          <option value="" selected disabled>
+                            Select Day
+                          </option>
+                          {days.map((element) => {
+                            return (
+                              <option
+                                selected={
+                                  users.date_of_birth.split("-")[2] == element
+                                    ? true
+                                    : false
+                                }
+                                className="login_field"
+                                value={element}
+                              >
+                                {element}
+                              </option>
+                            );
+                          })}
+                        </select>
                       </div>
                       <div class="col-md-4 m-0 p-0 pr-0">
-                          <select onChange={(e)=> setYear(e.target.value)} name="" id="" className="form-control login_field">
-                              <option value="" selected disabled>Select Year</option>
-                              {years.map((element) => {
-                                return (
-                                  <option selected={users.date_of_birth.split("-")[0] == element? true : false} value={element}>{element}</option>
-                                )
-                              })}
-                          </select>
+                        <select
+                          onChange={(e) => setYear(e.target.value)}
+                          name=""
+                          id=""
+                          className="form-control login_field"
+                        >
+                          <option value="" selected disabled>
+                            Select Year
+                          </option>
+                          {years.map((element) => {
+                            return (
+                              <option
+                                selected={
+                                  users.date_of_birth.split("-")[0] == element
+                                    ? true
+                                    : false
+                                }
+                                value={element}
+                              >
+                                {element}
+                              </option>
+                            );
+                          })}
+                        </select>
                       </div>
-                  </div>
+                    </div>
                     {/* <label
                       className="label_input"
                       for="exampleFormControlSelect1"
@@ -513,7 +588,7 @@ const IndividualEditprofile = () => {
                                 className="login_field"
                                 key={index}
                                 value={item}
-                                selected={item===users.state?true:false}
+                                selected={item === users.state ? true : false}
                               >
                                 {item}
                               </option>
@@ -532,9 +607,9 @@ const IndividualEditprofile = () => {
                           onChange={changeCounty}
                         >
                           {/* {users.state? */}
-                            <option className="login_field" selected disabled>
-                             Select County
-                            </option>
+                          <option className="login_field" selected disabled>
+                            Select County
+                          </option>
                           {/* :null} */}
                           {counties.map((item, index) => {
                             return (
@@ -542,7 +617,11 @@ const IndividualEditprofile = () => {
                                 className="login_field"
                                 key={index}
                                 value={item.countyName}
-                                selected={item.countyName===users.county?true:false}
+                                selected={
+                                  item.countyName === users.county
+                                    ? true
+                                    : false
+                                }
                               >
                                 {item.countyName}
                               </option>
@@ -554,29 +633,27 @@ const IndividualEditprofile = () => {
                   </div>
                 </div>
               </div>
-            
-            <div className="signup_footer">
-              {/* <Link to="/login" onClick={submit}> */}
-              {loading?
-                <Spinner/>
-              :
-              <>
-                <button
-                  className="signupbtn"
-                  style={{ letterSpacing: '2px' }}
-                  type={"submit"}
-                >
-                  SUBMIT CHANGES
-                </button>
-                <Link className="" to="/">
-                  <p className="footer_sign_up">Cancel</p>
-                </Link>
-              </>
-              }
-            </div>
 
+              <div className="signup_footer">
+                {/* <Link to="/login" onClick={submit}> */}
+                {loading ? (
+                  <Spinner />
+                ) : (
+                  <>
+                    <button
+                      className="signupbtn1"
+                      style={{ letterSpacing: "2px" }}
+                      type={"submit"}
+                    >
+                      SUBMIT CHANGES
+                    </button>
+                    <Link className="" to="/">
+                      <p className="footer_sign_up">Cancel</p>
+                    </Link>
+                  </>
+                )}
+              </div>
             </div>
-
           </form>
         </div>
       </div>

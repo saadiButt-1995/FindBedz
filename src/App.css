@@ -64,6 +64,15 @@ a:hover {
   margin-bottom: 45px !important;
 }
 
+.dashboard_image {
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+.dashboard_image:hover {
+  transform: rotateY(180deg);
+}
+
+
 .centrebtn {
   margin-left: auto;
   margin-right: auto;
@@ -110,7 +119,10 @@ a:hover {
 }
 .phonecall {
   display: flex;
-  align-items: center;
+  align-items: center;  
+}
+.phonecall a {
+  color: black;
 }
 .abc_details {
   display: flex;
@@ -515,7 +527,7 @@ textarea {
   background-color: #101b79;
   border: 1.5px solid #101b79;
   border-radius: 4px;
-  width: 27%;
+  width: 250px;
   margin-top: 15px;
   font-family: popmd;
   font-size: 14px;

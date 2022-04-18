@@ -2,21 +2,21 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { getShelterDetails, updateShelterDetails } from "../../services/auth";
-import $ from 'jquery'
+import $ from "jquery";
 import { results, states } from "../../services/states_counties";
-import DashboardNav from '../Auth/Navs/DashboardNav'
+import DashboardNav from "../Auth/Navs/DashboardNav";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import Spinner from '../Loaders/buttonTailSpinner';
+import Spinner from "../Loaders/buttonTailSpinner";
 import { axios } from "../../config";
 import { TimePicker } from "antd";
-import moment from 'moment'
+import moment from "moment";
 
 function ShelterEditProfile() {
-  const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const u = JSON.parse(localStorage.getItem("user_data"));
-  const user_id = localStorage.getItem("user")
-  const token = `Bearer ${localStorage.getItem("token")}`
+  const user_id = localStorage.getItem("user");
+  const token = `Bearer ${localStorage.getItem("token")}`;
   const [open, setOpen] = useState(false);
 
   const [user, setUser] = useState({
@@ -39,104 +39,116 @@ function ShelterEditProfile() {
     maxTimeToHoldABed: u.maxTimeToHoldABed,
     food: u.food,
     shelterIsFor: "family",
-    hours_of_intake: [ moment(u.hours_of_intake.split(' -- ')[0]), moment(u.hours_of_intake.split(' -- ')[1]) ]
+    hours_of_intake: [
+      moment(u.hours_of_intake.split(" -- ")[0]),
+      moment(u.hours_of_intake.split(" -- ")[1]),
+    ],
   });
 
-  const [description, setDescription] = useState(u.description?u.description:"");
-  const [rules, setRules] = useState(u.rules?u.rules:"");
-  const [storage, setStorage] = useState(u.storage==="yes"?"yes":"none");
-  const [storage_message, setStorageMessage] = useState(u.storage_available_desc?u.storage_available_desc:"");
+  const [description, setDescription] = useState(
+    u.description ? u.description : ""
+  );
+  const [rules, setRules] = useState(u.rules ? u.rules : "");
+  const [storage, setStorage] = useState(u.storage === "yes" ? "yes" : "none");
+  const [storage_message, setStorageMessage] = useState(
+    u.storage_available_desc ? u.storage_available_desc : ""
+  );
   const [amenities, setAmenities] = useState(u.amenities);
   const [foods, setFoods] = useState(u.food);
   const [pets, setPets] = useState(u.pets_allowed);
-  const [shelter_For, setShelterFor] = useState('')
-  const [valuee, setValuee] = useState(u.totalNumberOfBeds?u.totalNumberOfBeds:0);
-  const [incVal, setIncVal] = useState(u.totalAllowedForReservation?u.totalAllowedForReservation:0);
-  const [hour, setHour] = useState(u.maxTimeToHoldABed?u.maxTimeToHoldABed:0);  
+  const [shelter_For, setShelterFor] = useState("");
+  const [valuee, setValuee] = useState(
+    u.totalNumberOfBeds ? u.totalNumberOfBeds : 0
+  );
+  const [incVal, setIncVal] = useState(
+    u.totalAllowedForReservation ? u.totalAllowedForReservation : 0
+  );
+  const [hour, setHour] = useState(
+    u.maxTimeToHoldABed ? u.maxTimeToHoldABed : 0
+  );
   // const [hours_intake, setHoursIntake] = useState(u.hours_intake?u.hours_intake:0);
   const [fileList, setFileList] = useState(u.image);
   const [images, setImages] = useState(u.image);
   const [counties, setCounties] = useState([]);
   const shelterTypes = [
-    {showname:'Adults ( any gender )', name: 'adults'}, 
-    {showname:'Female Only', name: 'female'}, 
-    {showname:'Male Only', name: 'male'}, 
-    {showname:'Family Friendly', name: 'family'}
-  ]
+    { showname: "Adults ( any gender )", name: "adults" },
+    { showname: "Female Only", name: "female" },
+    { showname: "Male Only", name: "male" },
+    { showname: "Family Friendly", name: "family" },
+  ];
   const foodTypes = [
-    {showname:'Breakfast', name: 'breakfast'}, 
-    {showname:'Lunch', name: 'lunch'}, 
-    {showname:'Dinner', name: 'dinner'}, 
-    {showname:'Snacks', name: 'snacks'}
-  ]
+    { showname: "Breakfast", name: "breakfast" },
+    { showname: "Lunch", name: "lunch" },
+    { showname: "Dinner", name: "dinner" },
+    { showname: "Snacks", name: "snacks" },
+  ];
   const ameniity_types = [
-    {showname:'Power Outlets', name: 'power_outlets'}, 
-    {showname:'Computer Access', name: 'computer_access'}, 
-    {showname:'WIFI', name: 'wifi'}, 
-    {showname:'Shower', name: 'shower'}
-  ]
+    { showname: "Power Outlets", name: "power_outlets" },
+    { showname: "Computer Access", name: "computer_access" },
+    { showname: "WIFI", name: "wifi" },
+    { showname: "Shower", name: "shower" },
+  ];
   const petTypes = [
-    {showname:'Dogs', name: 'dogs'}, 
-    {showname:'Cats', name: 'cats'}, 
-  ]
+    { showname: "Dogs", name: "dogs" },
+    { showname: "Cats", name: "cats" },
+  ];
 
-  
-  useEffect(()=> {
+  useEffect(() => {
     /* eslint-disable */
-    setValues()
-  }, [])
+    setValues();
+  }, []);
 
   const toggle = () => {
     setOpen(!open);
   };
 
   const setValues = () => {
-    u.food.forEach(x=> {
-      console.log('Choose a passwordChoose a password******');
+    u.food.forEach((x) => {
+      console.log("Choose a passwordChoose a password******");
       console.log(x);
-      foodTypes.forEach((item, index)=> {
-        console.log('inner');
+      foodTypes.forEach((item, index) => {
+        console.log("inner");
         console.log(item);
-        if(x === item.name){
-          console.log('#food'+index);
-          foodTypes[index].checked = true
-          $('#food'+index).prop('checked', true);
-          console.log('checked');
+        if (x === item.name) {
+          console.log("#food" + index);
+          foodTypes[index].checked = true;
+          $("#food" + index).prop("checked", true);
+          console.log("checked");
         }
-      })
-    })
-    u.amenities.forEach(x=> {
-      ameniity_types.forEach((item, index)=> {
-        if(x === item.name){
-          ameniity_types[index].checked = true
-          $('#amenities'+index).prop('checked', true);
+      });
+    });
+    u.amenities.forEach((x) => {
+      ameniity_types.forEach((item, index) => {
+        if (x === item.name) {
+          ameniity_types[index].checked = true;
+          $("#amenities" + index).prop("checked", true);
         }
-      })
-    })
-    u.pets_allowed.forEach(x=> {
-      petTypes.forEach((item, index)=> {
-        if(x === item.name){
-          petTypes[index].checked = true
-          $('#pets'+index).prop('checked', true);
+      });
+    });
+    u.pets_allowed.forEach((x) => {
+      petTypes.forEach((item, index) => {
+        if (x === item.name) {
+          petTypes[index].checked = true;
+          $("#pets" + index).prop("checked", true);
         }
-      })
-    })
+      });
+    });
     // u.shelterIsFor.forEach(x=> {
-      shelterTypes.forEach((item, index)=> {
-        if(u.shelterIsFor === item.name){
-          shelterTypes[index].checked = true
-          $('#shelters'+index).prop("checked", true);
-          console.log('checked');
+    shelterTypes.forEach((item, index) => {
+      if (u.shelterIsFor === item.name) {
+        shelterTypes[index].checked = true;
+        $("#shelters" + index).prop("checked", true);
+        console.log("checked");
       }
-      })
+    });
     // })
 
-    if(u.storage === 'none'){
-      $('#storages1').prop("checked", true);
-    }else{
-      $('#storages0').prop("checked", true);
+    if (u.storage === "none") {
+      $("#storages1").prop("checked", true);
+    } else {
+      $("#storages0").prop("checked", true);
     }
-  }
+  };
 
   const [errField, setErrField] = useState({
     userNameErr: "",
@@ -157,9 +169,9 @@ function ShelterEditProfile() {
   const handleInput = (event) => {
     name = event.target.name;
     value = event.target.value;
-    if(name === 'zipCode'){
-      if(value.length > 5){
-        return
+    if (name === "zipCode") {
+      if (value.length > 5) {
+        return;
       }
     }
     setUser({ ...user, [name]: value });
@@ -298,8 +310,8 @@ function ShelterEditProfile() {
   const decreament = () => {
     if (valuee > 0) {
       setValuee(valuee - 1);
-      if(incVal > valuee - 1){
-        setIncVal(valuee - 1)
+      if (incVal > valuee - 1) {
+        setIncVal(valuee - 1);
       }
     } else {
       setValuee(0);
@@ -313,133 +325,133 @@ function ShelterEditProfile() {
     return maskedText;
   };
 
-  const FoodHandle = (value)=> {
-    var exists = false
-    var index = 0
-    foods.forEach((item, key)=> {
-      if(item === value){
-        exists = true
-        index = key
+  const FoodHandle = (value) => {
+    var exists = false;
+    var index = 0;
+    foods.forEach((item, key) => {
+      if (item === value) {
+        exists = true;
+        index = key;
       }
-    })
-    if(!exists){
-      setFoods(foods.concat(value))
+    });
+    if (!exists) {
+      setFoods(foods.concat(value));
       // foods.push(value)
-    }else{
-      foods.splice(index, 1)
+    } else {
+      foods.splice(index, 1);
     }
     // setTimeout(() => {
     //   setFoods(foods)
     // }, 200);
-  }
+  };
 
-  const AmenityHandle = (value)=> {
-    var exists = false
-    var index = 0
-    amenities.forEach((item, key)=> {
-      if(item === value){
-        exists = true
-        index = key
+  const AmenityHandle = (value) => {
+    var exists = false;
+    var index = 0;
+    amenities.forEach((item, key) => {
+      if (item === value) {
+        exists = true;
+        index = key;
       }
-    })
-    if(!exists){
-      amenities.push(value)
-    }else{
-      amenities.splice(index, 1)
+    });
+    if (!exists) {
+      amenities.push(value);
+    } else {
+      amenities.splice(index, 1);
     }
     setTimeout(() => {
-      setAmenities(amenities)
+      setAmenities(amenities);
     }, 200);
-  }
+  };
 
-  const PetHandle = (value)=> {
-    var exists = false
-    var index = 0
-    pets.forEach((item, key)=> {
-      if(item === value){
-        exists = true
-        index = key
+  const PetHandle = (value) => {
+    var exists = false;
+    var index = 0;
+    pets.forEach((item, key) => {
+      if (item === value) {
+        exists = true;
+        index = key;
       }
-    })
-    if(!exists){
-      pets.push(value)
-    }else{
-      pets.splice(index, 1)
+    });
+    if (!exists) {
+      pets.push(value);
+    } else {
+      pets.splice(index, 1);
     }
     setTimeout(() => {
-      setPets(pets)
+      setPets(pets);
     }, 200);
-  }
+  };
 
-  const chooseImage = ()=> {
+  const chooseImage = () => {
     document.getElementById("image").click();
-  }
+  };
 
-  const selectImage = (event)=> {
-    var imagefile = document.querySelector('#image');
+  const selectImage = (event) => {
+    var imagefile = document.querySelector("#image");
     if (event.target.files && event.target.files[0]) {
-      
-        let img = event.target.files[0];
+      let img = event.target.files[0];
 
-        // check resolutions
-        if (isImage(img.name)) {
-          const files = Array.from(imagefile.files);
-          setImages(images.concat(files[0]))
-          let reader = new FileReader();
-          reader.readAsDataURL(img);
-          reader.onload = async() =>{                
-            setFileList(fileList.concat(reader.result))
-          };
-          reader.onerror = function (error) {
-            console.log("Error: ", error);
-          };
-        }else { 
-          toast.error('Invalid image format..',{
-            position: toast.POSITION.BOTTOM_CENTER
-          })
-          return false
-        }
+      // check resolutions
+      if (isImage(img.name)) {
+        const files = Array.from(imagefile.files);
+        setImages(images.concat(files[0]));
+        let reader = new FileReader();
+        reader.readAsDataURL(img);
+        reader.onload = async () => {
+          setFileList(fileList.concat(reader.result));
+        };
+        reader.onerror = function (error) {
+          console.log("Error: ", error);
+        };
+      } else {
+        toast.error("Invalid image format..", {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+        return false;
+      }
     }
-  }
+  };
   const isImage = (filename) => {
     var ext = getExtension(filename);
-    if (ext === "png" || ext === "jpg" || ext === "jpeg" || ext === "gif"){
+    if (ext === "png" || ext === "jpg" || ext === "jpeg" || ext === "gif") {
       return true;
     }
     return false;
-  }
+  };
   const getExtension = (filename) => {
     var parts = filename.split(".");
     return parts[parts.length - 1];
-  }
+  };
 
   const deletePhoto = (item, index) => {
-    
-    if (window.confirm('Sure to delete this photo?')){
-      if(item.includes("https://")){
-        axios.put("shelter/removeimage?shelterId="+u.id, {imagePath: item}).then((result)=> {
-          console.log('deleted');
-          console.log(result);
-        })
+    if (window.confirm("Sure to delete this photo?")) {
+      if (item.includes("https://")) {
+        axios
+          .put("shelter/removeimage?shelterId=" + u.id, { imagePath: item })
+          .then((result) => {
+            console.log("deleted");
+            console.log(result);
+          });
       }
-      fileList.splice(index, 1)
-      images.splice(index, 1)
+      fileList.splice(index, 1);
+      images.splice(index, 1);
       setTimeout(() => {
-        setImages(images)
-        setFileList(fileList)
-        var des = description
-        setDescription('')
+        setImages(images);
+        setFileList(fileList);
+        var des = description;
+        setDescription("");
         setTimeout(() => {
-          setDescription(des)
+          setDescription(des);
         }, 500);
       }, 500);
     }
-  }
+  };
 
   const submit = async (e) => {
     e.preventDefault();
-    setLoading(true)
-    delete user.password
+    setLoading(true);
+    delete user.password;
     if (user.food === "" || user.food === undefined) {
       delete user.food;
     }
@@ -457,46 +469,45 @@ function ShelterEditProfile() {
     formdata.append("county", user.county);
     formdata.append("contact_person_name", user.contact_person_name);
     formdata.append("zipCode", user.zipCode);
-    formdata.append( "totalAllowedForReservation", user.totalAllowedForReservation );
+    formdata.append(
+      "totalAllowedForReservation",
+      user.totalAllowedForReservation
+    );
     formdata.append("totalNumberOfBeds", user.totalNumberOfBeds);
-    if(user.maxTimeToHoldABed !== '')
+    if (user.maxTimeToHoldABed !== "")
       formdata.append("maxTimeToHoldABed", user.maxTimeToHoldABed);
-    if(rules !== '')
-      formdata.append("rules", rules);
-    if(description !== '')
-      formdata.append("description", description);
-    if(storage !== '')
-      formdata.append("storage", storage);
-    if(storage_message !== '')
+    if (rules !== "") formdata.append("rules", rules);
+    if (description !== "") formdata.append("description", description);
+    if (storage !== "") formdata.append("storage", storage);
+    if (storage_message !== "")
       formdata.append("storage_available_desc", storage_message);
-    if(shelter_For)
-      formdata.append("shelterIsFor", shelter_For);
-    if(user.hours_of_intake != 0)
+    if (shelter_For) formdata.append("shelterIsFor", shelter_For);
+    if (user.hours_of_intake != 0)
       formdata.append("hours_of_intake", user.hours_of_intake);
-    if(images.length > 0){
-      images.forEach((image)=> {
+    if (images.length > 0) {
+      images.forEach((image) => {
         formdata.append("image", image);
-      })
+      });
     }
-    if(foods.length > 0){
-      foods.forEach((item)=> {
+    if (foods.length > 0) {
+      foods.forEach((item) => {
         formdata.append("food", item);
-      })
-    }else{
+      });
+    } else {
       formdata.append("food", []);
     }
-    if(amenities.length > 0){
-      amenities.forEach((item)=> {
+    if (amenities.length > 0) {
+      amenities.forEach((item) => {
         formdata.append("amenities", item);
-      })
-    }else{
+      });
+    } else {
       formdata.append("amenities", []);
     }
-    if(pets.length > 0){
-      pets.forEach((item)=> {
+    if (pets.length > 0) {
+      pets.forEach((item) => {
         formdata.append("pets_allowed", item);
-      })
-    }else{
+      });
+    } else {
       formdata.append("pets_allowed", []);
     }
     // var obj = {
@@ -531,115 +542,116 @@ function ShelterEditProfile() {
     //   obj.image = images
     // }
     // if(foods.length > 0){
-    //   obj.food = foods 
+    //   obj.food = foods
     // }
     // if(amenities.length > 0){
-    //   obj.amenities = amenities 
+    //   obj.amenities = amenities
     // }
     // if(pets.length > 0){
     //   obj.pets_allowed = pets
     // }
-    setTimeout(async() => {
+    setTimeout(async () => {
       if (!validForm()) {
-        setLoading(false)
-        toast.error('Validation Error!',{
-          position: toast.POSITION.BOTTOM_CENTER
-        })
-        return
+        setLoading(false);
+        toast.error("Validation Error!", {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+        return;
       }
 
-      if(user.totalAllowedForReservation === "" || user.totalAllowedForReservation === 0){
-        toast.error("Total Allowed For Reservation Cannot Be Empty!",{
-          position: toast.POSITION.BOTTOM_CENTER
-        })
-        setLoading(false)
-        return
+      if (
+        user.totalAllowedForReservation === "" ||
+        user.totalAllowedForReservation === 0
+      ) {
+        toast.error("Total Allowed For Reservation Cannot Be Empty!", {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+        setLoading(false);
+        return;
       }
-      if(user.totalNumberOfBeds === "" || user.totalNumberOfBeds === 0){
-        toast.error("Please Enter Total Number Of Beds!",{
-          position: toast.POSITION.BOTTOM_CENTER
-        })
-        setLoading(false)
-        return
+      if (user.totalNumberOfBeds === "" || user.totalNumberOfBeds === 0) {
+        toast.error("Please Enter Total Number Of Beds!", {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+        setLoading(false);
+        return;
       }
-      if(user.maxTimeToHoldABed === "" || user.maxTimeToHoldABed === 0){
-        toast.error("Maximum Time To Holding Bed Cannot Be Empty!",{
-          position: toast.POSITION.BOTTOM_CENTER
-        })
-        setLoading(false)
-        return
+      if (user.maxTimeToHoldABed === "" || user.maxTimeToHoldABed === 0) {
+        toast.error("Maximum Time To Holding Bed Cannot Be Empty!", {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+        setLoading(false);
+        return;
       }
 
-        try{
-          var response = await updateShelterDetails(formdata, user_id, token)
-          if(response.status === 200){
-            toast.success("Updated Successfully!",{
-              position: toast.POSITION.BOTTOM_CENTER
-            });
-            await getShelterDetails(response.data.shelter.id)
-            setLoading(false)
-            setTimeout(() => {
-              navigate("/");
-            }, 1500);
-          }else{
-            toast.error("Fields Cannot be empty",{
-              position: toast.POSITION.BOTTOM_CENTER
-            });
-            console.log(response);
-          }
-        }catch(e){
-          setLoading(false)
-          console.log('ERRORChoose a password*');
-          toast.error(e.response.data.message,{
-            position: toast.POSITION.BOTTOM_CENTER
+      try {
+        var response = await updateShelterDetails(formdata, user_id, token);
+        if (response.status === 200) {
+          toast.success("Updated Successfully!", {
+            position: toast.POSITION.BOTTOM_CENTER,
           });
+          await getShelterDetails(response.data.shelter.id);
+          setLoading(false);
+          setTimeout(() => {
+            navigate("/");
+          }, 1500);
+        } else {
+          toast.error("Fields Cannot be empty", {
+            position: toast.POSITION.BOTTOM_CENTER,
+          });
+          console.log(response);
         }
+      } catch (e) {
+        setLoading(false);
+        console.log("ERRORChoose a password*");
+        toast.error(e.response.data.message, {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+      }
     }, 500);
-
   };
 
-  const changeState = (e)=> {
-    const state = e.target.value
-    setUser({...user, state: state})
-    getCountiesOfState(state)
-  }
+  const changeState = (e) => {
+    const state = e.target.value;
+    setUser({ ...user, state: state });
+    getCountiesOfState(state);
+  };
 
-  const changeCounty = (e)=> {
-    const county = e.target.value
-    setUser({...user, county: county})
-  }
+  const changeCounty = (e) => {
+    const county = e.target.value;
+    setUser({ ...user, county: county });
+  };
 
-  const getCountiesOfState = (state)=> {
-    const data = results.filter(x => x.state === state)
-    setCounties(data)
-  }
+  const getCountiesOfState = (state) => {
+    const data = results.filter((x) => x.state === state);
+    setCounties(data);
+  };
 
-  useEffect(()=> {
+  useEffect(() => {
     setTimeout(() => {
       /* eslint-disable */
       getCountiesOfState(user.state);
       // changeState(users.state)
     }, 1000);
-  }, [])
+  }, []);
 
   return (
     <div className="Sheltorsignup">
-     <ToastContainer />
-     <DashboardNav/>
-        <div className="popo">
-          <img
-            className=""
-            src="/images/edit_user.svg"
-            alt=""
-          />
-        </div>
-     
-      <p className="indi_title" style={{fontSize: '30px'}}> EDIT PROFILE</p>
+      <ToastContainer />
+      <DashboardNav />
+      <div className="popo">
+        <img className="" src="/images/edit_user.svg" alt="" />
+      </div>
+
+      <p className="indi_title" style={{ fontSize: "30px" }}>
+        {" "}
+        EDIT PROFILE
+      </p>
       <div className="row justify-content-around">
         <div className="col-lg-5">
           <div className="mb-3 label_input">
             <label htmlFor="validationCustom01">
-            USERNAME<span className="star_red">*</span>
+              USERNAME<span className="star_red">*</span>
             </label>
             <input
               name="userName"
@@ -749,17 +761,29 @@ function ShelterEditProfile() {
                 <label htmlFor="validationCustom02">
                   STATE<span className="star_red">*</span>
                 </label>
-                <select className="form-control login_field" name="state" id="state"
+                <select
+                  className="form-control login_field"
+                  name="state"
+                  id="state"
                   onChange={changeState}
-                  >
-                    <option className="login_field" selected disabled>Select State</option>
-                    {states.map((item, index)=> {
-                      return (
-                        <option className="login_field" key={index} value={item} selected={item === user.state?true:false}>{item}</option>
-                      )
-                    })}
+                >
+                  <option className="login_field" selected disabled>
+                    Select State
+                  </option>
+                  {states.map((item, index) => {
+                    return (
+                      <option
+                        className="login_field"
+                        key={index}
+                        value={item}
+                        selected={item === user.state ? true : false}
+                      >
+                        {item}
+                      </option>
+                    );
+                  })}
                 </select>
-                
+
                 {errField.stateErr.length > 0 && (
                   <span
                     style={{
@@ -775,40 +799,48 @@ function ShelterEditProfile() {
             </div>
 
             <div className="col-lg-3 px-0 pl-1">
-                <div className="mb-3 label_input">
-                <label htmlFor="validationCustom02">COUNTY<span className="star_red">*</span></label>
-                  <select className="form-control login_field" name="counties" id="counties"
+              <div className="mb-3 label_input">
+                <label htmlFor="validationCustom02">
+                  COUNTY<span className="star_red">*</span>
+                </label>
+                <select
+                  className="form-control login_field"
+                  name="counties"
+                  id="counties"
                   onChange={changeCounty}
-                  >
-                    <option className="login_field" selected disabled>Select County</option>
-                    {counties.map((item, index)=> {
-                      return (
-                        <option 
-                          className="login_field" 
-                          key={index} 
-                          value={item.countyName} 
-                          selected={item.countyName===user.county?true:false}
-                        >
+                >
+                  <option className="login_field" selected disabled>
+                    Select County
+                  </option>
+                  {counties.map((item, index) => {
+                    return (
+                      <option
+                        className="login_field"
+                        key={index}
+                        value={item.countyName}
+                        selected={
+                          item.countyName === user.county ? true : false
+                        }
+                      >
                         {item.countyName}
-                        </option>
-                      )
-                    })}
-                  </select>
-                 
-                  {errField.countyErr.length > 0 && (
-                    <span
-                      style={{
-                        color: "red",
-                        fontSize: "11px",
-                        fontFamily: "popreg",
-                      }}
-                    >
-                      {errField.countyErr}
-                    </span>
-                  )}
-                </div>
-              </div>
+                      </option>
+                    );
+                  })}
+                </select>
 
+                {errField.countyErr.length > 0 && (
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "11px",
+                      fontFamily: "popreg",
+                    }}
+                  >
+                    {errField.countyErr}
+                  </span>
+                )}
+              </div>
+            </div>
 
             <div className="col-lg-3 px-0 pl-1">
               <div className="mobile_p pr-0">
@@ -858,10 +890,10 @@ function ShelterEditProfile() {
               disabled
             />
             {open === false ? (
-                <AiFillEyeInvisible className="svggg" onClick={toggle} />
-              ) : (
-                <AiFillEye className="svggg" onClick={toggle} />
-              )}
+              <AiFillEyeInvisible className="svggg" onClick={toggle} />
+            ) : (
+              <AiFillEye className="svggg" onClick={toggle} />
+            )}
             {errField.passwordErr.length > 0 && (
               <span
                 style={{
@@ -900,7 +932,7 @@ function ShelterEditProfile() {
               defaultValue={user.phone}
               onChange={(event) => {
                 const { value } = event.target;
-                user.phone = value  
+                user.phone = value;
                 event.target.value = normalizeCardNumber(value);
               }}
             />
@@ -1045,13 +1077,13 @@ function ShelterEditProfile() {
               <p style={{ fontWeight: "600" }} className="checks_labels">
                 MEALS PROVIDED (check all that apply):
               </p>
-              {foodTypes.map((item, index)=> {
+              {foodTypes.map((item, index) => {
                 return (
                   <div className="form-group form-check" key={index}>
                     <input
                       type="checkbox"
                       name={`food${index}`}
-                      onChange={(e)=> FoodHandle(e.target.value)}
+                      onChange={(e) => FoodHandle(e.target.value)}
                       className="form-check-input"
                       id={`food${index}`}
                       value={item.name}
@@ -1063,9 +1095,8 @@ function ShelterEditProfile() {
                       {item.showname}
                     </label>
                   </div>
-                )
+                );
               })}
-              
             </div>
           </div>
           <div className=" col-lg-6 mobile_view">
@@ -1080,15 +1111,15 @@ function ShelterEditProfile() {
               Shelter Is For:
             </p>
             <div className="radiobnts">
-              {shelterTypes.map((item, index)=> {
-                return(
+              {shelterTypes.map((item, index) => {
+                return (
                   <div className="form-check form-group" key={index}>
                     <input
                       className="form-check-input"
                       type="radio"
                       name={`shelterisFor`}
                       id={`shelters${index}`}
-                      onChange={()=> setShelterFor(item.name)}
+                      onChange={() => setShelterFor(item.name)}
                     />
                     <label
                       className="form-check-label checks_labels"
@@ -1097,9 +1128,8 @@ function ShelterEditProfile() {
                       {item.showname}
                     </label>
                   </div>
-                )
+                );
               })}
-              
             </div>
           </div>
         </div>
@@ -1115,11 +1145,19 @@ function ShelterEditProfile() {
             HOURS OF INTAKE:
           </label>
           <div className="col-lg-4 pl-0">
-              <TimePicker.RangePicker 
-                  showTime={{ format: "HH:mm" }}
-                  defaultValue={user.hours_of_intake}
-                  // value={user.hours_of_intake}
-                  onChange={(e)=> setUser({...user, hours_of_intake: `${moment(e[0]._d).format('YYYY-M-d HH:mm:ss')} --  ${moment(e[1]._d).format('YYYY-M-d HH:mm:ss')}`})}/>
+            <TimePicker.RangePicker
+              showTime={{ format: "HH:mm" }}
+              defaultValue={user.hours_of_intake}
+              // value={user.hours_of_intake}
+              onChange={(e) =>
+                setUser({
+                  ...user,
+                  hours_of_intake: `${moment(e[0]._d).format(
+                    "YYYY-M-d HH:mm:ss"
+                  )} --  ${moment(e[1]._d).format("YYYY-M-d HH:mm:ss")}`,
+                })
+              }
+            />
             {/* <input name="hours_of_intake" value={user.hours_of_intake} type="text" className="form-control" id="" onChange={handleInput}/> */}
           </div>
         </div>
@@ -1130,25 +1168,25 @@ function ShelterEditProfile() {
                 PETS ALLOWED (Check all that apply):
               </p>
               <div className="animals">
-              {petTypes.map((item, index)=> {
-                return (
-                  <div className="form-group form-check" key={index}>
-                    <input
-                      type="checkbox"
-                      name={`pets${index}`}
-                      onChange={(e)=> PetHandle(e.target.value)}
-                      className="form-check-input"
-                      id={`pets${index}`}
-                      value={item.name}
-                    />
-                    <label
-                      className="form-check-label checks_labels"
-                      htmlFor="exampleCheck1"
-                    >
-                      {item.showname}
-                    </label>
-                  </div>
-                  )
+                {petTypes.map((item, index) => {
+                  return (
+                    <div className="form-group form-check" key={index}>
+                      <input
+                        type="checkbox"
+                        name={`pets${index}`}
+                        onChange={(e) => PetHandle(e.target.value)}
+                        className="form-check-input"
+                        id={`pets${index}`}
+                        value={item.name}
+                      />
+                      <label
+                        className="form-check-label checks_labels"
+                        htmlFor="exampleCheck1"
+                      >
+                        {item.showname}
+                      </label>
+                    </div>
+                  );
                 })}
               </div>
             </div>
@@ -1157,49 +1195,53 @@ function ShelterEditProfile() {
                 STORAGE AVAILABLE:
               </p>
               <div className="storages">
-              <div className="form-check form-group">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name={`storages`}
-                  id={`storages_none`}
-                  defaultValue="option1"
-                  checked={storage=='none'?true:false}
-                  onChange={()=> setStorage('none')}
+                <div className="form-check form-group">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name={`storages`}
+                    id={`storages_none`}
+                    defaultValue="option1"
+                    checked={storage == "none" ? true : false}
+                    onChange={() => setStorage("none")}
                   />
-                <label
-                  className="form-check-label checks_labels"
-                  htmlFor={`storages`}
-                >
-                  None
-                </label>
+                  <label
+                    className="form-check-label checks_labels"
+                    htmlFor={`storages`}
+                  >
+                    None
+                  </label>
+                </div>
+                <div className="form-group">
+                  <input
+                    className="form-check-input"
+                    type="radio"
+                    name="storages"
+                    id={`storages_yes`}
+                    checked={storage == "yes" ? true : false}
+                    defaultValue="option1"
+                    onChange={() => setStorage("yes")}
+                  />
+                  <label
+                    className="form-check-label checks_labels"
+                    htmlFor={`storages`}
+                  >
+                    Yes
+                  </label>
+                  <br />
+                  {storage === "yes" ? (
+                    <input
+                      type="text"
+                      style={{ marginLeft: "-20px" }}
+                      className="form-control"
+                      id=""
+                      placeholder="Description types of storages"
+                      onChange={(e) => setStorageMessage(e.target.value)}
+                      value={storage_message}
+                    />
+                  ) : null}
+                </div>
               </div>
-              <div className="form-group">
-                <input
-                  className="form-check-input"
-                  type="radio"
-                  name="storages"
-                  id={`storages_yes`}
-                  checked={storage=='yes'?true:false}
-                  defaultValue="option1"
-                  onChange={()=> setStorage('yes')}
-                />
-                <label
-                  className="form-check-label checks_labels"
-                  htmlFor={`storages`}
-                >
-                  Yes
-                </label>
-                <br/>
-                {storage === 'yes'?
-                  <input type="text" style={{marginLeft: '-20px'}} className="form-control" id="" placeholder="Description types of storages" onChange={(e)=> setStorageMessage(e.target.value)} value={storage_message} />
-                :null}
-              </div>
-              
-             
-                
-              </div>
-             
             </div>
           </div>
           <div className="col-lg-6">
@@ -1207,13 +1249,13 @@ function ShelterEditProfile() {
               <p style={{ fontWeight: "600" }} className="checks_labels">
                 AMENITIES PROVIDED (check all that apply):
               </p>
-              {ameniity_types.map((item, index)=> {
+              {ameniity_types.map((item, index) => {
                 return (
                   <div className="form-group form-check" key={index}>
                     <input
                       type="checkbox"
                       name={`amenities${index}`}
-                      onChange={(e)=> AmenityHandle(e.target.value)}
+                      onChange={(e) => AmenityHandle(e.target.value)}
                       className="form-check-input"
                       id={`amenities${index}`}
                       value={item.name}
@@ -1225,70 +1267,98 @@ function ShelterEditProfile() {
                       {item.showname}
                     </label>
                   </div>
-                  )
-                })}
+                );
+              })}
             </div>
           </div>
         </div>
 
         <div className="col-lg-12">
           <div className="images section mt-4">
-          <p style={{ fontWeight: "600" }} className="checks_labels">
-          ADD IMAGES
-          </p>
+            <p style={{ fontWeight: "600" }} className="checks_labels">
+              ADD IMAGES
+            </p>
 
-          <input type="file" id="image" style={{display: 'none'}} onChange={selectImage} multiple/>
+            <input
+              type="file"
+              id="image"
+              style={{ display: "none" }}
+              onChange={selectImage}
+              multiple
+            />
 
-          <div className="flex_images">
-            {fileList.map((item, index)=> {
-              return (
-                <div className="text-center" key={index}>
-                  <img src={item} width="100px" height="100px" alt="image123"/>
-                  <br/>
-                  <span className="text-white bg-danger" style={{cursor: 'pointer', borderRadius: '50%', padding: '5px 10px'}} onClick={()=> deletePhoto(item, index)}>X</span>
-                </div>
-              )
-            })}
-            {fileList.length < 5?
-              <img src="/images/emptyimage.svg" width="100px" height="100px" alt='icon' onClick={chooseImage}/>
-            :null}
+            <div className="flex_images">
+              {fileList.map((item, index) => {
+                return (
+                  <div className="text-center" key={index}>
+                    <img
+                      src={item}
+                      width="100px"
+                      height="100px"
+                      alt="image123"
+                    />
+                    <br />
+                    <span
+                      className="text-white bg-danger"
+                      style={{
+                        cursor: "pointer",
+                        borderRadius: "50%",
+                        padding: "5px 10px",
+                      }}
+                      onClick={() => deletePhoto(item, index)}
+                    >
+                      X
+                    </span>
+                  </div>
+                );
+              })}
+              {fileList.length < 5 ? (
+                <img
+                  src="/images/emptyimage.svg"
+                  width="100px"
+                  height="100px"
+                  alt="icon"
+                  onClick={chooseImage}
+                />
+              ) : null}
+            </div>
+          </div>
+          <div className="mobile_col row mt-5 mb-5">
+            <div className="col">
+              <p className="checks_labels">DESCRIPTION</p>
+              <textarea
+                className="checks_labels login_field1 with_input"
+                value={description}
+                type="text"
+                onChange={(e) => setDescription(e.target.value)}
+              ></textarea>
+            </div>
+            <p></p>
+            <div className="col ">
+              <p className="checks_labels">RULES/REQUIREMENTS</p>
+              <textarea
+                className="checks_labels login_field1 with_input"
+                value={rules}
+                type="text"
+                onChange={(e) => setRules(e.target.value)}
+              ></textarea>
+            </div>
           </div>
         </div>
-        <div className="mobile_col row mt-5 mb-5">
-          <div className="col">
-            <p className="checks_labels">DESCRIPTION</p>
-            <textarea
-              className="checks_labels login_field1 with_input"
-              value={description}
-              type="text" onChange={(e)=> setDescription(e.target.value)}
-            ></textarea>
-          </div>
-          <p></p>
-          <div className="col ">
-            <p className="checks_labels">RULES/REQUIREMENTS</p>
-            <textarea
-              className="checks_labels login_field1 with_input"
-              value={rules}
-              type="text" onChange={(e)=> setRules(e.target.value)}
-            ></textarea>
-          </div>
-        </div>
-      </div>
       </div>
       <div className="signup_footer">
-        {loading?
-          <Spinner/>
-        :
-        <>
-          <Link onClick={submit} className="" to=""> 
-            <button className="shel_up_btn w-100 px-5">SUBMIT CHANGES</button>
-          </Link>
-          <Link className="" to="/">
-            <p className="footer_sign_up">Cancel</p>
-          </Link>
-        </>
-        }
-        
+        {loading ? (
+          <Spinner />
+        ) : (
+          <>
+            <Link onClick={submit} className="" to="">
+              <button className="signupbtn1 w-100 px-5">SUBMIT CHANGES</button>
+            </Link>
+            <Link className="" to="/">
+              <p className="footer_sign_up">Cancel</p>
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );
