@@ -131,7 +131,8 @@ a:hover {
   border-radius: 20px;
   justify-content: space-between;
   align-items: center;
-  height: 113px;
+  min-height: 113px;
+  /* opacity: 0.1; */
 }
 .login_field1 {
   background-color: rgb(226, 228, 231) !important;

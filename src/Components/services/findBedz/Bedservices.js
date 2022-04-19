@@ -52,11 +52,9 @@ export default function Bedservices({
             }}
             onClick={() => updateShelter(item)}
           >
-            {item.availableReservationBeds > 0 ? (
+            {item.availableBeds > 0 ? (
               <div className="avail">
-                <div className="cricle_div23 green">
-                  {item.availableReservationBeds}
-                </div>
+                <div className="cricle_div23 green">{item.availableBeds}</div>
                 <img
                   className="ml-3"
                   style={{ height: "30px" }}
@@ -67,9 +65,7 @@ export default function Bedservices({
               </div>
             ) : (
               <div className="avail">
-                <div className="cricle_div23 red">
-                  {item.availableReservationBeds}
-                </div>
+                <div className="cricle_div23 red">{item.availableBeds}</div>
                 <img
                   className="ml-3"
                   style={{ height: "30px" }}

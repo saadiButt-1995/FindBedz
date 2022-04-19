@@ -3,16 +3,25 @@ import styled from "styled-components";
 // const height = window.innerHeight
 export const Wrapper = styled.div`
   @keyframes flasher {
-    from {
-      transform: rotateY(0deg);
+    0 % {
+      opacity: 0.1;
     }
-    to {
-      transform: rotateY(360deg);
+    50% {
+      opacity: 0.6;
     }
+    100% {
+      opacity: 1;
+    }
+    // from {
+    //   transform: rotateY(0deg);
+    // }
+    // to {
+    //   transform: rotateY(90deg);
+    // }
   }
 
   .abc_details {
-    animation: flasher 2s;
+    // animation: flasher 2s ease-in-out;
     cursor: pointer;
   }
   .abc_details:hover {
@@ -162,6 +171,10 @@ export const Wrapper = styled.div`
       }
       .green {
         background: #008e00;
+        color: white;
+      }
+      .red {
+        background: red;
         color: white;
       }
     }

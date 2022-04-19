@@ -64,10 +64,10 @@ function Abc({ shelter, user, date }) {
                   <div className="avail_beds">
                     <div
                       className={`round ${
-                        shelter.availableReservationBeds !== 0 ? "green" : "red"
+                        shelter.availableBeds !== 0 ? "green" : "red"
                       }`}
                     >
-                      {shelter.availableReservationBeds}
+                      {shelter.availableBeds}
                     </div>
                     <img
                       className="available_image"
