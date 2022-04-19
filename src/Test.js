@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PlacesAutocomplete, {
   geocodeByAddress,
+  getLatLng,
 } from "react-places-autocomplete";
 import { MapKey } from "./config";
 
@@ -31,31 +32,37 @@ export class AutoCompleteInput extends Component {
   handleSelect = (address) => {
     this.setState({ address });
     geocodeByAddress(address)
-      .then((results) => {
-        this.getPlaceInfo(results[0].place_id);
+      // .then((results) => console.log(getLatLng(results[0])))
+      // .then((results) => {
+      //   console.log(results);
+      //   getLatLng(results[0]);
+      //   // this.getPlaceInfo(results[0].place_id)
+      // })
+      // .then((latLng) => {
+      //   console.log("Success", latLng);
+      // })
+      .then((results) => getLatLng(results[0]))
+      .then(({ lat, lng }) => {
+        console.log("Successfully got latitude and longitude", { lat, lng });
+        this.props.getCoords(lat + "," + lng);
       })
       .catch((error) => console.error("Error", error));
   };
 
-  getPlaceInfo = (place_id) => {
-    fetch(
-      "https://maps.googleapis.com/maps/api/place/details/json?place_id=" +
-        place_id +
-        "&radius=5000&key=AIzaSyDMlR4YuYz3KMPmTmOXSwQc7p6IS-a19Bs"
-    )
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log("place data");
-        console.log(responseJson.result);
-        console.log(responseJson.result.geometry.location);
-        this.props.getCoords(
-          responseJson.result.geometry.location.lat +
-            "," +
-            responseJson.result.geometry.location.lng
-        );
-      })
-      .catch((error) => console.log(error));
-  };
+  // getPlaceInfo = (place_id)=> {
+  //   fetch(
+  //     "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/details/json?place_id="+place_id +
+  //       "&radius=5000&key=AIzaSyDMlR4YuYz3KMPmTmOXSwQc7p6IS-a19Bs"
+  //   )
+  //     .then((response) => response.json())
+  //     .then((responseJson) => {
+  //       console.log('place data');
+  //       console.log(responseJson.result);
+  //       console.log(responseJson.result.geometry.location);
+  //       this.props.getCoords(responseJson.result.geometry.location.lat+','+responseJson.result.geometry.location.lng)
+  //     })
+  //     .catch((error) => console.log(error));
+  // }
 
   handleChange = (address) => {
     this.setState({ address });
