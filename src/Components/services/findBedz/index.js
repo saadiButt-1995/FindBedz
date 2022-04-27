@@ -117,40 +117,80 @@ const FindAbed = () => {
         ? response.data.shelters.results
         : response.data.shelters;
       setData(shelters);
-      setAvailableBeds(response.data.kpi[0].availableBeds);
-      setTotalBeds(response.data.kpi[0].totalBeds);
-      if (first) {
-        if (shelters.length > 0) {
-          setShelter(shelters[0]);
-        } else {
-          setShelter({
-            food: [],
-            shelterIsFor: "",
-            amenities: [],
-            pets_allowed: [],
-            storage: "",
-            image: [],
-            isblock: false,
-            role: "",
-            userName: "",
-            address: "",
-            shelterName: "",
-            phone: "",
-            email: "",
-            password: "",
-            city: "",
-            state: "",
-            contact_person_name: "",
-            zipCode: "",
-            totalAllowedForReservation: 0,
-            totalNumberOfBeds: 0,
-            description: "",
-            rules: "",
-            maxTimeToHoldABed: 0,
-            id: "",
-          });
-        }
+      var totalBeds = 0;
+      var totalAvailBeds = 0;
+      shelters.map((item) => {
+        totalBeds += item.totalNumberOfBeds;
+        totalAvailBeds += item.availableReservationBeds;
+      });
+      setTotalBeds(totalBeds);
+      setAvailableBeds(totalAvailBeds);
+
+      // setTotalBeds(response.data.kpi[0].totalBeds);
+      // setAvailableBeds(response.data.kpi[0].availableBeds);
+      if (shelters.length > 0) {
+        setShelter(shelters[0]);
+      } else {
+        setShelter({
+          food: [],
+          shelterIsFor: "",
+          amenities: [],
+          pets_allowed: [],
+          storage: "",
+          image: [],
+          isblock: false,
+          role: "",
+          userName: "",
+          address: "",
+          shelterName: "",
+          phone: "",
+          email: "",
+          password: "",
+          city: "",
+          state: "",
+          contact_person_name: "",
+          zipCode: "",
+          totalAllowedForReservation: 0,
+          totalNumberOfBeds: 0,
+          description: "",
+          rules: "",
+          maxTimeToHoldABed: 0,
+          id: "",
+        });
       }
+
+      // if (first) {
+      //   if (shelters.length > 0) {
+      //     setShelter(shelters[0]);
+      //   } else {
+      //     setShelter({
+      //       food: [],
+      //       shelterIsFor: "",
+      //       amenities: [],
+      //       pets_allowed: [],
+      //       storage: "",
+      //       image: [],
+      //       isblock: false,
+      //       role: "",
+      //       userName: "",
+      //       address: "",
+      //       shelterName: "",
+      //       phone: "",
+      //       email: "",
+      //       password: "",
+      //       city: "",
+      //       state: "",
+      //       contact_person_name: "",
+      //       zipCode: "",
+      //       totalAllowedForReservation: 0,
+      //       totalNumberOfBeds: 0,
+      //       description: "",
+      //       rules: "",
+      //       maxTimeToHoldABed: 0,
+      //       id: "",
+      //     });
+      //   }
+      // }
     } catch (e) {
       setLoading(false);
       console.log(e);

@@ -41,7 +41,9 @@ function Abc({ shelter, user, date }) {
       {shelter.id !== "" ? (
         <>
           <div className="company-page">
-            <p className="update-time">LAST UPDATED {moment(date).fromNow()}</p>
+            <p className="update-time">
+              LAST UPDATED {moment(shelter.updatedAt).fromNow()}
+            </p>
             <div className="">
               <div className="abc_personal">
                 <div className="title_shelterr mt-2">{shelter.shelterName}</div>
@@ -51,7 +53,8 @@ function Abc({ shelter, user, date }) {
                   <span className="ml-2" style={{ fontWeight: "bold" }}>
                     <span>{shelter.address}</span> <br />
                     <span className="p-rn">
-                      {shelter.city}, {shelter.state} {shelter.zipCode}
+                      {shelter.city},{shelter.county} {shelter.state}{" "}
+                      {shelter.zipCode}
                     </span>
                   </span>
                 </div>

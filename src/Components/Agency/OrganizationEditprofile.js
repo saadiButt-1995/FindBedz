@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { setUsersData, updateUserDetails } from "../../services/auth";
 import { Wrapper } from "./organization.styled";
 import DashboardNav from "../Auth/Navs/DashboardNav";
-import { states_with_nick } from "../../services/states_counties";
+// import { states_with_nick } from "../../services/states_counties";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import Spinner from "../Loaders/buttonTailSpinner";
 
@@ -13,6 +13,7 @@ function OrganizationEditprofile() {
   const user = JSON.parse(localStorage.getItem("user_data"));
   const user_id = localStorage.getItem("user");
   const token = `Bearer ${localStorage.getItem("token")}`;
+  const [states, setStates] = useState([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [users, setUser] = useState({
@@ -51,6 +52,42 @@ function OrganizationEditprofile() {
     "Law enforcement",
     "Services provider",
   ];
+
+  useEffect(() => {
+    (async () => {
+      const where = encodeURIComponent(
+        JSON.stringify({
+          countyName: {
+            $exists: true,
+          },
+          state: {
+            $exists: true,
+          },
+        })
+      );
+      const response = await fetch(
+        `https://parseapi.back4app.com/classes/Area?count=1&limit=1000000&order=state&keys=countyName,state,stateAbbreviation&where=${where}`,
+        {
+          headers: {
+            "X-Parse-Application-Id":
+              "VWAH9UbFty9tuCJVHIJPjYvH8OGcNyUTMkHH3UvL", // This is the fake app's application id
+            "X-Parse-Master-Key": "UsYwiuputxOcEcYTZqWKshopMgEjElqA4U4Mcy9V", // This is the fake app's readonly master key
+          },
+        }
+      );
+      const data = await response.json(); // Here you have the data that you need
+      let states = [];
+      states = data.results.map((item) => {
+        return item.state;
+      });
+      var unique = states.filter(onlyUnique);
+      setStates(unique);
+    })();
+  }, []);
+
+  function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+  }
   const toggle = () => {
     setOpen(!open);
   };
@@ -228,7 +265,7 @@ function OrganizationEditprofile() {
     let x = value.replace(/\D/g, "").match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
     let maskedText = !x[2]
       ? x[1]
-      : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
+      : "(" + x[1] + ") " + x[2] + (x[3] ? " - " + x[3] : "");
     return maskedText;
   };
 
@@ -543,15 +580,15 @@ function OrganizationEditprofile() {
                       <option className="login_field" selected disabled>
                         Select State
                       </option>
-                      {states_with_nick.map((item, index) => {
+                      {states.map((item, index) => {
                         return (
                           <option
                             className="login_field"
                             key={index}
-                            value={item.name}
-                            selected={item.name === users.state ? true : false}
+                            value={item}
+                            selected={item === users.state ? true : false}
                           >
-                            {item.name}
+                            {item}
                           </option>
                         );
                       })}

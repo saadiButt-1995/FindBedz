@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { getShelterDetails, updateShelterDetails } from "../../services/auth";
 import $ from "jquery";
-import { results, states } from "../../services/states_counties";
+// import { results, states } from "../../services/states_counties";
 import DashboardNav from "../Auth/Navs/DashboardNav";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import Spinner from "../Loaders/buttonTailSpinner";
@@ -39,10 +39,12 @@ function ShelterEditProfile() {
     maxTimeToHoldABed: u.maxTimeToHoldABed,
     food: u.food,
     shelterIsFor: "family",
-    hours_of_intake: [
-      moment(u.hours_of_intake.split(" -- ")[0]),
-      moment(u.hours_of_intake.split(" -- ")[1]),
-    ],
+    hours_of_intake: u.hours_of_intake
+      ? [
+          moment(u.hours_of_intake.split(" -- ")[0]),
+          moment(u.hours_of_intake.split(" -- ")[1]),
+        ]
+      : "",
   });
 
   const [description, setDescription] = useState(
@@ -69,6 +71,7 @@ function ShelterEditProfile() {
   // const [hours_intake, setHoursIntake] = useState(u.hours_intake?u.hours_intake:0);
   const [fileList, setFileList] = useState(u.image);
   const [images, setImages] = useState(u.image);
+  const [states, setStates] = useState([]);
   const [counties, setCounties] = useState([]);
   const shelterTypes = [
     { showname: "Adults ( any gender )", name: "adults" },
@@ -92,6 +95,79 @@ function ShelterEditProfile() {
     { showname: "Dogs", name: "dogs" },
     { showname: "Cats", name: "cats" },
   ];
+
+  useEffect(() => {
+    (async () => {
+      const where = encodeURIComponent(
+        JSON.stringify({
+          countyName: {
+            $exists: true,
+          },
+          state: {
+            $exists: true,
+          },
+        })
+      );
+      const response = await fetch(
+        `https://parseapi.back4app.com/classes/Area?count=1&limit=1000000&order=state&keys=countyName,state,stateAbbreviation&where=${where}`,
+        {
+          headers: {
+            "X-Parse-Application-Id":
+              "VWAH9UbFty9tuCJVHIJPjYvH8OGcNyUTMkHH3UvL", // This is the fake app's application id
+            "X-Parse-Master-Key": "UsYwiuputxOcEcYTZqWKshopMgEjElqA4U4Mcy9V", // This is the fake app's readonly master key
+          },
+        }
+      );
+      const data = await response.json(); // Here you have the data that you need
+      let states = [];
+      states = data.results.map((item) => {
+        return item.state;
+      });
+      var unique = states.filter(onlyUnique);
+      setStates(unique);
+    })();
+  }, []);
+
+  function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+  }
+
+  const changeState = (e) => {
+    const state = e.target.value;
+    setUser({ ...user, state: state });
+    getCountiesOfState(state);
+  };
+
+  const changeCounty = (e) => {
+    const county = e.target.value;
+    setUser({ ...user, county: county });
+  };
+
+  const getCountiesOfState = (state) => {
+    (async () => {
+      const where = encodeURIComponent(
+        JSON.stringify({
+          state: state,
+        })
+      );
+      const response = await fetch(
+        `https://parseapi.back4app.com/classes/Area?limit=1000&order=state&keys=countyName,state,stateAbbreviation&where=${where}`,
+        {
+          headers: {
+            "X-Parse-Application-Id":
+              "VWAH9UbFty9tuCJVHIJPjYvH8OGcNyUTMkHH3UvL", // This is the fake app's application id
+            "X-Parse-Master-Key": "UsYwiuputxOcEcYTZqWKshopMgEjElqA4U4Mcy9V", // This is the fake app's readonly master key
+          },
+        }
+      );
+      const data = await response.json(); // Here you have the data that you need
+      let counties = data.results.map((item) => {
+        return item.countyName;
+      });
+      var unique = counties.filter(onlyUnique);
+      setCounties(unique);
+    })();
+  };
 
   useEffect(() => {
     /* eslint-disable */
@@ -321,7 +397,7 @@ function ShelterEditProfile() {
     let x = value.replace(/\D/g, "").match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
     let maskedText = !x[2]
       ? x[1]
-      : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
+      : "(" + x[1] + ") " + x[2] + (x[3] ? " - " + x[3] : "");
     return maskedText;
   };
 
@@ -559,16 +635,16 @@ function ShelterEditProfile() {
         return;
       }
 
-      if (
-        user.totalAllowedForReservation === "" ||
-        user.totalAllowedForReservation === 0
-      ) {
-        toast.error("Total Allowed For Reservation Cannot Be Empty!", {
-          position: toast.POSITION.BOTTOM_CENTER,
-        });
-        setLoading(false);
-        return;
-      }
+      // if (
+      //   user.totalAllowedForReservation === "" ||
+      //   user.totalAllowedForReservation === 0
+      // ) {
+      //   toast.error("Total Allowed For Reservation Cannot Be Empty!", {
+      //     position: toast.POSITION.BOTTOM_CENTER,
+      //   });
+      //   setLoading(false);
+      //   return;
+      // }
       if (user.totalNumberOfBeds === "" || user.totalNumberOfBeds === 0) {
         toast.error("Please Enter Total Number Of Beds!", {
           position: toast.POSITION.BOTTOM_CENTER,
@@ -576,13 +652,13 @@ function ShelterEditProfile() {
         setLoading(false);
         return;
       }
-      if (user.maxTimeToHoldABed === "" || user.maxTimeToHoldABed === 0) {
-        toast.error("Maximum Time To Holding Bed Cannot Be Empty!", {
-          position: toast.POSITION.BOTTOM_CENTER,
-        });
-        setLoading(false);
-        return;
-      }
+      // if (user.maxTimeToHoldABed === "" || user.maxTimeToHoldABed === 0) {
+      //   toast.error("Maximum Time To Holding Bed Cannot Be Empty!", {
+      //     position: toast.POSITION.BOTTOM_CENTER,
+      //   });
+      //   setLoading(false);
+      //   return;
+      // }
 
       try {
         var response = await updateShelterDetails(formdata, user_id, token);
@@ -609,22 +685,6 @@ function ShelterEditProfile() {
         });
       }
     }, 500);
-  };
-
-  const changeState = (e) => {
-    const state = e.target.value;
-    setUser({ ...user, state: state });
-    getCountiesOfState(state);
-  };
-
-  const changeCounty = (e) => {
-    const county = e.target.value;
-    setUser({ ...user, county: county });
-  };
-
-  const getCountiesOfState = (state) => {
-    const data = results.filter((x) => x.state === state);
-    setCounties(data);
   };
 
   useEffect(() => {
@@ -817,12 +877,10 @@ function ShelterEditProfile() {
                       <option
                         className="login_field"
                         key={index}
-                        value={item.countyName}
-                        selected={
-                          item.countyName === user.county ? true : false
-                        }
+                        value={item}
+                        selected={item === user.county ? true : false}
                       >
-                        {item.countyName}
+                        {item}
                       </option>
                     );
                   })}

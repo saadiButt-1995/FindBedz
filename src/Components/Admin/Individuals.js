@@ -21,7 +21,11 @@ export default function Individuals() {
   const getData = async () => {
     setLoading(true);
     try {
-      var response = await axios.get("users/getUsers?role=user");
+      var response = await axios.get("users/getUsers?role=user", {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      });
       if (response.status === 200) {
         setLoading(false);
         setData(response.data.results);

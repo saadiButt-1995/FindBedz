@@ -6,6 +6,7 @@ import { getShelterDetails, login, setLocalValues } from "../../services/auth";
 import { Wrapper } from "../Admin/Layout/AdminLayouts.styled";
 import Base from "../Admin/Layout/Base";
 import Spinner from "../Loaders/buttonTailSpinner";
+import moment from "moment";
 
 export default function Shelters() {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ export default function Shelters() {
       var response = await axios.get("shelter/query");
       if (response.status === 200) {
         setLoading(false);
-        setData(response.data.result.results);
+        setData(response.data.shelters.results);
       }
     } catch (e) {
       setLoading(false);
@@ -108,7 +109,7 @@ export default function Shelters() {
           <td>{item.state}</td>
           <td>{item.zip_code}</td>
           <td>{item.phone}</td>
-          <td>{item.date}</td>
+          <td>{moment(item.updatedAt).fromNow()}</td>
           <td>
             {loading ? (
               <Spinner />

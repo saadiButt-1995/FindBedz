@@ -39,7 +39,7 @@ export default function Dashboard() {
 
       var response2 = await axios.get("shelter/query");
       if (response2.status === 200) {
-        setShelters(response2.data.result.results);
+        setShelters(response2.data.shelters.results);
       }
     } catch (e) {}
   };

@@ -33,7 +33,6 @@ const Home = () => {
   };
 
   const submit = async (e) => {
-    e.preventDefault();
     if (user.password === "") {
       delete user.password;
     }
@@ -130,6 +129,7 @@ const Home = () => {
               placeholder="Enter Username"
               className="form-control login_field"
               id="inputuserName4"
+              onKeyPress={(e) => (e.key === "Enter" ? submit() : "")}
             />
             {errField.userNameErr.length > 0 && (
               <span
@@ -151,6 +151,7 @@ const Home = () => {
               placeholder="Enter password"
               className="form-control login_field"
               id="inputPassword4"
+              onKeyPress={(e) => (e.key === "Enter" ? submit() : "")}
             />
             {open === false ? (
               <AiFillEyeInvisible className="svggg" onClick={toggle} />

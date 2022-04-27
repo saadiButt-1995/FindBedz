@@ -1,57 +1,145 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../index.css";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { Checkbox } from "antd";
-import { individualSignup, login, setLocalValues } from '../../services/auth'
-import { days, months, results, states, years } from "../../services/states_counties";
+import { individualSignup, login, setLocalValues } from "../../services/auth";
+import {
+  days,
+  months,
+  // results,
+  // states,
+  years,
+} from "../../services/states_counties";
 import { Wrapper } from "../Auth/Auth.styled";
-import MainNav from '../Auth/Navs/MainNav'
-import Spinner from '../Loaders/buttonTailSpinner';
+import MainNav from "../Auth/Navs/MainNav";
+import Spinner from "../Loaders/buttonTailSpinner";
 
 const Individual = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // const [open, setOpen] = useState(false);
   const [day, setDay] = useState(0);
   const [month, setMonth] = useState(0);
   const [year, setYear] = useState(0);
+  const [states, setStates] = useState([]);
   const [counties, setCounties] = useState([]);
   const [terms, setTerms] = useState(false);
   const [phoneValue, setPhonevalue] = useState("");
-  const [loading, setLoading] = useState(false)
-  
+  const [loading, setLoading] = useState(false);
+
   const ethnicities = [
-    'MIXED RACE',
-    'ARCTIC ( SIBERIAN, ESKIMO )',
-    'CAUCASIAN ( INDIAN )',
-    'CAUCASIAN ( MIDDLE EAST )',
-    'CAUCASIAN ( NORTH AFRICAN, OTHER )',
-    'INDIGENOUS AUSTRALIAN',
-    'NATIVE AMERICAN',
-    'NORTH EAST ASIAN  ( MONGOL, TIBETAN, KOREAN JAPANESE, ETC )',
-    'PACIFIC (POLYNESIAN , MICRONESIAN, ETC)',
-    'SOUTH EAST ASIAN (CHINESE,THAI, MALAY, FILIPINO, ETC)',
-    'WEST AFRICAN, BUSHMEN, ETHIOPIAN',
-    'OTHER RACE',
+    "MIXED RACE",
+    "ARCTIC ( SIBERIAN, ESKIMO )",
+    "CAUCASIAN ( INDIAN )",
+    "CAUCASIAN ( MIDDLE EAST )",
+    "CAUCASIAN ( NORTH AFRICAN, OTHER )",
+    "INDIGENOUS AUSTRALIAN",
+    "NATIVE AMERICAN",
+    "NORTH EAST ASIAN  ( MONGOL, TIBETAN, KOREAN JAPANESE, ETC )",
+    "PACIFIC (POLYNESIAN , MICRONESIAN, ETC)",
+    "SOUTH EAST ASIAN (CHINESE,THAI, MALAY, FILIPINO, ETC)",
+    "WEST AFRICAN, BUSHMEN, ETHIOPIAN",
+    "OTHER RACE",
   ];
-  const onChange = (e)=> {
-    // setTerms(e.target.checked)
-    getMyLocation(e)
+
+  useEffect(() => {
+    (async () => {
+      const where = encodeURIComponent(
+        JSON.stringify({
+          countyName: {
+            $exists: true,
+          },
+          state: {
+            $exists: true,
+          },
+        })
+      );
+      const response = await fetch(
+        `https://parseapi.back4app.com/classes/Area?count=1&limit=1000000&order=state&keys=countyName,state,stateAbbreviation&where=${where}`,
+        {
+          headers: {
+            "X-Parse-Application-Id":
+              "VWAH9UbFty9tuCJVHIJPjYvH8OGcNyUTMkHH3UvL", // This is the fake app's application id
+            "X-Parse-Master-Key": "UsYwiuputxOcEcYTZqWKshopMgEjElqA4U4Mcy9V", // This is the fake app's readonly master key
+          },
+        }
+      );
+      const data = await response.json(); // Here you have the data that you need
+      let states = [];
+      states = data.results.map((item) => {
+        return item.state;
+      });
+      var unique = states.filter(onlyUnique);
+      console.log(unique);
+      setStates(unique);
+    })();
+  }, []);
+
+  function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
   }
 
+  const changeState = (e) => {
+    const state = e.target.value;
+    setUser({ ...users, state: state });
+    getCountiesOfState(state);
+  };
+
+  const changeCounty = (e) => {
+    const county = e.target.value;
+    setUser({ ...users, county: county });
+  };
+
+  const getCountiesOfState = (state) => {
+    (async () => {
+      const where = encodeURIComponent(
+        JSON.stringify({
+          state: state,
+        })
+      );
+      const response = await fetch(
+        `https://parseapi.back4app.com/classes/Area?limit=1000&order=state&keys=countyName,state,stateAbbreviation&where=${where}`,
+        {
+          headers: {
+            "X-Parse-Application-Id":
+              "VWAH9UbFty9tuCJVHIJPjYvH8OGcNyUTMkHH3UvL", // This is the fake app's application id
+            "X-Parse-Master-Key": "UsYwiuputxOcEcYTZqWKshopMgEjElqA4U4Mcy9V", // This is the fake app's readonly master key
+          },
+        }
+      );
+      const data = await response.json(); // Here you have the data that you need
+      let counties = data.results.map((item) => {
+        return item.countyName;
+      });
+      var unique = counties.filter(onlyUnique);
+      console.log(unique);
+      setCounties(unique);
+    })();
+    // const data = results.filter((x) => x.state === state);
+    // setCounties(data);
+  };
+
+  const onChange = (e) => {
+    // setTerms(e.target.checked)
+    getMyLocation(e);
+  };
+
   const getMyLocation = (e) => {
-    const location = window.navigator && window.navigator.geolocation
-    
+    const location = window.navigator && window.navigator.geolocation;
+
     if (location) {
-      location.getCurrentPosition((position) => {
-        users.coords = `${position.coords.latitude},${position.coords.longitude}`
-        setUser(users)
-        setTerms(e.target.checked)
-      }, (error) => {
-        toast.error('Error in getting location!')
-      })
+      location.getCurrentPosition(
+        (position) => {
+          users.coords = `${position.coords.latitude},${position.coords.longitude}`;
+          setUser(users);
+          setTerms(e.target.checked);
+        },
+        (error) => {
+          toast.error("Error in getting location!");
+        }
+      );
     }
-  }
+  };
   const [users, setUser] = useState({
     userName: "",
     password: "",
@@ -68,7 +156,6 @@ const Individual = () => {
 
   const [errField, setErrField] = useState({
     userNameErr: "",
-    nickName: "",
     phoneErr: "",
   });
 
@@ -76,61 +163,42 @@ const Individual = () => {
   const handleInput = (event) => {
     name = event.target.name;
     value = event.target.value;
-    if(name === 'zip_code'){
-      if(value.length > 5){
-        return
+    if (name === "zip_code") {
+      if (value.length > 5) {
+        return;
       }
     }
     setUser({ ...users, [name]: value });
   };
 
-  const changeState = (e)=> {
-    const state = e.target.value
-    setUser({...users, state: state})
-    getCountiesOfState(state)
-  }
-
-  const changeCounty = (e)=> {
-    const county = e.target.value
-    setUser({...users, county: county})
-  }
-
-  const getCountiesOfState = (state)=> {
-    const data = results.filter(x => x.state === state)
-    setCounties(data)
-  }
-
   const submit = async (e) => {
     e.preventDefault();
-    setLoading(true)
-    console.log("====================================");
-    console.log(validForm());
-    console.log("====================================");
-    
-    if(!validForm()){
-      setLoading(false)
-      toast.error('Validation Error!',{
-        position: toast.POSITION.TOP_CENTER
-      })
-      return
+    setLoading(true);
+
+    if (!validForm()) {
+      setLoading(false);
+      toast.error("Validation Error!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
     }
-    if(!year){
-      setLoading(false)
-      toast.error('Please Select Year!',{
-        position: toast.POSITION.TOP_CENTER
-      })
-      return
+    if (!year) {
+      setLoading(false);
+      toast.error("Please Select Year!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
     }
-    if(!terms){
-      setLoading(false)
-      toast.error("Please allow this app to access your device's location!",{
-        position: toast.POSITION.TOP_CENTER
-      })
-      return
+    if (!terms) {
+      setLoading(false);
+      toast.error("Please allow this app to access your device's location!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
     }
 
     users.phone = phoneValue;
-    users.date_of_birth = `${year}-${month}-${day}`
+    users.date_of_birth = `${year}-${month}-${day}`;
     if (users.password === "" || users.password === undefined) {
       delete users.password;
     }
@@ -149,33 +217,36 @@ const Individual = () => {
     if (users.state === "" || users.state === undefined) {
       delete users.state;
     }
-    
-    try{
-      var response = await individualSignup(users)
+
+    try {
+      var response = await individualSignup(users);
       if (response.status === 200) {
-        toast.success("Account has been created successfully!",{
-          position: toast.POSITION.TOP_CENTER
+        toast.success("Account has been created successfully!", {
+          position: toast.POSITION.TOP_CENTER,
         });
-        setTimeout(async() => {
-          var result = await login({userName: users.userName, password: users.password}) 
-          setLoading(false)
-          await setLocalValues(result.data)
+        setTimeout(async () => {
+          var result = await login({
+            userName: users.userName,
+            password: users.password,
+          });
+          setLoading(false);
+          await setLocalValues(result.data);
           navigate("/individual-landingpage");
           // navigate("/login");
           // toast.success("Please Login To Continue!");
         }, 500);
-      }else{
-        setLoading(false)
-        toast.error("Something went wrong !",{
-          position: toast.POSITION.TOP_CENTER
+      } else {
+        setLoading(false);
+        toast.error("Something went wrong !", {
+          position: toast.POSITION.TOP_CENTER,
         });
         console.log(response);
       }
-    }catch(e){
-      setLoading(false)
-      console.log('ERRORChoose a password*');
-      toast.error(e.response.data.message,{
-        position: toast.POSITION.TOP_CENTER
+    } catch (e) {
+      setLoading(false);
+      console.log("ERRORChoose a password*");
+      toast.error(e.response.data.message, {
+        position: toast.POSITION.TOP_CENTER,
       });
     }
   };
@@ -184,7 +255,6 @@ const Individual = () => {
     let formIsValid = true;
     setErrField({
       userNameErr: "",
-      nickName: "",
       phoneErr: "",
     });
     if (users.userName === "") {
@@ -194,38 +264,31 @@ const Individual = () => {
         userNameErr: "Name is Required",
       }));
     }
-
-    if (phoneValue === "" || phoneValue.length < 15) {
+    let phoneVal = phoneValue.trim();
+    if (phoneVal === "" || phoneVal.length < 14) {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
         phoneErr: "Invalid Phone Number!",
       }));
     }
-    if (users.nickName === "") {
-      formIsValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        nickName: "NickName is Required",
-      }));
-    }
+
     return formIsValid;
   };
   const normalizeCardNumber = (value) => {
     let x = value.replace(/\D/g, "").match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
     let maskedText = !x[2]
       ? x[1]
-      : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
+      : "(" + x[1] + ") " + x[2] + (x[3] ? " - " + x[3] : "");
     return maskedText;
   };
 
   return (
     <Wrapper>
-      <MainNav/>
+      <MainNav />
       <ToastContainer />
 
       <div className="account">
-        
         <p style={{ marginBottom: "15px" }} className="header_title">
           CREATE AN ACCOUNT
         </p>
@@ -261,9 +324,7 @@ const Individual = () => {
                   </div>
 
                   <div className="mb-3 label_input">
-                    <label htmlFor="validationCustom02">
-                      NICK NAME <span className="star_red">*</span>
-                    </label>
+                    <label htmlFor="validationCustom02">NICK NAME</label>
                     <input
                       name="nickName"
                       value={users.nickName}
@@ -271,19 +332,7 @@ const Individual = () => {
                       type="text"
                       placeholder="Create a nickname"
                       className="form-control login_field"
-                      id="validationCustom02"
                     />
-                    {errField.nickName.length > 0 && (
-                      <span
-                        style={{
-                          color: "red",
-                          fontSize: "11px",
-                          fontFamily: "popreg",
-                        }}
-                      >
-                        {errField.nickName}
-                      </span>
-                    )}
                   </div>
 
                   <div className="form-group">
@@ -331,7 +380,7 @@ const Individual = () => {
                     </select>
                   </div>
 
-                  <div className="form-group" style={{marginTop: '-5px'}}>
+                  <div className="form-group" style={{ marginTop: "-5px" }}>
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
@@ -346,7 +395,9 @@ const Individual = () => {
                       className="form-control login_field"
                       id="exampleFormControlSelect1"
                     >
-                      <option className="login_field" selected disabled>Select Gender</option>
+                      <option className="login_field" selected disabled>
+                        Select Gender
+                      </option>
                       <option className="login_field">MALE</option>
                       <option className="login_field">FEMALE</option>
                       <option className="login_field">OTHER</option>
@@ -356,7 +407,7 @@ const Individual = () => {
                 <div className="col-lg-6">
                   <div className="label_input mb-3">
                     <label htmlFor="validationCustom03">
-                      PASSWORD 
+                      PASSWORD
                       <span
                         style={{
                           fontSize: "10px",
@@ -417,59 +468,106 @@ const Individual = () => {
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
+                      style={{ display: "block" }}
                     >
-                      DATE OF BIRTH <span className="star_red">*</span>
+                      DATE OF BIRTH{" "}
+                      <span
+                        className="star_red"
+                        style={{
+                          float: "right",
+                          marginRight: "32%",
+                          marginTop: "5px",
+                        }}
+                      >
+                        *
+                      </span>
                     </label>
                     <div className="">
+                      <div class="row">
+                        <div class="col-md-4  m-0 p-0 pr-3">
+                          <select
+                            onChange={(e) => setMonth(e.target.value)}
+                            name=""
+                            id=""
+                            className="form-control login_field"
+                          >
+                            <option value="" selected disabled>
+                              Select Month
+                            </option>
+                            {months.map((element) => {
+                              return (
+                                <option className="login_field" value={element}>
+                                  {element}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                        <div class="col-md-4 m-0 p-0 pr-3">
+                          <select
+                            onChange={(e) => setDay(e.target.value)}
+                            name=""
+                            id=""
+                            className="form-control login_field"
+                          >
+                            <option value="" selected disabled>
+                              Select Day
+                            </option>
+                            {days.map((element) => {
+                              return (
+                                <option className="login_field" value={element}>
+                                  {element}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                        <div class="col-md-4 m-0 p-0 pr-0">
+                          <select
+                            onChange={(e) => setYear(e.target.value)}
+                            name=""
+                            id=""
+                            className="form-control login_field"
+                          >
+                            <option value="" selected disabled>
+                              Select Year
+                            </option>
+                            {years.map((element) => {
+                              return (
+                                <option className="login_field" value={element}>
+                                  {element}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-                    <div class="row">
-                      <div class="col-md-4  m-0 p-0 pr-3">
-                          <select onChange={(e)=> setMonth(e.target.value)} name="" id="" className="form-control login_field">
-                              <option value="" selected disabled>Select Month</option>
-                              {months.map((element) => {
-                                return (
-                                  <option className="login_field" value={element}>{element}</option>
-                                )
-                              })}
-                          </select>
-                      </div>
-                      <div class="col-md-4 m-0 p-0 pr-3">
-                          <select onChange={(e)=> setDay(e.target.value)} name="" id="" className="form-control login_field">
-                              <option value="" selected disabled>Select Day</option>
-                              {days.map((element )=> {
-                                return (
-                                  <option className="login_field" value={element}>{element}</option>
-                                )
-                              })}
-                          </select>
-                      </div>
-                      <div class="col-md-4 m-0 p-0 pr-0">
-                          <select onChange={(e)=> setYear(e.target.value)} name="" id="" className="form-control login_field">
-                              <option value="" selected disabled>Select Year</option>
-                              {years.map((element) => {
-                                return (
-                                  <option className="login_field" value={element}>{element}</option>
-                                )
-                              })}
-                          </select>
-                      </div>
-                  </div>
-                  </div>
-                      
-                  </div>
-                 
                   <div className="row">
                     <div className="col-lg-6 pl-0 respon2">
                       <div className="mb-3 label_input">
-                      <label htmlFor="validationCustom02">STATE</label>
-                        <select className="form-control login_field" name="states" id="states"
-                        onChange={changeState}
+                        <label htmlFor="validationCustom02">STATE</label>
+                        <select
+                          className="form-control login_field"
+                          name="states"
+                          id="states"
+                          onChange={changeState}
                         >
-                          <option className="login_field" selected disabled>Select State</option>
-                          {states.map((item, index)=> {
+                          <option className="login_field" selected disabled>
+                            Select State
+                          </option>
+                          {states.map((item, index) => {
                             return (
-                              <option className="login_field" key={index} value={item}>{item}</option>
-                            )
+                              <option
+                                className="login_field"
+                                key={index}
+                                value={item}
+                              >
+                                {item}
+                              </option>
+                            );
                           })}
                         </select>
                       </div>
@@ -477,14 +575,25 @@ const Individual = () => {
                     <div className="col-lg-6 pr-0 respon">
                       <div className="mb-3 label_input">
                         <label htmlFor="validationCustom02">COUNTY </label>
-                        <select className="form-control login_field" name="counties" id="counties"
-                        onChange={changeCounty}
+                        <select
+                          className="form-control login_field"
+                          name="counties"
+                          id="counties"
+                          onChange={changeCounty}
                         >
-                          <option className="login_field" selected disabled>Select County</option>
-                          {counties.map((item, index)=> {
+                          <option className="login_field" selected disabled>
+                            Select County
+                          </option>
+                          {counties.map((item, index) => {
                             return (
-                              <option className="login_field" key={index} value={item.countyName}>{item.countyName}</option>
-                            )
+                              <option
+                                className="login_field"
+                                key={index}
+                                value={item}
+                              >
+                                {item}
+                              </option>
+                            );
                           })}
                         </select>
                       </div>
@@ -505,19 +614,23 @@ const Individual = () => {
 
             <div className="signup_footer">
               {/* <Link to="/login" onClick={submit}> */}
-              {loading?
-                <Spinner/>
-              :
-              <>
-                <button className={`signupbtn1 ${!terms?'btn-secondary': ''}`} disabled={!terms?'disabled':''} type={"submit"}>
-                  SIGNUP
-                </button>
-                <Link className="" to="/">
-                  <p className="footer_sign_up">Cancel</p>
-                </Link>
-              </>
-              }
-              
+              {loading ? (
+                <Spinner />
+              ) : (
+                <>
+                  <button
+                    className={`signupbtn1 ${!terms ? "btn-secondary" : ""}`}
+                    disabled={!terms ? "disabled" : ""}
+                    type={"submit"}
+                  >
+                    SIGNUP
+                  </button>
+                  <Link className="" to="/">
+                    <p className="footer_sign_up">Cancel</p>
+                  </Link>
+                </>
+              )}
+
               {/* </Link> */}
             </div>
           </form>

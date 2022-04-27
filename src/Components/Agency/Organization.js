@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
 import { Checkbox } from "antd";
 import { login, organizationSignup, setLocalValues } from "../../services/auth";
 import { Wrapper } from "../Auth/Auth.styled";
-import MainNav from '../Auth/Navs/MainNav'
-import { states_with_nick } from "../../services/states_counties";
-import Spinner from '../Loaders/buttonTailSpinner';
+import MainNav from "../Auth/Navs/MainNav";
+// import { states_with_nick } from "../../services/states_counties";
+import Spinner from "../Loaders/buttonTailSpinner";
 
 function Organization() {
   const [user, setUser] = useState({
@@ -25,11 +25,12 @@ function Organization() {
     role: "sheriff",
     iam: "",
   });
-  
+
   const navigate = useNavigate();
   const [phoneValue, setPhonevalue] = useState("");
   const [terms, setTerms] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [states, setStates] = useState([]);
 
   const [errField, setErrField] = useState({
     userNameErr: "",
@@ -47,21 +48,57 @@ function Organization() {
     iamErr: "",
   });
 
+  useEffect(() => {
+    (async () => {
+      const where = encodeURIComponent(
+        JSON.stringify({
+          countyName: {
+            $exists: true,
+          },
+          state: {
+            $exists: true,
+          },
+        })
+      );
+      const response = await fetch(
+        `https://parseapi.back4app.com/classes/Area?count=1&limit=1000000&order=state&keys=countyName,state,stateAbbreviation&where=${where}`,
+        {
+          headers: {
+            "X-Parse-Application-Id":
+              "VWAH9UbFty9tuCJVHIJPjYvH8OGcNyUTMkHH3UvL", // This is the fake app's application id
+            "X-Parse-Master-Key": "UsYwiuputxOcEcYTZqWKshopMgEjElqA4U4Mcy9V", // This is the fake app's readonly master key
+          },
+        }
+      );
+      const data = await response.json(); // Here you have the data that you need
+      let states = [];
+      states = data.results.map((item) => {
+        return item.state;
+      });
+      var unique = states.filter(onlyUnique);
+      setStates(unique);
+    })();
+  }, []);
+
+  function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+  }
+
   let name, value;
   const handleInput = (event) => {
     name = event.target.name;
     value = event.target.value;
-    if(name === 'zip_code'){
-      if(value.length > 5){
-        return
+    if (name === "zip_code") {
+      if (value.length > 5) {
+        return;
       }
     }
     setUser({ ...user, [name]: value });
   };
   const submit = async (e) => {
     e.preventDefault();
-    setLoading(true)
-    
+    setLoading(true);
+
     // if (user.city === "" || user.city === undefined) {
     //   delete user.city;
     // }
@@ -77,58 +114,61 @@ function Organization() {
     user.phone = phoneValue;
     // delete user.coo
 
-    if(!validForm()){
-      setLoading(false)
-      toast.error('Validation Error!',{
-        position: toast.POSITION.TOP_CENTER
-      })
-      return
+    if (!validForm()) {
+      setLoading(false);
+      toast.error("Validation Error!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
     }
-    if(!terms){
-      setLoading(false)
-      toast.error("Please allow this app to access your device's location",{
-        position: toast.POSITION.TOP_CENTER
-      })
-      return
+    if (!terms) {
+      setLoading(false);
+      toast.error("Please allow this app to access your device's location", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      return;
     }
-    try{
-      var response = await organizationSignup(user)
+    try {
+      var response = await organizationSignup(user);
       if (response.status === 200) {
-        toast.success("Account has been created successfully!",{
-          position: toast.POSITION.TOP_CENTER
+        toast.success("Account has been created successfully!", {
+          position: toast.POSITION.TOP_CENTER,
         });
-        setTimeout(async() => {
-          var result = await login({userName: user.userName, password: user.password}) 
-          setLoading(false)
-          await setLocalValues(result.data)
+        setTimeout(async () => {
+          var result = await login({
+            userName: user.userName,
+            password: user.password,
+          });
+          setLoading(false);
+          await setLocalValues(result.data);
           navigate("/OrganizationLandingpage");
           // navigate("/login");
           // toast.success("Please Login To Continue!");
-      }, 500);
-      }else{
-        setLoading(false)
-        toast.error("Something went wrong !",{
-          position: toast.POSITION.TOP_CENTER
+        }, 500);
+      } else {
+        setLoading(false);
+        toast.error("Something went wrong !", {
+          position: toast.POSITION.TOP_CENTER,
         });
         console.log(response);
       }
-    }catch(e){
-      setLoading(false)
-      var error = ''
-      if(e.response){
+    } catch (e) {
+      setLoading(false);
+      var error = "";
+      if (e.response) {
         console.log(e.response);
-        error = e.response
-        if(e.response.data){
+        error = e.response;
+        if (e.response.data) {
           console.log(e.response.data);
-          error = e.response.data
-          if(e.response.data.message){
+          error = e.response.data;
+          if (e.response.data.message) {
             console.log(e.response.data.message);
-            error = e.response.data.message
+            error = e.response.data.message;
           }
         }
       }
-      toast.error(error,{
-        position: toast.POSITION.TOP_CENTER
+      toast.error(error, {
+        position: toast.POSITION.TOP_CENTER,
       });
     }
   };
@@ -219,7 +259,7 @@ function Organization() {
         stateErr: "Please Enter State",
       }));
     }
-   
+
     if (user.iam === "") {
       formIsValid = false;
       setErrField((prevState) => ({
@@ -234,7 +274,7 @@ function Organization() {
         ...prevState,
         zipcodeErr: "Invalid Zip Code",
       }));
-    }  
+    }
     return formIsValid;
   };
   const [open, setOpen] = useState(false);
@@ -243,41 +283,41 @@ function Organization() {
   const toggle = () => {
     setOpen(!open);
   };
-  const onChange = (e)=> {
-    getMyLocation(e)
+  const onChange = (e) => {
+    getMyLocation(e);
     // setTerms(e.target.checked)
-  }
+  };
   const getMyLocation = (e) => {
-    const location = window.navigator && window.navigator.geolocation
-    
+    const location = window.navigator && window.navigator.geolocation;
+
     if (location) {
-      location.getCurrentPosition((position) => {
-        user.coords = `${position.coords.latitude},${position.coords.longitude}`
-        setUser(user)
-        setTerms(e.target.checked)
-      }, (error) => {
-        toast.error('Error in getting location!')
-      })
+      location.getCurrentPosition(
+        (position) => {
+          user.coords = `${position.coords.latitude},${position.coords.longitude}`;
+          setUser(user);
+          setTerms(e.target.checked);
+        },
+        (error) => {
+          toast.error("Error in getting location!");
+        }
+      );
     }
-  }
+  };
 
   const normalizeCardNumber = (value) => {
     let x = value.replace(/\D/g, "").match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
     let maskedText = !x[2]
       ? x[1]
-      : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
+      : "(" + x[1] + ") " + x[2] + (x[3] ? " - " + x[3] : "");
     return maskedText;
   };
 
   return (
     <Wrapper>
-      <MainNav/>
+      <MainNav />
       <ToastContainer />
       <div className="account">
-        
-        <p className="header_title">
-          CREATE AN ACCOUNT
-        </p>
+        <p className="header_title">CREATE AN ACCOUNT</p>
         <div className="container mt-5">
           <div className="row justify-content-around">
             <div className="col-lg-6">
@@ -361,33 +401,33 @@ function Organization() {
                       </span>
                     )}
                   </div>
-                </div>                
+                </div>
               </div>
               <div className="label_input mb-3">
                 <label htmlFor="validationCustom02">
-                    FULL NAME OF ORGANIZATION <span className="star_red">*</span>
-                  </label>
-                  <input
-                    name="organization"
-                    value={user.organization}
-                    onChange={handleInput}
-                    type="text"
-                    placeholder="Enter full name of organization"
-                    className="form-control login_field"
-                    id="validationCustom02"
-                    required
-                  />
-                  {errField.organizationErr.length > 0 && (
-                    <span
-                      style={{
-                        color: "red",
-                        fontSize: "11px",
-                        fontFamily: "popreg",
-                      }}
-                    >
-                      {errField.organizationErr}
-                    </span>
-                  )}
+                  FULL NAME OF ORGANIZATION <span className="star_red">*</span>
+                </label>
+                <input
+                  name="organization"
+                  value={user.organization}
+                  onChange={handleInput}
+                  type="text"
+                  placeholder="Enter full name of organization"
+                  className="form-control login_field"
+                  id="validationCustom02"
+                  required
+                />
+                {errField.organizationErr.length > 0 && (
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "11px",
+                      fontFamily: "popreg",
+                    }}
+                  >
+                    {errField.organizationErr}
+                  </span>
+                )}
               </div>
 
               <div className="label_input mb-3">
@@ -403,7 +443,10 @@ function Organization() {
                     <span className="star_red">*</span>
                   </span>
                 </label>
-                <span className="input-group-text login_field" id="basic-addon1">
+                <span
+                  className="input-group-text login_field"
+                  id="basic-addon1"
+                >
                   +1
                 </span>
                 <input
@@ -549,7 +592,9 @@ function Organization() {
               <div className="row ">
                 <div className="col-lg-4 px-0  pr-3">
                   <div className="mb-3 label_input">
-                    <label htmlFor="validationCustom02">CITY <span className="star_red">*</span></label>
+                    <label htmlFor="validationCustom02">
+                      CITY <span className="star_red">*</span>
+                    </label>
                     <input
                       value={user.city}
                       onChange={handleInput}
@@ -575,35 +620,49 @@ function Organization() {
                 </div>
                 <div className="col-lg-4 px-0 pr-3">
                   <div className="mb-3 label_input">
-                    <label htmlFor="validationCustom02">STATE <span className="star_red">*</span></label>
-                    <select className="form-control login_field" name="state" id="state"
-                        onChange={handleInput}
-                        >
-                          <option className="login_field" selected disabled>Select State</option>
-                          {states_with_nick.map((item, index)=> {
-                            return (
-                              <option className="login_field" key={index} value={item.name}>{item.name}</option>
-                            )
-                          })}
-                      </select>
-                      {errField.stateErr.length > 0 && (
-                        <span
-                          style={{
-                            color: "red",
-                            fontSize: "11px",
-                            fontFamily: "popreg",
-                          }}
-                        >
-                          {errField.stateErr}
-                        </span>
-                      )}
-                   
+                    <label htmlFor="validationCustom02">
+                      STATE <span className="star_red">*</span>
+                    </label>
+                    <select
+                      className="form-control login_field"
+                      name="state"
+                      id="state"
+                      onChange={handleInput}
+                    >
+                      <option className="login_field" selected disabled>
+                        Select State
+                      </option>
+                      {states.map((item, index) => {
+                        return (
+                          <option
+                            className="login_field"
+                            key={index}
+                            value={item}
+                          >
+                            {item}
+                          </option>
+                        );
+                      })}
+                    </select>
+                    {errField.stateErr.length > 0 && (
+                      <span
+                        style={{
+                          color: "red",
+                          fontSize: "11px",
+                          fontFamily: "popreg",
+                        }}
+                      >
+                        {errField.stateErr}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="col-lg-4 px-0">
                   <div className="mobile_p pr-0">
                     <div className="mb-3 label_input">
-                      <label htmlFor="validationCustom02">ZIP CODE <span className="star_red">*</span></label>
+                      <label htmlFor="validationCustom02">
+                        ZIP CODE <span className="star_red">*</span>
+                      </label>
                       <input
                         value={user.zip_code}
                         onChange={handleInput}
@@ -629,7 +688,6 @@ function Organization() {
                   </div>
                 </div>
               </div>
-            
             </div>
           </div>
           <Checkbox
@@ -637,7 +695,7 @@ function Organization() {
             onChange={onChange}
           >
             <span className="label_input ml-2">
-            SYSTEM WILL USE YOUR DEVICE’S LOCATION SERVICES
+              SYSTEM WILL USE YOUR DEVICE’S LOCATION SERVICES
               <span className="star_red">*</span>
             </span>
           </Checkbox>
@@ -655,18 +713,22 @@ function Organization() {
             </label>
           </div> */}
           <div className="signup_footer">
-            {loading?
-                <Spinner/>
-            :
-            <>
-                <button onClick={submit} className={`signupbtn1 ${!terms?'btn-secondary': ''}`} disabled={!terms?'disabled':''}>SIGNUP</button>
-              <Link className="" to="/">
-                <p className="footer_sign_up">Cancel</p>
-              </Link>
-            </>
-            }
-            
-            
+            {loading ? (
+              <Spinner />
+            ) : (
+              <>
+                <button
+                  onClick={submit}
+                  className={`signupbtn1 ${!terms ? "btn-secondary" : ""}`}
+                  disabled={!terms ? "disabled" : ""}
+                >
+                  SIGNUP
+                </button>
+                <Link className="" to="/">
+                  <p className="footer_sign_up">Cancel</p>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

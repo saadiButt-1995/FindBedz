@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import {
   days,
   months,
-  results,
-  states,
+  // results,
+  // states,
   years,
 } from "../../services/states_counties";
 import { setUsersData, updateUserDetails } from "../../services/auth";
@@ -26,6 +26,7 @@ const IndividualEditprofile = () => {
   const [year, setYear] = useState(0);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [states, setStates] = useState([]);
 
   const [counties, setCounties] = useState([]);
   const [users, setUser] = useState({
@@ -56,13 +57,87 @@ const IndividualEditprofile = () => {
     "OTHER RACE",
   ];
 
+  useEffect(() => {
+    (async () => {
+      const where = encodeURIComponent(
+        JSON.stringify({
+          countyName: {
+            $exists: true,
+          },
+          state: {
+            $exists: true,
+          },
+        })
+      );
+      const response = await fetch(
+        `https://parseapi.back4app.com/classes/Area?count=1&limit=1000000&order=state&keys=countyName,state,stateAbbreviation&where=${where}`,
+        {
+          headers: {
+            "X-Parse-Application-Id":
+              "VWAH9UbFty9tuCJVHIJPjYvH8OGcNyUTMkHH3UvL", // This is the fake app's application id
+            "X-Parse-Master-Key": "UsYwiuputxOcEcYTZqWKshopMgEjElqA4U4Mcy9V", // This is the fake app's readonly master key
+          },
+        }
+      );
+      const data = await response.json(); // Here you have the data that you need
+      let states = [];
+      states = data.results.map((item) => {
+        return item.state;
+      });
+      var unique = states.filter(onlyUnique);
+      setStates(unique);
+    })();
+  }, []);
+
+  function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+  }
+
+  const changeState = (e) => {
+    const state = e.target.value;
+    setUser({ ...users, state: state });
+    getCountiesOfState(state);
+  };
+
+  const changeCounty = (e) => {
+    const county = e.target.value;
+    setUser({ ...users, county: county });
+  };
+
+  const getCountiesOfState = (state) => {
+    (async () => {
+      const where = encodeURIComponent(
+        JSON.stringify({
+          state: state,
+        })
+      );
+      const response = await fetch(
+        `https://parseapi.back4app.com/classes/Area?limit=1000&order=state&keys=countyName,state,stateAbbreviation&where=${where}`,
+        {
+          headers: {
+            "X-Parse-Application-Id":
+              "VWAH9UbFty9tuCJVHIJPjYvH8OGcNyUTMkHH3UvL", // This is the fake app's application id
+            "X-Parse-Master-Key": "UsYwiuputxOcEcYTZqWKshopMgEjElqA4U4Mcy9V", // This is the fake app's readonly master key
+          },
+        }
+      );
+      const data = await response.json(); // Here you have the data that you need
+      let counties = data.results.map((item) => {
+        return item.countyName;
+      });
+      var unique = counties.filter(onlyUnique);
+      setCounties(unique);
+    })();
+    // const data = results.filter((x) => x.state === state);
+    // setCounties(data);
+  };
+
   const toggle = () => {
     setOpen(!open);
   };
 
   const [errField, setErrField] = useState({
     // userNameErr: "",
-    nickName: "",
     phoneErr: "",
   });
 
@@ -156,7 +231,6 @@ const IndividualEditprofile = () => {
     let formIsValid = true;
     setErrField({
       // userNameErr: "",
-      nickName: "",
       phoneErr: "",
     });
     // if (users.userName === "") {
@@ -166,19 +240,12 @@ const IndividualEditprofile = () => {
     //     userNameErr: "Name is Required",
     //   }));
     // }
-
-    if (users.phone === "" || users.phone.length < 15) {
+    let phoneVal = users.phone.trim();
+    if (phoneVal === "" || phoneVal.length < 14) {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
         phoneErr: "Invalid Phone Number",
-      }));
-    }
-    if (users.nickName === "") {
-      formIsValid = false;
-      setErrField((prevState) => ({
-        ...prevState,
-        nickName: "NickName is Required",
       }));
     }
 
@@ -188,24 +255,8 @@ const IndividualEditprofile = () => {
     let x = value.replace(/\D/g, "").match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
     let maskedText = !x[2]
       ? x[1]
-      : "(" + x[1] + ") " + x[2] + (x[3] ? "-" + x[3] : "");
+      : "(" + x[1] + ") " + x[2] + (x[3] ? " - " + x[3] : "");
     return maskedText;
-  };
-
-  const changeState = (e) => {
-    const state = e.target.value;
-    setUser({ ...users, state: state });
-    getCountiesOfState(state);
-  };
-
-  const changeCounty = (e) => {
-    const county = e.target.value;
-    setUser({ ...users, county: county });
-  };
-
-  const getCountiesOfState = (state) => {
-    const data = results.filter((x) => x.state === state);
-    setCounties(data);
   };
 
   useEffect(() => {
@@ -280,7 +331,7 @@ const IndividualEditprofile = () => {
 
                   <div className="mb-3 label_input">
                     <label htmlFor="validationCustom02">
-                      SALUTATION (NICK NAME)<span className="star_red">*</span>
+                      SALUTATION (NICK NAME)
                     </label>
                     <input
                       name="nickName"
@@ -289,19 +340,7 @@ const IndividualEditprofile = () => {
                       type="text"
                       placeholder="Create a nickname"
                       className="form-control login_field"
-                      id="validationCustom02"
                     />
-                    {errField.nickName.length > 0 && (
-                      <span
-                        style={{
-                          color: "red",
-                          fontSize: "11px",
-                          fontFamily: "popreg",
-                        }}
-                      >
-                        {errField.nickName}
-                      </span>
-                    )}
                   </div>
 
                   <div className="form-group">
@@ -455,8 +494,19 @@ const IndividualEditprofile = () => {
                     <label
                       className="label_input"
                       for="exampleFormControlSelect1"
+                      style={{ display: "block" }}
                     >
-                      DATE OF BIRTH <span className="star_red">*</span>
+                      DATE OF BIRTH{" "}
+                      <span
+                        className="star_red"
+                        style={{
+                          float: "right",
+                          marginRight: "32%",
+                          marginTop: "5px",
+                        }}
+                      >
+                        *
+                      </span>
                     </label>
                     <div class="row">
                       <div class="col-md-4  m-0 p-0 pr-3">
@@ -616,14 +666,10 @@ const IndividualEditprofile = () => {
                               <option
                                 className="login_field"
                                 key={index}
-                                value={item.countyName}
-                                selected={
-                                  item.countyName === users.county
-                                    ? true
-                                    : false
-                                }
+                                value={item}
+                                selected={item === users.county ? true : false}
                               >
-                                {item.countyName}
+                                {item}
                               </option>
                             );
                           })}
