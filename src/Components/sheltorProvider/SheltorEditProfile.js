@@ -165,7 +165,7 @@ function ShelterEditProfile() {
         return item.countyName;
       });
       var unique = counties.filter(onlyUnique);
-      setCounties(unique);
+      setCounties(unique.sort());
     })();
   };
 
@@ -289,11 +289,12 @@ function ShelterEditProfile() {
         passwordErr: "Please Enter Password",
       }));
     }
-    if (user.phone === "" || user.phone.length < 15) {
+    let phoneVal = user.phone.trim();
+    if (phoneVal === "" || phoneVal.length < 14) {
       formIsValid = false;
       setErrField((prevState) => ({
         ...prevState,
-        phoneErr: "Invalid Phone Number",
+        phoneErr: "Invalid Phone Number!",
       }));
     }
     if (user.email === "") {

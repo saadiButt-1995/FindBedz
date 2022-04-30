@@ -112,8 +112,7 @@ const Individual = () => {
         return item.countyName;
       });
       var unique = counties.filter(onlyUnique);
-      console.log(unique);
-      setCounties(unique);
+      setCounties(unique.sort());
     })();
     // const data = results.filter((x) => x.state === state);
     // setCounties(data);
@@ -216,6 +215,12 @@ const Individual = () => {
     }
     if (users.state === "" || users.state === undefined) {
       delete users.state;
+    }
+    // if (users.nickName === "" || users.nickName === undefined) {
+    //   delete users.nickName;
+    // }
+    if (users.nickName === "") {
+      users.nickName = " ";
     }
 
     try {

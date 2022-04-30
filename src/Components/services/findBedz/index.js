@@ -52,7 +52,7 @@ const FindAbed = () => {
     state: "",
     city: "",
     county: "",
-    shelterIsFor: "adults",
+    shelterIsFor: "all",
     limit: 100,
     page: 1,
     userId: user._id,
@@ -121,7 +121,7 @@ const FindAbed = () => {
       var totalAvailBeds = 0;
       shelters.map((item) => {
         totalBeds += item.totalNumberOfBeds;
-        totalAvailBeds += item.availableReservationBeds;
+        totalAvailBeds += item.availableBeds;
       });
       setTotalBeds(totalBeds);
       setAvailableBeds(totalAvailBeds);

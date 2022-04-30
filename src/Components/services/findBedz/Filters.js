@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { results, states_with_nick } from "../../../services/states_counties";
+// import { results, states_with_nick } from "../../../services/states_counties";
 import AutoCompleteInput from "../../../Test";
 import { Wrapper } from "./findbedz.styled";
 
@@ -10,29 +10,92 @@ const Filters = ({
   toggleAvailableBeds,
   show_available_beds,
 }) => {
+  const [states, setStates] = useState([]);
   const [counties, setCounties] = useState([]);
-  const [state, setState] = useState("");
-  const [county, setCounty] = useState("");
+  // const [state, setState] = useState("");
+  // const [county, setCounty] = useState("");
   // const [address, setAddress] = useState("")
 
-  console.log(state);
+  useEffect(() => {
+    (async () => {
+      const where = encodeURIComponent(
+        JSON.stringify({
+          countyName: {
+            $exists: true,
+          },
+          state: {
+            $exists: true,
+          },
+        })
+      );
+      const response = await fetch(
+        `https://parseapi.back4app.com/classes/Area?count=1&limit=1000000&order=state&keys=countyName,state,stateAbbreviation&where=${where}`,
+        {
+          headers: {
+            "X-Parse-Application-Id":
+              "VWAH9UbFty9tuCJVHIJPjYvH8OGcNyUTMkHH3UvL", // This is the fake app's application id
+            "X-Parse-Master-Key": "UsYwiuputxOcEcYTZqWKshopMgEjElqA4U4Mcy9V", // This is the fake app's readonly master key
+          },
+        }
+      );
+      const data = await response.json(); // Here you have the data that you need
+      let states = [];
+      states = data.results.map((item) => {
+        return item.state;
+      });
+      var unique = states.filter(onlyUnique);
+      // console.log(unique);
+      setStates(unique);
+    })();
+  }, []);
+
+  function onlyUnique(value, index, self) {
+    return self.indexOf(value) === index;
+  }
+
   const changeState = (e) => {
-    setState(e.target.value);
-    getCountiesOfState(e.target.value);
+    const state = e.target.value;
+    getCountiesOfState(state);
     filters.state = e.target.value;
     updateFilters(filters);
   };
 
   const changeCounty = (e) => {
-    setCounty(e.target.value);
+    // const county = e.target.value;
     filters.county = e.target.value;
     updateFilters(filters);
   };
 
   const getCountiesOfState = (state) => {
-    const data = results.filter((x) => x.state === state);
-    setCounties(data);
+    (async () => {
+      const where = encodeURIComponent(
+        JSON.stringify({
+          state: state,
+        })
+      );
+      const response = await fetch(
+        `https://parseapi.back4app.com/classes/Area?limit=1000&order=state&keys=countyName,state,stateAbbreviation&where=${where}`,
+        {
+          headers: {
+            "X-Parse-Application-Id":
+              "VWAH9UbFty9tuCJVHIJPjYvH8OGcNyUTMkHH3UvL", // This is the fake app's application id
+            "X-Parse-Master-Key": "UsYwiuputxOcEcYTZqWKshopMgEjElqA4U4Mcy9V", // This is the fake app's readonly master key
+          },
+        }
+      );
+      const data = await response.json(); // Here you have the data that you need
+      let counties = data.results.map((item) => {
+        return item.countyName;
+      });
+      var unique = counties.filter(onlyUnique);
+      setCounties(unique.sort());
+    })();
+    // const data = results.filter((x) => x.state === state);
+    // setCounties(data);
   };
+
+  // console.log(state);
+
   const changeSearchBy = (e) => {
     filters.searchBy = e.target.value;
     updateFilters(filters);
@@ -241,19 +304,40 @@ const Filters = ({
             SEARCH BY CITY
           </label>
         </div>
-        <div className="sub">
-          <div className="form-group col-lg-12 pl-0 pr-0">
+
+        <div className="sub mt-2">
+          <div className="form-inline row justify-content-between pl-0 pr-0">
+            <select
+              className="form-control col-lg-4 login_field"
+              disabled={filters.searchBy === "city" ? false : true}
+              style={{ fontWeight: "bold" }}
+              name="state"
+              id="state"
+              onChange={changeState}
+            >
+              <option className="login_field" value="" selected>
+                State
+              </option>
+              {states.map((item, index) => {
+                return (
+                  <option className="login_field" key={index} value={item}>
+                    {item}
+                  </option>
+                );
+              })}
+            </select>
+
             <input
               type="text"
               placeholder="Type city name"
-              className="form-control label_input login_field"
-              id="inputEmail4"
+              className="form-control label_input login_field col-lg-7"
               onChange={changeCity}
               disabled={filters.searchBy === "city" ? false : true}
             />
           </div>
         </div>
-        <div className="form-check mt-1 mb-1">
+
+        <div className="form-check mt-2 mb-1">
           <input
             className="form-check-input"
             type="radio"
@@ -274,7 +358,7 @@ const Filters = ({
         <div className="sub">
           <div className="form-inline row justify-content-between pl-0 pr-0">
             <select
-              className="form-control col-lg-3 login_field"
+              className="form-control col-lg-4 login_field"
               disabled={filters.searchBy === "county" ? false : true}
               style={{ fontWeight: "bold" }}
               name="state"
@@ -284,18 +368,18 @@ const Filters = ({
               <option className="login_field" value="" selected>
                 State
               </option>
-              {states_with_nick.map((item, index) => {
+              {states.map((item, index) => {
                 return (
-                  <option className="login_field" key={index} value={item.name}>
-                    {item.abbreviation}
+                  <option className="login_field" key={index} value={item}>
+                    {item}
                   </option>
                 );
               })}
             </select>
 
             <select
-              className="form-control col-md-8 login_field"
-              value={county}
+              className="form-control col-md-7 login_field"
+              value={filters.county}
               onChange={changeCounty}
               disabled={filters.searchBy === "county" ? false : true}
             >
@@ -306,8 +390,8 @@ const Filters = ({
               {/* :null} */}
               {counties.map((item) => {
                 return (
-                  <option className="login_field" value={item.countyName}>
-                    {item.countyName}
+                  <option className="login_field" value={item}>
+                    {item}
                   </option>
                 );
               })}
@@ -357,9 +441,24 @@ const Filters = ({
                   className="form-check-input"
                   type="radio"
                   name="exampleRadios"
+                  id="all"
+                  value="all"
+                  defaultChecked
+                  defaultValue={filters.shelterIsFor}
+                  onClick={changeShelterIsFor}
+                />
+                <label className="form-check-label mb-1" htmlFor="all">
+                  All
+                </label>
+              </div>
+
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="radio"
+                  name="exampleRadios"
                   id="adults"
                   value="adults"
-                  defaultChecked
                   defaultValue={filters.shelterIsFor}
                   onClick={changeShelterIsFor}
                 />

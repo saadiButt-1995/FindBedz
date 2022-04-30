@@ -126,7 +126,7 @@ const IndividualEditprofile = () => {
         return item.countyName;
       });
       var unique = counties.filter(onlyUnique);
-      setCounties(unique);
+      setCounties(unique.sort());
     })();
     // const data = results.filter((x) => x.state === state);
     // setCounties(data);
@@ -200,6 +200,9 @@ const IndividualEditprofile = () => {
     if (users.state === "" || users.state === undefined) {
       delete users.state;
     }
+    if (users.nickName === "" || users.nickName === undefined) {
+      delete users.nickName;
+    }
     try {
       var response = await updateUserDetails(users, user_id, token);
       if (response.status === 200) {
@@ -251,6 +254,7 @@ const IndividualEditprofile = () => {
 
     return formIsValid;
   };
+
   const normalizeCardNumber = (value) => {
     let x = value.replace(/\D/g, "").match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
     let maskedText = !x[2]
