@@ -116,17 +116,18 @@ const Filters = ({
     filters.shelterIsFor = e.target.value;
     updateFilters(filters);
   };
-  const toggleLocation = (e) => {
+  const toggleLocation = async (e) => {
     if (e.target.value === "true" || e.target.value === true) {
       console.log(true);
       filters.currentLocation = false;
     } else if (e.target.value === "false" || e.target.value === false) {
       console.log(false);
       filters.currentLocation = true;
+      await myLatLng();
     }
     setTimeout(() => {
       updateFilters(filters);
-    }, 100);
+    }, 500);
   };
 
   const getCoords = (coords) => {
@@ -135,8 +136,15 @@ const Filters = ({
       updateFilters(filters);
     }, 100);
   };
+  const getCoords1 = (coords) => {
+    filters.coords = coords;
+    filters.currentLocation = false;
+    setTimeout(() => {
+      updateFilters(filters);
+    }, 100);
+  };
 
-  const myLatLng = () => {
+  const myLatLng = async () => {
     navigator.geolocation.getCurrentPosition((position) => {
       getCoords(`${position.coords.latitude},${position.coords.longitude}`);
     });
@@ -197,7 +205,8 @@ const Filters = ({
             /> */}
 
             <AutoCompleteInput
-              getCoords={getCoords}
+              getCoords={getCoords1}
+              on={filters.currentLocation}
               disable={filters.searchBy === "distance" ? false : true}
             />
           </div>

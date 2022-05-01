@@ -78,11 +78,11 @@ export default function Bedservices({
 
             <div className="abc_personall">
               <div className="title_shelter">{item.shelterName}</div>
-              {item.milesAway !== undefined || item.milesAway !== 0 ? (
+              {item.milesAway !== undefined && (
                 <div className="adress_title">
                   {item.milesAway.toFixed(1)} Miles Away
                 </div>
-              ) : null}
+              )}
               <div className="adress_title">
                 {item.address} <br />
                 {item.city}, {item.state} {item.zipCode}

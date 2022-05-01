@@ -3,8 +3,12 @@ import { axios } from "../config";
 const getBeds = async (data) => {
   console.log(data);
   var query = "";
-  if (data.searchBy === "city")
+  if (data.searchBy === "city") {
+    if (data.state) {
+      query += data.state ? "state=" + data.state + "&" : "";
+    }
     query += data.city ? "city=" + data.city + "&" : "";
+  }
 
   if (data.searchBy === "county") {
     query += data.state ? "state=" + data.state + "&" : "";

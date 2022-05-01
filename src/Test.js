@@ -21,6 +21,10 @@ export class AutoCompleteInput extends Component {
     });
   };
   componentDidMount = () => {
+    // if (!this.props.on) {
+    //   console.log("12321321");
+    //   this.setState({ address: "" });
+    // }
     window.initMap = this.initMap;
     const gmapScriptEl = document.createElement(`script`);
     gmapScriptEl.src = `https://maps.googleapis.com/maps/api/js?key=${MapKey}&libraries=places&callback=initMap`;

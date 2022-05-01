@@ -48,7 +48,7 @@ const FindAbed = () => {
     searchBy: "distance",
     address: "",
     currentLocation: true,
-    upto: "2",
+    upto: "",
     state: "",
     city: "",
     county: "",
