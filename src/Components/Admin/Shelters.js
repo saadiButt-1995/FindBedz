@@ -48,7 +48,6 @@ export default function Shelters() {
         coords: coords,
       };
       try {
-        alert(32);
         var response = await getBeds(data);
         if (response.status === 200) {
           setLoading(false);
