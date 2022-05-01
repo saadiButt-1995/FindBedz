@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { axios } from "../../config";
 import { getShelterDetails, login, setLocalValues } from "../../services/auth";
 import { Wrapper } from "../Admin/Layout/AdminLayouts.styled";
 import Base from "../Admin/Layout/Base";
 import Spinner from "../Loaders/buttonTailSpinner";
 import moment from "moment";
+import { getBeds } from "../../services/beds";
 
 export default function Shelters() {
   const navigate = useNavigate();
@@ -31,15 +31,33 @@ export default function Shelters() {
 
   const getData = async () => {
     setLoading(true);
-    try {
-      var response = await axios.get("shelter/query");
-      if (response.status === 200) {
+    let coords = "";
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      coords = `${position.coords.latitude},${position.coords.longitude}`;
+      var data = {
+        searchBy: "distance",
+        address: "",
+        currentLocation: true,
+        upto: "",
+        state: "",
+        city: "",
+        county: "",
+        shelterIsFor: "all",
+        limit: 1000,
+        page: 1,
+        coords: coords,
+      };
+      try {
+        alert(32);
+        var response = await getBeds(data);
+        if (response.status === 200) {
+          setLoading(false);
+          setData(response.data.shelters.results);
+        }
+      } catch (e) {
         setLoading(false);
-        setData(response.data.shelters.results);
       }
-    } catch (e) {
-      setLoading(false);
-    }
+    });
   };
   const shelterControl = async (shelter, routeName) => {
     try {

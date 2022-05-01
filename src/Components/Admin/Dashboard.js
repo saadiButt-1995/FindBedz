@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { axios } from "../../config";
+import { getBeds } from "../../services/beds";
 import { Wrapper } from "./Layout/AdminLayouts.styled";
 import Base from "./Layout/Base";
 
@@ -14,16 +15,12 @@ export default function Dashboard() {
 
   const getData = async () => {
     try {
-      // var response = await axios.get("shelter/query");
-      // if (response.status === 200) {
-      //   setShelters(response.data.result.results);
-      // }
-
       var response = await axios.get("users/getUsers?role=user", {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
+
       if (response.status === 200) {
         setUsers(response.data.results);
       }
@@ -33,14 +30,34 @@ export default function Dashboard() {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
+
       if (response1.status === 200) {
         setAgencies(response1.data.results);
       }
 
-      var response2 = await axios.get("shelter/query");
-      if (response2.status === 200) {
-        setShelters(response2.data.shelters.results);
-      }
+      let coords = "";
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        coords = `${position.coords.latitude},${position.coords.longitude}`;
+        var data = {
+          searchBy: "distance",
+          address: "",
+          currentLocation: true,
+          upto: "",
+          state: "",
+          city: "",
+          county: "",
+          shelterIsFor: "all",
+          limit: 1000,
+          page: 1,
+          coords: coords,
+        };
+        try {
+          var response2 = await getBeds(data);
+          if (response2.status === 200) {
+            setShelters(response2.data.shelters.results);
+          }
+        } catch (e) {}
+      });
     } catch (e) {}
   };
   return (
