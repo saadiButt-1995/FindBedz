@@ -48,7 +48,7 @@ const FindAbed = () => {
     searchBy: "distance",
     address: "",
     currentLocation: true,
-    upto: "",
+    upto: "10",
     state: "",
     city: "",
     county: "",
@@ -98,6 +98,10 @@ const FindAbed = () => {
     // if(!loading){
     findBeds();
     // }
+  };
+  const updateFiltersWithoutCall = (filters) => {
+    setFilters({ ...filters, searchBy: filters.searchBy });
+    // setFilters(filters);
   };
 
   const toggleAvailableBeds = () => {
@@ -217,6 +221,7 @@ const FindAbed = () => {
                   service={false}
                   filters={filters}
                   updateFilters={updateFilters}
+                  updateFiltersWithoutCall={updateFiltersWithoutCall}
                   toggleAvailableBeds={toggleAvailableBeds}
                   show_available_beds={show_available_beds}
                 />

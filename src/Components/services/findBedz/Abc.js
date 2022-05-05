@@ -152,9 +152,9 @@ function Abc({ shelter, user, date }) {
                       {shelter.food.map((food) => {
                         return <span className="">{capitalize(food)}</span>;
                       })}
-                      {shelter.food.length < 1 ? (
-                        <span className="">None</span>
-                      ) : null}
+                      {shelter.food
+                        ? [0] === "" && <span className="">None</span>
+                        : null}
                     </div>
                   </div>
 
@@ -165,6 +165,33 @@ function Abc({ shelter, user, date }) {
                       <span className="">
                         {capitalize(shelter.shelterIsFor)}
                       </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-2 facilities">
+                  <div className="meals_section">
+                    <img src="/images/shelter_type.svg" alt="" />
+                    <span className="meals_title">PETS ALLOWED</span>
+                    <div className="mt-2 faciliites_list">
+                      {shelter.pets_allowed.map((pet) => {
+                        return <span className="">{capitalize(pet)}</span>;
+                      })}
+                      {shelter.pets_allowed
+                        ? [0] === "" && <span className="">None</span>
+                        : null}
+                    </div>
+                  </div>
+
+                  <div className="meals_section">
+                    <img src="/images/shelter_type.svg" alt="" />
+                    <span className="meals_title">AMENITIES</span>
+                    <div className="mt-2 faciliites_list">
+                      {shelter.amenities.map((a) => {
+                        return <span className="">{capitalize(a)}</span>;
+                      })}
+                      {shelter.amenities
+                        ? [0] === "" && <span className="">None</span>
+                        : null}
                     </div>
                   </div>
                 </div>

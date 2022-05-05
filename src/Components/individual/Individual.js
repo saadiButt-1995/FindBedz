@@ -162,6 +162,12 @@ const Individual = () => {
   const handleInput = (event) => {
     name = event.target.name;
     value = event.target.value;
+    if (name === "userName") {
+      if (value.length > 20) {
+        return;
+      }
+      value = value.replace(/\s/g, "");
+    }
     if (name === "zip_code") {
       if (value.length > 5) {
         return;

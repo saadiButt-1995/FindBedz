@@ -16,6 +16,7 @@ import {
 import moment from "moment";
 import { toast } from "react-toastify";
 import Spinner from "../../Loaders/buttonTailSpinner";
+import Controls from "./Controls";
 
 function Sheltordashboard() {
   const [user] = useState(JSON.parse(localStorage.getItem("user_data")));
@@ -23,13 +24,12 @@ function Sheltordashboard() {
   const [modal_extend, setModalExtend] = useState(false);
   const [modal_delete, setModalDelete] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingg, setLoadingg] = useState(false);
   const [reservation, setReservation] = useState("");
   const [held_for, setHeldFor] = useState("");
 
   const [reservations, setReservations] = useState([]);
 
-  //   const [modal, setModal] = useState(false)
-  //   console.log(modal);
   const openModal = () => {
     setModal(true);
   };
@@ -59,9 +59,14 @@ function Sheltordashboard() {
   const getAllReserves = async () => {
     setLoading(true);
     try {
+      var data = [];
       var response = await getAllReservations(user.id);
       setLoading(false);
-      setReservations(response.data);
+      data = response.data.map((item) => {
+        item.check = false;
+        return item;
+      });
+      setReservations(data);
     } catch (e) {
       setLoading(false);
       console.log(e);
@@ -158,6 +163,45 @@ function Sheltordashboard() {
     }
   };
 
+  const [check, setCheck] = useState(false);
+  const toggleCheck = () => {
+    var data = [];
+    if (check) {
+      data = reservations.map((item) => {
+        item.check = false;
+        return item;
+      });
+    } else {
+      data = reservations.map((item) => {
+        item.check = true;
+        return item;
+      });
+    }
+    setCheck(!check);
+    setReservations(data);
+  };
+  const selectReservation = (index) => {
+    console.log(loadingg);
+    reservations[index]["check"] = !reservations[index]["check"];
+    setLoadingg(true);
+    setReservations(reservations);
+    setTimeout(() => {
+      setLoadingg(false);
+    }, 300);
+  };
+
+  const checkReservationLength = () => {
+    /* eslint-disable */
+    return reservations.filter((item) => {
+      if (item.check) {
+        return item;
+      }
+    });
+  };
+
+  const openModalDeleteMultiple = () => {
+    setModalDelete(true);
+  };
   useEffect(() => {
     /* eslint-disable */
     getAllReserves();
@@ -187,13 +231,19 @@ function Sheltordashboard() {
           modal={modal_delete}
           closeModal={closeModalDelete}
           cancelReserve={cancelReserve}
+          multiple={checkReservationLength}
         />
 
         <div className="account">
           <img className="dashboard_image" src="/images/bed.svg" alt="" />
-          <p className="header_title mt-2"> MANAGE RESERVATIONS </p>
+          <p className="header_title mt-2"> MANAGE BEDS </p>
           <div>
             <div className="container mt-5">
+              <div className="row">
+                <div className="col-md-12">
+                  <Controls user={user} />
+                </div>
+              </div>
               <div className="row">
                 <div className="col-md-6">
                   <div className="form-group">
@@ -224,6 +274,20 @@ function Sheltordashboard() {
                         style={{ borderRadius: "10px" }}
                       >
                         <tr>
+                          <th>
+                            <div className="form-check">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                name="show_available_bed"
+                                id="reserveCheck"
+                                defaultValue="option1"
+                                style={{ marginTop: "-15px" }}
+                                onChange={toggleCheck}
+                                // checked={show_available_beds}
+                              />
+                            </div>
+                          </th>
                           <th>Bed Held For</th>
                           <th>Requested By</th>
                           <th>Reserved At</th>
@@ -242,9 +306,25 @@ function Sheltordashboard() {
                           </tr>
                         ) : (
                           <>
-                            {reservations.map((item) => {
+                            {reservations.map((item, index) => {
                               return (
-                                <tr>
+                                <tr key={index}>
+                                  <td>
+                                    <div className="form-check">
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        name="show_available_bed"
+                                        id="reserveCheck"
+                                        defaultValue="option1"
+                                        checked={item.check ? true : false}
+                                        onChange={() =>
+                                          selectReservation(index)
+                                        }
+                                        // checked={show_available_beds}
+                                      />
+                                    </div>
+                                  </td>
                                   <td>{item.bedHeldFor}</td>
                                   <td>{item.requestedBy}</td>
                                   <td>
@@ -310,6 +390,17 @@ function Sheltordashboard() {
                     </table>
                   </div>
                 </div>
+
+                {checkReservationLength().length > 0 && (
+                  <div className="col-md-12 text-center">
+                    <button
+                      className="btn btn-danger "
+                      onClick={() => openModalDeleteMultiple()}
+                    >
+                      CANCEL
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -93,6 +93,12 @@ function Organization() {
         return;
       }
     }
+    if (name === "userName") {
+      if (value.length > 20) {
+        return;
+      }
+      value = value.replace(/\s/g, "");
+    }
     setUser({ ...user, [name]: value });
   };
   const submit = async (e) => {

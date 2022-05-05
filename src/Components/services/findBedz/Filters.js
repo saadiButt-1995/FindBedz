@@ -7,6 +7,7 @@ const Filters = ({
   service,
   filters,
   updateFilters,
+  updateFiltersWithoutCall,
   toggleAvailableBeds,
   show_available_beds,
 }) => {
@@ -98,8 +99,9 @@ const Filters = ({
 
   const changeSearchBy = (e) => {
     filters.searchBy = e.target.value;
-    updateFilters(filters);
+    updateFiltersWithoutCall(filters);
   };
+
   const changeUpto = (e) => {
     filters.upto = e.target.value;
     updateFilters(filters);
@@ -260,6 +262,7 @@ const Filters = ({
                 value="10"
                 id="uptoRadio3"
                 defaultValue={filters.upto}
+                defaultChecked
                 // checked={filters.upto === "10"?true:false}
                 onClick={changeUpto}
                 disabled={filters.searchBy === "distance" ? false : true}
@@ -424,6 +427,7 @@ const Filters = ({
                 fontFamily: "popreg",
                 fontWeight: "bold",
                 fontSize: "14px",
+                cursor: "pointer",
               }}
             >
               ONLY SHOW AVAILABLE BEDS

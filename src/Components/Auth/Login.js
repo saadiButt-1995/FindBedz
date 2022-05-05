@@ -13,7 +13,7 @@ const Home = () => {
 
   const [user, setUser] = useState({
     userName: "",
-    // password: "",
+    password: "",
   });
 
   const [errField, setErrField] = useState({
