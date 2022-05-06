@@ -12,6 +12,7 @@ const ReservationModal = ({
   make,
   from_reservation,
   bedReserved,
+  instant,
 }) => {
   const [bed_holder, setBedHolder] = useState("");
   const [requester, setRequester] = useState("");
@@ -109,6 +110,7 @@ const ReservationModal = ({
         make={make}
         data={data}
         bedReserved={bedReserved1}
+        instant={instant}
       />
       <Modal
         isOpen={modal}

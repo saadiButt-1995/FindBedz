@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import {
-  getShelterDetails,
-  updateShelterDetails,
-} from "../../../services/auth";
+import { updateShelterDetails } from "../../../services/auth";
 
-export default function Controls({ user }) {
+export default function Controls({
+  user,
+  getShelterNewData,
+  instantReservation,
+}) {
   const [totalBeds, setTotalBeds] = useState(user.totalNumberOfBeds);
-  const [available_beds] = useState(user.availableBeds);
+  const [available_beds, setAvailableBeds] = useState(user.availableBeds);
+  // const [available_for_reservation_beds, setAvailableForReservationBeds] =
+  //   useState(user.availableReservationBeds);
+
   const [incVal, setIncVal] = useState(user.totalAllowedForReservation);
   const [hour, setHour] = useState(user.maxTimeToHoldABed);
   const user_id = localStorage.getItem("user");
@@ -22,17 +26,25 @@ export default function Controls({ user }) {
     setSave(false);
   }, []);
 
+  useEffect(() => {
+    setTotalBeds(user.totalNumberOfBeds);
+    setAvailableBeds(user.availableBeds);
+    setIncVal(user.totalAllowedForReservation);
+    setHour(user.maxTimeToHoldABed);
+  }, [user]);
+
   const saveChanges = async () => {
     user.totalNumberOfBeds = totalBeds;
     user.availableBeds = available_beds;
     user.maxTimeToHoldABed = hour;
+    user.totalAllowedForReservation = incVal;
     try {
       var response = await updateShelterDetails(user, user_id, token);
       if (response.status === 200) {
         //   toast.success("Updated Successfully!", {
         //     position: toast.POSITION.BOTTOM_CENTER,
         //   });
-        await getShelterDetails(response.data.shelter.id);
+        getShelterNewData();
       } else {
         //   toast.error("Fields Cannot be empty", {
         //     position: toast.POSITION.BOTTOM_CENTER,
@@ -104,7 +116,7 @@ export default function Controls({ user }) {
                 type="number"
                 name="totalNumberOfBeds"
                 // onChange={handleInput}
-                className="cricle_div"
+                className="cricle_div black"
               >
                 {totalBeds}
               </div>
@@ -127,23 +139,26 @@ export default function Controls({ user }) {
                 type="number"
                 name="totalNumberOfBeds"
                 // onChange={handleInput}
-                className="cricle_div_avail"
+                className="cricle_div"
               >
                 {available_beds}
               </div>
-              {/* <div className="calcu_btns">
-              <button className="plusbtn" onClick={increament}>
-                +
-              </button>
-              <button className="plusbtn color_red" onClick={decreament}>
-                -
-              </button>
-            </div> */}
+              <div className="calcu_btns">
+                {/* <button className="plusbtn" onClick={increament}>
+                  +
+                </button> */}
+                <button
+                  className="plusbtn color_red"
+                  onClick={instantReservation}
+                >
+                  -
+                </button>
+              </div>
             </div>
           </div>
 
           <div className="progress_card">
-            <div className="headind_pro">TOTAL ALLOWED FOR RESERVATION</div>
+            <div className="headind_pro">ALLOWED FOR RESERVE</div>
 
             <div className="progress1">
               <div className="cricle_div color_gold">{incVal}</div>
@@ -157,6 +172,16 @@ export default function Controls({ user }) {
               </div>
             </div>
           </div>
+
+          {/* <div className="progress_card">
+            <div className="headind_pro">AVAILABLE FOR RESERVE</div>
+
+            <div className="progress1">
+              <div className="cricle_div back_gold">
+                {available_for_reservation_beds}
+              </div>
+            </div>
+          </div> */}
 
           <div className="progress_card">
             <div className="headind_pro">MAXIMUM TIME TO HOLD A BED</div>

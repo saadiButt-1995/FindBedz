@@ -1,102 +1,99 @@
-import {axios} from '../config'
+import { axios } from "../config";
 
 // const user = localStorage.getItem("user")
 // const token = `Bearer ${localStorage.getItem("token")}`
 
-const login = async(data) => {
-    var response = await axios.post(`auth/login`, data)
-    if (response.status === 200) {
-        setLocalValues(response.data)
-    return response
-    }
-}
+const login = async (data) => {
+  var response = await axios.post(`auth/login`, data);
+  if (response.status === 200) {
+    setLocalValues(response.data);
+    return response;
+  }
+};
 
+const logout = async () => {
+  localStorage.removeItem("user");
+  localStorage.removeItem("token");
+  localStorage.removeItem("status");
+  localStorage.removeItem("role");
+  localStorage.removeItem("user_data");
+};
 
-const logout = async() => {
-    localStorage.removeItem('user')
-    localStorage.removeItem('token')
-    localStorage.removeItem('status')
-    localStorage.removeItem('role')
-    localStorage.removeItem('user_data')
-}
+const setLocalValues = async (data) => {
+  var user = data.user;
+  var token = data.tokens;
+  var status = data.status;
+  var role = data.role;
 
+  localStorage.setItem("user", user);
+  localStorage.setItem("token", token);
+  localStorage.setItem("status", status);
+  localStorage.setItem("role", role);
 
-const setLocalValues = async(data) => {
-    var user = data.user
-    var token = data.tokens
-    var status = data.status
-    var role = data.role
+  await setUsersData(user);
+  return true;
+};
 
-    localStorage.setItem('user', user)
-    localStorage.setItem('token', token)
-    localStorage.setItem('status', status)
-    localStorage.setItem('role', role)
+const setUsersData = async (user) => {
+  var result = await getUserDetails(user);
+  localStorage.setItem("user_data", JSON.stringify(result.data.user));
+};
 
-    await setUsersData(user)
-    return true
-}
+const getUserDetails = async (user_query) => {
+  return await axios.get(`users/${user_query}`);
+};
 
-const setUsersData = async(user)=> {
-    var result = await getUserDetails(user)
-    localStorage.setItem('user_data', JSON.stringify(result.data.user))
-}
+const getShelterDetails = async (user_query) => {
+  var result = await axios.get(`shelter/get?shelterId=${user_query}`);
+  localStorage.setItem("user", user_query);
+  localStorage.setItem("token", user_query);
+  localStorage.setItem("status", true);
+  localStorage.setItem("role", "shelter");
+  localStorage.setItem("user_data", JSON.stringify(result.data.shelter));
+  return result.data.shelter;
+};
 
-const getUserDetails = async(user_query) => {
-    return await axios.get(`users/${user_query}`)
-}
+const updateUserDetails = async (data, user, token) => {
+  return await axios.put(`users/${user}`, data, {
+    headers: {
+      Authorization: token,
+    },
+  });
+};
 
-const getShelterDetails = async(user_query) => {
-    var result = await axios.get(`shelter/get?shelterId=${user_query}`)
-    localStorage.setItem('user', user_query)
-    localStorage.setItem('token', user_query)
-    localStorage.setItem('status', true)
-    localStorage.setItem('role', "shelter")
-    localStorage.setItem("user_data", JSON.stringify(result.data.shelter))
-    return true
-}
+const updateShelterDetails = async (data, user, token) => {
+  return await axios.put(`shelter/update?shelterId=${user}`, data, {
+    headers: {
+      Authorization: token,
+    },
+  });
+};
 
+const individualSignup = async (data) => {
+  return await axios.post(`auth/registerUser`, data);
+};
 
-const updateUserDetails = async(data, user, token) => {
-    return await axios.put(`users/${user}`, data, {headers: {
-        Authorization: token,
-    }})
-}
+const organizationSignup = async (data) => {
+  return await axios.post(`auth/registerSheriff`, data);
+};
 
-const updateShelterDetails = async(data, user, token) => {
-    return await axios.put(`shelter/update?shelterId=${user}`, data, {headers: {
-        Authorization: token,
-    }})
-}
-
-
-const individualSignup = async(data) => {
-    return await axios.post(`auth/registerUser`, data)
-}
-
-
-const organizationSignup = async(data) => {
-    return await axios.post(`auth/registerSheriff`, data)
-}
-
-const providerSignup = async(data) => {
-    return await axios.post(`shelter/create`, data, {headers: {
-        'Content-Type': 'multipart/form-data'
-      }})
-}
-
-
-
-
+const providerSignup = async (data) => {
+  return await axios.post(`shelter/create`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
 
 export {
-    setLocalValues, 
-    login, 
-    logout, 
-    individualSignup, 
-    organizationSignup, 
-    providerSignup, 
-    updateUserDetails,
-    setUsersData,
-    getShelterDetails,
-    updateShelterDetails,
-}
+  setLocalValues,
+  login,
+  logout,
+  individualSignup,
+  organizationSignup,
+  providerSignup,
+  updateUserDetails,
+  setUsersData,
+  getShelterDetails,
+  updateShelterDetails,
+};

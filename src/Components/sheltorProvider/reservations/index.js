@@ -17,15 +17,20 @@ import moment from "moment";
 import { toast } from "react-toastify";
 import Spinner from "../../Loaders/buttonTailSpinner";
 import Controls from "./Controls";
+import { getShelterDetails } from "../../../services/auth";
 
 function Sheltordashboard() {
-  const [user] = useState(JSON.parse(localStorage.getItem("user_data")));
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user_data"))
+  );
+  const [instant, setInstant] = useState(false);
   const [modal, setModal] = useState(false);
   const [modal_extend, setModalExtend] = useState(false);
   const [modal_delete, setModalDelete] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingg, setLoadingg] = useState(false);
   const [reservation, setReservation] = useState("");
+  const [search, setSearch] = useState("");
   const [held_for, setHeldFor] = useState("");
 
   const [reservations, setReservations] = useState([]);
@@ -54,6 +59,7 @@ function Sheltordashboard() {
 
   const bedReserved = async () => {
     getAllReserves();
+    setInstant(false);
   };
 
   const getAllReserves = async () => {
@@ -66,6 +72,7 @@ function Sheltordashboard() {
         item.check = false;
         return item;
       });
+      await getShelterNewData();
       setReservations(data);
     } catch (e) {
       setLoading(false);
@@ -202,6 +209,95 @@ function Sheltordashboard() {
   const openModalDeleteMultiple = () => {
     setModalDelete(true);
   };
+
+  const getShelterNewData = async () => {
+    setUser(await getShelterDetails(user.id));
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 200);
+  };
+
+  const renderData = () => {
+    var items = [];
+    if (search.length > 0) {
+      items = reservations.filter((item) => {
+        if (
+          item.bedHeldFor.toLowerCase().includes(search.toLowerCase()) ||
+          item.reservedAt.toLowerCase().includes(search.toLowerCase()) ||
+          item.requestedBy.toLowerCase().includes(search.toLowerCase())
+        ) {
+          return item;
+        }
+      });
+    } else {
+      items = reservations;
+    }
+    return items.map((item, index) => {
+      return (
+        <tr key={index}>
+          <td>
+            <div className="form-check">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                name="show_available_bed"
+                id="reserveCheck"
+                defaultValue="option1"
+                checked={item.check ? true : false}
+                onChange={() => selectReservation(index)}
+                // checked={show_available_beds}
+              />
+            </div>
+          </td>
+          <td>{item.bedHeldFor}</td>
+          <td>{item.requestedBy}</td>
+          <td>{moment(item.reservedAt).format("D MMMM H:m A")} </td>
+          <td>{item.howLong} Hours</td>
+          {/* <td>{moment.duration(remaingTime(item.reservedAt, item.howLong).asHours())} Hours Left</td> */}
+          <td>{remaingTime(item.reservedAt, item.howLong)}</td>
+          <td>
+            <div className="reserve-action-btns">
+              {item.checkin ? (
+                <button
+                  className="text-secondary"
+                  onClick={() => checkOutt(item)}
+                >
+                  CHECK OUT
+                </button>
+              ) : (
+                <>
+                  <button
+                    className="text-primary"
+                    onClick={() => openModalExtend(item)}
+                  >
+                    EXTEND
+                  </button>
+                  <button
+                    className="text-danger"
+                    onClick={() => openModalDelete(item)}
+                  >
+                    CANCEL
+                  </button>
+                  <button
+                    className="text-success"
+                    onClick={() => checkInn(item)}
+                  >
+                    CHECK IN
+                  </button>
+                </>
+              )}
+            </div>
+          </td>
+        </tr>
+      );
+    });
+  };
+
+  const instantReservation = () => {
+    setInstant(true);
+    openModal();
+  };
   useEffect(() => {
     /* eslint-disable */
     getAllReserves();
@@ -218,6 +314,7 @@ function Sheltordashboard() {
           closeModal={closeModal}
           make={false}
           bedReserved={bedReserved}
+          instant={instant}
         />
         <ReservationExtendModal
           user={user}
@@ -241,7 +338,11 @@ function Sheltordashboard() {
             <div className="container mt-5">
               <div className="row">
                 <div className="col-md-12">
-                  <Controls user={user} />
+                  <Controls
+                    user={user}
+                    getShelterNewData={getShelterNewData}
+                    instantReservation={instantReservation}
+                  />
                 </div>
               </div>
               <div className="row">
@@ -262,6 +363,26 @@ function Sheltordashboard() {
                       {/* <i className="fa fa-plus fa-2x"></i>  */}+ NEW
                       RESERVATION
                     </button>
+                  </div>
+                </div>
+                <div class="col-md-12 mb-3">
+                  <div class="row">
+                    <div class="col-md-5 m-0 p-0"></div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-4 m-0 p-0">
+                      <div class="input-group">
+                        <div class="input-group-prepend"></div>
+                        <input
+                          type="text"
+                          class="form-control login_field"
+                          id="validationCustomUsername"
+                          placeholder="Search"
+                          onChange={(e) => setSearch(e.target.value)}
+                          aria-describedby="inputGroupPrepend"
+                          required
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -306,77 +427,7 @@ function Sheltordashboard() {
                           </tr>
                         ) : (
                           <>
-                            {reservations.map((item, index) => {
-                              return (
-                                <tr key={index}>
-                                  <td>
-                                    <div className="form-check">
-                                      <input
-                                        className="form-check-input"
-                                        type="checkbox"
-                                        name="show_available_bed"
-                                        id="reserveCheck"
-                                        defaultValue="option1"
-                                        checked={item.check ? true : false}
-                                        onChange={() =>
-                                          selectReservation(index)
-                                        }
-                                        // checked={show_available_beds}
-                                      />
-                                    </div>
-                                  </td>
-                                  <td>{item.bedHeldFor}</td>
-                                  <td>{item.requestedBy}</td>
-                                  <td>
-                                    {moment(item.reservedAt).format(
-                                      "D MMMM H:m A"
-                                    )}{" "}
-                                  </td>
-                                  <td>{item.howLong} Hours</td>
-                                  {/* <td>{moment.duration(remaingTime(item.reservedAt, item.howLong).asHours())} Hours Left</td> */}
-                                  <td>
-                                    {remaingTime(item.reservedAt, item.howLong)}
-                                  </td>
-                                  <td>
-                                    <div className="reserve-action-btns">
-                                      {item.checkin ? (
-                                        <button
-                                          className="text-secondary"
-                                          onClick={() => checkOutt(item)}
-                                        >
-                                          CHECK OUT
-                                        </button>
-                                      ) : (
-                                        <>
-                                          <button
-                                            className="text-primary"
-                                            onClick={() =>
-                                              openModalExtend(item)
-                                            }
-                                          >
-                                            EXTEND
-                                          </button>
-                                          <button
-                                            className="text-danger"
-                                            onClick={() =>
-                                              openModalDelete(item)
-                                            }
-                                          >
-                                            CANCEL
-                                          </button>
-                                          <button
-                                            className="text-success"
-                                            onClick={() => checkInn(item)}
-                                          >
-                                            CHECK IN
-                                          </button>
-                                        </>
-                                      )}
-                                    </div>
-                                  </td>
-                                </tr>
-                              );
-                            })}
+                            {renderData()}
                             {reservations.length < 1 ? (
                               <tr className="text-center">
                                 <td colSpan={6}>

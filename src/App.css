@@ -88,6 +88,10 @@ a:hover {
   padding-top: 28px;
   color: #fff;
 }
+.cricle_div.black {
+  background-color: black;
+  color: #fff;
+}
 .cricle_div_avail {
   background-color: #ffff;
   border: 2px solid #008e00;
@@ -276,8 +280,21 @@ a:hover {
 }
 
 .progress_div1 .cards {
-  display: flex;
   justify-content: space-between;
+  display: flex;
+  flex-wrap: wrap;
+}
+.progress_div1 .cards .cricle_div {
+  width: 95px;
+  height: 95px;
+  font-size: 30px;
+  padding-top: 23px;
+}
+.progress_div1 .cards .calcu_btns  {
+  padding-left: 10px;
+}
+.progress_div1 .cards .calcu_btns .plusbtn  {
+  width: 55px;
 }
 .progress_div1 .save {
   border-radius: 5px;
@@ -431,6 +448,11 @@ a:hover {
 
 .color_gold {
   background-color: #ddc114;
+}
+.back_gold {
+  background-color: #ffff;
+  color: #ddc114;
+  border: 2px solid #ddc114;
 }
 .color_black {
   background-color: #000 !important;
