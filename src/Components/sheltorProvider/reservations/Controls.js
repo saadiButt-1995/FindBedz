@@ -8,8 +8,8 @@ export default function Controls({
 }) {
   const [totalBeds, setTotalBeds] = useState(user.totalNumberOfBeds);
   const [available_beds, setAvailableBeds] = useState(user.availableBeds);
-  // const [available_for_reservation_beds, setAvailableForReservationBeds] =
-  //   useState(user.availableReservationBeds);
+  const [available_for_reservation_beds, setAvailableForReservationBeds] =
+    useState(user.availableReservationBeds);
 
   const [incVal, setIncVal] = useState(user.totalAllowedForReservation);
   const [hour, setHour] = useState(user.maxTimeToHoldABed);
@@ -30,6 +30,7 @@ export default function Controls({
     setTotalBeds(user.totalNumberOfBeds);
     setAvailableBeds(user.availableBeds);
     setIncVal(user.totalAllowedForReservation);
+    setAvailableForReservationBeds(user.availableReservationBeds);
     setHour(user.maxTimeToHoldABed);
   }, [user]);
 
@@ -173,7 +174,7 @@ export default function Controls({
             </div>
           </div>
 
-          {/* <div className="progress_card">
+          <div className="progress_card">
             <div className="headind_pro">AVAILABLE FOR RESERVE</div>
 
             <div className="progress1">
@@ -181,7 +182,7 @@ export default function Controls({
                 {available_for_reservation_beds}
               </div>
             </div>
-          </div> */}
+          </div>
 
           <div className="progress_card">
             <div className="headind_pro">MAXIMUM TIME TO HOLD A BED</div>

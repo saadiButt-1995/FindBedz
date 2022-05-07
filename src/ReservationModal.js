@@ -31,6 +31,8 @@ const ReservationModal = ({
       requestedBy: "",
       bedHeldFor: "",
     });
+    setBedHolder("");
+    setRequester("");
     bedReserved();
   };
   const openConfirmModal = () => {
